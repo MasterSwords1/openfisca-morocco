@@ -1,0 +1,57 @@
+# Barème progressif annuel de l'impôt sur le revenu (IR).
+# Article 73-I du Code Général des Impôts (Loi n° 43-06), tel que réformé par la
+# Loi de Finances 2025. Le barème s'applique au revenu net imposable annuel.
+# Les barèmes antérieurs à 2025 ne sont pas encore encodés.
+# Impôt = taux × revenu − somme à déduire (par tranche) :
+#   ≤ 40 000 DH : 0 %
+#   40 001–60 000 : 10 % (à déduire : 4 000)
+#   60 001–80 000 : 20 % (à déduire : 10 000)
+#   80 001–100 000 : 30 % (à déduire : 18 000)
+#   100 001–180 000 : 34 % (à déduire : 22 000)
+#   > 180 000 : 37 % (à déduire : 27 400)
+description: Barème de l'impôt sur le revenu - article 73-I du CGI
+metadata:
+  reference:
+    - title: Code Général des Impôts, article 73-I (Direction Générale des Impôts)
+      href: https://www.tax.gov.ma
+    - title: Loi de Finances 2025 (réforme du barème progressif)
+      href: https://www.finances.gov.ma
+  threshold_unit: currency-MAD
+  rate_unit: /1
+brackets:
+- rate:
+    2025-01-01:
+      value: 0.0
+  threshold:
+    2025-01-01:
+      value: 0.0
+- rate:
+    2025-01-01:
+      value: 0.10
+  threshold:
+    2025-01-01:
+      value: 40000.0
+- rate:
+    2025-01-01:
+      value: 0.20
+  threshold:
+    2025-01-01:
+      value: 60000.0
+- rate:
+    2025-01-01:
+      value: 0.30
+  threshold:
+    2025-01-01:
+      value: 80000.0
+- rate:
+    2025-01-01:
+      value: 0.34
+  threshold:
+    2025-01-01:
+      value: 100000.0
+- rate:
+    2025-01-01:
+      value: 0.37
+  threshold:
+    2025-01-01:
+      value: 180000.0
