@@ -44,7 +44,9 @@ class cotisations_sociales_obligatoires(Variable):
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Cotisations sociales obligatoires à la charge du salarié (CNSS, AMO, retraite)"
+    label = (
+        "Cotisations sociales obligatoires à la charge du salarié (CNSS, AMO, retraite)"
+    )
     reference = "https://www.tax.gov.ma"  # CGI, article 58
 
 
@@ -65,9 +67,8 @@ class salaire_brut_imposable(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, articles 56 à 58
 
     def formula(person, period, parameters):
-        return (
-            person("salaire_brut_global", period)
-            - person("elements_exoneres", period)
+        return person("salaire_brut_global", period) - person(
+            "elements_exoneres", period
         )
 
 
@@ -80,11 +81,12 @@ class frais_professionnels(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 59
 
     def formula(person, period, parameters):
-        base = (
-            person("salaire_brut_imposable", period)
-            - person("cotisations_sociales_obligatoires", period)
+        base = person("salaire_brut_imposable", period) - person(
+            "cotisations_sociales_obligatoires", period
         )
-        seuil = parameters(period).impot_revenu.frais_professionnels.seuil_taux_basse_remuneration
+        seuil = parameters(
+            period
+        ).impot_revenu.frais_professionnels.seuil_taux_basse_remuneration
         taux = (person("salaire_brut_imposable", period) <= seuil) * parameters(
             period
         ).impot_revenu.frais_professionnels.taux_basse_remuneration + (
@@ -129,11 +131,15 @@ class deduction_charges_famille(Variable):
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Déduction pour charges de famille (500 DH par personne à charge, maximum 6)"
+    label = (
+        "Déduction pour charges de famille (500 DH par personne à charge, maximum 6)"
+    )
     reference = "https://www.tax.gov.ma"  # CGI, article 74
 
     def formula(person, period, parameters):
-        montant = parameters(period).impot_revenu.deduction_charges_famille.montant_par_personne
+        montant = parameters(
+            period
+        ).impot_revenu.deduction_charges_famille.montant_par_personne
         maximum = parameters(
             period
         ).impot_revenu.deduction_charges_famille.nombre_maximum_personnes
@@ -146,12 +152,13 @@ class impot_sur_le_revenu(Variable):
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Impôt net sur le revenu à payer (impôt brut moins déductions, plancher à zéro)"
+    label = (
+        "Impôt net sur le revenu à payer (impôt brut moins déductions, plancher à zéro)"
+    )
     reference = "https://www.tax.gov.ma"  # CGI, article 74
 
     def formula(person, period, parameters):
         return max_(
-            person("ir_brut", period)
-            - person("deduction_charges_famille", period),
+            person("ir_brut", period) - person("deduction_charges_famille", period),
             0,
         )
