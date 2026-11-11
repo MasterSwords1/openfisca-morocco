@@ -1,0 +1,83 @@
+# Tests of the Moroccan impôt sur le revenu (IR), CGI articles 59, 73-I and 74.
+# Figures cross-checked against the validated Catala encoding of the CGI in the
+# morocco-holy-graph corpus (laws/ma_tax_law/tests/test_catala_tax.py).
+#
+# Pipeline: brut imposable → frais professionnels (art. 59) → net imposable →
+# barème (art. 73-I) → impôt brut → déduction charges de famille (art. 74) →
+# impôt net.
+
+- name: Salaire de 36 000 DH sans cotisations — sous le seuil d'exonération, impôt nul
+  period: 2025
+  input:
+    salaire_brut_global: 36000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 12600  # 35 % de 36 000 (< 78 000 DH)
+    salaire_net_imposable: 23400
+    ir_brut: 0
+    impot_sur_le_revenu: 0
+
+- name: Salaire de 80 000 DH — frontière haute de la tranche à 10 %
+  period: 2025
+  input:
+    salaire_brut_global: 80000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 20000  # 25 % de 80 000 (> 78 000 DH)
+    salaire_net_imposable: 60000
+    ir_brut: 2000  # 10 % × 60 000 − 4 000
+
+- name: Salaire de 100 000 DH — tranche à 20 %
+  period: 2025
+  input:
+    salaire_brut_global: 100000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 25000  # 25 %, plafonné à 35 000
+    salaire_net_imposable: 75000
+    ir_brut: 5000  # 20 % × 75 000 − 10 000
+
+- name: Salaire de 200 000 DH avec 20 000 DH de cotisations — tranche à 34 %
+  period: 2025
+  input:
+    salaire_brut_global: 200000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 20000
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 35000  # 25 % de 180 000 = 45 000, plafonné à 35 000
+    salaire_net_imposable: 145000
+    ir_brut: 27300  # 34 % × 145 000 − 22 000
+    impot_sur_le_revenu: 27300
+
+- name: Même situation avec trois personnes à charge — déduction de 1 500 DH
+  period: 2025
+  input:
+    salaire_brut_global: 200000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 20000
+    nombre_personnes_a_charge: 3
+  output:
+    ir_brut: 27300
+    deduction_charges_famille: 1500
+    impot_sur_le_revenu: 25800
+
+- name: Très haut salaire — 500 000 DH, plafond des frais professionnels atteint
+  period: 2025
+  input:
+    salaire_brut_global: 500000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 20000
+    nombre_personnes_a_charge: 8
+  output:
+    frais_professionnels: 35000
+    salaire_net_imposable: 445000
+    ir_brut: 137250  # 37 % × 445 000 − 27 400
+    deduction_charges_famille: 3000  # plafonné à 6 personnes
+    impot_sur_le_revenu: 134250
