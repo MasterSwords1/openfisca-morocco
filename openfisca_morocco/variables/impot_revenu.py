@@ -13,8 +13,7 @@ All variables are defined for YEAR periods: the CGI scale is annual, and the
 monthly withholding version derives from the same brackets.
 """
 
-from numpy import maximum as max_
-from numpy import minimum as min_
+from numpy import maximum as max_, minimum as min_
 from openfisca_core.periods import YEAR
 from openfisca_core.variables import Variable
 
