@@ -1,0 +1,31 @@
+{
+    "persons": {
+        "Salarie": {
+            "birth": {
+                "ETERNITY": "1985-06-15"
+            },
+            "salaire_brut_global": {
+                "2025": 200000
+            },
+            "elements_exoneres": {
+                "2025": 0
+            },
+            "cotisations_sociales_obligatoires": {
+                "2025": 20000
+            },
+            "nombre_personnes_a_charge": {
+                "2025": 3
+            },
+            "impot_sur_le_revenu": {
+                "2025": null
+            }
+        }
+    },
+    "households": {
+        "_": {
+            "adults": [
+                "Salarie"
+            ]
+        }
+    }
+}

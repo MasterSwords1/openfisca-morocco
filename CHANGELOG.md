@@ -1,4 +1,21 @@
 
+## 0.2.0 - [#2](https://github.com/MasterSwords1/openfisca-morocco/issues/2)
+
+* Tax and benefit system evolution.
+* Impacted periods: all.
+* Impacted areas:
+  - `benefits` (removed).
+  - `housing` (removed).
+  - `income` (removed).
+  - `stats` (removed).
+  - `taxes` (removed).
+* Details:
+  - Remove the country-template demo legislation, none of which modelled Moroccan law: `basic_income`, `housing_allowance`, `parenting_allowance`, `meal_price`, `swimming_pool_access`, `pension`, `housing_tax`, `income_tax`, `social_security_contribution`, `disposable_income`, `total_benefits`, `total_taxes`, the demo housing and income inputs (`rent`, `accommodation_size`, `housing_occupancy_status`, `postal_code`, `salary`, `capital_returns`) and the demo parameters under `benefits`, `taxes` and `general`.
+  - The package now only models Moroccan legislation: the impôt sur le revenu of CGI articles 56 to 74, as reformed by the Loi de Finances 2025.
+  - Remove the demo reforms and their tests; real Moroccan reform examples are tracked separately.
+  - Replace the demo situation examples with a single Moroccan salaried example, used by the OpenFisca Web API specification.
+  - Keep `birth` and `age` as factual demographics (no legal reference), since Moroccan age-based provisions will need them.
+
 ## 0.1.0 - [#1](https://github.com/MasterSwords1/openfisca-morocco/pull/1)
 
 * Tax and benefit system evolution.
