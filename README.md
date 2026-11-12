@@ -69,7 +69,7 @@ names the article it comes from.
 | Code Général des Impôts (arts. 1–248) | Loi n° 43-06, Dahir n° 1-06-232 of 31 December 2006, *Bulletin Officiel* n° 5487 bis of 31 December 2006, pp. 4153–4210 |
 | Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
 | Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
-| Parameter values | `metadata.reference` on each parameter file under `openfisca_morocco/parameters/` |
+| Parameter values | `metadata.reference` on each parameter file under `openfisca_morocco/parameters/`, enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
 The corpus is the source of truth for this package: figures are taken from
 `morocco-holy-graph`, not from memory or from unversioned web pages. Where the
