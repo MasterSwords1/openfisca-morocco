@@ -1,4 +1,14 @@
 
+## 0.2.1 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
+
+* Tax and benefit system evolution.
+* Impacted periods: all.
+* Impacted areas:
+  - `parameters` (provenance gate).
+* Details:
+  - Add `tests/test_parameter_provenance.py`: every parameter value must resolve a `metadata.reference` (title + href), declared on the value or on its closest ancestor. A parameter file with an untraceable number now fails `make test` and therefore CI.
+  - The gate loads each file with the OpenFisca parameter loader, so a malformed parameter file fails here as well.
+
 ## 0.2.0 - [#16](https://github.com/MasterSwords1/openfisca-morocco/pull/16)
 
 * Tax and benefit system evolution.
