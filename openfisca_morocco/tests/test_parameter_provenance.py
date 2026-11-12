@@ -1,21 +1,28 @@
 """Every parameter value must cite the legal source it comes from.
 
-A parameter is a number that a legislator published somewhere. If the package
-cannot say where, the number is a guess, and a simulation built on it is not
-evidence of anything.
+A parameter is a figure a legislator published somewhere. If the package cannot
+say where, the figure is a guess, and a simulation built on it is not evidence
+of anything.
 
 The gate walks every file under ``openfisca_morocco/parameters`` with the
 OpenFisca parameter loader (so an invalid parameter file fails here too) and
-requires each **leaf** value to resolve a non-empty ``metadata.reference``.
+requires each **legal object** to carry a valid ``metadata.reference``:
 
-A reference may be declared on the leaf itself or on any of its ancestors in
-the same file: a scale is legally one article, so repeating the article on each
-of its brackets would be noise, not rigour. What is forbidden is a leaf that
-resolves nothing at all.
+- a leaf parameter must carry the reference itself, or attach one to each of
+  its dated values (``values: {2025-01-01: {value: ..., metadata: {reference: ...}}}``),
+  which is the form OpenFisca documents for a figure whose source changes over
+  time;
+- a scale is one legal object (one article fixes all its brackets), so a
+  reference on the scale covers its brackets. If the scale has none, each
+  bracket value must be sourced individually.
 
-Each reference must name the instrument (``title``) and where to read it
-(``href``) when written in the structured form, so that a bare URL with no
-instrument is not accepted either.
+References are deliberately **not** inherited from a parent node: OpenFisca
+does not propagate ``metadata``, so a reference declared on a node is invisible
+on its children at runtime — and a citation nobody can read next to the number
+does not do its job.
+
+A reference must name the instrument (``title``) and where to read it
+(``href``), so that a bare URL with no named instrument is not accepted either.
 
 Run it with the rest of the suite::
 
@@ -37,22 +44,29 @@ PARAMETERS_DIR = Path(__file__).resolve().parent.parent / "parameters"
 PARAMETER_FILES = sorted(PARAMETERS_DIR.rglob("*.yaml"))
 
 
-def _iter_leaves(node, path, inherited_reference):
-    """Yield ``(path, resolved_reference)`` for every leaf value of ``node``.
+def _iter_legal_objects(node, path):
+    """Yield ``(path, parameter)`` for the objects that must carry a source.
 
-    ``inherited_reference`` is the closest reference declared by an ancestor,
-    which a leaf without its own reference inherits.
+    A scale with a reference is one object. A scale without one is decomposed
+    into its bracket values, so that nothing can hide behind an unsourced
+    container.
     """
-    reference = (node.metadata or {}).get("reference") or inherited_reference
-
     if isinstance(node, Parameter):
-        yield path, reference
+        yield path, node
     elif isinstance(node, ParameterScale):
-        for index, bracket in enumerate(node.brackets, start=1):
-            yield from _iter_leaves(bracket, f"{path}[{index}]", reference)
+        if _has_reference(node):
+            yield path, node
+        else:
+            for index, bracket in enumerate(node.brackets, start=1):
+                for name, child in bracket.children.items():
+                    yield from _iter_legal_objects(child, f"{path}[{index}].{name}")
     else:
         for child_name, child in node.children.items():
-            yield from _iter_leaves(child, f"{path}.{child_name}", reference)
+            yield from _iter_legal_objects(child, f"{path}.{child_name}")
+
+
+def _has_reference(parameter):
+    return not _reference_problems((parameter.metadata or {}).get("reference"))
 
 
 def _reference_problems(reference):
@@ -60,23 +74,69 @@ def _reference_problems(reference):
     if not reference:
         return ["no reference"]
 
-    references = reference if isinstance(reference, list) else [reference]
+    entries = _reference_entries(reference)
+    if entries is None:
+        return ["malformed reference"]
 
     problems = []
-    for item in references:
-        if isinstance(item, str):
-            if not item.strip():
+    for entry in entries:
+        if isinstance(entry, str):
+            if not entry.strip():
                 problems.append("empty reference string")
             continue
-        if not isinstance(item, dict):
-            problems.append(f"unexpected reference type: {type(item).__name__}")
+        if not isinstance(entry, dict):
+            problems.append(f"unexpected reference type: {type(entry).__name__}")
             continue
-        if not str(item.get("title", "")).strip():
-            problems.append(f"reference without a title: {item!r}")
-        if not str(item.get("href", "")).strip():
-            problems.append(f"reference without an href: {item!r}")
-
+        if not str(entry.get("title", "")).strip():
+            problems.append(f"reference without a title: {entry!r}")
+        if not str(entry.get("href", "")).strip():
+            problems.append(f"reference without an href: {entry!r}")
     return problems
+
+
+def _reference_entries(reference):
+    """Flatten the accepted reference shapes into a list of entries.
+
+    Accepted shapes: ``"<url>"``, ``{"title": ..., "href": ...}``, a list of
+    those, or ``{<date>: {"title": ..., "href": ...}}`` (the date-keyed form
+    used when a figure's source changes over time).
+    """
+    if isinstance(reference, str):
+        return [reference]
+    if isinstance(reference, dict):
+        if "title" in reference or "href" in reference:
+            return [reference]
+        return list(reference.values())
+    if isinstance(reference, list):
+        return reference
+    return None
+
+
+def _parameter_problems(parameter):
+    """Return the provenance problems of one legal object."""
+    problems = _reference_problems((parameter.metadata or {}).get("reference"))
+    if not problems:
+        return []
+
+    values = getattr(parameter, "values_list", None)
+    if not values:
+        return problems
+
+    missing = []
+    for value in values:
+        value_problems = _reference_problems((value.metadata or {}).get("reference"))
+        if value_problems:
+            missing.append(f"value {value.instant_str}: {', '.join(value_problems)}")
+
+    if not missing:
+        return []
+
+    return [
+        (
+            "no reference on the parameter itself, and the values are not all "
+            f"sourced either ({'; '.join(missing)})"
+        )
+    ]
 
 
 @pytest.mark.parametrize(
@@ -90,16 +150,15 @@ def test_every_parameter_cites_its_legal_source(parameter_file):
     root = load_parameter_file(str(parameter_file))
 
     failures = []
-    for path, reference in _iter_leaves(root, parameter_file.stem, None):
-        problems = _reference_problems(reference)
-        if problems:
-            failures.append(f"{path}: {', '.join(problems)}")
+    for path, parameter in _iter_legal_objects(root, parameter_file.stem):
+        for problem in _parameter_problems(parameter):
+            failures.append(f"{path}: {problem}")
 
     assert not failures, (
         f"{parameter_file.relative_to(PARAMETERS_DIR)} has parameter values with "
         "no traceable legal source.\n"
-        "Add a `metadata.reference` (title + href) to the parameter or to its "
-        "closest ancestor:\n  " + "\n  ".join(failures)
+        "Add a `metadata.reference` (title + href) to the parameter, or to each "
+        "of its dated values:\n  " + "\n  ".join(failures)
     )
 
 
