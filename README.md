@@ -1,193 +1,222 @@
 # OpenFisca Morocco
 
+[OpenFisca](https://openfisca.org) model of Moroccan tax and benefit law, as
+code.
 
-The country whose law is modelled here has a very simple tax and benefit
-system.
+**Status: early.** Today the package models one thing: the **impôt sur le revenu
+(IR)** on salarial income, for **annual** periods, under the rules in force
+since **1 January 2025**. Everything else — social contributions, VAT, family
+allowances, the direct social support — is not modelled yet and is tracked in
+the [issue list](https://github.com/MasterSwords1/openfisca-morocco/issues).
 
-- It has a flat rate tax whose rates increase every year.
-- On the first of December, 2015, it introduced a basic income for all its
-  citizens of age who have no income.
-- On the first of December, 2016, it removed the income condition, providing
-  all its adult citizens with a basic income.
+| | |
+|---|---|
+| Country | Morocco |
+| Currency | dirham (MAD), `currency-MAD` |
+| Periods | `YEAR` |
+| First modelled period | 2025-01-01 |
+| Licence | AGPL-3.0-or-later |
 
-These elements are described in different folders. All the modelling happens
-within the `openfisca_morocco` folder.
+## What is modelled
 
-- The rates are in the `parameters` folder.
-- The formulas are in the `variables` folder.
-- This country package comes also with *reforms* in the `reforms` folder. This
-  is optional: your country may exist without defining any reform.
-  - In this country, there is
-    [a reform project](./openfisca_morocco/reforms/modify_social_security_taxation.py)
-    aiming to modify the social security taxation, deleting the first bracket,
-    raising the intermediary ones and adding a new bracket with a higher tax
-    rate of `40 %` for people earning more than `40000`. This reform project
-    would apply starting from `2017-01-01`.
+The IR pipeline of the Code Général des Impôts (CGI) for **salarial income**,
+in the order the law applies it:
 
-The files that are outside from the `openfisca_morocco` folder are
-used to set up the development environment.
-
-## Packaging your Country Package for Distribution
-
-Country packages are Python distributions. You can choose to distribute your
-package automatically via the predefined continuous deployment system on GitHub
-Actions, or manually.
-
-### Automatic continuous deployment on GitHub
-
-This repository is configured with a continuous deployment system to automate
-the distribution of your package via `uv`.
-
-#### Setting up continuous deployment
-
-To activate the continuous deployment:
-
-1. Create an account on [PyPI](https://pypi.org/) if you don't already have
-   one.
-2. Generate a token in your PyPI account. This token will allow GitHub Actions
-   to securely upload new versions of your package to PyPI.
-3. Add this token to your GitHub repository's secrets under the name
-   `PYPI_TOKEN`.
-
-Once set up, changes to the `main` branch will trigger an automated workflow to
-build and publish your package to PyPI, making it available for `uv`
-installation.
-
-### Manual distribution
-
-If you prefer to manually manage the release and distribution of your package,
-follow the guidelines provided by the
-[Python Packaging Authority](https://python-packaging-user-guide.readthedocs.io/tutorials/distributing-packages/#packaging-your-project).
-
-This involves detailed steps on preparing your package, creating distribution
-files, and uploading them to PyPI.
-
-## Install Instructions for Users and Contributors
-
-This package requires
-[Python 3.11](https://www.python.org/downloads/release/python-390/). More
-recent versions should work, but are not tested.
-
-All platforms that can execute Python are supported, which includes GNU/Linux,
-macOS and Microsoft Windows.
-
-### A. Minimal Installation
-
-Follow this installation if you wish to:
-
-- run calculations on a large population;
-- create tax & benefits simulations;
-- write an extension to this legislation (e.g. city specific tax & benefits);
-- serve your Country Package with the OpenFisca Web API.
-
-For more advanced uses, head to the
-[Advanced Installation](#advanced-installation-git-clone).
-
-#### Install this Country Package with [uv](https://docs.astral.sh/uv/)
-
-Install the Country Package:
-
-```sh
-uv add install openfisca-morocco
+```
+salaire_brut_global − elements_exoneres            (art. 56, 57)
+    = salaire_brut_imposable
+    − cotisations_sociales_obligatoires             (art. 58)
+    − frais_professionnels                          (art. 59)
+    = salaire_net_imposable
+    → ir_brut via the progressive scale             (art. 73-I)
+    − deduction_charges_famille                     (art. 74)
+    = impot_sur_le_revenu  (floored at 0)
 ```
 
-:tada: This OpenFisca Country Package is now installed and ready!
+### Coverage table
 
-#### Next Steps
+| CGI article | Provision | Variables | Parameters | From |
+|---|---|---|---|---|
+| 56 | Salaries, wages, benefits in cash or in kind | `salaire_brut_global` (input) | — | 2025-01-01 |
+| 57 | Exempt elements of pay | `elements_exoneres` (input) | — | 2025-01-01 |
+| 58 | Compulsory social contributions borne by the employee | `cotisations_sociales_obligatoires` (input) | — | 2025-01-01 |
+| 56–58 | Gross taxable pay | `salaire_brut_imposable` | — | 2025-01-01 |
+| 59 | Forfaitary professional-expense deduction | `frais_professionnels` | `impot_revenu.frais_professionnels` | 2025-01-01 |
+| 58–59 | Net taxable pay (the scale's base) | `salaire_net_imposable` | — | 2025-01-01 |
+| 73-I | Progressive annual scale | `ir_brut` | `impot_revenu.bareme` | 2025-01-01 |
+| 74 | Family-charge deduction | `deduction_charges_famille` | `impot_revenu.deduction_charges_famille` | 2025-01-01 |
+| 74 | Net income tax payable | `impot_sur_le_revenu` | — | 2025-01-01 |
 
-- To learn how to use OpenFisca, follow our
-  [tutorials](https://openfisca.org/doc/).
-- To serve this Country Package, serve the
-  [OpenFisca Web API](#serve-your-country-package-with-the-openFisca-web-api).
+The figures, for reference:
 
-Depending on what you want to do with OpenFisca, you may want to install yet
-other packages:
+- **Scale (art. 73-I, LF 2025):** 0 % up to 40 000 DH, then 10 % (40 001–60 000),
+  20 % (60 001–80 000), 30 % (80 001–100 000), 34 % (100 001–180 000), 37 % above.
+- **Professional expenses (art. 59):** 35 % of gross pay up to 78 000 DH, 25 %
+  above, capped at 35 000 DH in both cases.
+- **Family charges (art. 74):** 500 DH per dependent, at most 6 dependents.
 
-- To install extensions or write on top of this Country Package, head to the
-  [Extensions documentation](https://openfisca.org/doc/contribute/extensions.html).
-- To plot simulation results, try [matplotlib](http://matplotlib.org/).
-- To manage data, check out [pandas](http://pandas.pydata.org/).
+`birth` and `age` are also available: they are factual demographics, not
+legislation, and carry no legal reference. Moroccan age-based provisions will
+build on them.
 
-### B. Advanced Installation (Git Clone)
+## Provenance
 
-Follow this tutorial if you wish to:
+Every modelled figure is traceable to a published text, and every input variable
+names the article it comes from.
 
-- create or change this Country Package's legislation;
-- contribute to the source code.
+| Piece | Source |
+|---|---|
+| Code Général des Impôts (arts. 1–248) | Loi n° 43-06, Dahir n° 1-06-232 of 31 December 2006, *Bulletin Officiel* n° 5487 bis of 31 December 2006, pp. 4153–4210 |
+| Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
+| Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
+| Parameter values | `metadata.reference` on each parameter file under `openfisca_morocco/parameters/` |
 
-#### Clone this Country Package with Git
+The corpus is the source of truth for this package: figures are taken from
+`morocco-holy-graph`, not from memory or from unversioned web pages. Where the
+corpus itself has not yet captured the controlling text (for example the
+pre-2025 versions of articles 59 and 73), the limitation is stated below rather
+than guessed.
 
-First, make sure [Git](https://www.git-scm.com/) is installed on your machine.
+## Limitations
 
-Set your working directory to the location where you want this OpenFisca
-Country Package cloned.
+Stated plainly, because they determine what you may conclude from a simulation:
 
-Clone this Country Package on your machine:
+- **Salarial income only.** Professional, rental, capital and foreign income are
+  not modelled, so this is not a complete IR. See issue
+  [#15](https://github.com/MasterSwords1/openfisca-morocco/issues/15).
+- **Annual periods only.** The scale is annual; monthly withholding (retenue à
+  la source) is not modelled. See issue
+  [#9](https://github.com/MasterSwords1/openfisca-morocco/issues/9).
+- **2025 onwards only.** Earlier scales, rates and thresholds are not encoded,
+  so a simulation for 2024 or before returns the 2025 law or a default value —
+  do not use it for historical work.
+- **Contributions are an input, not a computation.** `cotisations_sociales_obligatoires`
+  must be supplied; CNSS/AMO rates and ceilings are not modelled yet. See issue
+  [#5](https://github.com/MasterSwords1/openfisca-morocco/issues/5).
+- **No benefits, no VAT.** Allocations familiales, aide sociale directe, TVA and
+  the rest of the system are absent. See issues
+  [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6),
+  [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7) and
+  [#8](https://github.com/MasterSwords1/openfisca-morocco/issues/8).
+- **No microdata.** The package computes on situations you provide; it ships no
+  survey or administrative dataset.
+- **Not published on PyPI yet.** Install from source (below) until issue
+  [#12](https://github.com/MasterSwords1/openfisca-morocco/issues/12) is closed.
+
+## Install
+
+Requires Python 3.9 or later (CI runs 3.13) and
+[uv](https://docs.astral.sh/uv/).
+
+The package is not on PyPI yet, so install it from source:
 
 ```sh
-git clone git://github.com/MasterSwords1/openfisca-morocco.git
+git clone https://github.com/MasterSwords1/openfisca-morocco.git
 cd openfisca-morocco
+uv sync --locked --all-extras --dev
 ```
 
-You can make sure that everything is working by running the provided tests with
-`make test`.
-
-> [Learn more about tests](https://openfisca.org/doc/coding-the-legislation/writing_yaml_tests.html)
-
-:tada: This OpenFisca Country Package is now installed and ready!
-
-#### Next Steps
-
-- To write new legislation, read the
-  [Coding the legislation](https://openfisca.org/doc/coding-the-legislation/index.html)
-  section to know how to write legislation.
-- To contribute to the code, read our
-  [Contribution Guidebook](https://openfisca.org/doc/contribute/index.html).
-
-### C. Contributing
-
-- Read [CONTRIBUTING](CONTRIBUTING.md).
-- Open a pull request to the `main` branch of this repository.
-- Announce your changes as described in [CONTRIBUTING](CONTRIBUTING.md).
-
-## Serve this Country Package with the OpenFisca Web API
-
-If you are considering building a web application, you can use the packaged
-OpenFisca Web API with your Country Package.
-
-To serve the Openfisca Web API locally, run:
+Check that it works:
 
 ```sh
-openfisca serve --port 5000 --country-package openfisca_morocco
+make test
+# openfisca test --country-package openfisca_morocco openfisca_morocco/tests
+# 10 passed
 ```
 
-Or use the quick-start Make command:
+Once published, installation will be `uv add openfisca-morocco`.
 
+## Use it
+
+### From Python
+
+```python
+from openfisca_core.simulations import SimulationBuilder
+from openfisca_morocco import CountryTaxBenefitSystem
+
+tax_benefit_system = CountryTaxBenefitSystem()
+
+simulation = SimulationBuilder().build_from_dict(
+    tax_benefit_system,
+    {
+        "persons": {
+            "Salarie": {
+                "salaire_brut_global": {"2025": 200_000},
+                "elements_exoneres": {"2025": 0},
+                "cotisations_sociales_obligatoires": {"2025": 20_000},
+                "nombre_personnes_a_charge": {"2025": 3},
+            }
+        },
+        "households": {"_": {"adults": ["Salarie"]}},
+    },
+)
+
+print(simulation.calculate("salaire_net_imposable", "2025"))  # [145000.]
+print(simulation.calculate("impot_sur_le_revenu", "2025"))  # [25800.]
 ```
-make serve-local
-```
 
-To read more about the `openfisca serve` command, check out its
-[documentation](https://openfisca.org/doc/openfisca-python-api/openfisca_serve.html).
+All amounts are annual and in dirhams. Inputs are bare numbers: `salaire_brut_global`
+is the gross annual pay, and `nombre_personnes_a_charge` counts the spouse and
+dependent children.
 
-You can make sure that your instance of the API is working by requesting:
+### From the Web API
 
 ```sh
-curl "http://localhost:5000/spec"
+make serve-local   # openfisca serve --country-package openfisca_morocco
 ```
 
-This endpoint returns the [Open API specification](https://www.openapis.org/)
-of your API.
-
-:tada: This OpenFisca Country Package is now served by the OpenFisca Web API!
-To learn more, go to the
-[OpenFisca Web API documentation](https://openfisca.org/doc/openfisca-web-api/index.html).
-
-You can test your new Web API by sending it example JSON data located in the
-`situation_examples` folder.
+Then, in another terminal:
 
 ```sh
+curl "http://localhost:5000/spec"          # OpenAPI specification
+
 curl -X POST -H "Content-Type: application/json" \
-  -d @./openfisca_morocco/situation_examples/couple.json \
+  -d @./openfisca_morocco/situation_examples/salarie.json \
   http://localhost:5000/calculate
 ```
+
+The bundled example answers `"impot_sur_le_revenu": {"2025": 25800.0}`.
+
+### Run the tests
+
+```sh
+make test          # YAML tests under openfisca_morocco/tests/
+pre-commit run --all-files
+```
+
+The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml` document the
+expected law at the scale's boundaries, and
+`openfisca_morocco/tests/age.yaml` covers the `age` formula.
+
+## Repository layout
+
+```
+openfisca_morocco/
+├── entities.py                 # Household (adults/children) and Person
+├── parameters/
+│   └── impot_revenu/           # barème, frais professionnels, charges de famille
+├── variables/
+│   ├── impot_revenu.py         # the IR pipeline
+│   └── demographics.py         # birth, age
+├── situation_examples/
+│   └── salarie.json            # one salaried taxpayer, used by the Web API spec
+└── tests/                      # YAML tests
+```
+
+## Roadmap
+
+The path to a complete, usable package — IR on all income categories,
+CNSS/AMO contributions, TVA, family allowances, direct social support,
+realistic situation and reform examples, PyPI publication — is tracked in the
+[v1.0 milestone](https://github.com/MasterSwords1/openfisca-morocco/milestone/1).
+Each issue states its goal, scope, acceptance criteria and the issues it depends
+on.
+
+## Contributing
+
+Read [CONTRIBUTING](CONTRIBUTING.md), open a pull request against `main`, and
+follow the version and changelog rules described there.
+
+## Licence
+
+AGPL-3.0-or-later. See [LICENSE](LICENSE).
