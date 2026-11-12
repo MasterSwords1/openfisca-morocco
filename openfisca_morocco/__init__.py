@@ -15,7 +15,7 @@ import os
 from openfisca_core.taxbenefitsystems import TaxBenefitSystem
 
 from openfisca_morocco import entities
-from openfisca_morocco.situation_examples import couple
+from openfisca_morocco.situation_examples import salarie
 
 COUNTRY_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,7 +41,7 @@ class CountryTaxBenefitSystem(TaxBenefitSystem):
         # We define which variable, parameter and simulation example will be
         # used in the OpenAPI specification
         self.open_api_config = {
-            "variable_example": "disposable_income",
-            "parameter_example": "taxes.income_tax_rate",
-            "simulation_example": couple,
+            "variable_example": "impot_sur_le_revenu",
+            "parameter_example": "impot_revenu.bareme",
+            "simulation_example": salarie,
         }

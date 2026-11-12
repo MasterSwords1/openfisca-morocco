@@ -1,6 +1,9 @@
-"""This file defines variables for the modelled legislation.
+"""Facts about individuals that the Moroccan legislation needs.
 
-A variable is a property of an Entity such as a Person, a Household…
+Only purely factual demographics live here: a person's birth date and the age
+derived from it. They are not legislation, so they carry no legal reference;
+they are the input that Moroccan age-based provisions (family allowances,
+majority, retirement) will build on.
 
 See https://openfisca.org/doc/key-concepts/variables.html
 """
@@ -24,16 +27,15 @@ class birth(Variable):
     # involved in a simulation to be born on the 1st of Jan 1970.
     default_value = date(1970, 1, 1)
     entity = Person
-    label = "Birth date"
+    label = "Date de naissance"
     definition_period = ETERNITY  # This variable cannot change over time.
-    reference = "https://en.wiktionary.org/wiki/birthdate"
 
 
 class age(Variable):
     value_type = int
     entity = Person
     definition_period = MONTH
-    label = "Person's age (in years)"
+    label = "Âge de la personne (en années révolues)"
 
     def formula(person, period, _parameters):
         """Person's age (in years).
