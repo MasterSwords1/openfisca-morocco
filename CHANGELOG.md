@@ -1,5 +1,5 @@
 
-## 0.2.0 - [#2](https://github.com/MasterSwords1/openfisca-morocco/issues/2)
+## 0.2.0 - [#16](https://github.com/MasterSwords1/openfisca-morocco/pull/16)
 
 * Tax and benefit system evolution.
 * Impacted periods: all.
