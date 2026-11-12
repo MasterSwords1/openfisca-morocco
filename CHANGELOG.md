@@ -1,4 +1,16 @@
 
+## 0.2.2 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
+
+* Tax and benefit system evolution.
+* Impacted periods: all.
+* Impacted areas:
+  - `parameters` (provenance gate).
+* Details:
+  - Make the provenance gate match OpenFisca's semantics: `metadata` is not inherited, so a reference declared on a parent node is invisible on its children at runtime. Each leaf parameter must now carry its own `metadata.reference`, or attach one to each dated value (`values: {2025-01-01: {value: ..., metadata: {reference: ...}}}`).
+  - A scale stays one legal object: a reference on the scale covers its brackets, and only an unsourced scale falls back to per-bracket checks.
+  - Move the article 59 and article 74 references from the file roots to the four and two leaf parameters that actually carry the figures, so `parameters(...).impot_revenu.frais_professionnels.plafond.metadata` now names its article.
+  - Accept the date-keyed reference form used when a figure's source changes over time.
+
 ## 0.2.1 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
 
 * Tax and benefit system evolution.

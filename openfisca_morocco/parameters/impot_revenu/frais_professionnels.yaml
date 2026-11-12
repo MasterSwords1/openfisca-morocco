@@ -4,31 +4,43 @@
 #   - taux de 25 % au-delà de 78 000 DH ;
 #   - plafond de la déduction : 35 000 DH dans les deux cas.
 description: Déduction forfaitaire pour frais professionnels - article 59 du CGI
-metadata:
-  reference:
-    - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
-      href: https://www.tax.gov.ma
 taux_basse_remuneration:
   description: Taux appliqué aux rémunérations brutes n'excédant pas le seuil
   unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
+        href: https://www.tax.gov.ma
   values:
     2025-01-01:
       value: 0.35
 taux_haute_remuneration:
   description: Taux appliqué aux rémunérations brutes excédant le seuil
   unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
+        href: https://www.tax.gov.ma
   values:
     2025-01-01:
       value: 0.25
 seuil_taux_basse_remuneration:
   description: Seuil annuel de rémunération brute séparant les deux taux
   unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
+        href: https://www.tax.gov.ma
   values:
     2025-01-01:
       value: 78000.0
 plafond:
   description: Plafond annuel de la déduction
   unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
+        href: https://www.tax.gov.ma
   values:
     2025-01-01:
       value: 35000.0
