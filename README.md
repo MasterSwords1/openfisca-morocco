@@ -127,9 +127,11 @@ are returned whole.
 
 The catalog has **no 2004 consolidated snapshot**. Snapshot labels are not
 continuous effective-date ranges, so they cannot establish which clause
-applies between editions. The 2004 gap and the absence of continuous validity
-remain blockers for issue [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6);
-the corpus work is tracked in
+applies between editions. A separate LAR Article 101 snapshot is available
+for 2006; it does not supply the missing 2004–2005 Article 15 product lists
+and is not a CGI Article 99 edition. The historical gap and the absence of
+continuous validity remain blockers for issue
+[#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6); the corpus work is tracked in
 [morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
 
 To enumerate the documented clauses for an exact snapshot, then retrieve one
@@ -163,6 +165,42 @@ includes the named law/article, citation scope, pinned source hashes, and the
 amending-law excerpt. Page-footer notes with ambiguous item association are not
 linked by proximity.
 
+### Separate 2006 LAR Article 101 snapshot
+
+The package also contains the complete quoted Article 101 list from the
+*Livre d’Assiette et de Recouvrement 2006*. It is exposed through a separate,
+fixed-snapshot API and is never included in the CGI Article 99 catalog. The
+LAR states in Article 212 that its provisions apply from 1 January 2006, and
+Article 213 repeals Loi n° 30-85. This 2006 source does not reconstruct the
+missing 2004–2005 Article 15 list or establish continuous item validity.
+
+The snapshot contains 38 items: 14 at 7%, 16 at 10%, and 8 at 14%. It retains
+the verbatim quotes, Article 101 rate headings, item conditions, deduction
+treatment, corpus path, source PDF and extracted-text SHA-256 hashes, source
+and retrieval URLs, and the Article 212/213 citations. The retrieval note
+states that the local mirror is incomplete at the tail (235 of 241 printed
+folios), while the complete Article 101 pages 95–98 were visually checked and
+the DGI-hosted edition was also checked. The package does not claim that the
+mirror bytes are identical to the DGI-hosted PDF.
+
+```python
+from openfisca_morocco.tva_article101 import (
+    get_lar_2006_article_101_item,
+    get_lar_2006_article_101_snapshot,
+    list_lar_2006_article_101_items,
+)
+
+snapshot = get_lar_2006_article_101_snapshot()
+print(snapshot.effective_from)  # "2006-01-01", cited to LAR article 212
+print(snapshot.source_pdf_sha256)
+print(len(list_lar_2006_article_101_items()))  # 38
+item = get_lar_2006_article_101_item("2006-art101-7pct-001")
+print(item.article, item.rate, item.quote)  # Article 101, not CGI Article 99
+```
+
+The package-local source artifact is
+`openfisca_morocco/data/tva_lar_2006_article101.json`.
+
 ## Provenance
 
 Every modelled figure is traceable to a published text, and every input variable
@@ -174,7 +212,8 @@ names the article it comes from.
 | Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
 | Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
 | TVA rates 2004–2026 | `morocco-holy-graph`, verified dataset `laws/ma_tax_law/data/tva_rate_history.json` (PR #81), where every rate carries a literal quote from the finance-law text layer; cross-checked by `openfisca_morocco/tests/test_tva_taux.py` |
-| Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026, with no 2004 snapshot and no continuous effective-date claim |
+| Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026, with no 2004–2005 list and no continuous effective-date claim |
+| 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It does not fill the 2004–2005 Article 15 gap or extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
@@ -199,9 +238,10 @@ Stated plainly, because they determine what you may conclude from a simulation:
   default value — do not use it for historical IR work.
 - **Article 99 lookup is snapshot-scoped.** The package supports exact catalog
   IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It does not
-  classify product descriptions, interpolate between editions or provide a
-  2004 snapshot; #6 remains open until the historical gap and effective-date
-  coverage are resolved. See the TVA section above and
+  classify product descriptions or interpolate between editions. The separate
+  2006 LAR Article 101 snapshot does not supply the missing 2004–2005 Article
+  15 list and does not belong to the Article 99 catalog; #6 remains open until
+  the historical gap and effective-date coverage are resolved. See the TVA section above and
   [morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
 - **TVA before 2004 is not modelled.** The rate dataset starts on 1 January
   2004; before that date the parameters return the 2004 regime.
@@ -343,8 +383,10 @@ path with a `Company`.
 openfisca_morocco/
 ├── entities.py                 # Household (adults/children), Company, Person
 ├── tva_article99.py            # snapshot item listing and exact lookup
+├── tva_article101.py           # fixed 2006 LAR Article 101 snapshot
 ├── data/
-│   └── tva_article99_catalog.json # quoted Article 99 snapshots and provenance
+│   ├── tva_article99_catalog.json # quoted Article 99 snapshots and provenance
+│   └── tva_lar_2006_article101.json # separate LAR Article 101 snapshot
 ├── parameters/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
 │   └── tva/                    # dated rates 2004-2026, transitional schedules
