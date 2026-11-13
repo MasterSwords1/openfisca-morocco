@@ -149,26 +149,40 @@ def test_2026_hotel_rental_clause_keeps_its_page_continuation():
     assert item.corpus_file == "laws/ma_tax_law/data/consolidated/CGI-2026-FR.pdf.txt"
 
 
-def test_source_endnote_labels_are_returned_as_immutable_provenance():
+def test_ambiguous_page_footer_notes_are_not_assigned_to_neighbor_items():
     item = get_article_99_item(2014, "2014-art99-7pct-008")
 
-    assert item.source_endnote_labels == ("187",)
+    assert item.quote == "le lait en poudre ;"
+    assert item.right_to_deduct is True
+    assert item.source_endnote_labels is None
+    assert item.amendment_citations == ()
+
+    farm_equipment = get_article_99_item(2018, "2018-art99-10pct-024")
+    assert farm_equipment.source_endnote_labels is None
+    assert [
+        (citation.endnote, citation.law, citation.law_article)
+        for citation in farm_equipment.amendment_citations
+    ] == [(376, "Loi n° 110-13", 4)]
 
 
 def test_item_returns_its_amending_law_citations():
-    item = get_article_99_item(2010, "2010-art99-7pct-006")
+    item = get_article_99_item(2018, "2018-art99-10pct-009")
 
-    assert len(item.amendment_citations) == 1
+    assert item.quote.endswith("pailles ;370")
+    assert item.right_to_deduct is True
+    assert len(item.amendment_citations) == 2
     citation = item.amendment_citations[0]
-    assert citation.law == "Loi n° 48-09"
-    assert citation.law_article == 7
-    assert citation.source_scope == "item_endnote_marker"
-    assert citation.corpus_file.endswith("CGI-2010-FR.pdf.txt")
+    assert citation.law == "Loi n° 115-12"
+    assert citation.law_article == 9
+    assert citation.source_scope == "item_quote"
+    assert citation.corpus_file.endswith("CGI-2018-FR.pdf.txt")
     assert citation.source_sha256
-    assert citation.amending_law_corpus_file.endswith("FL_2010_48-09.txt")
+    assert citation.amending_law_corpus_file.endswith("FL_2013_115-12.txt")
     assert citation.amending_law_source_sha256
-    assert "Article 99" in citation.amending_law_article_quote
+    assert "article 99" in citation.amending_law_article_quote.lower()
     assert citation.articles_mentioned == (99,)
+    assert item.amendment_citations[1].law == "Loi n° 110-13"
+    assert item.amendment_citations[1].law_article == 4
 
 
 def test_item_ids_are_scoped_to_the_requested_edition():

@@ -118,9 +118,12 @@ It does **not** choose a rate from a product description. A quote-backed
 Article 99 catalog is available for the consolidated editions 2007, 2010, 2014,
 2018, 2021, 2024 and 2026, but each entry must be requested by its exact edition
 year and item ID. The returned quote, rate, item ID, corpus path and any source
-endnote labels let a caller inspect a documented clause; the package does not
-classify arbitrary products or select an edition for an effective date. Some
-catalog quotes cover combined clauses and are returned whole.
+endnote labels let a caller inspect a documented clause; amendment citations
+are linked only when an inline marker or parent qualification establishes the
+relationship. A page-footer note is not assigned to its nearest item by
+position alone. The package does not classify arbitrary products or select an
+edition for an effective date. Some catalog quotes cover combined clauses and
+are returned whole.
 
 The catalog has **no 2004 consolidated snapshot**. Snapshot labels are not
 continuous effective-date ranges, so they cannot establish which clause
@@ -154,9 +157,11 @@ tuple. The package-local catalog is
 `openfisca_morocco/data/tva_article99_catalog.json`.
 It retains source quotes and provenance but omits the source's one-day
 `as_of`, `valid_from` and `valid_to` snapshot markers so they cannot be mistaken
-for continuous validity. When an item has a corpus endnote, its returned
-`amendment_citations` includes the named law/article, endnote scope, pinned
-source hashes, and the amending-law excerpt.
+for continuous validity. When the source quote or parent qualification
+contains a verifiable endnote marker, the returned `amendment_citations`
+includes the named law/article, citation scope, pinned source hashes, and the
+amending-law excerpt. Page-footer notes with ambiguous item association are not
+linked by proximity.
 
 ## Provenance
 
