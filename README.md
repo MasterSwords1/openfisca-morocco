@@ -114,14 +114,45 @@ Water and sanitation have no glide path: 10 % from 1 January 2024
 
 ### What the TVA module does not do
 
-It does **not** choose the rate for you. Article 99 classifies products and
-operations into lists, and the corpus has not yet consolidated those lists year
-by year: amending finance laws elide unchanged items (`…… (la suite sans
-modification)`), so a post-2007 list rebuilt from those diffs would be
-reconstruction, not citation. That work is tracked in
+It does **not** choose a rate from a product description. A quote-backed
+Article 99 catalog is available for the consolidated editions 2007, 2010, 2014,
+2018, 2021, 2024 and 2026, but each entry must be requested by its exact edition
+year and item ID. The returned quote, rate, item ID, corpus path and any source
+endnote labels let a caller inspect a documented clause; the package does not
+classify arbitrary products or select an edition for an effective date. Some
+catalog quotes cover combined clauses and are returned whole.
+
+The catalog has **no 2004 consolidated snapshot**. Snapshot labels are not
+continuous effective-date ranges, so they cannot establish which clause
+applies between editions. The 2004 gap and the absence of continuous validity
+remain blockers for issue [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6);
+the corpus work is tracked in
 [morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
-Until it lands, the chiffre d'affaires is declared **per rate**, and the package
-will not guess.
+
+To enumerate the documented clauses for an exact snapshot, then retrieve one
+item directly:
+
+```python
+from openfisca_morocco.tva_article99 import (
+    get_article_99_item,
+    list_article_99_items,
+)
+
+items = list_article_99_items(2024)
+print([(item.item_id, item.rate) for item in items])
+item = get_article_99_item(2024, "2024-art99-general-20pct")
+print(item.rate)  # "20%"
+print(item.quote)  # verbatim clause from the 2024 edition
+print(item.corpus_file)  # source text path in morocco-holy-graph
+print(item.source_endnote_labels)  # tuple of catalog labels, or None
+```
+
+`list_article_99_items` preserves the source order and returns an immutable
+tuple. The package-local catalog is
+`openfisca_morocco/data/tva_article99_catalog.json`.
+It retains source quotes and provenance but omits the source's one-day
+`as_of`, `valid_from` and `valid_to` snapshot markers so they cannot be mistaken
+for continuous validity.
 
 ## Provenance
 
@@ -134,6 +165,7 @@ names the article it comes from.
 | Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
 | Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
 | TVA rates 2004–2026 | `morocco-holy-graph`, verified dataset `laws/ma_tax_law/data/tva_rate_history.json` (PR #81), where every rate carries a literal quote from the finance-law text layer; cross-checked by `openfisca_morocco/tests/test_tva_taux.py` |
+| Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026, with no 2004 snapshot and no continuous effective-date claim |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
@@ -156,9 +188,11 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **IR from 2025 only.** Earlier IR scales, rates and thresholds are not
   encoded, so an IR simulation for 2024 or before returns the 2025 law or a
   default value — do not use it for historical IR work.
-- **TVA rates are declared, not inferred.** The module does not map a product
-  or an operation to its article 99 bracket; the chiffre d'affaires must be
-  given per rate. See the TVA section above and
+- **Article 99 lookup is snapshot-scoped.** The package supports exact catalog
+  IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It does not
+  classify product descriptions, interpolate between editions or provide a
+  2004 snapshot; #6 remains open until the historical gap and effective-date
+  coverage are resolved. See the TVA section above and
   [morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
 - **TVA before 2004 is not modelled.** The rate dataset starts on 1 January
   2004; before that date the parameters return the 2004 regime.
@@ -195,7 +229,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 61 passed
+# 72 passed
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -299,6 +333,9 @@ path with a `Company`.
 ```
 openfisca_morocco/
 ├── entities.py                 # Household (adults/children), Company, Person
+├── tva_article99.py            # snapshot item listing and exact lookup
+├── data/
+│   └── tva_article99_catalog.json # quoted Article 99 snapshots and provenance
 ├── parameters/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
 │   └── tva/                    # dated rates 2004-2026, transitional schedules

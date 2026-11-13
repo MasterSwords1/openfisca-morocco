@@ -71,3 +71,6 @@ max_supported_python = "3.11"
 addopts = "--exitfirst --showlocals --doctest-modules --disable-warnings --import-mode importlib"
 testpaths = [ "openfisca_morocco/tests" ]
 python_files = "**/*.py"
+
+[tool.setuptools.package-data]
+openfisca_morocco = [ "data/*.json" ]

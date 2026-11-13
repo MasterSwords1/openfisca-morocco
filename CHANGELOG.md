@@ -7,6 +7,8 @@
   - `entities` (new `Company` entity).
   - `parameters.tva` (new).
   - `variables.tva` (new).
+  - `tva_article99` (snapshot-scoped Article 99 catalog listing and lookup).
+  - `data` (filtered Article 99 catalog with quote provenance).
   - `tests` (new YAML and Python tests).
 * Details:
   - Add the `Company` entity and the monthly TVA declaration of CGI articles 98, 99, 101, 104 and 247-XXXXI: collectée per rate, deductible after prorata, net payable and carry-forward credit, plus `chiffre_affaires_taux_abroge` which isolates revenue declared on an abrogated rate.
@@ -14,7 +16,7 @@
   - Encode the seven transitional schedules of article 247-XXXXI (electricity 16/18/20, electricity meter 11/15/20, renewable electricity 12/10, sugar 8/9/10, transport excluding urban and road haulage 16/18/20, urban and road transport 13/12/10, insurance brokers 12/10), selected by the `tva_operation_transitoire` input. No transitional rate is declared before 2024: before that date the operations fell under the general rates.
   - Give `Company` a single `membres` role, because OpenFisca cannot instantiate a group entity without one; no formula reads it.
   - The rate figures are checked against the corpus by `tests/test_tva_taux.py`, and the declaration arithmetic reproduces the validated Catala test of the corpus (257 000 / 150 000 / 107 000) in `tests/tva.yaml` and `tests/test_tva_simulation.py`.
-  - Product and operation classification (which article 99 list gives which rate) is **not** modelled: the corpus has not consolidated those lists year by year. Tracked in `morocco-holy-graph#80`.
+  - Add source-ordered Article 99 item listing and exact item lookup for consolidated snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. Each result retains its edition, item ID, rate, verbatim quote, corpus source path and available endnote labels. Product descriptions are not classified, snapshot labels do not assert continuous validity, and the 2004 gap remains an issue #6 blocker tracked in `morocco-holy-graph#80`.
 
 ## 0.2.2 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
 
