@@ -145,6 +145,8 @@ print(item.rate)  # "20%"
 print(item.quote)  # verbatim clause from the 2024 edition
 print(item.corpus_file)  # source text path in morocco-holy-graph
 print(item.source_endnote_labels)  # tuple of catalog labels, or None
+print(item.amendment_citations[0].law)  # cited finance law, when available
+print(item.amendment_citations[0].amending_law_corpus_file)
 ```
 
 `list_article_99_items` preserves the source order and returns an immutable
@@ -152,7 +154,9 @@ tuple. The package-local catalog is
 `openfisca_morocco/data/tva_article99_catalog.json`.
 It retains source quotes and provenance but omits the source's one-day
 `as_of`, `valid_from` and `valid_to` snapshot markers so they cannot be mistaken
-for continuous validity.
+for continuous validity. When an item has a corpus endnote, its returned
+`amendment_citations` includes the named law/article, endnote scope, pinned
+source hashes, and the amending-law excerpt.
 
 ## Provenance
 

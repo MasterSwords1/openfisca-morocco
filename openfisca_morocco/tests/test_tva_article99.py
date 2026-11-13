@@ -8,6 +8,7 @@ import pytest
 
 from openfisca_morocco.tva_article99 import (
     ARTICLE_99_SNAPSHOT_YEARS,
+    Article99AmendmentCitation,
     Article99ItemNotFoundError,
     UnsupportedArticle99EditionError,
     get_article_99_item,
@@ -48,6 +49,38 @@ def test_every_catalog_item_round_trips_with_quote_and_provenance():
                 {"kind": condition.kind, "quote": condition.quote}
                 for condition in item.conditions
             ] == (row.get("conditions") or [])
+            citation_fields = (
+                "endnote",
+                "endnote_label",
+                "endnote_suffix",
+                "law",
+                "law_article",
+                "budget_year",
+                "source_edition",
+                "corpus_file",
+                "source_sha256",
+                "quote",
+                "amending_law_corpus_file",
+                "amending_law_source_sha256",
+                "amending_law_article_quote",
+                "articles_mentioned",
+                "source_scope",
+            )
+            assert all(
+                isinstance(citation, Article99AmendmentCitation)
+                for citation in item.amendment_citations
+            )
+            assert [
+                {
+                    field: (
+                        list(getattr(citation, field))
+                        if field == "articles_mentioned"
+                        else getattr(citation, field)
+                    )
+                    for field in citation_fields
+                }
+                for citation in item.amendment_citations
+            ] == (row.get("amendment_citations") or [])
             source_endnote_labels = row.get("source_endnote_labels")
             assert item.source_endnote_labels == (
                 tuple(source_endnote_labels)
@@ -120,6 +153,22 @@ def test_source_endnote_labels_are_returned_as_immutable_provenance():
     item = get_article_99_item(2014, "2014-art99-7pct-008")
 
     assert item.source_endnote_labels == ("187",)
+
+
+def test_item_returns_its_amending_law_citations():
+    item = get_article_99_item(2010, "2010-art99-7pct-006")
+
+    assert len(item.amendment_citations) == 1
+    citation = item.amendment_citations[0]
+    assert citation.law == "Loi n° 48-09"
+    assert citation.law_article == 7
+    assert citation.source_scope == "item_endnote_marker"
+    assert citation.corpus_file.endswith("CGI-2010-FR.pdf.txt")
+    assert citation.source_sha256
+    assert citation.amending_law_corpus_file.endswith("FL_2010_48-09.txt")
+    assert citation.amending_law_source_sha256
+    assert "Article 99" in citation.amending_law_article_quote
+    assert citation.articles_mentioned == (99,)
 
 
 def test_item_ids_are_scoped_to_the_requested_edition():

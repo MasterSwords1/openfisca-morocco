@@ -20,6 +20,27 @@ class Article99Condition:
 
 
 @dataclass(frozen=True)
+class Article99AmendmentCitation:
+    """A corpus endnote and the pinned finance-law text it identifies."""
+
+    endnote: int
+    endnote_label: str
+    endnote_suffix: str
+    law: str
+    law_article: int
+    budget_year: int
+    source_edition: int
+    corpus_file: str
+    source_sha256: str
+    quote: str
+    amending_law_corpus_file: str
+    amending_law_source_sha256: str
+    amending_law_article_quote: str
+    articles_mentioned: tuple[int, ...]
+    source_scope: str
+
+
+@dataclass(frozen=True)
 class Article99Item:
     """A quoted Article 99 item from one consolidated text snapshot."""
 
@@ -38,6 +59,7 @@ class Article99Item:
     source_text_sha256: str
     document_title: str
     conditions: tuple[Article99Condition, ...]
+    amendment_citations: tuple[Article99AmendmentCitation, ...]
     source_endnote_labels: tuple[str, ...] | None
     parent_context_item_id: str | None = None
     parent_context_quote: str | None = None
@@ -100,6 +122,26 @@ for _edition_year, _edition in _EDITIONS.items():
             Article99Condition(kind=condition["kind"], quote=condition["quote"])
             for condition in (_row.get("conditions") or ())
         )
+        _amendment_citations = tuple(
+            Article99AmendmentCitation(
+                endnote=citation["endnote"],
+                endnote_label=citation["endnote_label"],
+                endnote_suffix=citation["endnote_suffix"],
+                law=citation["law"],
+                law_article=citation["law_article"],
+                budget_year=citation["budget_year"],
+                source_edition=citation["source_edition"],
+                corpus_file=citation["corpus_file"],
+                source_sha256=citation["source_sha256"],
+                quote=citation["quote"],
+                amending_law_corpus_file=citation["amending_law_corpus_file"],
+                amending_law_source_sha256=citation["amending_law_source_sha256"],
+                amending_law_article_quote=citation["amending_law_article_quote"],
+                articles_mentioned=tuple(citation["articles_mentioned"]),
+                source_scope=citation["source_scope"],
+            )
+            for citation in (_row.get("amendment_citations") or ())
+        )
         _source_endnote_labels = _row.get("source_endnote_labels")
         _ITEMS[_item_key] = Article99Item(
             edition_year=_edition_year,
@@ -117,6 +159,7 @@ for _edition_year, _edition in _EDITIONS.items():
             source_text_sha256=_edition["source_text_sha256"],
             document_title=_edition["document_title"],
             conditions=_conditions,
+            amendment_citations=_amendment_citations,
             source_endnote_labels=(
                 tuple(_source_endnote_labels)
                 if _source_endnote_labels is not None
@@ -188,6 +231,7 @@ def get_article_99_item(edition_year: int, item_id: str) -> Article99Item:
 
 __all__ = [
     "ARTICLE_99_SNAPSHOT_YEARS",
+    "Article99AmendmentCitation",
     "Article99Condition",
     "Article99Item",
     "Article99ItemNotFoundError",
