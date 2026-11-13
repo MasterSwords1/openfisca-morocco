@@ -125,14 +125,11 @@ position alone. The package does not classify arbitrary products or select an
 edition for an effective date. Some catalog quotes cover combined clauses and
 are returned whole.
 
-The catalog has **no 2004 consolidated snapshot**. Snapshot labels are not
+The CGI Article 99 catalog has **no 2004 edition**. Snapshot labels are not
 continuous effective-date ranges, so they cannot establish which clause
-applies between editions. A separate LAR Article 101 snapshot is available
-for 2006; it does not supply the missing 2004–2005 Article 15 product lists
-and is not a CGI Article 99 edition. The historical gap and the absence of
-continuous validity remain blockers for issue
-[#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6); the corpus work is tracked in
-[morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
+applies between editions. A separate pre-CGI Article 15 catalog below records
+the lists as of 1 January 2004 and 1 January 2005; it is not part of Article 99
+or the 2006 LAR Article 101 snapshot.
 
 To enumerate the documented clauses for an exact snapshot, then retrieve one
 item directly:
@@ -165,14 +162,60 @@ includes the named law/article, citation scope, pinned source hashes, and the
 amending-law excerpt. Page-footer notes with ambiguous item association are not
 linked by proximity.
 
+### Historical Loi 30-85 Article 15 snapshots
+
+The package also provides distinct Article 15 lists from the former TVA law,
+Loi n° 30-85, as of **1 January 2004** and **1 January 2005**. The API preserves
+the catalog's 40 and 41 source-ordered quoted items, rates, deduction flags,
+conditions, item IDs, source paths, and available endnote and Gazette
+amendment citations. These are point-in-time lists; the dates do not imply
+continuous validity before, between, or after the snapshots. The API does not
+classify products from descriptions or decide which rate applies to a
+transaction.
+
+The 2002 DGI compilation used as the baseline is available in this project as
+a text-layer transcription from a Scribd-hosted copy, not as locally pinned
+DGI or SGG PDF bytes. The 2004 and 2005 amendment excerpts are transcribed from
+locally pinned Official Gazette scans and visually checked. The source catalog
+records a review of the 2003 Finance Law amendment list and the DGI 2014
+reference table; neither identifies an additional non-finance Article 15
+amendment. Because the project does not contain the complete 2002–2005 Gazette
+run, this search cannot establish an exhaustive negative. The catalog exposes
+the reviewed sources and their limitations for callers.
+
+```python
+from openfisca_morocco.tva_article15 import (
+    get_article_15_item,
+    get_article_15_snapshot,
+    list_article_15_items,
+)
+
+snapshot = get_article_15_snapshot(2005)
+print(snapshot.as_of)  # "2005-01-01", a snapshot date
+print(len(list_article_15_items(2005)))  # 41
+item = get_article_15_item(2005, "2005-art15-10pct-deduct-007")
+print(item.article, item.rate, item.quote)  # Article 15, not Article 99
+print(item.amendment_citations[0].source_url)
+```
+
+The package-local catalog is
+`openfisca_morocco/data/tva_article15_catalog.json`. It retains the source
+chain audit and acquisition caveats alongside the quoted lists.
+
+The Article 15 lists document two historical snapshots but do not provide a
+continuous history. The absence of continuous validity and the other open
+corpus gaps remain blockers for issue
+[#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6); the corpus work is tracked in
+[morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
+
 ### Separate 2006 LAR Article 101 snapshot
 
 The package also contains the complete quoted Article 101 list from the
 *Livre d’Assiette et de Recouvrement 2006*. It is exposed through a separate,
 fixed-snapshot API and is never included in the CGI Article 99 catalog. The
 LAR states in Article 212 that its provisions apply from 1 January 2006, and
-Article 213 repeals Loi n° 30-85. This 2006 source does not reconstruct the
-missing 2004–2005 Article 15 list or establish continuous item validity.
+Article 213 repeals Loi n° 30-85. This remains a distinct source from the 2004
+and 2005 Article 15 snapshots and does not establish continuous item validity.
 
 The snapshot contains 38 items: 14 at 7%, 16 at 10%, and 8 at 14%. It retains
 the verbatim quotes, Article 101 rate headings, item conditions, deduction
@@ -212,8 +255,9 @@ names the article it comes from.
 | Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
 | Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
 | TVA rates 2004–2026 | `morocco-holy-graph`, verified dataset `laws/ma_tax_law/data/tva_rate_history.json` (PR #81), where every rate carries a literal quote from the finance-law text layer; cross-checked by `openfisca_morocco/tests/test_tva_taux.py` |
-| Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026, with no 2004–2005 list and no continuous effective-date claim |
-| 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It does not fill the 2004–2005 Article 15 gap or extend the Article 99 catalog. |
+| Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It has no CGI Article 99 edition for 2004 and makes no continuous effective-date claim. |
+| Historical Loi 30-85 Article 15 | `historical_article15_2004_2005` in the same corpus dataset; the separate package artifact preserves the 2004/2005 snapshot items, quotes, conditions, available amendment citations and reviewed source-chain evidence. The available-source review found no additional non-finance amendment, but the 2002 DGI baseline PDF is not pinned and the incomplete Gazette run prevents an exhaustive negative. |
+| 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
