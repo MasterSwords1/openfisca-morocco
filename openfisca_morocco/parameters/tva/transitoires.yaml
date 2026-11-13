@@ -1,0 +1,120 @@
+# Taux transitoires de la TVA, 2024-2026.
+#
+# La loi de finances n° 55-23 pour 2024 ramène l'essentiel des opérations aux
+# deux taux généraux de 20 % et 10 %, mais l'article 247-XXXXI organise des
+# trajectoires pluriannuelles pour sept catégories d'opérations. Ces taux ne
+# sont pas des taux généraux: ils s'appliquent à l'opération déclarée, et une
+# entreprise peut n'être concernée par aucun d'entre eux.
+#
+# Source: corpus `morocco-holy-graph`, dataset vérifié
+# `laws/ma_tax_law/data/tva_rate_history.json` (champ `transitional_schedules`),
+# lui-même gardé par `tests/test_tva_rate_history.py`.
+description: Taux transitoires de la TVA (article 247-XXXXI du CGI, loi n° 55-23)
+electricite:
+  description: Énergie électrique — taux de 14 % majoré jusqu'au taux normal
+  taux:
+    description: Taux applicable aux opérations portant sur l'énergie électrique
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-B — énergie électrique 16 % / 18 % / 20 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.16
+      2025-01-01:
+        value: 0.18
+      2026-01-01:
+        value: 0.2
+compteur_electricite:
+  description: Location du compteur d'électricité — taux de 7 % majoré jusqu'au taux normal
+  taux:
+    description: Taux applicable à la location du compteur d'électricité
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-C — location du compteur d'électricité 11 % / 15 % / 20 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.11
+      2025-01-01:
+        value: 0.15
+      2026-01-01:
+        value: 0.2
+electricite_renouvelable:
+  description: Ventes des producteurs d'électricité produite à partir d'énergies renouvelables — taux de 14 % minoré jusqu'à 10 %
+  taux:
+    description: Taux applicable aux ventes des producteurs d'électricité renouvelable
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-D — électricité renouvelable 12 % / 10 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.12
+      2025-01-01:
+        value: 0.1
+sucre:
+  description: Sucre raffiné ou aggloméré — taux de 7 % majoré jusqu'à 10 %
+  taux:
+    description: Taux applicable au sucre raffiné ou aggloméré
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-E — sucre 8 % / 9 % / 10 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.08
+      2025-01-01:
+        value: 0.09
+      2026-01-01:
+        value: 0.1
+transport_hors_urbain_et_routier:
+  description: Transport de voyageurs et de marchandises, hors transport urbain et hors transport routier — taux de 14 % majoré jusqu'au taux normal
+  taux:
+    description: Taux applicable au transport hors transport urbain et hors transport routier
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-F — transport (hors urbain et routier) 16 % / 18 % / 20 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.16
+      2025-01-01:
+        value: 0.18
+      2026-01-01:
+        value: 0.2
+transport_urbain_et_routier:
+  description: Transport urbain et transport routier de voyageurs et de marchandises — taux de 14 % minoré jusqu'à 10 %
+  taux:
+    description: Taux applicable au transport urbain et au transport routier
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-G — transport urbain et routier 13 % / 12 % / 10 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.13
+      2025-01-01:
+        value: 0.12
+      2026-01-01:
+        value: 0.1
+courtier_assurances:
+  description: Prestations des agents démarcheurs et courtiers d'assurances — taux de 14 % minoré jusqu'à 10 %
+  taux:
+    description: Taux applicable aux prestations des démarcheurs et courtiers d'assurances
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-H — courtiers d'assurances 12 % / 10 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2024-01-01:
+        value: 0.12
+      2025-01-01:
+        value: 0.1

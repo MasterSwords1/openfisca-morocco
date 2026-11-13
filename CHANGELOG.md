@@ -1,4 +1,21 @@
 
+## 0.3.0 - [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2004-01-01 onwards.
+* Impacted areas:
+  - `entities` (new `Company` entity).
+  - `parameters.tva` (new).
+  - `variables.tva` (new).
+  - `tests` (new YAML and Python tests).
+* Details:
+  - Add the `Company` entity and the monthly TVA declaration of CGI articles 98, 99, 101, 104 and 247-XXXXI: collectée per rate, deductible after prorata, net payable and carry-forward credit, plus `chiffre_affaires_taux_abroge` which isolates revenue declared on an abrogated rate.
+  - Encode dated rates 2004-2026 from the verified corpus dataset (`morocco-holy-graph` PR #81): 20 / 14 / 10 / 7 % until 31 December 2023, then 20 / 10 % only. The 14 % and 7 % brackets stay declared for historical simulation but carry `en_vigueur = 0` from 2024-01-01, so they can never be applied silently.
+  - Encode the seven transitional schedules of article 247-XXXXI (electricity 16/18/20, electricity meter 11/15/20, renewable electricity 12/10, sugar 8/9/10, transport excluding urban and road haulage 16/18/20, urban and road transport 13/12/10, insurance brokers 12/10), selected by the `tva_operation_transitoire` input. No transitional rate is declared before 2024: before that date the operations fell under the general rates.
+  - Give `Company` a single `membres` role, because OpenFisca cannot instantiate a group entity without one; no formula reads it.
+  - The rate figures are checked against the corpus by `tests/test_tva_taux.py`, and the declaration arithmetic reproduces the validated Catala test of the corpus (257 000 / 150 000 / 107 000) in `tests/tva.yaml` and `tests/test_tva_simulation.py`.
+  - Product and operation classification (which article 99 list gives which rate) is **not** modelled: the corpus has not consolidated those lists year by year. Tracked in `morocco-holy-graph#80`.
+
 ## 0.2.2 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
 
 * Tax and benefit system evolution.
