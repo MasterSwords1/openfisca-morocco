@@ -97,3 +97,20 @@ def test_une_situation_avec_personnes_seules_se_construit():
     """Régression : une entité de groupe sans rôle casse ce chemin."""
     simulation = build({"persons": {"A": {}}})
     assert simulation is not None
+
+
+def test_simulation_avec_operation_transitoire():
+    """Une opération à taux transitoire (art. 247-XXXXI) se calcule en simulation."""
+    simulation = entreprise(
+        {
+            "chiffre_affaires_taux_transitoire": 100_000,
+            "tva_operation_transitoire": "electricite",
+        },
+        period="2024-01",
+    )
+
+    assert list(simulation.calculate("tva_taux_transitoire", "2024-01")) == [0.16]
+    assert list(simulation.calculate("tva_collectee_taux_transitoire", "2024-01")) == [
+        16_000
+    ]
+    assert list(simulation.calculate("tva_nette_a_payer", "2024-01")) == [16_000]

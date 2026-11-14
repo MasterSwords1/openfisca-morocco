@@ -322,7 +322,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 72 passed
+# 85 passed
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -417,18 +417,24 @@ The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml` and
 (each bracket, each dated rate, each transitional step), and
 `openfisca_morocco/tests/age.yaml` covers the `age` formula.
 `openfisca_morocco/tests/test_tva_taux.py` checks every declared TVA rate and
-period against the verified corpus dataset, and
+period against the verified corpus dataset,
 `openfisca_morocco/tests/test_tva_simulation.py` checks the public simulation
-path with a `Company`.
+path with a `Company`, and
+`openfisca_morocco/tests/test_tva_article99.py`,
+`openfisca_morocco/tests/test_tva_article101.py`, and
+`openfisca_morocco/tests/test_tva_article15.py` check snapshot item lookups,
+source-order preservation and quote provenance across all catalogs.
 
 ## Repository layout
 
 ```
 openfisca_morocco/
 ├── entities.py                 # Household (adults/children), Company, Person
+├── tva_article15.py            # pre-CGI Loi 30-85 Article 15 snapshots
 ├── tva_article99.py            # snapshot item listing and exact lookup
 ├── tva_article101.py           # fixed 2006 LAR Article 101 snapshot
 ├── data/
+│   ├── tva_article15_catalog.json # historical Article 15 catalog and audit
 │   ├── tva_article99_catalog.json # quoted Article 99 snapshots and provenance
 │   └── tva_lar_2006_article101.json # separate LAR Article 101 snapshot
 ├── parameters/
