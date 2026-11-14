@@ -1,0 +1,2209 @@
+{
+  "schema_version": 1,
+  "source_catalog": "morocco-holy-graph/laws/ma_tax_law/data/consolidated/tva_article_lists.json#historical_article15_2004_2005",
+  "historical_article15_2004_2005": {
+    "law": "Loi n° 30-85 relative à la taxe sur la valeur ajoutée",
+    "article": 15,
+    "edition_basis": "pre-CGI statutory snapshots; not CGI Article 99 or LAR Article 101",
+    "date_semantics": "Each record is a point-in-time list as of the stated date. No valid_to or continuous-validity interval is inferred.",
+    "baseline_source_id": "loi-30-85-dgi-2002-article-15",
+    "source_chain_audit": {
+      "status": "available_source_search_completed",
+      "scope": "Reviewed the DGI compilation effective 2002-01-01; the 2003 Finance Law Article 9 list of amended TVA articles; the 2004 and 2005 Official Gazette amendments; the DGI CGI 2014 reference table; and repository legal-text hits for Loi n° 30-85 and its promulgating Dahir. No additional non-finance Article 15 amendment was identified in the available sources.",
+      "reviewed_sources": [
+        {
+          "id": "loi-45-02-article9-article15-absence-check",
+          "title": "Loi de finances n° 45-02, Article 9, amendments to Loi n° 30-85",
+          "corpus_file": "data/text/finance-laws/FL_2003_45-02.txt",
+          "source_sha256": "2b53557e7d8301884d7d34686011d2bff443f4e1fd4944942a36310ba2a2507c",
+          "source_pdf": "laws/ma_fin_law/documents/BO_5069-bis_fr.pdf",
+          "source_pdf_sha256": "b395e99e6d48353e356425e8996a10006ecaa8bf4ed1df1d02bb0b0cb7795305",
+          "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2003/BO_5069-bis_fr.pdf",
+          "source_pages": [
+            10
+          ],
+          "finding": "The visually checked list in Article 9 names Articles 7, 31, 34, 35, 43, 46 and 60 of Loi n° 30-85; it does not name Article 15. This checks the 2003 Finance Law only.",
+          "transcription_file": "laws/ma_tax_law/data/consolidated/Loi-45-02-BO-5069-bis-Article9-transcription.txt",
+          "transcription_sha256": "5ba4eabdad360b1989b592fc8b19789355f5c20275ba74540c68d5c2f8e1d905",
+          "verified_quote": "Taxe sur la valeur ajoutée\nArticle 9\n\nI. — A compter du 1er janvier 2003, les dispositions des articles 7, 31, 34,\n35, 43, 46 et 60 de la loi n° 30-85 relative à la taxe sur la valeur ajoutée,\npromulguée par le dahir n° 1-85-347 du 7 rabii II 1406 (20 décembre 1985),\nsont modifiées et complétées comme suit :"
+        },
+        {
+          "id": "dgi-cgi-2014-tva-amendment-reference-table",
+          "title": "Code général des impôts 2014, DGI amendment-reference table",
+          "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf.txt",
+          "source_sha256": "6605891018c8a26909a4b28fc1a2f4124e7ff918049bcb278284005debad6ed3",
+          "source_pdf": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf",
+          "source_pdf_sha256": "5595a880c69af4edb4125e1e73f264ea28d2903079d8586873fed2d440559a50",
+          "source_url": "https://www.finances.gov.ma/Publication/dgi/2014/cgi_2014_fr.pdf",
+          "source_pages": [
+            427,
+            428
+          ],
+          "finding": "The DGI reference table lists the 2002 Finance Law Article 9, 2003 Finance Law Article 9, 2004 Finance Law Article 12, and 2005 Finance Law Article 15 among the TVA-related references. It also lists a separate 2005 procedures-law amendment and administrative orders; the table is a bibliographic cross-check, not a complete negative audit."
+        }
+      ],
+      "limitation": "The repository does not contain a complete run of all Gazette issues for 2002–2005, so the search cannot prove an exhaustive negative. The 2002 DGI compilation is a third-party-hosted text-layer transcription, not a locally pinned DGI/SGG PDF. Treat these as well-supported reconstructed snapshots, not an official DGI-published consolidation or an exhaustive clause-by-clause legal negative."
+    },
+    "snapshots": [
+      {
+        "edition_year": 2004,
+        "as_of": "2004-01-01",
+        "article": 15,
+        "law": "Loi n° 30-85 relative à la taxe sur la valeur ajoutée",
+        "document_title": "Taxe sur la valeur ajoutée — dispositions en vigueur au 1er janvier 2002",
+        "baseline_source": {
+          "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+          "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+          "source_url": "https://fr.scribd.com/document/605736980/tva2002",
+          "source_pages": [
+            40,
+            45
+          ],
+          "retrieval_limitation": "The accessible copy identifies a DGI compilation effective 2002-01-01 and provides the full Article 15 text and its amendment footnotes. The host is Scribd, not the DGI or SGG, and the source PDF bytes are not locally pinned. The repository text is a transcription of that text layer; later changes are separately cited to the locally pinned official Gazette amendments."
+        },
+        "amendment_chain": [
+          {
+            "law": "Loi n° 48-03, Article 12, amendment of Loi n° 30-85 Article 15",
+            "law_article": 12,
+            "article_amended": 15,
+            "effective_from": "2004-01-01",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "source_pdf": "laws/ma_fin_law/documents/BO_5174_fr.pdf",
+            "source_pdf_sha256": "a149b2aa5691d8d0965260c478232a0a1a2f40daa658c9057af2576fe1430d01",
+            "source_pdf_pages": [
+              18
+            ],
+            "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf",
+            "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« les ventes et les livraisons portant sur :\n« – l’eau livrée …\n« – (abrogé)\n« – le gaz de pétrole …\n« …\n« 3° – de 14 % :\n« a) avec droit à déduction :\n« – les graisses alimentaires …\n« – …\n« – …\n« – …\n« – le véhicule automobile …\n« l’application …\n« … par voie réglementaire.\n« – l’énergie électrique.\n« b) …\n(La suite sans modification.)",
+            "transcription_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+            "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+          }
+        ],
+        "items": [
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "L'eau livrée aux réseaux de distribution publique ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le gaz de pétrole et autres hydrocarbures gazeux ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les huiles de pétrole ou de schistes, brutes ou raffinées;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les huiles fluides alimentaires ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les produits pharmaceutiques, les matières premières et les produits entrant intégralement ou pour une partie de leurs éléments dans la composition des produits pharmaceutiques ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les emballages non récupérables des produits pharmaceutiques ainsi que les produits et matières entrant dans leur fabrication.\n\nL’application du taux réduit est subordonnée à l’accomplissement des formalités définies par voie réglementaire ; (8)",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L’application du taux réduit est subordonnée à l’accomplissement des formalités définies par voie réglementaire ; (8)"
+              }
+            ],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-006",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "8",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(8) L'article 9 de la loi de finances pour l'année 2002 (B.O. nº 4965 bis du 31 décembre 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les aliments composés pour enfants ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-007",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le riz usiné, les farines et semoules de riz et les farines de féculents ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-008",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les conserves de sardines ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-009",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les fournitures scolaires, les produits et matières entrant dans leur composition.\n\nL'application du taux réduit aux produits et matières entrant dans la composition des fournitures scolaires est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux réduit aux produits et matières entrant dans la composition des fournitures scolaires est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;"
+              }
+            ],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-010",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le sucre raffiné ou aggloméré, y compris les vergeoises, les candis et les sirops de sucre pur non aromatisés ni colorés à l’exclusion de tous autres produits sucrés ne répondant pas à la définition ci-dessus ; (6)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-011",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "6",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(6) L'article 14 de la loi de finances pour l'année 1998/99 (B.O. nº 4627 bis du 5 octobre 1998).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les bicyclettes, pneus et chambres à air pour bicyclettes ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-012",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "La location de compteur d'eau et d'électricité ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-013",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "L'abonnement aux services de radiodiffusion-télévision n'émettant des programmes qu'à l'intention des abonnés auxdits services ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-014",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les aliments destinés à l'alimentation du bétail et des animaux de basse-cour, autres que les aliments simples tels que céréales, issues, pulpes, drêches et pailles ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-015",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le lait en poudre destiné à l'alimentation humaine ; (1)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-016",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les opérations de banque et de crédit et les commissions de change visées au 11° de l'article 4 ci-dessus. (1) (5)\n\nCependant, la taxe sur la valeur ajoutée due sur les intérêts servis par les établissements de banque ou de crédit pour leur compte ou pour le compte de tiers, est perçue par ces établissements, pour le compte du Trésor, par voie de retenue à la source.",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-017",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les transactions relatives aux valeurs mobilières effectuées par les sociétés de bourse visées au titre III du dahir portant loi nº 1-93-211 du 4 rebia II 1414 (21 septembre 1993) relatif à la Bourse des valeurs ; (1)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-018",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de crédit-bail (leasing) ; (1)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-019",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de crédit foncier, de crédit à la construction et de crédit à l'hôtellerie effectuées par le crédit immobilier et hôtelier sous réserve de l'exonération prévue au 15° du paragraphe IV de l'article 7 ci-dessus ; (1)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-020",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le péage dû pour emprunter les autoroutes exploitées par des sociétés concessionnaires ; (1)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-021",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "la voiture automobile de tourisme dite \"voiture économique\" telle que prévue par l'article 4 de la loi de finances pour l'année 1995 nº 42-94 ainsi que tous les produits et matières entrant dans sa fabrication. (2)\n\nL'application du taux susvisé aux produits et matières entrant dans la fabrication des voitures économiques est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux susvisé aux produits et matières entrant dans la fabrication des voitures économiques est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;"
+              }
+            ],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-022",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le savon de ménage (en morceaux ou en pain) ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-023",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les pâtes alimentaires ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-024",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les transactions portant sur les actions et parts sociales émises par les organismes de placement collectif en valeurs mobilières visés par le dahir portant loi nº 1-93-213 du 4 rabii II 1414 (21 septembre 1993) (4).",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-deduct-025",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": false,
+            "quote": "les opérations effectuées dans le cadre de leur profession, par les personnes visées au a) et c) du 12° de l'article 4 ci-dessus;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-7pct-no-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente de denrées ou de boissons à consommer sur place et les opérations de fourniture de logements réalisées par les hôtels à voyageurs, les restaurants exploités dans les hôtels à voyageurs et les ensembles immobiliers à destination touristique ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-10pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente de denrées ou de boissons à consommer sur place, réalisées dans les restaurants ; (7)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-10pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "7",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(7) L'article 13 de la loi de finances pour l'année 2001 (B.O. nº 4861 bis du 1er janvier 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de restauration fournies par les prestataires de services au personnel salarié des entreprises ; (7)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-10pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "7",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(7) L'article 13 de la loi de finances pour l'année 2001 (B.O. nº 4861 bis du 1er janvier 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de location d'immeubles à usage d'hôtels, de motels, de villages de vacances ou d'ensembles immobiliers à destination touristique, équipés totalement ou partiellement, y compris le restaurant, le bar, le dancing, la piscine, dans la mesure où ils font partie intégrante de l'ensemble touristique ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-10pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les biens d'équipement, non compris les immeubles et les véhicules de transport, acquis par les sucreries, les minoteries et les exploitations avicoles.\n\nL'application du taux réduit est subordonnée à l'accomplissement des formalités définies par voie réglementaire.",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux réduit est subordonnée à l'accomplissement des formalités définies par voie réglementaire."
+              }
+            ],
+            "edition_year": 2004,
+            "item_id": "2004-art15-10pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les graisses alimentaires (animales ou végétales), margarines et saindoux ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le thé (en vrac ou conditionné) ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les confitures, fruits et jus de fruits destinés à la confiturerie ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations d'entreprises de travaux immobiliers ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente et de livraison portant sur le café (vert ou torréfié), les succédanés de café et les extraits de café soluble ; (3)",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de transports de voyageurs et de marchandises ;",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-006",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le véhicule automobile pour le transport de marchandises dit \"véhicule utilitaire léger économique\" ainsi que le cyclomoteur dit \"cyclomoteur économique\" tels que prévus à l'article 6 (II) de la loi de finances nº 8-96 pour l'année budgétaire 1996-1997 ainsi que tous les produits et matières entrant dans leur fabrication. (4) (6)\n\nL'application du taux précité aux produits et matières entrant dans la fabrication desdits véhicules est subordonnée à l'accomplissement des formalités définies par voie réglementaire.",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux précité aux produits et matières entrant dans la fabrication desdits véhicules est subordonnée à l'accomplissement des formalités définies par voie réglementaire."
+              }
+            ],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-007",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3° – de 14 % : a) avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "l’énergie électrique.",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-deduct-008",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "source_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+            "source_pages": [
+              18
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 48-03, Article 12, amendment of Loi n° 30-85 Article 15",
+                "law_article": 12,
+                "article_amended": 15,
+                "effective_from": "2004-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5174_fr.pdf",
+                "source_pdf_sha256": "a149b2aa5691d8d0965260c478232a0a1a2f40daa658c9057af2576fe1430d01",
+                "source_pdf_pages": [
+                  18
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« les ventes et les livraisons portant sur :\n« – l’eau livrée …\n« – (abrogé)\n« – le gaz de pétrole …\n« …\n« 3° – de 14 % :\n« a) avec droit à déduction :\n« – les graisses alimentaires …\n« – …\n« – …\n« – …\n« – le véhicule automobile …\n« l’application …\n« … par voie réglementaire.\n« – l’énergie électrique.\n« b) …\n(La suite sans modification.)",
+                "transcription_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": false,
+            "quote": "les opérations visées au deuxième alinéa de l'article 2 ci-dessus.",
+            "conditions": [],
+            "edition_year": 2004,
+            "item_id": "2004-art15-14pct-no-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2004-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          }
+        ],
+        "item_count": 40
+      },
+      {
+        "edition_year": 2005,
+        "as_of": "2005-01-01",
+        "article": 15,
+        "law": "Loi n° 30-85 relative à la taxe sur la valeur ajoutée",
+        "document_title": "Taxe sur la valeur ajoutée — dispositions en vigueur au 1er janvier 2002",
+        "baseline_source": {
+          "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+          "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+          "source_url": "https://fr.scribd.com/document/605736980/tva2002",
+          "source_pages": [
+            40,
+            45
+          ],
+          "retrieval_limitation": "The accessible copy identifies a DGI compilation effective 2002-01-01 and provides the full Article 15 text and its amendment footnotes. The host is Scribd, not the DGI or SGG, and the source PDF bytes are not locally pinned. The repository text is a transcription of that text layer; later changes are separately cited to the locally pinned official Gazette amendments."
+        },
+        "amendment_chain": [
+          {
+            "law": "Loi n° 48-03, Article 12, amendment of Loi n° 30-85 Article 15",
+            "law_article": 12,
+            "article_amended": 15,
+            "effective_from": "2004-01-01",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "source_pdf": "laws/ma_fin_law/documents/BO_5174_fr.pdf",
+            "source_pdf_sha256": "a149b2aa5691d8d0965260c478232a0a1a2f40daa658c9057af2576fe1430d01",
+            "source_pdf_pages": [
+              18
+            ],
+            "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf",
+            "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« les ventes et les livraisons portant sur :\n« – l’eau livrée …\n« – (abrogé)\n« – le gaz de pétrole …\n« …\n« 3° – de 14 % :\n« a) avec droit à déduction :\n« – les graisses alimentaires …\n« – …\n« – …\n« – …\n« – le véhicule automobile …\n« l’application …\n« … par voie réglementaire.\n« – l’énergie électrique.\n« b) …\n(La suite sans modification.)",
+            "transcription_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+            "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+          },
+          {
+            "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+            "law_article": 15,
+            "article_amended": 15,
+            "effective_from": "2005-01-01",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+            "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+            "source_pdf_pages": [
+              13
+            ],
+            "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+            "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+            "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+          }
+        ],
+        "items": [
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1° – de 7% : a) avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "source_pages": [
+              2127
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+                "law_article": 15,
+                "article_amended": 15,
+                "effective_from": "2005-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+                "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+                "source_pdf_pages": [
+                  13
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+                "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le gaz de pétrole et autres hydrocarbures gazeux ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les huiles de pétrole ou de schistes, brutes ou raffinées;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les produits pharmaceutiques, les matières premières et les produits entrant intégralement ou pour une partie de leurs éléments dans la composition des produits pharmaceutiques ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les emballages non récupérables des produits pharmaceutiques ainsi que les produits et matières entrant dans leur fabrication.\n\nL’application du taux réduit est subordonnée à l’accomplissement des formalités définies par voie réglementaire ; (8)",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L’application du taux réduit est subordonnée à l’accomplissement des formalités définies par voie réglementaire ; (8)"
+              }
+            ],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "8",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(8) L'article 9 de la loi de finances pour l'année 2002 (B.O. nº 4965 bis du 31 décembre 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les aliments composés pour enfants ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-006",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le riz usiné, les farines et semoules de riz et les farines de féculents ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-007",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les conserves de sardines ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-008",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les fournitures scolaires, les produits et matières entrant dans leur composition.\n\nL'application du taux réduit aux produits et matières entrant dans la composition des fournitures scolaires est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux réduit aux produits et matières entrant dans la composition des fournitures scolaires est subordonnée à l'accomplissement des formalités définies par voie réglementaire ;"
+              }
+            ],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-009",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le sucre raffiné ou aggloméré, y compris les vergeoises, les candis et les sirops de sucre pur non aromatisés ni colorés à l’exclusion de tous autres produits sucrés ne répondant pas à la définition ci-dessus ; (6)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-010",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "6",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(6) L'article 14 de la loi de finances pour l'année 1998/99 (B.O. nº 4627 bis du 5 octobre 1998).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les bicyclettes, pneus et chambres à air pour bicyclettes ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-011",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "La location de compteur d'eau et d'électricité ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-012",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "L'abonnement aux services de radiodiffusion-télévision n'émettant des programmes qu'à l'intention des abonnés auxdits services ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-013",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1° – de 7% : a) avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-014",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "source_pages": [
+              2127
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+                "law_article": 15,
+                "article_amended": 15,
+                "effective_from": "2005-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+                "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+                "source_pdf_pages": [
+                  13
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+                "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Le lait en poudre destiné à l'alimentation humaine ; (1)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-015",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "Les opérations de banque et de crédit et les commissions de change visées au 11° de l'article 4 ci-dessus. (1) (5)\n\nCependant, la taxe sur la valeur ajoutée due sur les intérêts servis par les établissements de banque ou de crédit pour leur compte ou pour le compte de tiers, est perçue par ces établissements, pour le compte du Trésor, par voie de retenue à la source.",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-016",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les transactions relatives aux valeurs mobilières effectuées par les sociétés de bourse visées au titre III du dahir portant loi nº 1-93-211 du 4 rebia II 1414 (21 septembre 1993) relatif à la Bourse des valeurs ; (1)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-017",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de crédit-bail (leasing) ; (1)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-018",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de crédit foncier, de crédit à la construction et de crédit à l'hôtellerie effectuées par le crédit immobilier et hôtelier sous réserve de l'exonération prévue au 15° du paragraphe IV de l'article 7 ci-dessus ; (1)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-019",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le péage dû pour emprunter les autoroutes exploitées par des sociétés concessionnaires ; (1)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-020",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "1",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(1) L'article 16 de la loi de finances pour l'année 1994 (B.O. nº 4243 bis du 1er mars 1994).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1° – de 7% : a) avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire."
+              }
+            ],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-021",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "source_pages": [
+              2127
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+                "law_article": 15,
+                "article_amended": 15,
+                "effective_from": "2005-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+                "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+                "source_pdf_pages": [
+                  13
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+                "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le savon de ménage (en morceaux ou en pain) ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-022",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les pâtes alimentaires ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-023",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les transactions portant sur les actions et parts sociales émises par les organismes de placement collectif en valeurs mobilières visés par le dahir portant loi nº 1-93-213 du 4 rabii II 1414 (21 septembre 1993) (4).",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-deduct-024",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "7%",
+            "rate_context_quote": "1º- de 7 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": false,
+            "quote": "les opérations effectuées dans le cadre de leur profession, par les personnes visées au a) et c) du 12° de l'article 4 ci-dessus;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-7pct-no-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente de denrées ou de boissons à consommer sur place et les opérations de fourniture de logements réalisées par les hôtels à voyageurs, les restaurants exploités dans les hôtels à voyageurs et les ensembles immobiliers à destination touristique ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente de denrées ou de boissons à consommer sur place, réalisées dans les restaurants ; (7)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "7",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(7) L'article 13 de la loi de finances pour l'année 2001 (B.O. nº 4861 bis du 1er janvier 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de restauration fournies par les prestataires de services au personnel salarié des entreprises ; (7)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "7",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(7) L'article 13 de la loi de finances pour l'année 2001 (B.O. nº 4861 bis du 1er janvier 2001).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de location d'immeubles à usage d'hôtels, de motels, de villages de vacances ou d'ensembles immobiliers à destination touristique, équipés totalement ou partiellement, y compris le restaurant, le bar, le dancing, la piscine, dans la mesure où ils font partie intégrante de l'ensemble touristique ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2º - de 10 % avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les biens d'équipement, non compris les immeubles et les véhicules de transport, acquis par les sucreries, les minoteries et les exploitations avicoles.\n\nL'application du taux réduit est subordonnée à l'accomplissement des formalités définies par voie réglementaire.",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux réduit est subordonnée à l'accomplissement des formalités définies par voie réglementaire."
+              }
+            ],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2° – de 10% avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les huiles fluides alimentaires ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-10pct-deduct-006",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "source_pages": [
+              2127
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+                "law_article": 15,
+                "article_amended": 15,
+                "effective_from": "2005-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+                "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+                "source_pdf_pages": [
+                  13
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+                "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "10%",
+            "rate_context_quote": "2° – de 10% avec droit à déduction",
+            "right_to_deduct": true,
+            "item_type": "product_or_operation",
+            "quote": "le sel de cuisine (gemme ou marin).",
+            "conditions": [],
+            "edition_year": 2005,
+            "snapshot_date": "2005-01-01",
+            "item_id": "2005-art15-10pct-deduct-007",
+            "status": "in_force_on_snapshot_date",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+            "source_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+            "source_pages": [
+              2127
+            ],
+            "amendment_citations": [
+              {
+                "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+                "law_article": 15,
+                "article_amended": 15,
+                "effective_from": "2005-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+                "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+                "source_pdf_pages": [
+                  13
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+                "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les graisses alimentaires (animales ou végétales), margarines et saindoux ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le thé (en vrac ou conditionné) ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-002",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les confitures, fruits et jus de fruits destinés à la confiturerie ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-003",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations d'entreprises de travaux immobiliers ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-004",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de vente et de livraison portant sur le café (vert ou torréfié), les succédanés de café et les extraits de café soluble ; (3)",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-005",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ],
+            "dgi_endnote_citations": [
+              {
+                "label": "3",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+                "quote": "(3) L'article 15 de la loi de finances pour la période du 1er janvier au 30 juin 1996 (B.O. nº 4339 bis du 31 décembre 1995).",
+                "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "les opérations de transports de voyageurs et de marchandises ;",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-006",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "le véhicule automobile pour le transport de marchandises dit \"véhicule utilitaire léger économique\" ainsi que le cyclomoteur dit \"cyclomoteur économique\" tels que prévus à l'article 6 (II) de la loi de finances nº 8-96 pour l'année budgétaire 1996-1997 ainsi que tous les produits et matières entrant dans leur fabrication. (4) (6)\n\nL'application du taux précité aux produits et matières entrant dans la fabrication desdits véhicules est subordonnée à l'accomplissement des formalités définies par voie réglementaire.",
+            "conditions": [
+              {
+                "kind": "application_condition",
+                "quote": "L'application du taux précité aux produits et matières entrant dans la fabrication desdits véhicules est subordonnée à l'accomplissement des formalités définies par voie réglementaire."
+              }
+            ],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-007",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3° – de 14 % : a) avec droit à déduction",
+            "item_type": "product_or_operation",
+            "right_to_deduct": true,
+            "quote": "l’énergie électrique.",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-deduct-008",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "source_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+            "source_pages": [
+              18
+            ],
+            "rate_context_corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+            "amendment_citations": [
+              {
+                "law": "Loi n° 48-03, Article 12, amendment of Loi n° 30-85 Article 15",
+                "law_article": 12,
+                "article_amended": 15,
+                "effective_from": "2004-01-01",
+                "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-48-03-BO-5174-Article15-transcription.txt",
+                "source_pdf": "laws/ma_fin_law/documents/BO_5174_fr.pdf",
+                "source_pdf_sha256": "a149b2aa5691d8d0965260c478232a0a1a2f40daa658c9057af2576fe1430d01",
+                "source_pdf_pages": [
+                  18
+                ],
+                "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf",
+                "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« les ventes et les livraisons portant sur :\n« – l’eau livrée …\n« – (abrogé)\n« – le gaz de pétrole …\n« …\n« 3° – de 14 % :\n« a) avec droit à déduction :\n« – les graisses alimentaires …\n« – …\n« – …\n« – …\n« – le véhicule automobile …\n« l’application …\n« … par voie réglementaire.\n« – l’énergie électrique.\n« b) …\n(La suite sans modification.)",
+                "transcription_sha256": "52f116ae662f0f9eade36efd131b928aba13db20d242fb9d9cbaddf78c5797c9",
+                "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+              }
+            ]
+          },
+          {
+            "article": 15,
+            "rate": "14%",
+            "rate_context_quote": "3º - de 14 %",
+            "item_type": "product_or_operation",
+            "right_to_deduct": false,
+            "quote": "les opérations visées au deuxième alinéa de l'article 2 ci-dessus.",
+            "conditions": [],
+            "edition_year": 2005,
+            "item_id": "2005-art15-14pct-no-deduct-001",
+            "status": "in_force_on_snapshot_date",
+            "snapshot_date": "2005-01-01",
+            "itemization": "listed_clause",
+            "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-30-85-DGI-2002-Article15.txt",
+            "source_sha256": "1c7c5cf14a23af1c4a4be4ef03589ebd42a2876d14785ae40f6364d42bcbde5c",
+            "source_pages": [
+              40,
+              45
+            ]
+          }
+        ],
+        "item_count": 41
+      }
+    ],
+    "changes": [
+      {
+        "from_edition": 2004,
+        "to_edition": 2005,
+        "amending_law": "Loi n° 26-04, Article 15",
+        "effective_from": "2005-01-01",
+        "documented_changes": [
+          "Water delivery clause explicitly includes sanitation services.",
+          "Fluid edible oils move from the 7% list to the 10% list.",
+          "The animal-feed clause adds oilseed cakes used to manufacture feed.",
+          "The economic-car clause adds assembly services, and its formalities condition is updated to include those services.",
+          "Cooking salt (gemme or marin) is added to the 10% list."
+        ],
+        "source_citation": {
+          "law": "Loi n° 26-04, Article 15, amendment of Loi n° 30-85 Article 15",
+          "law_article": 15,
+          "article_amended": 15,
+          "effective_from": "2005-01-01",
+          "corpus_file": "laws/ma_tax_law/data/consolidated/Loi-26-04-BO-5278-bis-Article15-transcription.txt",
+          "source_pdf": "laws/ma_fin_law/documents/BO_5278-bis_fr.pdf",
+          "source_pdf_sha256": "c251f88aa762c6c85fa01b9a92baa01a91b0d145cf58f8639343d92dc5a37ab5",
+          "source_pdf_pages": [
+            13
+          ],
+          "source_url": "https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5278-bis_fr.pdf",
+          "source_quote": "« Article 15. – Sont soumis à la taxe aux taux réduits :\n« 1° – de 7% :\n« a) avec droit à déduction :\n« Les ventes et les livraisons portant sur :\n« – l’eau livrée aux réseaux de distribution publique ainsi que les prestations d’assainissement fournies aux abonnés par les organismes chargés de l’assainissement ;\n« …\n« – les huiles de pétroles ou de schistes, brutes ou raffinées ;\n« – (abrogé) ;\n« – les produits pharmaceutiques … ;\n« … ;\n« – l’abonnement … auxdits services ;\n« les aliments destinés à l’alimentation du bétail et des animaux de basse-cour ainsi que les tourteaux servant à leur fabrication à l’exclusion des autres aliments simples tels que céréales, issues, pulpes, drêches et pailles ;\n« …\n« – la voiture automobile de tourisme dite « voiture économique » et tous les produits et matières entrant dans sa fabrication ainsi que les prestations de montage de ladite voiture économique.\n« L’application du taux susvisé aux produits et matières entrant dans la fabrication de la voiture économique et aux prestations de montage de ladite voiture économique, est subordonnée à l’accomplissement des formalités définies par voie réglementaire.\n« …\n« – les transactions … (21 septembre 1993) ;\n« – …\n« b) sans droit à déduction :\n« …\n« 2° – de 10% avec droit à déduction :\n« – …\n« – …\n« – …\n« – …\n« – les biens d’équipement, non compris …\n« L’application … formalités définies par voie réglementaire ;\n« – les huiles fluides alimentaires ;\n« – le sel de cuisine (gemme ou marin).\n« 3° – de 14% :\n(La suite sans modification.)",
+          "transcription_sha256": "425a6e6fa64dd265aeb300ae3ad33ac1c868f3b1205e5ccbdc32c47f5ef573ba",
+          "quote_verification": "visually_transcribed_from_pinned_bulletin_officiel_scan"
+        },
+        "limitation": "This is the change set visible in the Article 15 Gazette excerpt; unchanged clauses are carried forward from the 2002 DGI compilation and 2004 amendment chain."
+      }
+    ]
+  }
+}

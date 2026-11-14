@@ -1,0 +1,100 @@
+# Taux généraux de la taxe sur la valeur ajoutée (TVA).
+#
+# Source: corpus `morocco-holy-graph`, dataset vérifié
+# `laws/ma_tax_law/data/tva_rate_history.json`, gardé par
+# `tests/test_tva_rate_history.py`. Chaque taux ci-dessous reprend une des
+# quatre périodes de ce dataset et cite le texte qui le porte.
+#
+# Quatre taux généraux ont coexisté du 1er janvier 2004 au 31 décembre 2023:
+#   20 % (taux normal), 14 %, 10 % et 7 %.
+# Le 1er janvier 2024, la loi de finances n° 55-23 réécrit l'article 99 en
+# « A) 20 % ; B) 10 % » et abroge l'article 98: les taux de 14 % et de 7 %
+# cessent d'exister. Ils restent déclarés ici parce que le simulateur doit
+# pouvoir traiter une déclaration de 2004 à 2023, mais leur paramètre
+# `en_vigueur` vaut 0 à partir de 2024-01-01, de sorte qu'aucune formule ne
+# peut appliquer un taux abrogé sans que ce soit visible.
+description: Taux généraux de la TVA (CGI, articles 98 et 99)
+normal:
+  description: Taux normal de 20 % — article 98 jusqu'au 31 décembre 2023, article 99-A ensuite
+  taux:
+    description: Taux normal applicable aux opérations non soumises à un taux réduit
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 99-A — taux normal de 20 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+        - title: Code Général des Impôts, article 98 — taux normal de 20 % (loi n° 43-06)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+        - title: Loi n° 30-85, taux normal de 20 % (rédaction applicable au 1er janvier 2004)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2005_26-04.txt
+    values:
+      2004-01-01:
+        value: 0.2
+reduit_10:
+  description: Taux réduit de 10 % — article 99-2° jusqu'au 31 décembre 2023, article 99-B ensuite
+  taux:
+    description: Taux réduit de 10 % applicable aux opérations de l'article 99
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 99-B — taux réduit de 10 %
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+        - title: Code Général des Impôts, article 99-2° — taux réduit de 10 % (loi n° 43-06)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+        - title: Loi n° 30-85, taux réduit de 10 % (rédaction applicable au 1er janvier 2004)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2005_26-04.txt
+    values:
+      2004-01-01:
+        value: 0.1
+reduit_14:
+  description: Taux réduit de 14 %, abrogé au 1er janvier 2024
+  taux:
+    description: Taux réduit de 14 % applicable aux opérations de l'article 99-3°
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 99-3° — taux réduit de 14 % (loi n° 43-06)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+        - title: Loi n° 30-85, article 15-3° — taux réduit de 14 % (loi de finances 2004)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2004_48-03.txt
+    values:
+      2004-01-01:
+        value: 0.14
+  en_vigueur:
+    description: Vaut 1 tant que le taux de 14 % existe, 0 à partir de son abrogation
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 99 réécrit en A) 20 % / B) 10 % et article 98 abrogé à compter du 1er janvier 2024
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2004-01-01:
+        value: 1
+      2024-01-01:
+        value: 0
+reduit_7:
+  description: Taux réduit de 7 %, abrogé au 1er janvier 2024
+  taux:
+    description: Taux réduit de 7 % applicable aux opérations de l'article 99-1°
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 99-1° — taux réduit de 7 % (loi n° 43-06)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+        - title: Loi n° 30-85, article 15-1° — taux réduit de 7 % (loi de finances 2004)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2004_48-03.txt
+    values:
+      2004-01-01:
+        value: 0.07
+  en_vigueur:
+    description: Vaut 1 tant que le taux de 7 % existe, 0 à partir de son abrogation
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi de finances n° 55-23 pour 2024, article 99 réécrit en A) 20 % / B) 10 % à compter du 1er janvier 2024
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+    values:
+      2004-01-01:
+        value: 1
+      2024-01-01:
+        value: 0

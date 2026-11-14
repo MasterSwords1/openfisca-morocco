@@ -51,6 +51,42 @@ Household = build_entity(
     ],
 )
 
+Company = build_entity(
+    key="company",
+    plural="companies",
+    label="An enterprise that files its own tax declarations.",
+    doc="""
+    Company is the entity on which business taxes are computed. Moroccan VAT
+    (TVA) is declared by the enterprise, not by the individual who owns it, so
+    the TVA variables live on this entity and use monthly periods (the tax is
+    declared monthly, CGI articles 112 and following).
+
+    Company declares a single role, ``membre``, because an OpenFisca group
+    entity cannot be instantiated without one: the simulation builder needs a
+    role to attach people to. The role is a modelling necessity, not a legal
+    claim — it says "this person is recorded against this company", and **no
+    formula in this package reads it**. Employees, directors and shareholders
+    are therefore not modelled as such, and no figure is aggregated over them.
+
+    Usage:
+        enterprise("tva_nette_a_payer", "2024-06") computes the VAT due by one
+        company for June 2024.
+
+    For more information, see: https://openfisca.org/doc/coding-the-legislation/50_entities.html
+    """,
+    roles=[
+        {
+            "key": "membre",
+            "plural": "membres",
+            "label": "Personne rattachée à l'entreprise",
+            "doc": (
+                "Rattachement administratif utilisé par le moteur de simulation. "
+                "Aucune formule de ce package n'agrège de montant sur ce rôle."
+            ),
+        },
+    ],
+)
+
 Person = build_entity(
     key="person",
     plural="persons",
@@ -69,4 +105,4 @@ Person = build_entity(
     is_person=True,
 )
 
-entities = [Household, Person]
+entities = [Household, Company, Person]

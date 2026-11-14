@@ -1,0 +1,134 @@
+# Tests de la TVA d'entreprise, CGI articles 98, 99, 101, 104 et 247-XXXXI.
+# Les montants attendus sont ceux du modèle Catala validé du corpus
+# morocco-holy-graph (laws/ma_tax_law/catala/cgi_tva.catala_fr, test
+# test_tva_multi_rate_and_deductions : 257 000 / 150 000 / 107 000), et les taux
+# transitoires sont ceux de laws/ma_tax_law/data/tva_rate_history.json.
+
+- name: Déclaration de juin 2023 — trois taux généraux, prorata de 1
+  period: 2023-06
+  input:
+    chiffre_affaires_taux_normal: 1000000
+    chiffre_affaires_taux_reduit_10: 500000
+    chiffre_affaires_taux_reduit_7: 100000
+    tva_deductible_charges: 120000
+    tva_deductible_immobilisations: 30000
+  output:
+    tva_collectee_taux_normal: 200000
+    tva_collectee_taux_10: 50000
+    tva_collectee_taux_7: 7000
+    tva_collectee_totale: 257000
+    tva_deductible_autorisee: 150000
+    tva_nette_a_payer: 107000
+    credit_tva_a_reporter: 0
+    chiffre_affaires_taux_abroge: 0
+
+- name: Les taux de 14 % et 7 % n'existent plus en 2024 — le chiffre d'affaires est isolé, pas imposé
+  period: 2024-06
+  input:
+    chiffre_affaires_taux_normal: 1000000
+    chiffre_affaires_taux_reduit_10: 500000
+    chiffre_affaires_taux_reduit_14: 400000
+    chiffre_affaires_taux_reduit_7: 100000
+    tva_deductible_charges: 120000
+    tva_deductible_immobilisations: 30000
+  output:
+    tva_collectee_taux_normal: 200000
+    tva_collectee_taux_10: 50000
+    tva_collectee_taux_14: 0
+    tva_collectee_taux_7: 0
+    tva_collectee_totale: 250000
+    chiffre_affaires_taux_abroge: 500000
+    tva_nette_a_payer: 100000
+
+- name: Décembre 2023 — dernier mois où le taux de 7 % s'applique
+  period: 2023-12
+  input:
+    chiffre_affaires_taux_reduit_7: 100000
+  output:
+    tva_collectee_taux_7: 7000
+    chiffre_affaires_taux_abroge: 0
+
+- name: Janvier 2024 — premier mois sans taux de 7 %
+  period: 2024-01
+  input:
+    chiffre_affaires_taux_reduit_7: 100000
+  output:
+    tva_collectee_taux_7: 0
+    chiffre_affaires_taux_abroge: 100000
+
+- name: Énergie électrique, janvier 2024 — premier palier transitoire à 16 %
+  period: 2024-01
+  input:
+    tva_operation_transitoire: electricite
+    chiffre_affaires_taux_transitoire: 100000
+  output:
+    tva_taux_transitoire: 0.16
+    tva_collectee_taux_transitoire: 16000
+
+- name: Énergie électrique, juin 2025 — deuxième palier transitoire à 18 %
+  period: 2025-06
+  input:
+    tva_operation_transitoire: electricite
+    chiffre_affaires_taux_transitoire: 100000
+  output:
+    tva_taux_transitoire: 0.18
+    tva_collectee_taux_transitoire: 18000
+
+- name: Énergie électrique, mars 2026 — convergence au taux normal de 20 %
+  period: 2026-03
+  input:
+    tva_operation_transitoire: electricite
+    chiffre_affaires_taux_transitoire: 100000
+  output:
+    tva_taux_transitoire: 0.2
+    tva_collectee_taux_transitoire: 20000
+
+- name: Transport urbain, 2026 — convergence au taux réduit de 10 %
+  period: 2026-03
+  input:
+    tva_operation_transitoire: transport_urbain_et_routier
+    chiffre_affaires_taux_transitoire: 100000
+  output:
+    tva_taux_transitoire: 0.1
+    tva_collectee_taux_transitoire: 10000
+
+- name: Sans opération transitoire déclarée, le taux transitoire est nul
+  period: 2024-06
+  input:
+    chiffre_affaires_taux_normal: 100000
+  output:
+    tva_taux_transitoire: 0
+    tva_collectee_taux_transitoire: 0
+    tva_collectee_totale: 20000
+
+- name: Juin 2023 — aucun taux transitoire n'existe encore, l'électricité relève du taux général de 14 %
+  period: 2023-06
+  input:
+    tva_operation_transitoire: electricite
+    chiffre_affaires_taux_transitoire: 100000
+  output:
+    tva_taux_transitoire: 0
+    tva_collectee_taux_transitoire: 0
+
+- name: Prorata de 50 % — la TVA déductible est réduite de moitié
+  period: 2024-06
+  input:
+    chiffre_affaires_taux_normal: 100000
+    tva_deductible_charges: 40000
+    prorata_deduction: 0.5
+  output:
+    tva_deductible_autorisee: 20000
+    tva_nette_a_payer: 0
+    credit_tva_a_reporter: 0
+
+- name: Crédit antérieur supérieur à la TVA nette — le trop-perçu est reporté
+  period: 2024-06
+  input:
+    chiffre_affaires_taux_normal: 100000
+    tva_deductible_charges: 5000
+    credit_tva_anterieur: 30000
+  output:
+    tva_collectee_totale: 20000
+    tva_deductible_autorisee: 5000
+    tva_nette_a_payer: 0
+    credit_tva_a_reporter: 15000
