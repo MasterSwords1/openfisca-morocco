@@ -94,3 +94,38 @@ def test_items_are_immutable():
     item = get_article_91_item(2026, "2026-art91-clause-001")
     with pytest.raises(FrozenInstanceError):
         item.rate = "20%"
+
+
+def test_solar_water_heaters_cross_article_handoff_links_both_articles():
+    """Article 99 says the item left for Article 91; Article 91 must show it.
+
+    Loi 65-20 article 6 removed the solar water heaters from the Article 99
+    reduced-rate list and added them as item 8° of the Article 91 exemptions.
+    The Article 99 side records that handoff (``effect="exempted"``,
+    ``successor_article=91``); this test pins the other end of the link, so the
+    two catalogs cannot drift apart silently.
+    """
+    from openfisca_morocco.tva_article99 import get_article_99_item
+
+    removed = get_article_99_item(2018, "2018-art99-10pct-008")
+    handoff = removed.effective_attribution.end
+    assert handoff.effect == "exempted"
+    assert handoff.successor_article == 91
+    assert handoff.instrument.key == "65-20"
+    assert handoff.valid_date.isoformat() == "2021-01-01"
+
+    target = get_article_91_item(2021, "2021-art91-clause-015")
+    assert target.article == 91
+    assert target.right_to_deduct is False
+    assert target.clause_number == 8
+    assert "chauffe-eaux solaires" in target.quote.casefold()
+    # The clause carries the Article 6 of Loi 65-20 endnote (444 in CGI 2021).
+    assert "65-20" in target.quote or "444" in target.quote
+
+    # It went back to Article 99 in 2022: the 2024 and 2026 Article 91 lists no
+    # longer contain it, and the Article 99 catalog lists it again at 10 %.
+    for year in (2024, 2026):
+        article_91_quotes = " ".join(
+            item.quote.casefold() for item in list_article_91_items(year)
+        )
+        assert "chauffe-eaux solaires" not in article_91_quotes

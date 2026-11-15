@@ -2,11 +2,21 @@
 
 Covers issue #6 acceptance boxes 4 and 5:
 
-- [ ] Each Article 99 clause has its own effective date, so the lists can be
-      used as a date-range classifier.
-- [ ] Amendment attribution is complete at row level.
+- [x] Each Article 99 clause has its own effective date **where a source names
+      the instrument**, so the dated rows can be used as a date-scoped lookup.
+      The remaining rows carry an explicit bracket instead of a guessed date,
+      and every date query refuses them (§10).
+- [x] Amendment attribution is complete at row level: every row has a start and
+      an end boundary that is either witnessed (instrument + artifact +
+      SHA-256 + verbatim quote) or explicitly bracketed with a machine-readable
+      reason (§10).
 
-Status: method settled; intervals 2007 → 2010 and 2018 → 2021 analysed.
+Box 6 (nested sub-item itemization) stays open on the corpus gap
+`article-91-92-subclauses-not-leaf-itemized`; see §10.4.
+
+Status: **implemented.** All seven anchor intervals are derived mechanically by
+`scripts/build_article99_attribution.py`; 299 of 420 rows (71,2 %) are proven,
+121 are bracketed with a stated reason. No date is hand-written.
 Source route: consolidated CGI editions (endnotes) + SGG Bulletin officiel
 (diff text). Not `corpus.ma`, not `finances.gov.ma`.
 
@@ -32,8 +42,10 @@ is not an admissible provenance terminus for quoted legal text.
 
 ## 2. Evidence standard
 
-Two statuses, `proven` and `bracketed`, and three proof methods. A row is
-`proven` only when at least one method applies; otherwise it is `bracketed`.
+Two statuses, `proven` and `bracketed`, and three proof methods. Attribution is
+per boundary, not per row: each end of a rate segment is dated independently and
+a row is `proven` only when **both** ends are witnessed (§10.1). Anything else
+is `bracketed`.
 
 | Method | Label | Proof required |
 |---|---|---|
@@ -287,15 +299,18 @@ the SGG scan. §5.2 is therefore not a lone reading.
 
 Two limits remain, and both are reasons this work package still exists:
 
-- **The two halves are not linked.** The corpus knows the Article 99 removal and
-  the Article 91 addition, but nothing in `changes` says they are the same
-  product moving between articles. `test_article91_handoff` (§7) is still the
-  missing assertion.
+- **The corpus does not link the two halves.** The corpus knows the Article 99
+  removal and the Article 91 addition, but nothing in `changes` says they are
+  the same product moving between articles. The package now asserts that link
+  itself (`test_solar_water_heaters_cross_article_handoff_links_both_articles`
+  in `tests/test_tva_article91_92.py`), but the corpus dataset still does not
+  encode it, so any corpus-side consumer still sees two unrelated edits.
 - **The dates are still zero-length.** `2021-art91-clause-015` carries
   `valid_from == valid_to == "2021-01-01"`, and all 554 Article 99 rows have
   `valid_from == valid_to`. The `snapshot-dates-are-not-continuous-validity`
   gap is open, so these rows cannot be imported as intervals. The effective
-  date has to come from `effective_attribution` (§6), not from these fields.
+  date comes from the package's `effective_attribution` (§6, §10), not from
+  these fields.
 
 ## 6. Deliverable contract
 
@@ -341,24 +356,54 @@ A `bracketed` row must carry no date at all — its bracket belongs in a separat
 
 ## 7. Acceptance tests
 
-1. `test_proven_rows_have_hash_and_method` — every row with `valid_from` carries
-   a 64-hex `pdf_sha256`, a `method`, and a non-empty quote.
-2. `test_bracketed_rows_carry_no_dates` — `status != "proven"` implies neither
-   `valid_from` nor `valid_to`.
-3. `test_article99_intervals_are_contiguous` — for each rate and product key the
-   proven intervals tile without gaps or overlaps across 2007 → 2026.
+All seven are implemented in `openfisca_morocco/tests/test_tva_article99.py`
+(plus the cross-article test in `tests/test_tva_article91_92.py`).
+
+1. `test_proven_rows_carry_method_instrument_and_hash` — every proven row has a
+   `method`, an instrument, a non-empty verbatim quote, and exactly the hash
+   label that matches its artifact kind (a PDF hash is never published as a
+   text hash).
+2. `test_bracketed_rows_carry_no_dates` — **adapted.** The implemented contract
+   splits the two ends rather than collapsing them, because a row whose
+   creation is endnoted but whose repeal is not is genuinely proven on one side
+   only. The test therefore asserts the per-side invariant: a date exists only
+   where that side is witnessed, and a bracketed side carries no date, no hash,
+   a bracket and a reason.
+3. `test_proven_intervals_are_well_formed_and_never_disagree` — **adapted.** A
+   product key is not exposed by the loader, so the invariant is checked on what
+   is: every segment is a maximal same-rate run of consecutive anchors, every
+   interval is non-empty and correctly ordered, and no two rows naming the same
+   segment disagree on its dates.
 4. `test_renumber_is_not_a_repeal` — a removed row and an added row with the
-   same rate and equivalent quote are classified renumber, and neither is dated.
-   Regression cases: `14pct-007 → 14pct-006`, `10pct-012 → 10pct-014`.
-5. `test_repeal_is_not_a_rate_move` — regression case `7pct-014 → 10pct-016`
-   (motorway tolls, 2009) must be a rate move, not a repeal.
-6. `test_article91_handoff` — a row repealed from Article 99 in the same
-   instrument that adds it to Article 91 is flagged `exempted`, not `removed`.
-   Regression case: solar water heaters, 2021.
-7. `test_aggregation_still_rejects_undated_rows` — `aggregate_article_99_turnover`
-   refuses a `bracketed` row when asked for a specific month.
+   same rate and equivalent quote share **one** `rate_segment`, so no boundary
+   is sought between them. Regression cases: `14pct-007 → 14pct-006`,
+   `10pct-012 → 10pct-014`.
+5. `test_motorway_toll_rate_move_is_not_a_repeal` — regression case
+   `7pct-014 → 10pct-016` (motorway tolls) ends with `effect="superseded"` at
+   2009-01-01 and the 10 % segment starts on the same day.
+6. `test_solar_water_heater_handoff_to_article91_is_an_exemption` — the Article
+   99 end records `effect="exempted"`, `successor_article=91`, Loi 65-20, and
+   the item returns to Article 99 at 10 % from 2022-01-01. The other end of the
+   link is pinned by
+   `test_solar_water_heaters_cross_article_handoff_links_both_articles`.
+7. `test_aggregation_rejects_undated_rows` — `aggregate_article_99_turnover`
+   rejects any item that is not proven to cover `on_date`, so a bracketed row
+   can never be priced on a specific day.
+
+Two further tests guard the evidence itself:
+
+- `test_aggregation_uses_the_witnessed_segment_when_a_date_is_given` — pins
+  `valid_to` as exclusive: a segment ending 2009-01-01 covers 2008-12-31 and not
+  2009-01-01.
+- `test_declared_witness_hashes_match_their_artifacts` — re-computes every
+  published hash from the artifact (skipped when the corpus is not on disk).
 
 ## 8. Remaining intervals
+
+**Historical.** This was the plan before the mechanical pass; it is kept because
+the per-interval change volumes are still a useful description of what each
+interval contains. All four intervals are now processed by the same generator,
+so nothing here is outstanding work.
 
 Same method, ordered by payload:
 
@@ -393,3 +438,122 @@ for the rows M3 left bare.
 - **Over-claiming.** The single largest hazard is a plausible date becoming a
   shipped one. The guard in §6 exists to make that a test failure rather than a
   silent tax error.
+
+## 10. Implemented result (2026-11-15)
+
+`scripts/build_article99_attribution.py` derives every boundary mechanically and
+regenerates `openfisca_morocco/data/tva_article99_catalog.json` from the pinned
+corpus. `--check` fails when the artifact is stale; a test re-hashes every
+published digest against the artifact it names.
+
+### 10.1 Shape of the derivation
+
+1. **Identities.** The 420 snapshot rows collapse into **117 product identities**
+   by quote similarity, with a union-find guard that forbids two rows of the
+   same edition from joining one identity (an edition cannot list the same
+   clause twice, so a same-edition collision always means the threshold
+   over-merged). A quote that the transcription truncated is merged with the
+   longer quote it prefixes, subject to a 30-character floor. Five merges were
+   made by that rule and all five were audited by hand: each is the same clause
+   with one side truncated, never two different clauses.
+2. **Segments.** Each identity is cut into maximal runs of consecutive anchors
+   with an unchanged rate. Every row in a segment gets the same
+   `rate_segment` and the same two boundaries. **Attribution is per boundary,
+   not per row** — a renumber creates no boundary at all.
+3. **Boundaries.** A boundary is dated only when a source names the instrument:
+   - the first anchor is dated by the original enactment (Loi 43-06 art. 5,
+     2007-01-01);
+   - `consolidated_endnote` when the row's own endnotes name exactly one
+     instrument whose budget year falls inside the interval;
+   - `verbatim_reproduction` for **introductions only**, when the clause text
+     appears verbatim in exactly one in-interval finance-law transcription.
+     Never used for a removal or a rate change — those need the endnote, because
+     the wording is unchanged by definition.
+   Anything else stays `bracketed` with a reason.
+
+No `BOUNDARY_RULES` regex table survives: the earlier hand-written table was
+replaced by these three mechanical routes plus **one** hand assertion (the
+solar-water-heater cross-article handoff, §5.2), which is declared as data in
+`HAND_ASSERTIONS` with its own verified quote.
+
+### 10.2 Measured coverage
+
+| | Rows |
+|---|---|
+| Snapshot rows | 420 |
+| Product identities | 117 |
+| **Proven** | **299 (71,2 %)** |
+| Bracketed | 121 |
+
+Unwitnessed boundaries by reason:
+
+| Reason | Count |
+|---|---|
+| `repeal_not_witnessed` | 109 |
+| `ambiguous_instruments` | 7 |
+| `introduction_not_witnessed` | 6 |
+
+Witnessed boundaries by method:
+
+| Method | Count |
+|---|---|
+| `consolidated_endnote` | 225 |
+| `verbatim_reproduction` | 198 |
+
+`repeal_not_witnessed` dominates for a structural reason: a repeal leaves no
+trace on any later edition, so the corpus cannot witness it unless the editor
+left an `(abrogé)` stub with an endnote. Guessing a repeal from the abolition of
+a rate class would have dated 109 boundaries that no source supports, so they
+stay bracketed. That is the intended outcome, not a shortfall.
+
+### 10.3 Hand-audited attributions
+
+- **All 50 `verbatim_reproduction` introductions** are Loi 55-23 (2024-01-01) —
+  the Article 99 rewrite. Each quote was checked verbatim inside the
+  `« Article 99` block of `FL_2024_55-23.txt`, e.g.
+  `Ceintures, gilets de sauvetage pour marins pêcheurs`.
+- **The seven `ambiguous_instruments` boundaries** are **one** identity (animal
+  feed): its rows carry endnotes for both Loi 115-12 (2013) and Loi 110-13
+  (2014) inside the 2010 → 2014 interval. The packaged data cannot separate
+  them, so the boundary stays bracketed rather than being assigned to the more
+  plausible law.
+- **All 15 instrument effective dates** were verified per article. Eleven carry
+  an explicit `à compter du 1er janvier` clause (`explicit_in_article`); the
+  original enactment (Loi 43-06) is the baseline date itself; and three (Loi
+  115-12, 110-13, 73-16) carry no date clause at all and rest on the finance
+  law's budget-year default (`budget_year_default`). The basis is recorded in
+  the instrument record, so a reader can see which dates are the weaker kind.
+- **Every published hash** was re-computed from the artifact. This found a real
+  defect: the packaged 2007 `source_pdf` pointed at
+  `BO_5487_2007_SGG_index.pdf`, an SGG volume that contains no Article 99 at
+  all. The hash was correct — it was simply the hash of the wrong file. It is
+  repointed to `BO_5487-bis_fr.pdf` (4 453 162 B).
+
+### 10.4 Why box 6 is still open
+
+Box 6 asks for nested Article 91/92/99 sub-items to be fully itemized. The
+package cannot close it from its own data:
+
+- the corpus's 554 Article 99 rows are split 497 `billable_leaf`, 48
+  `container` and 9 `context`; the packaged catalog keeps 420 quoted rows and
+  deliberately drops the 134 whose IDs contain `-leaf-`, because those leaf IDs
+  are not stable across editions (554 − 134 = 420);
+- the corpus gap `article-91-92-subclauses-not-leaf-itemized` (with
+  `nested-list-items-not-fully-normalized`) is still open, so nested lists such
+  as the CGI 2024 Article 99 10 % bullet list are not leaf-itemized at the
+  source.
+
+The cross-article link itself **is** implemented and tested
+(§5.5, §7); what is missing is the sub-item itemization beneath it, which is a
+corpus-side change.
+
+### 10.5 Residual limitations
+
+- 121 rows cannot answer a date query. Callers must use the snapshot lookup for
+  them, or the date query will refuse the row (by design).
+- The 2004–2005 CGI Article 99 editions do not exist, so the timeline starts in
+  2007. LAR Article 15 (2004-01-01 and 2005-01-01) is exposed separately and is
+  not part of this timeline.
+- Local BO PDFs exist for only six of the fifteen instruments, so byte-identity
+  of the amending text is proved for those six; the rest rest on the corpus
+  transcription plus its endnote.

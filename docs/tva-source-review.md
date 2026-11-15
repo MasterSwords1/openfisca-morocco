@@ -66,6 +66,42 @@ supported by the 2011 metal-rate amendment and the 2020 repeal. The package
 does not reconstruct Article 100's predecessor regime before 2007 or assign
 post-repeal transactions to a new category.
 
+Article 99 rows differ: they carry a dated segment in `effective_attribution`,
+derived per boundary from the seven consolidated editions and fifteen
+finance-law transcriptions (see below). A row is dated only where a source names
+the instrument, and an undated row refuses a date query.
+
+### Article 99 effective dates
+
+`scripts/build_article99_attribution.py` regenerates
+`openfisca_morocco/data/tva_article99_catalog.json` (schema version 2) and
+`--check` fails when the artifact is stale. It uses three mechanical routes and
+no hand-written rule table:
+
+1. the seven anchor editions give the baseline (Loi 43-06 art. 5, 2007-01-01);
+2. a later boundary is dated from the row's own consolidated endnote when
+   exactly one instrument inside the interval is named;
+3. an *introduction* may be dated from a verbatim reproduction in exactly one
+   in-interval finance-law transcription.
+
+Measured: 299 of 420 rows proven (71,2 %), 121 bracketed
+(`repeal_not_witnessed` 109, `ambiguous_instruments` 7,
+`introduction_not_witnessed` 6). Hand-asserted repeals were deliberately not
+added: a repeal leaves no trace on any later edition, so guessing one from the
+abolition of a rate class would have dated 109 boundaries no source supports.
+
+Two provenance defects were found while verifying the hashes and are not
+patched silently on the corpus side:
+
+- the packaged 2007 `source_pdf` named an SGG index volume
+  (`BO_5487_2007_SGG_index.pdf`) that contains no Article 99. The hash was
+  correct for the wrong file. It is now `BO_5487-bis_fr.pdf` (4 453 162 B,
+  `3e08e24d…`).
+- the corpus records `source_sha256` values that are hashes of a *transcription*
+  under a field that reads like a PDF hash (see
+  `docs/work-packages/tva-article99-attribution.md` §3.3). The package keeps
+  `pdf_sha256` and `text_sha256` separate for exactly this reason.
+
 The current Article 91/92/99 pages on Ma Loi were used only as a spot check.
 The package's numeric and historical claims remain tied to the pinned source
 catalog and official CGI/finance-law references, not to a third-party page

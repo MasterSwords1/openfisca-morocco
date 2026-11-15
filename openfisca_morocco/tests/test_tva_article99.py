@@ -1,9 +1,13 @@
 """Tests for the explicit, snapshot-scoped Article 99 catalog lookup."""
 
+import hashlib
 import json
+import re
 from dataclasses import FrozenInstanceError
+from datetime import UTC, date, datetime
 from decimal import Decimal
 from importlib import resources
+from pathlib import Path
 
 import pytest
 
@@ -12,6 +16,7 @@ from openfisca_morocco.tva_article99 import (
     Article99AmendmentCitation,
     Article99ItemNotFoundError,
     Article99TransitionalRateError,
+    Article99UndatedItemError,
     UnsupportedArticle99EditionError,
     aggregate_article_99_turnover,
     get_article_99_item,
@@ -96,6 +101,9 @@ def test_every_catalog_item_round_trips_with_quote_and_provenance():
             assert item.document_title == edition["document_title"]
             assert "valid_from" not in row
             assert "valid_to" not in row
+            # Effective dates live only inside the parsed attribution.
+            assert item.effective_attribution is not None
+            assert item.effective_attribution.rate == row["rate"]
         assert "snapshot_as_of" not in edition
 
 
@@ -266,3 +274,314 @@ def test_aggregation_rejects_transitional_categories_and_bad_bases():
         aggregate_article_99_turnover(2024, {"sugar": Decimal(100)})
     with pytest.raises(ValueError, match="finite and non-negative"):
         aggregate_article_99_turnover(2024, {"2024-art99-general-20pct": Decimal(-1)})
+
+
+# ---------------------------------------------------------------------------
+# Effective attribution (see docs/work-packages/tva-article99-attribution.md §7)
+# ---------------------------------------------------------------------------
+
+_HOLY_GRAPH = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+_HEX64 = re.compile(r"\A[0-9a-f]{64}\Z")
+
+
+def _all_items():
+    for edition_year in ARTICLE_99_SNAPSHOT_YEARS:
+        yield from list_article_99_items(edition_year)
+
+
+def _sha256(path):
+    digest = hashlib.sha256()
+    with path.open("rb") as handle:
+        for block in iter(lambda: handle.read(1 << 20), b""):
+            digest.update(block)
+    return digest.hexdigest()
+
+
+def _proven_boundaries(item):
+    attribution = item.effective_attribution
+    yield "start", attribution.start
+    yield "end", attribution.end
+
+
+def test_proven_rows_carry_method_instrument_and_hash():
+    """Acceptance test 1: a proven row is fully evidenced, not just dated."""
+    proven = 0
+    for item in _all_items():
+        attribution = item.effective_attribution
+        if attribution.status != "proven":
+            continue
+        proven += 1
+        assert attribution.valid_from is not None
+        assert attribution.first_anchor <= item.edition_year <= attribution.last_anchor
+        for side, boundary in _proven_boundaries(item):
+            if boundary.is_open_ended:
+                assert boundary.valid_date is None
+                assert boundary.still_in_force_at is not None
+                continue
+            assert boundary.status == "proven"
+            assert boundary.valid_date is not None
+            assert boundary.method in {
+                "verbatim_reproduction",
+                "consolidated_endnote",
+                "positional_abrogation",
+            }
+            assert boundary.instrument is not None
+            assert boundary.instrument.key
+            assert (
+                isinstance(boundary.witness_quote, str)
+                and boundary.witness_quote.strip()
+            )
+            # The date is the instrument's own effective date, never interpolated.
+            assert boundary.valid_date == boundary.instrument.effective_from
+            if side == "start":
+                assert boundary.valid_date == attribution.valid_from
+            # Exactly one artifact kind is hashed, and it is hashed with the
+            # matching label: a PDF hash is never passed off as a text hash.
+            assert boundary.witness_kind in {
+                "consolidated_endnote",
+                "consolidated_edition",
+                "finance_law_transcription",
+                "bulletin_officiel",
+            }
+            if boundary.witness_pdf_sha256 is not None:
+                assert _HEX64.match(boundary.witness_pdf_sha256)
+            if boundary.witness_text_sha256 is not None:
+                assert _HEX64.match(boundary.witness_text_sha256)
+            assert boundary.witness_pdf_sha256 or boundary.witness_text_sha256
+            assert boundary.witness_file
+    assert proven > 0
+
+
+def test_bracketed_rows_carry_no_dates():
+    """Acceptance test 2 (adapted): a date exists only where it was witnessed.
+
+    The work package originally stated that any non-proven row carries neither
+    ``valid_from`` nor ``valid_to``. The implemented contract splits the two
+    ends instead, because a row whose creation is endnoted but whose repeal is
+    not is genuinely proven on one side only. So the invariant tested here is
+    the stronger, per-side one: a date exists if and only if that side is
+    witnessed, and a bracketed side carries no date and no hash.
+    """
+    bracketed = partial = 0
+    for item in _all_items():
+        attribution = item.effective_attribution
+        assert attribution.status == (
+            "proven"
+            if attribution.start.status == attribution.end.status == "proven"
+            else "bracketed"
+        )
+        if attribution.valid_from is not None:
+            assert attribution.start.status == "proven"
+            assert attribution.valid_from == attribution.start.valid_date
+        if attribution.valid_to is not None:
+            assert attribution.end.status == "proven"
+            assert attribution.valid_to == attribution.end.valid_date
+
+        if attribution.status == "proven":
+            continue
+        bracketed += 1
+        # A date query never reaches a row with an unwitnessed end.
+        assert not attribution.covers(date(item.edition_year, 6, 1))
+        for _side, boundary in _proven_boundaries(item):
+            if boundary.is_open_ended:
+                assert boundary.still_in_force_at is not None
+                continue
+            if boundary.status == "proven":
+                assert boundary.valid_date is not None
+                continue
+            partial += 1
+            assert boundary.valid_date is None
+            assert boundary.still_in_force_at is None
+            assert boundary.reason
+            assert boundary.bracket_earliest is not None
+            assert boundary.bracket_latest is not None
+            assert boundary.bracket_earliest < boundary.bracket_latest
+            assert boundary.instrument is None
+            assert boundary.witness_pdf_sha256 is None
+            assert boundary.witness_text_sha256 is None
+    assert bracketed > 0
+    assert partial > 0
+
+
+def test_proven_intervals_are_well_formed_and_never_disagree():
+    """Acceptance test 3 (adapted): order, non-overlap, one date per segment.
+
+    A product identity is not exposed by the loader, so the invariant is
+    checked on what is: one witnessed segment must report one interval. Two
+    rows that name the same segment but disagree on its dates would be a real
+    defect, and a segment whose end precedes its start is impossible.
+    """
+    by_segment = {}
+    for item in _all_items():
+        attribution = item.effective_attribution
+        if attribution.status != "proven":
+            continue
+        if attribution.valid_to is not None:
+            assert attribution.valid_from < attribution.valid_to
+        else:
+            assert attribution.still_in_force_at is not None
+            assert attribution.valid_from <= attribution.still_in_force_at
+        key = (
+            attribution.first_anchor,
+            attribution.last_anchor,
+            attribution.rate,
+            attribution.valid_from,
+            attribution.valid_to,
+            attribution.still_in_force_at,
+        )
+        by_segment.setdefault(key, []).append(item)
+    # Every segment is a maximal same-rate run of consecutive anchors.
+    for (first, last, _rate, _from, _to, _still), items in by_segment.items():
+        assert first <= last
+        assert first in ARTICLE_99_SNAPSHOT_YEARS
+        assert last in ARTICLE_99_SNAPSHOT_YEARS
+        for item in items:
+            assert first <= item.edition_year <= last
+            assert item.rate == _rate
+
+
+def test_renumber_is_not_a_repeal():
+    """Acceptance test 4: an editorial renumber creates no dated boundary."""
+    for left_id, right_id in (
+        ("2007-art99-14pct-007", "2010-art99-14pct-006"),
+        ("2010-art99-10pct-012", "2014-art99-10pct-014"),
+    ):
+        left = get_article_99_item(int(left_id[:4]), left_id)
+        right = get_article_99_item(int(right_id[:4]), right_id)
+        left_attribution = left.effective_attribution
+        right_attribution = right.effective_attribution
+
+        assert left.rate == right.rate
+        # One unwitnessed boundary check: the two IDs are one segment, so no
+        # instrument was sought between their editions.
+        assert (
+            left_attribution.first_anchor,
+            left_attribution.last_anchor,
+            left_attribution.rate,
+        ) == (
+            right_attribution.first_anchor,
+            right_attribution.last_anchor,
+            right_attribution.rate,
+        )
+        assert left_attribution.valid_from == right_attribution.valid_from
+        assert left_attribution.valid_to == right_attribution.valid_to
+
+
+def test_motorway_toll_rate_move_is_not_a_repeal():
+    """Acceptance test 5: a 7 % → 10 % move is a supersession, not a repeal."""
+    old = get_article_99_item(2007, "2007-art99-7pct-014")
+    new = get_article_99_item(2010, "2010-art99-10pct-016")
+
+    assert old.rate == "7%"
+    assert new.rate == "10%"
+
+    end = old.effective_attribution.end
+    assert end.status == "proven"
+    assert end.effect == "superseded"
+    assert end.effect != "repealed"
+    assert end.valid_date == date(2009, 1, 1)
+    assert end.instrument.key == "40-08"
+
+    start = new.effective_attribution.start
+    assert start.status == "proven"
+    assert start.valid_date == date(2009, 1, 1)
+    assert start.instrument.key == "40-08"
+
+    # Contiguous: the successor text applies on the very day the old one ends.
+    assert end.valid_date == start.valid_date
+
+
+def test_solar_water_heater_handoff_to_article91_is_an_exemption():
+    """Acceptance test 6: leaving Article 99 for Article 91 is an exemption."""
+    removed = get_article_99_item(2018, "2018-art99-10pct-008")
+    assert "chauffe-eaux solaires" in removed.quote.casefold()
+
+    end = removed.effective_attribution.end
+    assert end.status == "proven"
+    assert end.valid_date == date(2021, 1, 1)
+    assert end.effect == "exempted"
+    assert end.effect != "repealed"
+    assert end.successor_article == 91
+    assert end.instrument.key == "65-20"
+    assert end.method == "verbatim_reproduction"
+
+    # And it came back: the 2022 finance law re-listed it at 10 % in Article 99.
+    returned = get_article_99_item(2024, "2024-art99-10pct-010")
+    start = returned.effective_attribution.start
+    assert start.status == "proven"
+    assert start.valid_date == date(2022, 1, 1)
+    assert start.instrument.key == "76-21"
+
+
+def test_aggregation_rejects_undated_rows():
+    """Acceptance test 7: a date query never reaches a bracketed row."""
+    bracketed = get_article_99_item(2014, "2014-art99-7pct-001")
+    assert bracketed.effective_attribution.status == "bracketed"
+
+    with pytest.raises(Article99UndatedItemError, match="no proven effective dates"):
+        aggregate_article_99_turnover(
+            bracketed.edition_year,
+            {bracketed.item_id: Decimal(100)},
+            on_date=date(2014, 6, 1),
+        )
+
+    # Without a date the same row is still usable, as before.
+    assert dict(
+        aggregate_article_99_turnover(
+            bracketed.edition_year, {bracketed.item_id: Decimal(100)}
+        )
+    ) == {"7%": Decimal(100)}
+
+
+def test_aggregation_uses_the_witnessed_segment_when_a_date_is_given():
+    item = get_article_99_item(2007, "2007-art99-7pct-014")
+    attribution = item.effective_attribution
+    assert attribution.status == "proven"
+
+    # valid_to is exclusive: 2009-01-01 already belongs to the successor text.
+    assert attribution.covers(date(2008, 12, 31))
+    assert not attribution.covers(date(2009, 1, 1))
+
+    assert dict(
+        aggregate_article_99_turnover(
+            2007, {item.item_id: Decimal(250)}, on_date=date(2008, 12, 31)
+        )
+    ) == {"7%": Decimal(250)}
+    with pytest.raises(Article99UndatedItemError, match="not proven to be in force"):
+        aggregate_article_99_turnover(
+            2007, {item.item_id: Decimal(250)}, on_date=date(2009, 1, 1)
+        )
+    with pytest.raises(TypeError):
+        aggregate_article_99_turnover(
+            2007,
+            {item.item_id: Decimal(1)},
+            on_date=datetime(2008, 12, 31, 12, tzinfo=UTC),
+        )
+
+
+@pytest.mark.skipif(
+    not _HOLY_GRAPH.is_dir(), reason="Holy Graph corpus is not present locally"
+)
+def test_declared_witness_hashes_match_their_artifacts():
+    """Every hash the catalog publishes is re-computed from the artifact."""
+    checked = set()
+    for item in _all_items():
+        for _side, boundary in _proven_boundaries(item):
+            if boundary.is_open_ended or not boundary.witness_file:
+                continue
+            if boundary.witness_file in checked:
+                continue
+            checked.add(boundary.witness_file)
+            path = _HOLY_GRAPH / boundary.witness_file
+            assert path.is_file(), f"missing witness artifact {boundary.witness_file}"
+            digest = _sha256(path)
+            if boundary.witness_file.endswith(".pdf"):
+                assert digest == boundary.witness_pdf_sha256, boundary.witness_file
+            else:
+                assert digest == boundary.witness_text_sha256, boundary.witness_file
+
+            instrument = boundary.instrument
+            witness_path = _HOLY_GRAPH / instrument.date_witness_file
+            assert witness_path.is_file()
+            assert _sha256(witness_path) == instrument.date_witness_text_sha256
+    assert checked

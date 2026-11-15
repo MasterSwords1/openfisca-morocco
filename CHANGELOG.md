@@ -1,4 +1,24 @@
 
+## 0.6.0 - [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2007-01-01 onwards (Article 99 effective dates).
+* Impacted areas:
+  - `tva_article99` (dated segments, effective-date API, date-scoped aggregation).
+  - `data.tva_article99_catalog` (schema version 2, hoisted instruments, per-row `effective_attribution`).
+  - `tva_article91_92` (cross-article handoff test for the 2021 solar water heater move).
+  - `scripts.build_article99_attribution` (new generator).
+  - `tests` (seven acceptance tests plus two evidence guards).
+* Details:
+  - Give every Article 99 row an `effective_attribution`: the dated rate segment it belongs to, with a start and an end that are dated **independently**. A boundary is `proven` only when a primary source names the instrument; it then carries the instrument, the witness artifact, a SHA-256 labelled by artifact kind (`pdf_sha256` vs `text_sha256`) and a verbatim quote. Otherwise it is `bracketed`, carries a machine-readable `reason` and a `validity_bracket`, and carries **no date at all**.
+  - Attribution is per boundary, not per row. A renumber creates no boundary, a rate move is `superseded` rather than `repealed`, and a removal that lands in another article is `exempted` with a `successor_article`.
+  - Derive the dates mechanically in `scripts/build_article99_attribution.py`: the baseline is the original enactment (Loi 43-06 art. 5); a later boundary is dated from the row's own consolidated endnote when exactly one in-interval instrument is named; an *introduction* may be dated from a verbatim reproduction in exactly one in-interval finance-law transcription. These routes prove 299 of 420 rows (71,2 %); the 121 others stay bracketed with `repeal_not_witnessed` (109), `ambiguous_instruments` (7) or `introduction_not_witnessed` (6). No date is guessed from the abolition of a rate class.
+  - Replace the earlier all-or-nothing row guard: the loader now rejects `valid_from` / `valid_to` on the snapshot row itself (dates belong only inside `effective_attribution`), validates each boundary, and requires `valid_from` / `valid_to` to equal the named instrument's own effective date.
+  - Add the `on_date` keyword to `aggregate_article_99_turnover`. When supplied, every item must be proven to cover that date, and `valid_to` is treated as exclusive (the first day the successor text applied). A bracketed row raises `Article99UndatedItemError` instead of being priced.
+  - Record the solar water heater handoff explicitly: Loi 65-20 art. 6 removed *les chauffe-eaux solaires* from Article 99 and added them as item 8° of Article 91, so the Article 99 end is `exempted` with `successor_article = 91`, and a test pins the Article 91 end of the link. The item returned to Article 99 at 10 % from 2022-01-01 by Loi 76-21.
+  - Repoint the 2007 `source_pdf`: the packaged entry named an SGG index volume (`BO_5487_2007_SGG_index.pdf`) that contains no Article 99. The volume is now `BO_5487-bis_fr.pdf`; every published hash was re-computed from its artifact, and a test does so on every run.
+  - Box 6 of issue #6 (nested sub-item itemization) stays open on the corpus gap `article-91-92-subclauses-not-leaf-itemized`; the package-side catalogs flatten 420 quoted rows and do not invent leaves.
+
 ## 0.5.0 - [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7)
 
 * Tax and benefit system evolution.
