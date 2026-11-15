@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "source_catalog": "morocco-holy-graph/laws/ma_tax_law/data/consolidated/tva_article_lists.json",
+  "article": 100,
+  "date_semantics": "The rate periods have continuous effective dates backed by consolidated CGI editions and the cited amending finance laws. This catalog covers the CGI Article 100 periods from 2007 through its repeal effective 2020-01-01; it does not establish the predecessor regime before 2007.",
+  "rate_periods": [
+    {
+      "article": 100,
+      "rate": "100 MAD/hl",
+      "rate_context_quote": "Par dérogation aux dispositions de l'article 96 ci-dessus, leslivraisons et les ventes autrement qu'à consommer sur place,portant sur les vins et les boissons alcoolisées, sont soumises à lataxe sur la valeur ajoutée au tarif de cent (100) dirhams parhectolitre.",
+      "product_group": "wine_and_alcohol",
+      "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2007-FR.pdf.txt",
+      "quote": "Par dérogation aux dispositions de l'article 96 ci-dessus, leslivraisons et les ventes autrement qu'à consommer sur place,portant sur les vins et les boissons alcoolisées, sont soumises à lataxe sur la valeur ajoutée au tarif de cent (100) dirhams parhectolitre.",
+      "source_snapshot": "2007-01-01",
+      "item_id": "article100-wine-100-mad-hl",
+      "valid_from": "2007-01-01",
+      "valid_to": "2019-12-31",
+      "source_pdf": "laws/ma_fin_law/documents/BO_5487_2007_SGG_index.pdf",
+      "source_pdf_sha256": "6b92268fdd2c39d4a81512cc3bb6276883f213aa0a05b8433f10604e5dabd3d7",
+      "source_text_sha256": "579d8289ff48bf7ef51cb9a43942380d6b92757e6946bcf8c1f4f21f40d1ccfc",
+      "document_title": "Code général des impôts, edition promulgated in BO 5487 bis"
+    },
+    {
+      "article": 100,
+      "rate": "4 MAD/g",
+      "rate_context_quote": "Les livraisons et les ventes de tous ouvrages ou articles,autres que les outils, composés en tout ou en partie d'or, deplatine ou d'argent sont soumises à la taxe sur la valeur ajoutéefixée à quatre dirhams par gramme d'or et de platine et à0,05 dirham par gramme d'argent.",
+      "product_group": "gold_platinum",
+      "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2007-FR.pdf.txt",
+      "quote": "Les livraisons et les ventes de tous ouvrages ou articles,autres que les outils, composés en tout ou en partie d'or, deplatine ou d'argent sont soumises à la taxe sur la valeur ajoutéefixée à quatre dirhams par gramme d'or et de platine et à0,05 dirham par gramme d'argent.",
+      "source_snapshot": "2007-01-01",
+      "item_id": "article100-gold_platinum-4MAD-g",
+      "valid_from": "2007-01-01",
+      "valid_to": "2010-12-31",
+      "source_pdf": "laws/ma_fin_law/documents/BO_5487_2007_SGG_index.pdf",
+      "source_pdf_sha256": "6b92268fdd2c39d4a81512cc3bb6276883f213aa0a05b8433f10604e5dabd3d7",
+      "source_text_sha256": "579d8289ff48bf7ef51cb9a43942380d6b92757e6946bcf8c1f4f21f40d1ccfc",
+      "document_title": "Code général des impôts, edition promulgated in BO 5487 bis"
+    },
+    {
+      "article": 100,
+      "rate": "0.05 MAD/g",
+      "rate_context_quote": "Les livraisons et les ventes de tous ouvrages ou articles,autres que les outils, composés en tout ou en partie d'or, deplatine ou d'argent sont soumises à la taxe sur la valeur ajoutéefixée à quatre dirhams par gramme d'or et de platine et à0,05 dirham par gramme d'argent.",
+      "product_group": "silver",
+      "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2007-FR.pdf.txt",
+      "quote": "Les livraisons et les ventes de tous ouvrages ou articles,autres que les outils, composés en tout ou en partie d'or, deplatine ou d'argent sont soumises à la taxe sur la valeur ajoutéefixée à quatre dirhams par gramme d'or et de platine et à0,05 dirham par gramme d'argent.",
+      "source_snapshot": "2007-01-01",
+      "item_id": "article100-silver-0.05MAD-g",
+      "valid_from": "2007-01-01",
+      "valid_to": "2010-12-31",
+      "source_pdf": "laws/ma_fin_law/documents/BO_5487_2007_SGG_index.pdf",
+      "source_pdf_sha256": "6b92268fdd2c39d4a81512cc3bb6276883f213aa0a05b8433f10604e5dabd3d7",
+      "source_text_sha256": "579d8289ff48bf7ef51cb9a43942380d6b92757e6946bcf8c1f4f21f40d1ccfc",
+      "document_title": "Code général des impôts, edition promulgated in BO 5487 bis"
+    },
+    {
+      "article": 100,
+      "rate": "5 MAD/g",
+      "rate_context_quote": "Les livraisons et les ventes de tous ouvrages ou articles, autres que les outils, com posés en tout\nou en partie d’or, de platine ou d’argent sont soumises à la taxe sur la valeur ajoutée fixée à cinq (5)\ndirhams par gramme d’or et de platine et à 0,10 dirham par gramme d’argent.",
+      "product_group": "gold_platinum",
+      "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf.txt",
+      "quote": "Les livraisons et les ventes de tous ouvrages ou articles, autres que les outils, com posés en tout\nou en partie d’or, de platine ou d’argent sont soumises à la taxe sur la valeur ajoutée fixée à cinq (5)\ndirhams par gramme d’or et de platine et à 0,10 dirham par gramme d’argent.",
+      "source_snapshot": "2014-01-01",
+      "item_id": "article100-gold_platinum-5MAD-g",
+      "valid_from": "2011-01-01",
+      "valid_to": "2019-12-31",
+      "source_pdf": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf",
+      "source_pdf_sha256": "5595a880c69af4edb4125e1e73f264ea28d2903079d8586873fed2d440559a50",
+      "source_text_sha256": "6605891018c8a26909a4b28fc1a2f4124e7ff918049bcb278284005debad6ed3",
+      "document_title": "Code général des impôts 2014"
+    },
+    {
+      "article": 100,
+      "rate": "0.10 MAD/g",
+      "rate_context_quote": "Les livraisons et les ventes de tous ouvrages ou articles, autres que les outils, com posés en tout\nou en partie d’or, de platine ou d’argent sont soumises à la taxe sur la valeur ajoutée fixée à cinq (5)\ndirhams par gramme d’or et de platine et à 0,10 dirham par gramme d’argent.",
+      "product_group": "silver",
+      "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf.txt",
+      "quote": "Les livraisons et les ventes de tous ouvrages ou articles, autres que les outils, com posés en tout\nou en partie d’or, de platine ou d’argent sont soumises à la taxe sur la valeur ajoutée fixée à cinq (5)\ndirhams par gramme d’or et de platine et à 0,10 dirham par gramme d’argent.",
+      "source_snapshot": "2014-01-01",
+      "item_id": "article100-silver-0.10MAD-g",
+      "valid_from": "2011-01-01",
+      "valid_to": "2019-12-31",
+      "source_pdf": "laws/ma_tax_law/data/consolidated/CGI-2014-FR.pdf",
+      "source_pdf_sha256": "5595a880c69af4edb4125e1e73f264ea28d2903079d8586873fed2d440559a50",
+      "source_text_sha256": "6605891018c8a26909a4b28fc1a2f4124e7ff918049bcb278284005debad6ed3",
+      "document_title": "Code général des impôts 2014"
+    }
+  ],
+  "amendments": [
+    {
+      "law": "Loi n° 43-10",
+      "law_article": 7,
+      "valid_from": "2011-01-01",
+      "change_type": "metal_rates_changed",
+      "corpus_file": "data/text/finance-laws/FL_2011_43-10.txt",
+      "source_sha256": "2fc4c72521dfe8b31e01dcd77a1fe170cf62079fd887b21b4dfac784a9d08144",
+      "quote": "ouvrages\n.… d’or, de\n« platine ou d’argent sont soumises à la taxe sur la valeur ajoutée\n« fixée à cinq (5) dirhams par gramme d’or et de platine et à 0,10\n« dirham par gramme d'argent."
+    },
+    {
+      "law": "Loi n° 70-19",
+      "law_article": 6,
+      "valid_from": "2020-01-01",
+      "change_type": "article_abrogated",
+      "corpus_file": "data/text/finance-laws/FL_2020_70-19.txt",
+      "source_sha256": "7f971e6830cd856f86efe8aaf64cd0f8abc0b181359e17d44791e63dbcd156dd",
+      "quote": "A compter du 1 janvier 2020, les dispositions des \narticles 8-VI, 100 et 178 du code général des impôts précité \nsont abrogées."
+    }
+  ],
+  "latest_status": {
+    "edition_year": 2026,
+    "snapshot_date": "2026-01-01",
+    "document_title": "Code général des impôts 2026",
+    "corpus_file": "laws/ma_tax_law/data/consolidated/CGI-2026-FR.pdf.txt",
+    "source_pdf": "laws/ma_tax_law/data/consolidated/CGI-2026-FR.pdf",
+    "source_pdf_sha256": "fe03c94471aefd23a9be9de11da5bff0593b45a72c2f90939eeaae7298b413e1",
+    "source_text_sha256": "1b9033ff5eedabaafd6388af42f1186d1ed39413edffaf02592f65a2bcd9e171",
+    "status": "abrogated",
+    "quote": "Article 100.- (abrogé)684\n\n                                      CHAPITRE IV\n                              DEDUCTIONS ET REMBOURSEMENTS"
+  },
+  "gaps": [
+    "No Article 100 rate period is packaged for 2004-2006. The 2006 LAR numbers the specific rates as Article 102 and uses the same values as the 2007 Article 100: 100 MAD/hl on wine and alcohol, 4 MAD/g on gold and platinum, 0,05 MAD/g on silver. That 2006 text is evidence-checked in docs/evidence/bo-5382-bis-2006-tva-rates.ocr.txt but is not exposed here, because exposing it under Article 100 would conflate the 2006 and 2007 numberings. The 2004-2005 regime remains unsourced.",
+    "Article 100 was repealed effective 2020-01-01; later taxation must be determined under the law then in force and is not mapped from these specific rates."
+  ]
+}

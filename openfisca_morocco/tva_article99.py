@@ -7,8 +7,11 @@ description or treat a snapshot year as a continuous effective period.
 from __future__ import annotations
 
 import json
+from collections.abc import Mapping
 from dataclasses import dataclass
+from decimal import Decimal, InvalidOperation
 from importlib import resources
+from types import MappingProxyType
 
 
 @dataclass(frozen=True)
@@ -71,6 +74,10 @@ class UnsupportedArticle99EditionError(ValueError):
 
 class Article99ItemNotFoundError(LookupError):
     """Raised when an item ID is absent from the requested edition snapshot."""
+
+
+class Article99TransitionalRateError(ValueError):
+    """Raised when an item is subject to a separate transitional rate schedule."""
 
 
 ARTICLE_99_SNAPSHOT_YEARS = (2007, 2010, 2014, 2018, 2021, 2024, 2026)
@@ -229,13 +236,77 @@ def get_article_99_item(edition_year: int, item_id: str) -> Article99Item:
         ) from error
 
 
+def aggregate_article_99_turnover(
+    edition_year: int,
+    turnover_by_item_id: Mapping[str, int | float | Decimal],
+) -> Mapping[str, Decimal]:
+    """Sum taxable bases by rate for caller-selected Article 99 item IDs.
+
+    This is an explicit category-to-rate mapping, not a product-description
+    classifier. A caller must first select the exact legal item ID for each
+    transaction. Items that cite a separate Article 247 transitional schedule
+    are rejected; declare those through the model's transitional-operation
+    input instead.
+
+    Args:
+        edition_year: One supported consolidated Article 99 snapshot year.
+        turnover_by_item_id: Exact catalog IDs mapped to their non-negative
+            taxable bases in MAD.
+
+    Returns:
+        An immutable mapping from rate labels such as ``"10%"`` to summed
+        taxable bases as ``Decimal`` values.
+    """
+    _require_supported_edition(edition_year)
+    if not isinstance(turnover_by_item_id, Mapping):
+        raise TypeError("turnover_by_item_id must be a mapping of item IDs to bases")
+
+    totals: dict[str, Decimal] = {}
+    for item_id, base in turnover_by_item_id.items():
+        item = get_article_99_item(edition_year, item_id)
+        if item.status != "in_force_in_snapshot":
+            raise ValueError(
+                f"Article 99 item {item_id!r} is not in force in the snapshot"
+            )
+        source_text = " ".join(
+            (
+                item.quote,
+                item.rate_context_quote,
+                item.parent_context_quote or "",
+                *(condition.quote for condition in item.conditions),
+            )
+        ).casefold()
+        if "247" in source_text or "xxxxi" in source_text:
+            raise Article99TransitionalRateError(
+                f"Article 99 item {item_id!r} cites a transitional schedule; "
+                "use tva_operation_transitoire"
+            )
+        if not isinstance(base, (int, float, Decimal)) or isinstance(base, bool):
+            raise TypeError(f"Turnover base for {item_id!r} must be numeric")
+        try:
+            normalized_base = Decimal(str(base))
+        except (InvalidOperation, TypeError, ValueError) as error:
+            raise TypeError(f"Turnover base for {item_id!r} must be numeric") from error
+        if not normalized_base.is_finite() or normalized_base < 0:
+            raise ValueError(
+                f"Turnover base for {item_id!r} must be finite and non-negative"
+            )
+        if not item.rate.endswith("%"):
+            raise ValueError(f"Article 99 item {item_id!r} has no percentage rate")
+        totals[item.rate] = totals.get(item.rate, Decimal(0)) + normalized_base
+
+    return MappingProxyType(totals)
+
+
 __all__ = [
     "ARTICLE_99_SNAPSHOT_YEARS",
     "Article99AmendmentCitation",
     "Article99Condition",
     "Article99Item",
     "Article99ItemNotFoundError",
+    "Article99TransitionalRateError",
     "UnsupportedArticle99EditionError",
+    "aggregate_article_99_turnover",
     "get_article_99_item",
     "list_article_99_items",
 ]

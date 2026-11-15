@@ -71,6 +71,7 @@ periods (CGI article 112):
 
 ```
 chiffre_affaires × taux par taux déclaré        (art. 98, 99, 247-XXXXI)
+    + tva_collectee_article100
     = tva_collectee_totale
 (tva_deductible_charges + tva_deductible_immobilisations)
     × prorata_deduction                          (art. 101, 104)
@@ -94,6 +95,26 @@ simulated) but carry `en_vigueur = 0` from 2024-01-01, and a chiffre d'affaires
 declared on those brackets is reported separately in
 `chiffre_affaires_taux_abroge` instead of being taxed at an abrogated rate.
 
+### Article 100 specific rates
+
+The model also computes the Article 100 taxes for quantities that the caller
+has already classified under that article. It uses hectolitres for wines and
+alcoholic beverages sold otherwise than for consumption on the premises, and
+grams of gold/platinum or silver contained in the relevant articles. The amount is included in
+`tva_collectee_totale`.
+
+| Effective period | Wine/alcohol | Gold/platinum | Silver |
+|---|---:|---:|---:|
+| 2007-01-01 → 2010-12-31 | 100 DH/hl | 4 DH/g | 0.05 DH/g |
+| 2011-01-01 → 2019-12-31 | 100 DH/hl | 5 DH/g | 0.10 DH/g |
+| From 2020-01-01 | Article 100 repealed | Article 100 repealed | Article 100 repealed |
+
+The exact rate periods and amendment quotes are available from
+`openfisca_morocco.tva_article100`. `quantites_article100_hors_periode` flags
+non-zero quantities before 2007 or from 2020 onward. The catalog does not
+reconstruct the pre-CGI regime or decide how a transaction is taxed after the
+2020 repeal; use the law in force for that transaction.
+
 ### Transitional rates, 2024–2026
 
 Article 247-XXXXI gives seven operation categories their own glide path. They
@@ -116,16 +137,24 @@ Water and sanitation have no glide path: 10 % from 1 January 2024
 
 ### What the TVA module does not do
 
-It does **not** choose a rate from a product description. A quote-backed
-Article 99 catalog is available for the consolidated editions 2007, 2010, 2014,
-2018, 2021, 2024 and 2026, but each entry must be requested by its exact edition
-year and item ID. The returned quote, rate, item ID, corpus path and any source
-endnote labels let a caller inspect a documented clause; amendment citations
-are linked only when an inline marker or parent qualification establishes the
-relationship. A page-footer note is not assigned to its nearest item by
-position alone. The package does not classify arbitrary products or select an
-edition for an effective date. Some catalog quotes cover combined clauses and
-are returned whole.
+It does **not** choose an exemption or rate from an arbitrary product
+description. Quote-backed Article 91, Article 92 and Article 99 catalogs are
+available for the consolidated editions 2007, 2010, 2014, 2018, 2021, 2024 and
+2026. Each entry must be requested by its exact edition year and item ID. The
+returned quote, rate or exemption treatment, item ID and source path let a
+caller inspect the clause. Some clauses contain combined or nested operations
+and are returned whole; the catalogs do not classify a transaction or select
+an edition for an effective date.
+
+`aggregate_article_99_turnover` maps caller-selected exact Article 99 item IDs
+to summed taxable bases by rate. It does not take product descriptions as
+input. Items that cite a separate Article 247 transitional schedule are
+rejected so their turnover can be entered through `tva_operation_transitoire`.
+
+Article 91 entries preserve exemptions without a right to deduct, while
+Article 92 entries preserve exemptions with a right to deduct. They are
+provided for explicit caller review and do not automatically calculate
+`prorata_deduction`.
 
 The CGI Article 99 catalog has **no 2004 edition**. Snapshot labels are not
 continuous effective-date ranges, so they cannot establish which clause
@@ -137,7 +166,10 @@ To enumerate the documented clauses for an exact snapshot, then retrieve one
 item directly:
 
 ```python
+from decimal import Decimal
+
 from openfisca_morocco.tva_article99 import (
+    aggregate_article_99_turnover,
     get_article_99_item,
     list_article_99_items,
 )
@@ -151,7 +183,36 @@ print(item.corpus_file)  # source text path in morocco-holy-graph
 print(item.source_endnote_labels)  # tuple of catalog labels, or None
 print(item.amendment_citations[0].law)  # cited finance law, when available
 print(item.amendment_citations[0].amending_law_corpus_file)
+
+turnover_by_rate = aggregate_article_99_turnover(
+    2024,
+    {
+        "2024-art99-general-20pct": Decimal("1000"),
+        "2024-art99-10pct-001": Decimal("500"),
+    },
+)
+print(dict(turnover_by_rate))  # 20%: 1000 MAD; 10%: 500 MAD
 ```
+
+Article 91 and 92 have separate exact-snapshot lookups:
+
+```python
+from openfisca_morocco.tva_article91_92 import (
+    get_article_92_item,
+    list_article_91_items,
+)
+
+exemptions_without_deduction = list_article_91_items(2026)
+export = get_article_92_item(2026, "2026-art92-clause-001")
+print(export.right_to_deduct)  # True
+print(export.quote)  # source quotation; conditions remain part of the clause
+```
+
+The package-local source catalog is
+`openfisca_morocco/data/tva_article91_92_catalog.json`. It contains 255 Article
+91 rows and 349 Article 92 rows across the seven snapshots. Snapshot markers
+are omitted from individual rows; dates do not imply continuous validity, and
+some nested subclauses remain combined.
 
 `list_article_99_items` preserves the source order and returns an immutable
 tuple. The package-local catalog is
@@ -228,6 +289,21 @@ folios), while the complete Article 101 pages 95–98 were visually checked and
 the DGI-hosted edition was also checked. The package does not claim that the
 mirror bytes are identical to the DGI-hosted PDF.
 
+The same snapshot now names a live primary source: Bulletin officiel n° 5382
+bis (27 kaada 1426 / 29 December 2005), which promulgated loi de finances
+n° 35-05. Fetched on 2026-11-14 from
+`https://www.sgg.gov.ma/BO/bo_fr/2005/BO_5382-bis_fr.pdf`, the served PDF is
+byte-identical to the corpus copy, so the Article 101 wording is checkable
+against the enacting text. That comparison also confirms the item list: 37 of
+38 rows match the bulletin OCR at 95% token coverage or better, and the last
+differs only by `rebia`/`rabii`.
+
+One naming hazard is recorded in the artifact: the 2006 text numbers the TVA
+rate articles 99 (base by prior agreement), 100 (20% normal rate), 101
+(reduced rates) and 102 (specific rates), whereas the 2007 and later editions
+number the same four articles 97, 98, 99 and 100. A 2006 "Article 100" is
+therefore *not* the specific-rate article exposed by `tva_article100`.
+
 ```python
 from openfisca_morocco.tva_article101 import (
     get_lar_2006_article_101_item,
@@ -239,12 +315,32 @@ snapshot = get_lar_2006_article_101_snapshot()
 print(snapshot.effective_from)  # "2006-01-01", cited to LAR article 212
 print(snapshot.source_pdf_sha256)
 print(len(list_lar_2006_article_101_items()))  # 38
+print(snapshot.corroborating_source.url)  # live Bulletin officiel PDF
+print(snapshot.corroborating_source.article_numbering_note)
 item = get_lar_2006_article_101_item("2006-art101-7pct-001")
 print(item.article, item.rate, item.quote)  # Article 101, not CGI Article 99
 ```
 
 The package-local source artifact is
 `openfisca_morocco/data/tva_lar_2006_article101.json`.
+
+For a transaction already assigned to an Article 100 category, the monthly
+calculation accepts physical quantities directly:
+
+```python
+from datetime import date
+
+from openfisca_morocco.tva_article100 import calculate_article_100_tax
+
+tax = calculate_article_100_tax(date(2011, 1, 1), gold_platinum_g=3, silver_g=10)
+print(tax)  # Decimal('16.00')
+```
+
+The OpenFisca variables are `volume_vins_boissons_alcoolisees_article100`,
+`grammes_or_platine_article100`, and `grammes_argent_article100`. These inputs
+should only contain quantities the caller has determined fall under Article
+100. The total declaration includes their calculated tax for the verified
+2007–2019 period.
 
 ## Provenance
 
@@ -258,9 +354,11 @@ names the article it comes from.
 | Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
 | TVA rates 2004–2026 | `morocco-holy-graph`, verified dataset `laws/ma_tax_law/data/tva_rate_history.json` (PR #81), where every rate carries a literal quote from the finance-law text layer; cross-checked by `openfisca_morocco/tests/test_tva_taux.py` |
 | Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It has no CGI Article 99 edition for 2004 and makes no continuous effective-date claim. |
+| Articles 91 and 92 exemption entries | Consolidated snapshots from the same parsed source catalog for 2007, 2010, 2014, 2018, 2021, 2024 and 2026; numbered clauses retain their quotes and deduction treatment. Nested lists are not fully leaf-itemized and snapshots do not establish continuous validity. |
+| Article 100 specific rates | Five source-backed rate periods from the same catalog, with the 2011 metal-rate amendment and 2020 repeal cited. The model applies the per-unit rates only for 2007–2019 and flags non-zero quantity inputs outside that coverage. |
 | Historical Loi 30-85 Article 15 | `historical_article15_2004_2005` in the same corpus dataset; the separate package artifact preserves the 2004/2005 snapshot items, quotes, conditions, available amendment citations and reviewed source-chain evidence. The available-source review found no additional non-finance amendment, but the 2002 DGI baseline PDF is not pinned and the incomplete Gazette run prevents an exhaustive negative. |
 | 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
-| TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
+| TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
@@ -284,13 +382,22 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **IR from 2025 only.** Earlier IR scales, rates and thresholds are not
   encoded, so an IR simulation for 2024 or before returns the 2025 law or a
   default value — do not use it for historical IR work.
-- **Article 99 lookup is snapshot-scoped.** The package supports exact catalog
-  IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It does not
-  classify product descriptions or interpolate between editions. The separate
-  2006 LAR Article 101 snapshot does not supply the missing 2004–2005 Article
-  15 list and does not belong to the Article 99 catalog; #6 remains open until
-  the historical gap and effective-date coverage are resolved. See the TVA section above and
+- **TVA category history is snapshot-scoped.** Articles 91, 92 and 99 support
+  exact item IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026; they
+  do not classify descriptions or fill the periods between snapshots. The
+  separate Article 15 snapshots cover 2004 and 2005, and the LAR Article 101
+  snapshot covers 2006. These sources do not establish a continuous
+  transaction-to-category history for every month from 2004 onward. See
+  [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6) and
   [morocco-holy-graph#80](https://github.com/MasterSwords1/morocco-holy-graph/issues/80).
+- **Article 100 has bounded coverage.** The model applies its verified specific
+  rates from 2007 through 2019. Its pre-2007 predecessor regime is not encoded:
+  the 2006 text does contain the same specific rates but numbers them Article
+  102, with 99/100/101/102 where 2007+ has 97/98/99/100, so exposing them as
+  Article 100 would conflate the two numberings (see
+  `docs/evidence/bo-5382-bis-2006-tva-rates.ocr.txt`). Article 100 was repealed
+  in 2020 and later treatment is not inferred from its former rates. Non-zero
+  quantities outside the verified interval are flagged.
 - **TVA before 2004 is not modelled.** The rate dataset starts on 1 January
   2004; before that date the parameters return the 2004 regime.
 - **No import or export VAT, no registration duties, no specific rates**
@@ -436,9 +543,13 @@ openfisca_morocco/
 ├── entities.py                 # Household (adults/children), Company, Person
 ├── tva_article15.py            # pre-CGI Loi 30-85 Article 15 snapshots
 ├── tva_article99.py            # snapshot item listing and exact lookup
+├── tva_article91_92.py         # exemption snapshot listing and exact lookup
+├── tva_article100.py           # specific-rate periods and tax calculation
 ├── tva_article101.py           # fixed 2006 LAR Article 101 snapshot
 ├── data/
 │   ├── tva_article15_catalog.json # historical Article 15 catalog and audit
+│   ├── tva_article91_92_catalog.json # quoted exemption snapshots
+│   ├── tva_article100_rates.json # specific-rate periods and amendments
 │   ├── tva_article99_catalog.json # quoted Article 99 snapshots and provenance
 │   └── tva_lar_2006_article101.json # separate LAR Article 101 snapshot
 ├── parameters/
@@ -448,7 +559,7 @@ openfisca_morocco/
 ├── variables/
 │   ├── cotisations_sociales.py # CNSS and AMO contributions (employee & employer)
 │   ├── impot_revenu.py         # the IR pipeline
-│   ├── tva.py                  # the TVA declaration
+│   ├── tva.py                  # monthly company TVA declaration
 │   └── demographics.py         # birth, age
 ├── situation_examples/
 │   └── salarie.json            # one salaried taxpayer, used by the Web API spec

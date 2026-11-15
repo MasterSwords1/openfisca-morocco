@@ -2,6 +2,7 @@
 
 import json
 from dataclasses import FrozenInstanceError
+from decimal import Decimal
 from importlib import resources
 
 import pytest
@@ -10,7 +11,9 @@ from openfisca_morocco.tva_article99 import (
     ARTICLE_99_SNAPSHOT_YEARS,
     Article99AmendmentCitation,
     Article99ItemNotFoundError,
+    Article99TransitionalRateError,
     UnsupportedArticle99EditionError,
+    aggregate_article_99_turnover,
     get_article_99_item,
     list_article_99_items,
 )
@@ -234,3 +237,32 @@ def test_returned_item_is_immutable():
 
     with pytest.raises(FrozenInstanceError):
         item.rate = "0%"
+
+
+def test_explicit_article_99_item_ids_aggregate_turnover_by_rate():
+    turnover = aggregate_article_99_turnover(
+        2024,
+        {
+            "2024-art99-general-20pct": Decimal(1000),
+            "2024-art99-10pct-001": Decimal(400),
+            "2024-art99-10pct-002": Decimal(100),
+        },
+    )
+
+    assert dict(turnover) == {
+        "20%": Decimal(1000),
+        "10%": Decimal(500),
+    }
+    with pytest.raises(TypeError):
+        turnover["10%"] = Decimal(0)
+
+
+def test_aggregation_rejects_transitional_categories_and_bad_bases():
+    with pytest.raises(
+        Article99TransitionalRateError, match="tva_operation_transitoire"
+    ):
+        aggregate_article_99_turnover(2024, {"2024-art99-10pct-079": Decimal(100)})
+    with pytest.raises(Article99ItemNotFoundError):
+        aggregate_article_99_turnover(2024, {"sugar": Decimal(100)})
+    with pytest.raises(ValueError, match="finite and non-negative"):
+        aggregate_article_99_turnover(2024, {"2024-art99-general-20pct": Decimal(-1)})
