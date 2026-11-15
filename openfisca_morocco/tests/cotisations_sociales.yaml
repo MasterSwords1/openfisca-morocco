@@ -1,0 +1,64 @@
+# Tests des cotisations sociales obligatoires (CNSS, AMO) et charges patronales.
+#
+# Références légales vérifiées dans morocco-holy-graph (module ma_social_protection) :
+# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 (art. 19, 38 à 41)
+# - Décret n° 2-02-175 du 11 juillet 2002 (plafond 6 000 MAD)
+# - Loi n° 03-14 et Décret n° 2-14-540 (IPE)
+# - Loi n° 30-97 (taxe de formation professionnelle)
+# - Loi n° 65-00 et Décret n° 2-05-734 mod. 2-14-707 (AMO)
+
+- name: Salaire mensuel de 4 000 DH — inférieur au plafond CNSS de 6 000 DH
+  period: 2025-01
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut: 4000
+  output:
+    cotisation_cnss_salarie: 179.2  # 4 000 × (0,33 % + 3,96 % + 0,19 % = 4,48 %)
+    cotisation_amo_salarie: 90.4  # 4 000 × 2,26 %
+    cotisations_sociales_salarie: 269.6
+    cotisation_cnss_employeur: 679.2  # 4 000 × 8,98 % plafonné + 4 000 × (6,4 % + 1,6 % = 8 %)
+    cotisation_amo_employeur: 164.4  # 4 000 × (2,26 % + 1,85 % = 4,11 %)
+    cotisations_sociales_employeur: 843.6
+    cout_employeur: 4843.6
+
+- name: Salaire mensuel de 6 000 DH — exactement au plafond CNSS
+  period: 2025-01
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut: 6000
+  output:
+    cotisation_cnss_salarie: 268.8  # 6 000 × 4,48 %
+    cotisation_amo_salarie: 135.6  # 6 000 × 2,26 %
+    cotisations_sociales_salarie: 404.4
+    cotisation_cnss_employeur: 1018.8  # 6 000 × 8,98 % + 6 000 × 8 %
+    cotisation_amo_employeur: 246.6  # 6 000 × 4,11 %
+    cotisations_sociales_employeur: 1265.4
+    cout_employeur: 7265.4
+
+- name: Salaire mensuel de 10 000 DH — supérieur au plafond CNSS (écrêtement à 6 000 DH)
+  period: 2025-01
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut: 10000
+  output:
+    cotisation_cnss_salarie: 268.8  # plafonné à 6 000 × 4,48 %
+    cotisation_amo_salarie: 226.0  # déplafonné : 10 000 × 2,26 %
+    cotisations_sociales_salarie: 494.8
+    cotisation_cnss_employeur: 1338.8  # 6 000 × 8,98 % (538,8) + 10 000 × 8 % (800)
+    cotisation_amo_employeur: 411.0  # déplafonné : 10 000 × 4,11 %
+    cotisations_sociales_employeur: 1749.8
+    cout_employeur: 11749.8
+
+- name: Salaire mensuel de 20 000 DH — cadre supérieur au-dessus du plafond
+  period: 2025-01
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut: 20000
+  output:
+    cotisation_cnss_salarie: 268.8  # plafonné à 6 000 × 4,48 %
+    cotisation_amo_salarie: 452.0  # déplafonné : 20 000 × 2,26 %
+    cotisations_sociales_salarie: 720.8
+    cotisation_cnss_employeur: 2138.8  # 538,8 + 20 000 × 8 % (1 600)
+    cotisation_amo_employeur: 822.0  # 20 000 × 4,11 %
+    cotisations_sociales_employeur: 2960.8
+    cout_employeur: 22960.8

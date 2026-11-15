@@ -1,4 +1,23 @@
 
+## 0.4.0 - [#5](https://github.com/MasterSwords1/openfisca-morocco/issues/5)
+
+* Tax and benefit system evolution.
+* Impacted periods: all.
+* Impacted areas:
+  - `parameters.prestations_sociales.cotisations` (new CNSS and AMO parameters).
+  - `variables.cotisations_sociales` (new mandatory social contributions and employer charges).
+  - `variables.impot_revenu` (formula for `cotisations_sociales_obligatoires`).
+  - `tests` (new YAML and Python tests for social contributions).
+* Details:
+  - Model mandatory Moroccan social security contributions (CNSS) and mandatory health insurance (AMO) on `Person` with monthly periodicity (`MONTH`), grounded in `morocco-holy-graph` module `ma_social_protection` (CSOC, PR #95) and primary statutes:
+    - Dahir portant loi n° 1-72-184 (sécurité sociale) et Décret n° 2-02-175 fixant le plafond des rémunérations soumises à cotisation CNSS à 6 000 MAD par mois.
+    - Loi n° 03-14 et Décret n° 2-14-540 instituant l'indemnité pour perte d'emploi (IPE).
+    - Loi n° 65-00 portant Code de la Couverture Médicale de Base et Décret n° 2-05-734 modifié par Décret n° 2-14-707 (AMO).
+    - Prestations familiales (6,40 % patronale, Décret n° 2-19-461) et taxe de formation professionnelle (1,60 % patronale, Loi n° 30-97).
+  - Add monthly variables: `salaire_brut`, `cotisation_cnss_salarie`, `cotisation_amo_salarie`, `cotisations_sociales_salarie`, `cotisation_cnss_employeur`, `cotisation_amo_employeur`, `cotisations_sociales_employeur`, and `cout_employeur`.
+  - Provide a formula for `cotisations_sociales_obligatoires` on `YEAR` in the IR pipeline that aggregates monthly employee social contributions (CNSS + AMO), allowing gross-to-net salary and income tax simulations without requiring hand-entered social contributions.
+  - Verified across monthly income levels below, at, and above the 6 000 MAD ceiling in `tests/cotisations_sociales.yaml` and `tests/test_cotisations_sociales.py`.
+
 ## 0.3.0 - [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6)
 
 * Tax and benefit system evolution.

@@ -1,0 +1,45 @@
+# Assurance Maladie Obligatoire (AMO) et participation patronale de solidarité.
+#
+# Source: corpus `morocco-holy-graph`, module `ma_social_protection` (CSOC),
+# dataset `laws/ma_social_protection/data/social_security_rates.json`.
+# Textes légaux de référence :
+# - Loi n° 65-00 portant Code de la Couverture Médicale de Base (articles 114 et suivants)
+# - Décret n° 2-05-734 tel que modifié par Décret n° 2-14-707 (taux de cotisation et solidarité AMO)
+
+description: Assurance Maladie Obligatoire (AMO) et participation patronale de solidarité
+
+base:
+  description: Cotisation AMO de base sans plafond pour les salariés du secteur privé
+  salarie:
+    description: Part salariale AMO de base (2,26 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi n° 65-00, article 114 et Décret n° 2-05-734 tel que modifié par Décret n° 2-14-707 — part salariale AMO (2,26 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2016-01-01:
+        value: 0.0226
+  employeur:
+    description: Part patronale AMO de base (2,26 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi n° 65-00, article 114 et Décret n° 2-05-734 tel que modifié par Décret n° 2-14-707 — part patronale AMO (2,26 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2016-01-01:
+        value: 0.0226
+
+solidarite:
+  description: Contribution patronale de solidarité AMO sans plafond
+  employeur:
+    description: Part patronale solidarité AMO (1,85 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Décret n° 2-05-734 tel que modifié par Décret n° 2-14-707 — participation patronale de solidarité AMO (1,85 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2016-01-01:
+        value: 0.0185

@@ -3,12 +3,14 @@
 [OpenFisca](https://openfisca.org) model of Moroccan tax and benefit law, as
 code.
 
-**Status: early.** The package models two things: the **impôt sur le revenu
-(IR)** on salarial income for **annual** periods under the rules in force since
-**1 January 2025**, and the **taxe sur la valeur ajoutée (TVA)** declared by an
-enterprise for **monthly** periods, with dated rates running **2004–2026**.
-Everything else — social contributions, family allowances, the direct social
-support — is not modelled yet and is tracked in the
+**Status: early.** The package models: the **impôt sur le revenu (IR)** on
+salarial income for **annual** periods under the rules in force since
+**1 January 2025**, the **cotisations sociales obligatoires (CNSS + AMO)** and
+charges patronales for **monthly** periods, and the **taxe sur la valeur
+ajoutée (TVA)** declared by an enterprise for **monthly** periods, with dated
+rates running **2004–2026**.
+Everything else — family allowances, the direct social support — is not modelled
+yet and is tracked in the
 [issue list](https://github.com/MasterSwords1/openfisca-morocco/issues).
 
 | | |
@@ -16,8 +18,8 @@ support — is not modelled yet and is tracked in the
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR), `MONTH` (TVA) |
-| First modelled period | 2004-01-01 (TVA), 2025-01-01 (IR) |
+| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales) |
+| First modelled period | 2004-01-01 (TVA), 2025-01-01 (IR, Cotisations) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -259,6 +261,7 @@ names the article it comes from.
 | Historical Loi 30-85 Article 15 | `historical_article15_2004_2005` in the same corpus dataset; the separate package artifact preserves the 2004/2005 snapshot items, quotes, conditions, available amendment citations and reviewed source-chain evidence. The available-source review found no additional non-finance amendment, but the 2002 DGI baseline PDF is not pinned and the incomplete Gazette run prevents an exhaustive negative. |
 | 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
+| Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
 The corpus is the source of truth for this package: figures are taken from
@@ -292,9 +295,6 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **No import or export VAT, no registration duties, no specific rates**
   (article 100: wine, gold and silver). See issue
   [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6).
-- **Contributions are an input, not a computation.** `cotisations_sociales_obligatoires`
-  must be supplied; CNSS/AMO rates and ceilings are not modelled yet. See issue
-  [#5](https://github.com/MasterSwords1/openfisca-morocco/issues/5).
 - **No benefits.** Allocations familiales, aide sociale directe and the rest of
   the transfer system are absent. See issues
   [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7) and
@@ -322,7 +322,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 85 passed
+# 98 passed
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -412,10 +412,13 @@ make test          # YAML tests under openfisca_morocco/tests/
 pre-commit run --all-files
 ```
 
-The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml` and
+The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
+`openfisca_morocco/tests/cotisations_sociales.yaml` and
 `openfisca_morocco/tests/tva.yaml` document the expected law at the boundaries
-(each bracket, each dated rate, each transitional step), and
+(each bracket, each ceiling, each dated rate, each transitional step), and
 `openfisca_morocco/tests/age.yaml` covers the `age` formula.
+`openfisca_morocco/tests/test_cotisations_sociales.py` checks CNSS and AMO
+contributions across salary levels and validates integration into the annual IR,
 `openfisca_morocco/tests/test_tva_taux.py` checks every declared TVA rate and
 period against the verified corpus dataset,
 `openfisca_morocco/tests/test_tva_simulation.py` checks the public simulation
@@ -439,8 +442,10 @@ openfisca_morocco/
 │   └── tva_lar_2006_article101.json # separate LAR Article 101 snapshot
 ├── parameters/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
+│   ├── prestations_sociales/   # cotisations CNSS, AMO
 │   └── tva/                    # dated rates 2004-2026, transitional schedules
 ├── variables/
+│   ├── cotisations_sociales.py # CNSS and AMO contributions (employee & employer)
 │   ├── impot_revenu.py         # the IR pipeline
 │   ├── tva.py                  # the TVA declaration
 │   └── demographics.py         # birth, age

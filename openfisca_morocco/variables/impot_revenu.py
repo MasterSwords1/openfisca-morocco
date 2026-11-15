@@ -48,6 +48,12 @@ class cotisations_sociales_obligatoires(Variable):
     )
     reference = "https://www.tax.gov.ma"  # CGI, article 58
 
+    def formula(person, period, parameters):
+        return sum(
+            person("cotisations_sociales_salarie", month)
+            for month in period.get_subperiods("month")
+        )
+
 
 class nombre_personnes_a_charge(Variable):
     value_type = int
