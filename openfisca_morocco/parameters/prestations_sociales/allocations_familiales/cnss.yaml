@@ -1,0 +1,42 @@
+# Allocations familiales (CNSS)
+#
+# Source: corpus `morocco-holy-graph`, module `ma_social_protection` (CSOC),
+# dataset `laws/ma_social_protection/data/family_allowances_grid.json`.
+# Textes légaux de référence :
+# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 38 à 41)
+# - Décret n° 2-19-461 du 19 juillet 2019 modifiant les montants des allocations familiales
+
+description: Barème des allocations familiales servies par la CNSS aux assurés sociaux
+
+plafond_enfants:
+  description: Nombre maximum d'enfants à charge ouvrant droit aux allocations familiales
+  unit: /1
+  metadata:
+    reference:
+      - title: Dahir portant loi n° 1-72-184, article 38 et Décret n° 2-19-461 fixant le plafond à 6 enfants par assuré social
+        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+  values:
+    2019-07-01:
+      value: 6
+
+montant_enfants_1_a_3:
+  description: Montant mensuel de l'allocation familiale par enfant pour les 3 premiers enfants (rangs 1 à 3)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 300 DH par mois et par enfant pour les 3 premiers enfants
+        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+  values:
+    2019-07-01:
+      value: 300.0
+
+montant_enfants_4_a_6:
+  description: Montant mensuel de l'allocation familiale par enfant pour les enfants de rangs 4 à 6
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 36 DH par mois et par enfant pour les enfants du 4ème au 6ème rang
+        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+  values:
+    2019-07-01:
+      value: 36.0

@@ -1,4 +1,25 @@
 
+## 0.5.0 - [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2019-07-01 onwards.
+* Impacted areas:
+  - `parameters.prestations_sociales.allocations_familiales` (new CNSS family allowances grid).
+  - `variables.allocations_familiales` (new variables `nombre_enfants` and `allocations_familiales` on `Household`).
+  - `tests` (new YAML and Python tests for CNSS family allowances).
+* Details:
+  - Model contributory CNSS family allowances (*allocations familiales*) on `Household` with monthly periodicity (`MONTH`), grounded in `morocco-holy-graph` module `ma_social_protection` (CSOC, PR #95) and primary legal instruments:
+    - Dahir portant loi n° 1-72-184 du 27 juillet 1972 (articles 38 à 41).
+    - Décret n° 2-19-461 du 19 juillet 2019 fixant les montants mensuels par enfant.
+  - Implement statutory parameter grid:
+    - `plafond_enfants`: statutory maximum of 6 eligible children per insured.
+    - `montant_enfants_1_a_3`: 300 MAD / month per child for ranks 1 to 3.
+    - `montant_enfants_4_a_6`: 36 MAD / month per child for ranks 4 to 6.
+  - Implement variables:
+    - `nombre_enfants`: computed from `household.nb_persons(Household.CHILD)` by default, or accept direct input overrides.
+    - `allocations_familiales`: computed for `Household` over `MONTH` using the statutory tiered scale and legal 6-child cap.
+  - Tested across 0, 1, 2, 3, 4, 6, 8, and 10 children scenarios in YAML (`allocations_familiales.yaml`) and pytest (`test_allocations_familiales.py`), including salary-independence and input override validation.
+
 ## 0.4.0 - [#5](https://github.com/MasterSwords1/openfisca-morocco/issues/5)
 
 * Tax and benefit system evolution.
