@@ -10,7 +10,6 @@ import pytest
 from openfisca_core.simulation_builder import SimulationBuilder
 
 import openfisca_morocco
-from openfisca_morocco.entities import Household
 
 
 @pytest.fixture

@@ -27,9 +27,7 @@ class nombre_enfants(Variable):
     value_type = int
     entity = Household
     definition_period = MONTH
-    label = (
-        "Nombre d'enfants à charge ouvrant droit aux allocations familiales au sein du ménage"
-    )
+    label = "Nombre d'enfants à charge ouvrant droit aux allocations familiales au sein du ménage"
     reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json"  # Dahir 1-72-184, art. 38 et 41
 
     def formula(household, period, parameters):
@@ -42,9 +40,7 @@ class allocations_familiales(Variable):
     entity = Household
     definition_period = MONTH
     unit = "currency-MAD"
-    label = (
-        "Montant mensuel des allocations familiales CNSS servies au ménage"
-    )
+    label = "Montant mensuel des allocations familiales CNSS servies au ménage"
     reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json"  # Dahir 1-72-184, arts. 38-41 ; Décret 2-19-461
 
     def formula(household, period, parameters):
