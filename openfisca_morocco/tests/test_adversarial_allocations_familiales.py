@@ -15,6 +15,7 @@ Legal references:
 """
 
 import time
+
 import numpy as np
 import pytest
 from openfisca_core.errors.parameter_not_found_error import ParameterNotFoundError
@@ -406,7 +407,7 @@ def test_large_vector_override_population():
 def test_temporal_boundary_prior_to_decree():
     """Querying parameters before Décret 2-19-461 (2019-07-01) raises ParameterNotFoundError."""
     with pytest.raises(ParameterNotFoundError):
-        TBS.parameters(
+        _ = TBS.parameters(
             "2019-06"
         ).prestations_sociales.allocations_familiales.cnss.montant_enfants_1_a_3
 
