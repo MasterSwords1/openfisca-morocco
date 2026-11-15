@@ -1,0 +1,118 @@
+# Cotisations de sécurité sociale (CNSS) et taxes annexes.
+#
+# Source: corpus `morocco-holy-graph`, module `ma_social_protection` (CSOC),
+# dataset `laws/ma_social_protection/data/social_security_rates.json`.
+# Textes légaux de référence :
+# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale
+# - Décret n° 2-02-175 du 11 juillet 2002 fixant le plafond à 6 000 DH/mois
+# - Loi n° 03-14 et Décret n° 2-14-540 instituant l'indemnité pour perte d'emploi (IPE)
+# - Décret n° 2-19-461 fixant le taux des prestations familiales à 6,40 %
+# - Loi n° 30-97 relative à la taxe de formation professionnelle (1,60 %)
+
+description: Cotisations de sécurité sociale (CNSS) et taxes annexes
+
+plafond_mensuel:
+  description: Plafond mensuel des rémunérations soumises à cotisation CNSS (court terme, long terme et IPE)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 du 11 juillet 2002 fixant le plafond des rémunérations soumises à cotisation CNSS à 6 000 DH par mois
+        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+  values:
+    2002-07-11:
+      value: 6000.0
+
+court_terme:
+  description: Prestations sociales de court terme (indemnités journalières de maladie, maternité et congé de naissance)
+  salarie:
+    description: Part salariale des cotisations court terme (0,33 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation salariale court terme (0,33 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2002-07-11:
+        value: 0.0033
+  employeur:
+    description: Part patronale des cotisations court terme (0,67 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation patronale court terme (0,67 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2002-07-11:
+        value: 0.0067
+
+long_terme:
+  description: Prestations sociales de long terme (pensions de vieillesse, d'invalidité et de survivants)
+  salarie:
+    description: Part salariale des cotisations long terme (3,96 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation salariale long terme (3,96 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2002-07-11:
+        value: 0.0396
+  employeur:
+    description: Part patronale des cotisations long terme (7,93 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation patronale long terme (7,93 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2002-07-11:
+        value: 0.0793
+
+indemnite_perte_emploi:
+  description: Indemnité pour perte d'emploi (IPE)
+  salarie:
+    description: Part salariale IPE (0,19 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi n° 03-14 complétant le Dahir 1-72-184 (articles 46 bis à 46 sexies) et Décret n° 2-14-540 — cotisation salariale IPE (0,19 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2014-12-01:
+        value: 0.0019
+  employeur:
+    description: Part patronale IPE (0,38 %)
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi n° 03-14 complétant le Dahir 1-72-184 (articles 46 bis à 46 sexies) et Décret n° 2-14-540 — cotisation patronale IPE (0,38 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2014-12-01:
+        value: 0.0038
+
+prestations_familiales:
+  description: Allocations familiales versées aux salariés ayant des enfants à charge
+  employeur:
+    description: Part patronale allocations familiales (6,40 % sans plafond)
+    unit: /1
+    metadata:
+      reference:
+        - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — cotisation patronale allocations familiales (6,40 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      2019-07-01:
+        value: 0.064
+
+taxe_formation_professionnelle:
+  description: Taxe finançant les programmes de formation professionnelle continue (OFPPT)
+  employeur:
+    description: Part patronale taxe de formation professionnelle (1,60 % sans plafond)
+    unit: /1
+    metadata:
+      reference:
+        - title: Loi n° 30-97 relative à la taxe de formation professionnelle (1,60 %)
+          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+    values:
+      1997-01-01:
+        value: 0.016
