@@ -6,11 +6,11 @@ code.
 **Status: early.** The package models: the **impôt sur le revenu (IR)** on
 salarial income for **annual** periods under the rules in force since
 **1 January 2025**, the **cotisations sociales obligatoires (CNSS + AMO)** and
-charges patronales for **monthly** periods, and the **taxe sur la valeur
-ajoutée (TVA)** declared by an enterprise for **monthly** periods, with dated
-rates running **2004–2026**.
-Everything else — family allowances, the direct social support — is not modelled
-yet and is tracked in the
+charges patronales for **monthly** periods, the contributory **allocations familiales (CNSS)**
+for **monthly** periods, and the **taxe sur la valeur ajoutée (TVA)** declared by an enterprise
+for **monthly** periods, with dated rates running **2004–2026**.
+Non-contributory direct social assistance (aide sociale directe) and other transfer schemes
+are tracked in the
 [issue list](https://github.com/MasterSwords1/openfisca-morocco/issues).
 
 | | |
@@ -18,8 +18,8 @@ yet and is tracked in the
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales) |
-| First modelled period | 2004-01-01 (TVA), 2025-01-01 (IR, Cotisations) |
+| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales) |
+| First modelled period | 2004-01-01 (TVA), 2019-07-01 (Allocations familiales), 2025-01-01 (IR, Cotisations) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -262,6 +262,7 @@ names the article it comes from.
 | 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000) |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
+| Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
 The corpus is the source of truth for this package: figures are taken from
@@ -295,9 +296,9 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **No import or export VAT, no registration duties, no specific rates**
   (article 100: wine, gold and silver). See issue
   [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6).
-- **No benefits.** Allocations familiales, aide sociale directe and the rest of
-  the transfer system are absent. See issues
-  [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7) and
+- **Aide sociale directe not yet modelled.** Non-contributory direct social assistance under
+  Loi n° 58-23 and the RSU targeting mechanisms are tracked in issue
+  [#8](https://github.com/MasterSwords1/openfisca-morocco/issues/8).
   [#8](https://github.com/MasterSwords1/openfisca-morocco/issues/8).
 - **No microdata.** The package computes on situations you provide; it ships no
   survey or administrative dataset.
