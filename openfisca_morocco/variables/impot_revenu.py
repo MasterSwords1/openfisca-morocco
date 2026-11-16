@@ -9,12 +9,17 @@ by the Loi de Finances 2025:
 - article 73-I: progressive annual scale on net taxable income
 - article 74: 500 DH deduction per dependent, capped at 6 dependents
 
-All variables are defined for YEAR periods: the CGI scale is annual, and the
-monthly withholding version derives from the same brackets.
+Salary and exempt remuneration inputs are monthly amounts. Annual totals can
+still be supplied and are divided between months by OpenFisca. The taxable
+income pipeline, contribution deduction and family-dependent count remain
+annual: the CGI scale is applied once to the year's income, not month by month.
+Monthly withholding is not modelled.
 """
 
-from numpy import maximum as max_, minimum as min_
-from openfisca_core.periods import YEAR
+from numpy import float64, maximum as max_, minimum as min_, sum as sum_
+from openfisca_core.holders import set_input_divide_by_period
+from openfisca_core.model_api import ADD
+from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
 
 from openfisca_morocco.entities import Person
@@ -23,18 +28,20 @@ from openfisca_morocco.entities import Person
 class salaire_brut_global(Variable):
     value_type = float
     entity = Person
-    definition_period = YEAR
+    definition_period = MONTH
+    set_input = set_input_divide_by_period
     unit = "currency-MAD"
-    label = "Rémunération brute globale annuelle (traitements, indemnités, salaires, avantages en argent ou en nature)"
+    label = "Rémunération brute globale mensuelle (traitements, indemnités, salaires, avantages en argent ou en nature)"
     reference = "https://www.tax.gov.ma"  # CGI, article 56
 
 
 class elements_exoneres(Variable):
     value_type = float
     entity = Person
-    definition_period = YEAR
+    definition_period = MONTH
+    set_input = set_input_divide_by_period
     unit = "currency-MAD"
-    label = "Éléments de rémunération exonérés de l'IR"
+    label = "Éléments mensuels de rémunération exonérés de l'IR"
     reference = "https://www.tax.gov.ma"  # CGI, article 57
 
 
@@ -49,10 +56,7 @@ class cotisations_sociales_obligatoires(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 58
 
     def formula(person, period, parameters):
-        return sum(
-            person("cotisations_sociales_salarie", month)
-            for month in period.get_subperiods("month")
-        )
+        return person("cotisations_sociales_salarie", period, options=[ADD])
 
 
 class nombre_personnes_a_charge(Variable):
@@ -72,8 +76,17 @@ class salaire_brut_imposable(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, articles 56 à 58
 
     def formula(person, period, parameters):
-        return person("salaire_brut_global", period) - person(
-            "elements_exoneres", period
+        months = period.get_subperiods(MONTH)
+        # Annual totals split into float32 months can accumulate rounding error.
+        # Sum in float64 before OpenFisca casts the annual result to float32.
+        return sum_(
+            [person("salaire_brut_global", month) for month in months],
+            axis=0,
+            dtype=float64,
+        ) - sum_(
+            [person("elements_exoneres", month) for month in months],
+            axis=0,
+            dtype=float64,
         )
 
 

@@ -425,9 +425,10 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **Salarial income only (IR).** Professional, rental, capital and foreign
   income are not modelled, so this is not a complete IR. See issue
   [#15](https://github.com/MasterSwords1/openfisca-morocco/issues/15).
-- **Annual periods only (IR).** The IR scale is annual; monthly withholding
-  (retenue à la source) is not modelled. See issue
-  [#9](https://github.com/MasterSwords1/openfisca-morocco/issues/9).
+- **Annual assessment only (IR).** Salary inputs are monthly and are summed
+  before applying the annual IR scale. Monthly withholding (retenue à la
+  source) is not modelled; annual tax divided by twelve is not a withholding
+  calculation.
 - **IR from 2025 only.** Earlier IR scales, rates and thresholds are not
   encoded, so an IR simulation for 2024 or before returns the 2025 law or a
   default value — do not use it for historical IR work.
@@ -495,29 +496,71 @@ from openfisca_core.simulations import SimulationBuilder
 from openfisca_morocco import CountryTaxBenefitSystem
 
 tax_benefit_system = CountryTaxBenefitSystem()
+monthly_pay = {f"2025-{month:02d}": 10_000 for month in range(1, 13)}
 
 simulation = SimulationBuilder().build_from_dict(
     tax_benefit_system,
     {
         "persons": {
             "Salarie": {
-                "salaire_brut_global": {"2025": 200_000},
-                "elements_exoneres": {"2025": 0},
-                "cotisations_sociales_obligatoires": {"2025": 20_000},
-                "nombre_personnes_a_charge": {"2025": 3},
+                "salaire_brut_global": monthly_pay,
+                "salaire_brut": monthly_pay,
+                "nombre_personnes_a_charge": {"2025": 0},
             }
         },
         "households": {"_": {"adults": ["Salarie"]}},
     },
 )
 
-print(simulation.calculate("salaire_net_imposable", "2025"))  # [145000.]
-print(simulation.calculate("impot_sur_le_revenu", "2025"))  # [25800.]
+print(simulation.calculate("salaire_brut_global", "2025-01"))  # [10000.]
+print(simulation.calculate_add("salaire_brut_global", "2025"))  # [120000.]
+print(simulation.calculate("impot_sur_le_revenu", "2025").round(2))  # [7664.04]
 ```
 
-All amounts are annual and in dirhams. Inputs are bare numbers: `salaire_brut_global`
-is the gross annual pay, and `nombre_personnes_a_charge` counts the spouse and
-dependent children.
+All monetary amounts are in Moroccan dirhams (MAD). Monthly salary inputs
+are summed over the requested calendar year; the annual expense thresholds,
+caps, tax brackets and family deduction are applied once to that total.
+
+### Period conventions
+
+The periods of every variable family are:
+
+| Variables | Definition period | Convention |
+|---|---|---|
+| `birth` | `ETERNITY` | A fixed birth date. |
+| `age` | `MONTH` | Age at the start of the month, in completed years. |
+| `salaire_brut_global`, `elements_exoneres` | `MONTH` | Gross remuneration and exempt elements for that month, used for IR. |
+| `salaire_brut` | `MONTH` | The salary base subject to CNSS/AMO contributions for that month. |
+| All other variables in `variables/cotisations_sociales.py` | `MONTH` | Monthly employee/employer contributions and employer cost; CNSS ceilings apply separately each month. |
+| `cotisations_sociales_obligatoires` | `YEAR` | Sum of monthly employee contributions, or an explicit annual deduction override (including other mandatory contributions). |
+| `nombre_personnes_a_charge` | `YEAR` | Count of spouse and dependent children used for the annual IR deduction; never divided by twelve. |
+| `salaire_brut_imposable`, `frais_professionnels`, `salaire_net_imposable`, `ir_brut`, `deduction_charges_famille`, `impot_sur_le_revenu` | `YEAR` | Annual IR bases, deductions and tax. |
+| `nombre_enfants`, `allocations_familiales` | `MONTH` | Household child count and allowance for that month. |
+| All variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
+
+The two gross salary inputs are **distinct bases**. `salaire_brut_global`
+feeds IR; `salaire_brut` feeds CNSS/AMO. Supply both when both apply, as in the
+example above. Supplying only `salaire_brut_global` does not infer contribution
+liability. Without an annual override, `cotisations_sociales_obligatoires`
+sums the contributions calculated from `salaire_brut`.
+
+**Compatibility with annual inputs:** `salaire_brut_global`,
+`elements_exoneres` and `salaire_brut` use `set_input_divide_by_period`.
+For example, `"salaire_brut_global": {"2025": 120_000}` means an **annual
+total** distributed over twelve months (10,000 each), not 120,000 per month.
+Quarter or multi-month totals are likewise distributed over their months.
+When monthly details and a larger-period total are supplied together, the
+larger-period total's remainder is divided over the unspecified months.
+Supply actual monthly contribution salaries when they vary: splitting an
+annual total evenly can change the effect of the monthly CNSS ceiling.
+
+The existing annual YAML scenarios and the bundled `salarie.json` example
+remain valid without migration. Python callers that previously read
+`simulation.calculate("salaire_brut_global", "2025")` (or
+`elements_exoneres`) should now use `calculate_add(..., "2025")` for an
+annual total, or `calculate(..., "2025-01")` for one month. Annual IR outputs
+still use `calculate(..., "2025")`. Missing monthly salary inputs default
+to zero; entering one month does not repeat it across the year.
 
 For VAT, the entity is the company and the period is a month:
 
@@ -584,6 +627,8 @@ The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
 sequences. `openfisca_morocco/tests/age.yaml` covers the `age` formula.
 `openfisca_morocco/tests/test_cotisations_sociales.py` checks CNSS and AMO
 contributions across salary levels and validates integration into the annual IR,
+`openfisca_morocco/tests/test_ir_periods.py` checks monthly salary aggregation,
+varying pay, partial years, annual input compatibility and monthly CNSS ceilings,
 `openfisca_morocco/tests/test_tva_taux.py` checks every declared TVA rate and
 period against the verified corpus dataset,
 `openfisca_morocco/tests/test_tva_simulation.py` checks the public simulation

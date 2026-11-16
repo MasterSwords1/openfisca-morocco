@@ -492,8 +492,9 @@ def test_full_system_interoperability():
     """Verify co-existence and independence between:
 
     - Household: allocations_familiales, nombre_enfants
-    - Person (Monthly): salaire_brut, cotisation_cnss_salarie, cotisation_cnss_employeur (6.4% PF)
-    - Person (Annual): salaire_brut_global, nombre_personnes_a_charge, impot_sur_le_revenu
+    - Person (Monthly): salaire_brut, salaire_brut_global, cotisation_cnss_salarie,
+      cotisation_cnss_employeur (6.4% PF)
+    - Person (Annual): nombre_personnes_a_charge, impot_sur_le_revenu
     """
     sim = SimulationBuilder().build_from_dict(
         TBS,
