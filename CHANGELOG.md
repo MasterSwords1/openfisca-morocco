@@ -1,5 +1,5 @@
 
-## 0.7.0 - [#9](https://github.com/MasterSwords1/openfisca-morocco/issues/9)
+## 0.7.0 - [#24](https://github.com/MasterSwords1/openfisca-morocco/pull/24)
 
 * Tax and benefit system evolution.
 * Impacted periods: Salary input conventions for all periods; IR calculations

@@ -482,7 +482,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 269 passed, 5 skipped
+# 279 passed, 5 skipped
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
