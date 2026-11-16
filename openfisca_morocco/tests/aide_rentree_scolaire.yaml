@@ -1,0 +1,426 @@
+# Aide de rentrée scolaire (Décret n° 2-24-706, BO n° 7321 du 29 juillet 2024).
+# Versée en septembre, 200 DH au primaire/collégial, 300 DH au qualifiant,
+# pour les enfants scolarisés dans un établissement public, dans la limite de
+# six enfants.
+
+- name: Rentrée 2024 — deux enfants au collégial et un au qualifiant
+  period: 2024-09
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: primaire_collegial
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: primaire_collegial
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 3
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 700.0
+
+- name: Septembre 2026 — plafond de six enfants, indépendant du rang
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 4}
+      enfant5: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 5}
+      enfant6: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 6}
+      enfant7: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 7}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4, enfant5, enfant6, enfant7]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 1200.0
+
+- name: Septembre 2026 — deux enfants aux rangs 7 et 8 sont bien comptés
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 7}
+      enfant3: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 8}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 600.0
+
+- name: Septembre 2026 — rangs dupliqués, plafond toujours à six enfants
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant3: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant4: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant5: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant6: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant7: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4, enfant5, enfant6, enfant7]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 1200.0
+
+- name: Septembre 2026 — plafond mixte, le qualifiant est retenu en premier
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 4}
+      enfant5: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 5}
+      enfant6: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 6}
+      enfant7: {enfant_eligible_asd: true, niveau_scolaire_asd: primaire_collegial, scolarise_etablissement_public: true, rang_enfant_asd: 7}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4, enfant5, enfant6, enfant7]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 1300.0
+
+- name: Septembre 2024 — établissement privé, aucune aide
+  period: 2024-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: primaire_collegial
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Rentrée 2024 — niveau non renseigné, aucune aide
+  period: 2024-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Rentrée 2024 — conditions administratives absentes
+  period: 2024-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: primaire_collegial
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2024 — enfant hébergé en institution, exclu
+  period: 2024-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        enfant_place_institution: true
+        niveau_scolaire_asd: primaire_collegial
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Août 2026 — l'aide n'est versée qu'en septembre
+  period: 2026-08
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: primaire_collegial
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2026 — ménage éligible en août mais plus en septembre
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu:
+          2026-08: 5.0
+          2026-09: 5.0
+        conditions_administratives_asd_remplies:
+          2026-08: true
+          2026-09: false
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 300.0
+
+- name: Octobre 2026 — l'aide n'est versée qu'en septembre
+  period: 2026-10
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2026 — enfant non éligible à l'ASD, aucune aide
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2026 — score exactement au seuil, aide versée
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 9.743001
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 300.0
+
+- name: Septembre 2026 — score au-dessus du seuil, aucune aide
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 9.743002
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2026 — sept enfants au qualifiant, plafond à six
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 4}
+      enfant5: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 5}
+      enfant6: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 6}
+      enfant7: {enfant_eligible_asd: true, niveau_scolaire_asd: qualifiant, scolarise_etablissement_public: true, rang_enfant_asd: 7}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4, enfant5, enfant6, enfant7]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 1800.0
+
+- name: Septembre 2026 — adulte scolarisé, aucune aide (rôle enfant requis)
+  period: 2026-09
+  input:
+    persons:
+      adulte:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0
+
+- name: Septembre 2026 — éligible en août au seuil exact, aide versée
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu:
+          2026-08: 9.743001
+          2026-09: 9.743002
+        conditions_administratives_asd_remplies:
+          2026-08: true
+          2026-09: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 300.0
+
+- name: Septembre 2026 — au-dessus du seuil en août et en septembre, aucune aide
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        niveau_scolaire_asd: qualifiant
+        scolarise_etablissement_public: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu:
+          2026-08: 9.743002
+          2026-09: 9.743002
+        conditions_administratives_asd_remplies:
+          2026-08: true
+          2026-09: true
+  output:
+    households:
+      famille:
+        aide_rentree_scolaire: 0.0

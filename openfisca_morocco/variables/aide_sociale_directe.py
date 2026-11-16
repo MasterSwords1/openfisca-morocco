@@ -187,6 +187,9 @@ class aide_sociale_directe(Variable):
         child_role = household.members.has_role(Household.CHILD)
         child_is_eligible = household.members("enfant_eligible_asd", period)
         ranks = household.members("rang_enfant_asd", period)
+        placed = household.members("enfant_place_institution", period) & (
+            household.members("aide_speciale_accordee", period)
+        )
         school_or_young = household.members(
             "enfant_scolarise", period
         ) | household.members("enfant_moins_de_six_ans", period)
@@ -196,20 +199,21 @@ class aide_sociale_directe(Variable):
         orphan = household.members("enfant_orphelin_pere", period)
         disabled = household.members("enfant_handicape", period)
 
+        # Ni allocation ni soutien complémentaire pour un enfant dont la demande
+        # d'aide spéciale a été acceptée : le versement s'arrête à l'acceptation
+        # (Décret 2-25-1064, article 9). Un enfant simplement hébergé reste pris
+        # en compte tant que la demande est en cours.
+        counted = child_role & child_is_eligible & ~placed
+
         # Le soutien complémentaire handicap s'applique à tous les rangs
         # (dont le 7e et plus), alors que le montant de base est plafonné.
         supplemental_total += (
-            household.sum(child_role & child_is_eligible & disabled & (ranks >= 1))
+            household.sum(counted & disabled & (ranks >= 1))
             * params.montant_complement_handicap
         )
 
         for rank in range(1, 7):
-            in_rank = (
-                child_role
-                & child_is_eligible
-                & (ranks == rank)
-                & (rank <= params.plafond_enfants)
-            )
+            in_rank = counted & (ranks == rank) & (rank <= params.plafond_enfants)
             count_high = household.sum(in_rank & high_rate)
             count_low = household.sum(in_rank & ~high_rate)
             if rank <= 3:

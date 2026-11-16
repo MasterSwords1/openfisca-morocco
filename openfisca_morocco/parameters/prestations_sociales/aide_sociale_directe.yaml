@@ -199,6 +199,109 @@ prime_naissance_deuxieme_enfant:
 # gouvernement le 12 novembre 2026 mais non publié au Bulletin Officiel à la
 # date de cette version, porte le plancher et l'aide forfaitaire de 500 à
 # 600 DH à compter du 1er janvier 2027. Ne pas l'appliquer avant publication.
-# Ne sont pas non plus modélisés : l'aide de rentrée scolaire (Décret 2-24-706),
-# l'aide spéciale aux enfants placés (Décret 2-25-1064) et la prime
-# exceptionnelle de l'article 16 bis de la Loi 58-23 (Décret 2-26-434).
+# Les trois aides suivantes (rentrée scolaire, enfants placés, prime
+# exceptionnelle) sont définies plus bas dans ce fichier.
+
+# --- Aide de rentrée scolaire (Décret n° 2-24-706, BO n° 7321) -------------
+# Versée en septembre, dans la limite de six enfants scolarisés. Les valeurs
+# sont nulles jusqu'au 1er septembre 2024, première rentrée couverte par le
+# décret ; le paramètre porte la date de paiement, pas la date de publication.
+# Aucune rentrée de septembre ne tombe entre décembre 2023 et août 2024.
+# Un mois de septembre antérieur à décembre 2023 lève une erreur de paramètre ;
+# les autres mois renvoient zéro avant la lecture des paramètres.
+
+aide_rentree_scolaire:
+  description: Aide de rentrée scolaire de l'ASD
+
+  montant_primaire_collegial:
+    description: Montant par enfant scolarisé au primaire ou au secondaire collégial
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: >-
+            Décret n° 2-24-706 (BO n° 7321 du 29 juillet 2024), complétant
+            l'annexe du Décret n° 2-23-1067 — 200 DH par enfant au primaire ou
+            au collégial
+          href: https://www.anss.gov.ma/fr/typologies-d-aides
+    values:
+      2023-12-01:
+        value: 0.0
+      2024-09-01:
+        value: 200.0
+
+  montant_qualifiant:
+    description: Montant par enfant scolarisé au secondaire qualifiant
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: >-
+            Décret n° 2-24-706 (BO n° 7321 du 29 juillet 2024) — 300 DH par
+            enfant au secondaire qualifiant
+          href: https://www.anss.gov.ma/fr/typologies-d-aides
+    values:
+      2023-12-01:
+        value: 0.0
+      2024-09-01:
+        value: 300.0
+
+  plafond_enfants:
+    description: >-
+      Nombre maximal d'enfants scolarisés ouvrant droit à l'aide de rentrée ;
+      le plafond porte sur le nombre d'enfants, pas sur leur rang
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            Décret n° 2-24-706 (BO n° 7321 du 29 juillet 2024) et ANSS — aide
+            attribuée dans la limite de six enfants scolarisés par ménage
+          href: https://www.anss.gov.ma/fr/typologies-d-aides
+    values:
+      2023-12-01:
+        value: 0
+      2024-09-01:
+        value: 6
+
+# --- Aide spéciale aux enfants placés (Décret n° 2-25-1064, BO n° 7468) ----
+
+aide_speciale_enfant_place:
+  description: Aide spéciale mensuelle aux enfants placés en établissement
+
+  montant_mensuel:
+    description: >-
+      Montant mensuel par enfant orphelin ou abandonné hébergé dans un
+      établissement de protection sociale (nul avant l'entrée en vigueur)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: >-
+            Décret n° 2-25-1064 (BO n° 7468 du 25 décembre 2025), articles 11
+            et 15 — 500 DH par mois, en vigueur trois mois après publication
+          href: https://www.anss.gov.ma/fr/typologies-d-aides
+    values:
+      2023-12-01:
+        value: 0.0
+      2026-03-25:
+        value: 500.0
+
+# --- Prime exceptionnelle (Loi n° 41-26, Décret n° 2-26-434) ---------------
+
+prime_exceptionnelle:
+  description: Prime exceptionnelle après une déclaration à la CNSS
+
+  mois_max:
+    description: >-
+      Durée maximale de la prime, en mois continus ou non (nulle avant
+      l'entrée en vigueur du décret d'application)
+    unit: month
+    metadata:
+      reference:
+        - title: >-
+            Décret n° 2-26-434 (BO n° 7530 du 30 juillet 2026), article 10 bis
+            — douze mois, continus ou non ; entrée en vigueur à la publication
+            du texte d'application (Loi n° 41-26, BO n° 7523, article 3)
+          href: https://www.anss.gov.ma/fr/typologies-d-aides
+    values:
+      2023-12-01:
+        value: 0
+      2026-07-30:
+        value: 12
