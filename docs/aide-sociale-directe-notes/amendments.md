@@ -4,7 +4,7 @@ Research cut-off: **16 November 2026**. Status labels used throughout: **[VERIFI
 
 Primary portals used: ANSS (`anss.gov.ma/fr/lois-decrets`, `/fr/typologies-d-aides`, `/fr/conditions-d-eligibilite`), Bulletin Officiel PDFs served by ANSS, and the Conseil de gouvernement communiqués relayed by MAP/Hespress/Médias24.
 
-Important evidence limitation, stated up front: the ANSS copies of **Loi 58-23** (`Loi_n58.23_AR.pdf`), **Décret 2.23.1067** (`decret_n2.23.1067_AR.pdf`) and **Décret 2.24.706** are **scanned images with no text layer**, and this environment has no Arabic OCR. Their content below is therefore established from (a) the ANSS HTML pages that reproduce their tables, (b) the Conseil de gouvernement communiqués, and (c) the government bill text of Loi 58-23 (which is text-searchable). Where the annex columns are concerned this is a real limitation and is flagged in Q3.
+Important evidence limitation, stated up front: the ANSS copies of **Loi 58-23** (`Loi_n58.23_AR.pdf`), **Décret 2.23.1067** (`decret_n2.23.1067_AR.pdf`) and **Décret 2.24.706** are **scanned images with no text layer**, and this environment has no Arabic OCR. Their content below is therefore established from (a) the ANSS HTML pages that reproduce their tables, (b) the Conseil de gouvernement communiqués, and (c) the government bill text of Loi 58-23 (which is text-searchable). The **annex columns themselves** are an exception: they were read visually from the page image of BO n° 7253 (folio 10238), without OCR — see Q3.
 
 ---
 
@@ -76,7 +76,7 @@ Plus: **birth grant 2,000 DH (1st birth) / 1,000 DH (2nd birth)**, unchanged, no
 ## Q3. Are the 2025 and 2026 columns of the 2-23-1067 annex legally in force, and from which dates?
 
 ### Takeaway
-They are **in force** — they are staged yearly columns of the annex as completed in 2024, not discretionary annual decisions — but the **2025 tranche was actually paid from end-November 2025**, not from 1 January 2025, and I found **no dedicated amending decree** for either tranche. Treat "2025" and "2026" as **annex labels**, and "end-Nov 2025 / 2026" as the payment dates.
+They are **in force** — they are staged yearly columns of the annex as published in December 2023, not discretionary annual decisions — but the **2025 tranche was actually paid from end-November 2025**, not from 1 January 2025, and I found **no dedicated amending decree** for either tranche. Treat "2025" and "2026" as **annex labels**, and "end-Nov 2025 / 2026" as the payment dates.
 
 ### Cited Findings
 - ANSS presents the figures as **cumulative yearly steps of a single schedule**: "200 DH/enfant : dès 2023 — 250 DH/enfant : à partir de 2025 — 300 DH/enfant : à partir de 2026", with the same triple for non-schooled children (150/175/200), paternal orphans (350/375/400), disability (300/350/400) and widow+disability (450/475/500) — [ANSS, Typologies des aides](https://anss.gov.ma/fr/typologies-d-aides). **[VERIFIED as official rendering]**
@@ -86,12 +86,17 @@ They are **in force** — they are staged yearly columns of the annex as complet
 - Budget framing: the envelope rises to **26.5 bn DH in 2025 and 29 bn DH in 2026** (from 25 bn in 2024) — same ANSS/Le Matin source. **[VERIFIED]**
 
 ### Inferences
-- Because the annex already contains the 2025 and 2026 columns, **no BO publication date needs to be cited for them to be legally payable in 2026** — a model can treat 300/200/400/500/36/24/136/100 as the 2026 values as of today. The legally citable instrument is the annex of Décret 2.23.1067 as completed by Décret 2.24.706 (BO 7321, 29 July 2024), read with the ANSS-published schedule.
+- Because the annex already contains the 2025 and 2026 columns, **no BO publication date needs to be cited for them to be legally payable in 2026** — a model can treat 300/200/400/500/36/24/136/100 as the 2026 values as of today. The legally citable instrument is the annex of Décret 2.23.1067 as published in BO n° 7253 (4 December 2023), read with the ANSS-published schedule; Décret 2.24.706 (BO 7321) adds the school-return table, not these columns.
 - The 500 DH floor continues to apply **on top of** the child schedule in 2026 ("systématiquement revalorisé à 500 DH dans le cas où le total est inférieur à ce seuil") — i.e. a household with one 0–5 child gets 500, not 300.
 
 ### Gaps / corrections
-- I found **no 125 DH or 100 DH figure corresponding to a "2026" tier** in any official table. The figures actually published are 300/200 (ranks 1–3, 2026), 36/24 (ranks 4–6, frozen), 136/100 (disability ranks 4–6 / 7+). The "125/100 DH" pair in the research brief is **not corroborated**; it may be a mis-transcription of 136/100 or of the 24/36 line. **Flagged, not resolved.**
-- The **instrument** that legally carried the November 2025 revaluation is **NOT IDENTIFIED**. ANSS's official list of texts contains only 2.23.1067, 2.23.1068, 2.23.1069, 2.24.706, 2.25.1064 and 2-26-434 — no separate "revalorisation" decree for 2025 or 2026. Either (a) the staged columns were introduced by Décret 2.24.706 when it "completed the annex", or (b) they were in the annex from December 2023 and only the payment start dates were administrative. I could not settle this because the annex PDFs are image-only.
+
+**Two points below were corrected after the core model was merged** (PR #25):
+the "125/100" figures do exist, and the instrument question is settled by the
+BO 7253 annex page. Corrections are stated here rather than silently rewritten.
+
+- ~~I found no 125 DH or 100 DH figure corresponding to a "2026" tier.~~ **CORRECTED.** The 150 / 125 / 100 DH line is the **paternal-orphan complement** in section 2 of the annex, not a child base tier. Added to the base amount it reproduces the widow totals published by ANSS: 200+150=350 (2023), 250+125=375 (2025), 300+100=400 (2026). Read visually from the scanned annex page (the PDF has no text layer, so no OCR was used) and cross-checked against [ANSS, Typologies des aides](https://anss.gov.ma/fr/typologies-d-aides). The "136/100" figures are a different row: disability at ranks 4–6 and 7+.
+- ~~The instrument that legally carried the November 2025 revaluation is NOT IDENTIFIED.~~ **RESOLVED.** The [ANSS scan of BO n° 7253, folio 10238](https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1068_AR.pdf) already carries the 2025 and 2026 columns: the annex heading `ملحق بالمرسوم رقم 2.23.1067` sits directly above a table whose column headings read `ابتداء من دجنبر 2023 | 2025 | 2026` and whose first row reads `200 | 250 | 300`. The 2.23.1068 decree begins at the foot of the same page (its article 1 continues on p. 10239). **[VERIFIED — visual read of the page image; no text layer, no OCR]** The staged columns are therefore part of the original annex, not a later instrument. Décret 2.24.706 (BO 7321) is described as adding the school-return table, and nothing in the sources attributes the staged columns to it. **[INFERRED]** The late payment start (end-November 2025) is an administrative fact, not a legal date.
 - The exact **2026** first-payment month (January 2026 vs. a later month, mirroring the late-November 2025 start) is **NOT CHECKED**.
 
 ---
@@ -117,7 +122,7 @@ They are **in force** — they are staged yearly columns of the annex as complet
 ### Gaps
 - **BO publication of Décret 2.26.838 not found** as of 16 Nov 2026; the legal effective date of 1 Jan 2027 is stated by the government but can still be affected by the published text.
 - Whether 2.26.838 raises **only** the minimum or also adjusts the flat allowance article separately (they are arguably the same 500 in practice), and whether it adds a new 2027/2028 column to the annex, is **NOT CHECKED**.
-- The **exact wording of the 500 DH revalorisation clause** in the annex of 2.23.1067 (article number and phrasing) could not be quoted from the primary text; only ANSS's French rendering is available. **NOT CHECKED.**
+- The **exact wording of the 500 DH revalorisation clause** in the annex of 2.23.1067 (article number and phrasing) could not be quoted from the primary text; the schedule columns were read visually (Q3), but the clause sentence was not, and only ANSS's French rendering is available. **NOT CHECKED.**
 
 ---
 

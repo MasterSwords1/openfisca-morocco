@@ -32,22 +32,28 @@ an event is supplied for that month.
 
 ### Amount rules represented
 
-- Base child amount, ranks 1–3: 200 DH (Dec. 2023), 250 DH (2025), 300 DH (2026)
-  when the child is schooled, under six or severely disabled; 150 / 175 / 200 DH
-  when the child is 6–20 and not schooled.
+- Base child amount, ranks 1–6 only; a seventh child gets no base amount. Ranks
+  1–3: 200 DH (Dec. 2023), 250 DH (2025), 300 DH (2026) when the child is
+  schooled, under six or severely disabled; 150 / 175 / 200 DH when the child is
+  6–20 and not schooled.
 - Base child amount, ranks 4–6: 36 DH (schooled / under six / disabled) and
   24 DH (not schooled). These amounts are not revalorised in the published
   table.
 - Paternal-orphan complement, ranks 1–3: 150 DH (Dec. 2023), 125 DH (2025),
   100 DH (2026), added to the base amount for schooled, under-six or severely
   disabled children. This reproduces the ANSS totals of 350 / 375 / 400 DH for
-  widows' schooled children.
+  widows' schooled children. Extending the complement to under-six and disabled
+  children is the model's reading of the annex rows, not a sentence of the
+  published table.
 - Severe-disability complement: 100 DH per child at every rank, including the
   seventh child and beyond, where only this complement is due.
-- A household total below 500 DH is raised to 500 DH. The flat allowance for
-  households without an eligible child is a separate 500 DH parameter
-  (`aide_forfaitaire_mensuelle`), even though the two amounts are currently
-  equal.
+- Where a child amount applies, a household total below 500 DH is raised to
+  500 DH. The flat allowance for households without a child amount is a separate
+  500 DH parameter (`aide_forfaitaire_mensuelle`), even though the two amounts
+  are currently equal.
+- Birth grants: 2,000 DH for the first birth and 1,000 DH for the second,
+  added after the monthly calculation and only in the month supplied; they are
+  not multiplied for multiple births.
 
 Not modelled, and therefore not to be read as an exhaustive entitlement
 calculation:
@@ -102,15 +108,16 @@ could not be read and the points left unverified.
   November 2024 states "inférieur". The model follows the ANSS page and treats
   `9.743001` as eligible and `9.743002` as not eligible; the boundary case is
   decided administratively, not by the text.
-- The 2025 column is labelled "à partir de 2025" by ANSS but the first
-  revaluation was paid from the end of November 2025. The parameter uses
-  `2025-01-01` as the schedule date; historical outputs before that payment
-  date should not be read as amounts actually paid. The exact 2026 payment
-  month was not verified.
-- The orphan complement is not published as a standalone line by ANSS; it is
-  derived from the annex (150 / 125 / 100 DH) and cross-checked against the
-  published widow totals (350 / 375 / 400 DH), which equal base amount plus
-  complement.
+- The 2025 column is labelled "à partir de 2025" by ANSS and already appears in
+  the annex as published in BO n° 7253 (December 2023), so no separate
+  revaluation instrument was identified. The first revaluation was nevertheless
+  paid from the end of November 2025: the parameter uses `2025-01-01` as the
+  schedule date, and historical outputs before that payment date should not be
+  read as amounts actually paid. The exact 2026 payment month was not verified.
+- The orphan complement is a separate line in section 2 of the annex
+  (150 / 125 / 100 DH); ANSS publishes only the resulting totals, and the two
+  reconcile: base plus complement gives the published widow totals
+  (350 / 375 / 400 DH).
 - Ranks 4–6 and the disability complement are not revalorised in the published
   table; the seventh-child disability amount is 100 DH, without a base amount.
 - No amendment of Décret 2-23-1068 was published as of November 2026, and the

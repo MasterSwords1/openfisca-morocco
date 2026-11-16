@@ -34,7 +34,9 @@ plancher_mensuel:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Décret n° 2-23-1067, article 2 — montant mensuel minimal de 500 DH
+      - title: >-
+          Décret n° 2-23-1067, annexe — plancher mensuel de 500 DH (numéro
+          d'article non vérifié au texte primaire)
         href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf
   values:
     2023-12-01:

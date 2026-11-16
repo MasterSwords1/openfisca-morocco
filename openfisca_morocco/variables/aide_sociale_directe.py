@@ -46,7 +46,11 @@ class conditions_administratives_asd_remplies(Variable):
 
 
 class eligible_aide_forfaitaire_asd(Variable):
-    """Ménage relevant de l'allocation forfaitaire (sans enfant éligible ASD)."""
+    """Ménage relevant de l'allocation forfaitaire.
+
+    L'allocation est versée lorsque aucun montant d'enfant n'est calculé pour le
+    ménage (pas d'enfant à charge, enfant hors barème ou rang non renseigné).
+    """
 
     value_type = bool
     entity = Household
@@ -79,7 +83,12 @@ class enfant_orphelin_pere(Variable):
 
 
 class enfant_handicape(Variable):
-    """Indique un handicap lourd ouvrant droit au soutien complémentaire ASD."""
+    """Indique un handicap lourd.
+
+    Le handicap ouvre le soutien complémentaire de 100 DH et retient le taux de
+    base des enfants scolarisés ou de moins de six ans lorsque l'enfant n'est
+    pas scolarisé.
+    """
 
     value_type = bool
     entity = Person
@@ -135,17 +144,6 @@ class prime_naissance_rang(Variable):
     reference = "https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf"  # Annexe du Décret 2-23-1067
 
 
-class nombre_enfants_asd(Variable):
-    value_type = int
-    entity = Household
-    definition_period = MONTH
-    label = "Nombre d'enfants à charge dans le ménage"
-    reference = "https://www.anss.gov.ma/sites/default/files/decrets/Loi_n58.23_AR.pdf"  # Loi 58-23, art. 2
-
-    def formula(household, period, _parameters):
-        return household.nb_persons(Household.CHILD)
-
-
 class aide_sociale_directe(Variable):
     """Estimation mensuelle de l'ASD selon le seuil RSU et les entrées fournies.
 
@@ -154,9 +152,11 @@ class aide_sociale_directe(Variable):
     Le barème suit l'annexe du Décret 2-23-1067 telle que publiée par l'ANSS :
     montant de base selon le rang et la scolarisation, soutien complémentaire
     orphelin de père (trois premiers rangs) et soutien de 100 DH par enfant en
-    situation de handicap lourd à tous les rangs. Le plancher de 500 DH est
-    appliqué au total mensuel. La prime de naissance est ajoutée uniquement le
-    mois de l'événement. L'aide de rentrée scolaire, l'aide spéciale aux enfants
+    situation de handicap lourd à tous les rangs. Hors prime de naissance, le
+    total enfants + soutiens est relevé au plancher de 500 DH ; lorsqu'il est
+    nul, le ménage reçoit l'allocation forfaitaire s'il y est éligible, sinon
+    rien. La prime de naissance est ajoutée après ce calcul, uniquement le mois
+    de l'événement. L'aide de rentrée scolaire, l'aide spéciale aux enfants
     placés et la prime exceptionnelle ne sont pas calculées ici.
     """
 

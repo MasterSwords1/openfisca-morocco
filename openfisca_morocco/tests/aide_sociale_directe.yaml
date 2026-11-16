@@ -106,7 +106,7 @@
       famille:
         aide_sociale_directe: 936.0
 
-- name: Rang fourni explicitement — ne dépend pas de l'ordre des membres
+- name: Rang fourni explicitement accepté — total de 286 DH relevé au plancher
   period: 2025-01
   input:
     persons:
@@ -130,7 +130,7 @@
       famille:
         aide_sociale_directe: 500.0
 
-- name: Enfant handicapé — barème scolarisé/moins de 6 ans de rang 1
+- name: Enfant handicapé seul — 400 DH relevés au plancher de 500 DH
   period: 2026-01
   input:
     persons:
@@ -150,7 +150,7 @@
       famille:
         aide_sociale_directe: 500.0
 
-- name: Soutien complémentaire orphelin de père, rang 1 et moins de 6 ans en 2026
+- name: Orphelin de père seul — 400 DH relevés au plancher de 500 DH
   period: 2026-01
   input:
     persons:
@@ -269,7 +269,7 @@
       famille:
         aide_sociale_directe: 750.0
 
-- name: Barème initial en décembre 2023 — enfant scolarisé
+- name: Barème de décembre 2023 — enfant seul sous le plancher
   period: 2023-12
   input:
     persons:
@@ -411,3 +411,57 @@
     households:
       famille:
         aide_sociale_directe: 886.0
+
+- name: Deux enfants dont un handicapé — 300 + 300 + 100 DH
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, enfant_handicape: true, rang_enfant_asd: 2}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 700.0
+
+- name: Enfant de rang 4 non scolarisé — 24 DH ajoutés au barème
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, rang_enfant_asd: 4}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 924.0
+
+- name: Deuxième prime de naissance — 1 000 DH
+  period: 2026-01
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+        prime_naissance_rang: 2
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 1000.0
