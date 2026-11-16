@@ -1,25 +1,31 @@
 # Déduction pour charges de famille.
 # Article 74 du Code Général des Impôts : il est déduit du montant annuel de
-# l'impôt une somme de 500 dirhams par personne à charge (conjoint et enfants
-# légitimes ou légalement recueillis), dans la limite de 6 personnes.
+# l'impôt une somme par personne à charge (conjoint et enfants légitimes ou
+# légalement recueillis), dans la limite de 6 personnes. La Loi de finances
+# 2026 (n° 50-25, article 7) porte ce montant de 500 à 600 dirhams, soit un
+# plafond de 3 600 dirhams.
 description: Déduction pour charges de famille - article 74 du CGI
 montant_par_personne:
   description: Montant annuel déduit par personne à charge
   unit: currency-MAD
   metadata:
     reference:
-      - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
-        href: https://www.tax.gov.ma
+      - title: >-
+          Code Général des Impôts, article 74 (Direction Générale des Impôts) ;
+          Loi de finances n° 50-25 pour l'année budgétaire 2026, article 7
+        href: https://maloi.ma/fr/law/code-impots/article/74
   values:
     2025-01-01:
       value: 500.0
+    2026-01-01:
+      value: 600.0
 nombre_maximum_personnes:
   description: Nombre maximum de personnes à charge prises en compte
   unit: /1
   metadata:
     reference:
       - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
-        href: https://www.tax.gov.ma
+        href: https://maloi.ma/fr/law/code-impots/article/74
   values:
     2025-01-01:
       value: 6

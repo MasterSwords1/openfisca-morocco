@@ -1,3 +1,28 @@
+## 0.8.0 - [#15](https://github.com/MasterSwords1/openfisca-morocco/issues/15)
+
+* Tax and benefit system evolution.
+* Impacted periods: professional income from 2025-01-01; rental and capital
+  categories from 2026-01-01; salarial IR from 2025-01-01.
+* Impacted areas: `variables.impot_revenu`,
+  `parameters.impot_revenu.revenus_categories`,
+  `parameters.impot_revenu.deduction_charges_famille`.
+* Details:
+  - Add professional, rental and capital income to the global IR base. The
+    professional net profit is an input; rental income applies the 40 %
+    abatement of article 64-II and the 10 % / 15 % withholding of article
+    73-II, imputed against the tax due without restitution.
+  - Encode the liberatory capital rates of article 73-II: dividends 11,25 % in 2026
+    (10 % from 2027), fixed-income interest 30 %, listed gains 15 %, unlisted 20 %.
+  - Apply the barème to `revenu_global_imposable` and add
+    `impot_sur_le_revenu_menage`, the sum of individual liabilities, since IR is
+    assessed per taxpayer.
+  - Raise the 2026 family deduction to 600 DH per dependent (Loi de finances
+    n° 50-25, article 7), retaining the 2025 value.
+  - Rental and capital rules are gated from 2026 and raise on earlier inputs;
+    professional income applies from 2025.
+  - Document the article coverage and the unmodelled regimes in
+    `docs/impot-revenu-categories.md`.
+
 
 ## 0.7.0 - [#24](https://github.com/MasterSwords1/openfisca-morocco/pull/24)
 

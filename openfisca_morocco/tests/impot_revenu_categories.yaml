@@ -1,0 +1,262 @@
+# IR — revenus professionnels, fonciers et du capital (CGI 2026).
+# Barème 2026 inchangé : 0 / 10 / 20 / 30 / 34 / 37 %.
+# Revenus fonciers : abattement de 40 %, retenue de 10 % sous 120 000 DH de brut
+# (15 % au-delà), pas de retenue si le brut annuel ne dépasse pas 40 000 DH.
+# Capitaux mobiliers : taux libératoires, hors barème.
+
+- name: Revenu professionnel seul — barème global
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 100000
+        ir_brut: 12000
+        impot_sur_le_revenu: 12000
+
+- name: Professionnel et foncier sous 120 000 DH — retenue de 10 % imputée
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 60000
+        revenu_global_imposable: 160000
+        retenue_fonciere: 10000
+        ir_brut: 32400
+        impot_sur_le_revenu: 22400
+
+- name: Foncier au-dessus de 120 000 DH — retenue de 15 %
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 150000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 90000
+        revenu_global_imposable: 190000
+        retenue_fonciere: 22500
+        impot_sur_le_revenu: 20400
+
+- name: Foncier sous 40 000 DH — aucune retenue
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 30000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 18000
+        retenue_fonciere: 0
+        impot_sur_le_revenu: 18120
+
+- name: Foncier à 40 000 DH exactement — la dispense de retenue s'applique
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 40000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 24000
+        retenue_fonciere: 0
+        impot_sur_le_revenu: 20160
+
+- name: Charges de famille 2026 — 600 DH par personne, plafond de six
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        nombre_personnes_a_charge: 2
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deduction_charges_famille: 1200
+        impot_sur_le_revenu: 10800
+
+- name: Capitaux mobiliers — taux libératoires hors barème
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        dividendes_bruts: 100000
+        interets_bruts: 50000
+        plus_values_actions_cotees: 20000
+        plus_values_titres_non_cotes: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 0
+        impot_sur_le_revenu: 0
+        impot_dividendes: 11250
+        impot_interets: 15000
+        impot_plus_values: 5000
+        impot_capitaux_mobiliers: 31250
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 31250
+
+- name: Ménage à revenus mixtes — un impôt par personne, total du ménage
+  period: 2026
+  input:
+    persons:
+      conjoint1:
+        revenu_professionnel_net: 100000
+        dividendes_bruts: 10000
+      conjoint2:
+        revenu_professionnel_net: 60000
+        revenus_fonciers_bruts: 50000
+    households:
+      menage:
+        adults: [conjoint1, conjoint2]
+  output:
+    persons:
+      conjoint1:
+        impot_sur_le_revenu: 12000
+        impot_capitaux_mobiliers: 1125
+      conjoint2:
+        revenu_global_imposable: 90000
+        retenue_fonciere: 5000
+        impot_sur_le_revenu: 4000
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 17125
+
+- name: Déficit professionnel non imputé sur le foncier — base limitée au foncier
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: -50000
+        revenus_fonciers_bruts: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 60000
+        ir_brut: 2000
+        retenue_fonciere: 10000
+        impot_sur_le_revenu: 0
+
+- name: Charges de famille 2026 — plafond de six personnes
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 200000
+        nombre_personnes_a_charge: 7
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deduction_charges_famille: 3600
+        impot_sur_le_revenu: 43000
+
+- name: Foncier à 42 000 DH — retenue de 4 200 DH, imputée sans restitution
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenus_fonciers_bruts: 42000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 25200
+        retenue_fonciere: 4200
+        ir_brut: 0
+        impot_sur_le_revenu: 0
+
+- name: Foncier à 120 000 DH exactement — taux de 15 %
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 120000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 72000
+        revenu_global_imposable: 172000
+        retenue_fonciere: 18000
+        ir_brut: 36480
+        impot_sur_le_revenu: 18480
+
+- name: Dividendes 2027 — le taux passe à 10 %
+  period: 2027
+  input:
+    persons:
+      contribuable:
+        dividendes_bruts: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_dividendes: 10000
+
+- name: Foncier à 115 000 DH — le taux de 10 % s'applique encore
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 115000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_foncier_net: 69000
+        revenu_global_imposable: 169000
+        retenue_fonciere: 11500
+        ir_brut: 35460
+        impot_sur_le_revenu: 23960
