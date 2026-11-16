@@ -19,11 +19,15 @@ class score_rsu(Variable):
     Le Décret 2-23-1068 fixe la « عتبة الاستفادة » (seuil d'éligibilité) à
     9,743001 et renvoie à l'article 3, point 5, de la Loi 58-23. L'ANSS applique
     ce seuil à l'indice socio-économique calculé sur rsu.ma.
+
+    La valeur par défaut est un sentinel hors barème (1 000 000) : un indice non
+    renseigné ne rend pas le ménage éligible, contrairement à un défaut à 0.
     """
 
     value_type = float
     entity = Household
     definition_period = MONTH
+    default_value = 1_000_000.0
     label = "Indice socio-économique RSU déclaré du ménage"
     reference = "https://www.anss.gov.ma/fr/conditions-d-eligibilite"
 
@@ -46,7 +50,11 @@ class conditions_administratives_asd_remplies(Variable):
 
 
 class eligible_aide_forfaitaire_asd(Variable):
-    """Ménage relevant de l'allocation forfaitaire (sans enfant éligible ASD)."""
+    """Ménage relevant de l'allocation forfaitaire.
+
+    L'allocation est versée lorsque aucun montant d'enfant n'est calculé pour le
+    ménage (pas d'enfant à charge, enfant hors barème ou rang non renseigné).
+    """
 
     value_type = bool
     entity = Household
@@ -79,7 +87,12 @@ class enfant_orphelin_pere(Variable):
 
 
 class enfant_handicape(Variable):
-    """Indique un handicap lourd ouvrant droit au soutien complémentaire ASD."""
+    """Indique un handicap lourd.
+
+    Le handicap ouvre le soutien complémentaire de 100 DH et retient le taux de
+    base des enfants scolarisés ou de moins de six ans lorsque l'enfant n'est
+    pas scolarisé.
+    """
 
     value_type = bool
     entity = Person
@@ -114,7 +127,12 @@ class enfant_moins_de_six_ans(Variable):
 
 
 class rang_enfant_asd(Variable):
-    """Rang ASD (1–6) fourni d'après le dossier; 0 si non concerné/inconnu."""
+    """Rang ASD (1–6) fourni d'après le dossier; 0 si non concerné/inconnu.
+
+    Le rang doit être unique par enfant : des rangs dupliqués sont comptés
+    plusieurs fois et faussent le plafond de six enfants. Le rang 0 ne donne
+    droit à aucun montant de base ni au soutien handicap.
+    """
 
     value_type = int
     entity = Person
@@ -135,29 +153,22 @@ class prime_naissance_rang(Variable):
     reference = "https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf"  # Annexe du Décret 2-23-1067
 
 
-class nombre_enfants_asd(Variable):
-    value_type = int
-    entity = Household
-    definition_period = MONTH
-    label = "Nombre d'enfants à charge dans le ménage"
-    reference = "https://www.anss.gov.ma/sites/default/files/decrets/Loi_n58.23_AR.pdf"  # Loi 58-23, art. 2
-
-    def formula(household, period, _parameters):
-        return household.nb_persons(Household.CHILD)
-
-
 class aide_sociale_directe(Variable):
     """Estimation mensuelle de l'ASD selon le seuil RSU et les entrées fournies.
 
     Le rang ASD est une entrée explicite, et non déduit de l'ordre des membres
-    OpenFisca, qui ne représente pas nécessairement le rang légal du dossier.
+    OpenFisca, qui ne représente pas nécessairement le rang légal du dossier; il
+    doit être unique par enfant (un rang dupliqué est compté deux fois).
     Le barème suit l'annexe du Décret 2-23-1067 telle que publiée par l'ANSS :
     montant de base selon le rang et la scolarisation, soutien complémentaire
-    orphelin de père (trois premiers rangs) et soutien de 100 DH par enfant en
-    situation de handicap lourd à tous les rangs. Le plancher de 500 DH est
-    appliqué au total mensuel. La prime de naissance est ajoutée uniquement le
-    mois de l'événement. L'aide de rentrée scolaire, l'aide spéciale aux enfants
-    placés et la prime exceptionnelle ne sont pas calculées ici.
+    orphelin de père scolarisé ou de moins de six ans (trois premiers rangs) et
+    soutien de 100 DH par enfant en situation de handicap lourd à tous les rangs
+    à partir du rang 1. Hors prime de naissance, le total enfants + soutiens est
+    relevé au plancher de 500 DH ; lorsqu'il est nul, le ménage reçoit
+    l'allocation forfaitaire s'il y est éligible, sinon rien. La prime de
+    naissance est ajoutée après ce calcul, uniquement le mois de l'événement.
+    L'aide de rentrée scolaire, l'aide spéciale aux enfants placés et la prime
+    exceptionnelle ne sont pas calculées ici.
     """
 
     value_type = float
@@ -203,7 +214,7 @@ class aide_sociale_directe(Variable):
             count_low = household.sum(in_rank & ~high_rate)
             if rank <= 3:
                 supplemental_total += (
-                    household.sum(in_rank & orphan & (school_or_young | disabled))
+                    household.sum(in_rank & orphan & school_or_young)
                     * params.montant_complement_orphelin
                 )
                 child_total += (
