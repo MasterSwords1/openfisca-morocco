@@ -1,0 +1,145 @@
+# Plus-values immobilières et revenus étrangers (CGI 2026).
+# Profit = prix de cession − frais de cession − (prix d'acquisition × 1,15 +
+# dépenses d'investissement), puis 20 %.
+
+- name: Plus-value immobilière — prix d'acquisition majoré de 15 % de frais
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 1000000
+        prix_acquisition_immobilier: 600000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 310000
+        impot_plus_value_immobiliere: 62000
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 62000
+
+- name: Plus-value immobilière — frais de cession et dépenses d'investissement
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 500000
+        prix_acquisition_immobilier: 400000
+        frais_cession_immobilier: 20000
+        depenses_investissement_immobilier: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 10000
+        impot_plus_value_immobiliere: 2000
+
+- name: Habitation principale détenue depuis cinq ans — exonération
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 1000000
+        prix_acquisition_immobilier: 400000
+        habitation_principale_cedee: true
+        annees_detention_habitation: 5
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 0
+        impot_plus_value_immobiliere: 0
+
+- name: Habitation principale détenue depuis quatre ans — imposition
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 1000000
+        prix_acquisition_immobilier: 400000
+        habitation_principale_cedee: true
+        annees_detention_habitation: 4
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 540000
+        impot_plus_value_immobiliere: 108000
+
+- name: Cessions de l'année sous 140 000 DH — exonération
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 120000
+        prix_acquisition_immobilier: 50000
+        total_cessions_immobilieres_annee: 140000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 0
+        impot_plus_value_immobiliere: 0
+
+- name: Cessions de l'année à 140 001 DH — imposition
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        prix_cession_immobilier: 120000
+        prix_acquisition_immobilier: 50000
+        total_cessions_immobilieres_annee: 140001
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        plus_value_immobiliere_imposable: 62500
+        impot_plus_value_immobiliere: 12500
+
+- name: Revenu étranger compris dans le revenu global
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_etrangers_bruts: 50000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 150000
+        impot_sur_le_revenu: 29000
+
+- name: Capitaux étrangers — 15 % sur les revenus, 20 % sur les profits
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenus_capitaux_etrangers_bruts: 100000
+        profits_capitaux_etrangers: 50000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 0
+        impot_capitaux_etrangers: 25000
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 25000

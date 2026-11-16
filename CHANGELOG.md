@@ -1,3 +1,34 @@
+## 0.9.0 - [#33](https://github.com/MasterSwords1/openfisca-morocco/issues/33) [#34](https://github.com/MasterSwords1/openfisca-morocco/issues/34) [#35](https://github.com/MasterSwords1/openfisca-morocco/issues/35)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2026-01-01 onwards for the new rules; professional net income
+  and the salarial pipeline remain supported from 2025-01-01.
+* Impacted areas: `variables.impot_revenu`, `variables.ir_regimes_professionnels`,
+  `variables.ir_deductions_globales`, `variables.ir_patrimoine`, and their
+  parameter files.
+* Details:
+  - Add the professional regimes (art. 32–44): net simplifié with the 15 %
+    centres-de-gestion abatement, *contribution professionnelle unique* with the
+    art. 40-I coefficients and the art. 73-II-B-6° complementary-duty table, and
+    the auto-entrepreneur rates and ceilings. CPU and auto-entrepreneur taxes are
+    liberatory and are added to the household total.
+  - Add professional loss carry-forward through
+    `deficit_professionnel_reportable`, with the four-year limit of article 12
+    documented and left to the caller.
+  - Add the article 28 deductions: donations, housing-loan interest capped at
+    10 % of global income, and retirement premiums capped at 10 % (or 50 % of net
+    salary for salary-only taxpayers).
+  - Add the 20 % liberatory option on gross rents (arts. 64-IV, 73-II-F-12°),
+    removing rents from the barème and from the withholding credit.
+  - Add property capital gains (arts. 61-II, 63, 65) with the 15 % acquisition
+    forfait, the main-residence and 140,000 DH exemptions and the 20 % rate, and
+    foreign-source income with the 15 % / 20 % capital rates.
+  - Gate the new rules from 2026 and raise on earlier inputs; document the
+    unmodelled revaluation coefficient, treaty relief and foreign tax credits.
+  - 40 new YAML cases, 4 gating tests, 2 table-guard tests for the art. 40-I
+    coefficients and the art. 73-II-B-6° duty table, and 3 unit tests for the
+    art. 28-III-A retirement-premium election.
+
 ## 0.8.0 - [#15](https://github.com/MasterSwords1/openfisca-morocco/issues/15)
 
 * Tax and benefit system evolution.

@@ -5,8 +5,9 @@ code.
 
 **Status: early.** The package models: the **impôt sur le revenu (IR)** on
 salarial income for **annual** periods under the rules in force since
-**1 January 2025**, professional income from 2025, and rental and capital income from 2026
-(see [`docs/impot-revenu-categories.md`](docs/impot-revenu-categories.md)), the **cotisations sociales obligatoires (CNSS + AMO)** and
+**1 January 2025**, professional income from 2025, and rental, capital,
+professional-regime, property and foreign income from 2026 (see
+[`docs/impot-revenu-categories.md`](docs/impot-revenu-categories.md)), the **cotisations sociales obligatoires (CNSS + AMO)** and
 charges patronales for **monthly** periods, the contributory **allocations familiales (CNSS)**
 for **monthly** periods, **aide sociale directe (ASD)** under the published
 statutory schedules for **monthly** periods, including the September
@@ -418,7 +419,7 @@ names the article it comes from.
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
-| IR professional, rental and capital income | CGI 2026 arts. 25, 30–39, 61–64, 66–69, 73-II, 74 and 160 bis, read in the 2026 consolidated edition; the category parameters start in 2026 |
+| IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net income in 2025 |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
@@ -432,12 +433,11 @@ than guessed.
 
 Stated plainly, because they determine what you may conclude from a simulation:
 
-- **Partial IR categories (IR).** Professional net income is an input, and
-  rental and capital income follow the 2026 rules from 2026 onward. The
-  *contribution professionnelle unique*, the *auto-entrepreneur* regime, art. 28
-  deductions, property capital gains and foreign income are not modelled, so
-  this is still not a complete IR. See
-  [`docs/impot-revenu-categories.md`](docs/impot-revenu-categories.md).
+- **Partial IR categories (IR).** The model covers the professional regimes,
+  art. 28 deductions, property gains and foreign income from 2026, but the
+  per-client 80,000 DH withholding, the regime option procedures, treaty relief
+  and foreign tax credits are not modelled, so this is still not a complete IR.
+  See [`docs/impot-revenu-categories.md`](docs/impot-revenu-categories.md).
 - **Annual assessment only (IR).** Salary inputs are monthly and are summed
   before applying the annual IR scale. Monthly withholding (retenue à la
   source) is not modelled; annual tax divided by twelve is not a withholding
@@ -495,7 +495,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 300 passed, 5 skipped
+# 352 passed, 5 skipped
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -632,7 +632,12 @@ The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
 `openfisca_morocco/tests/allocations_familiales.yaml`,
 `openfisca_morocco/tests/aide_sociale_directe.yaml`,
 `openfisca_morocco/tests/impot_revenu_categories.yaml`,
-`openfisca_morocco/tests/test_ir_categories_gating.py` and
+`openfisca_morocco/tests/ir_regimes_professionnels.yaml`,
+`openfisca_morocco/tests/ir_deductions_globales.yaml`,
+`openfisca_morocco/tests/ir_patrimoine.yaml`,
+`openfisca_morocco/tests/test_ir_categories_gating.py`,
+`openfisca_morocco/tests/test_ir_parameter_tables.py`,
+`openfisca_morocco/tests/test_ir_deductions_election.py` and
 `openfisca_morocco/tests/tva.yaml` document the expected law at the boundaries
 (each bracket, each ceiling, each dated rate, each transitional step).
 `aide_sociale_directe` is completed by

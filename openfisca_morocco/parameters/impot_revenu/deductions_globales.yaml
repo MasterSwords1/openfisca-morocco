@@ -1,0 +1,56 @@
+# Déductions sur le revenu global et option foncière de l'IR.
+#
+# Sources : Code Général des Impôts (édition 2026), article 28 (déductions) et
+# articles 64-IV et 73-II-F-12° (option libératoire de 20 % sur les loyers).
+
+description: Déductions du revenu global imposable
+
+taux_plafond_logement:
+  description: Plafond de la déduction des intérêts de prêt logement, en pourcentage du revenu global
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 28-II — limite de 10 %
+        href: https://maloi.ma/fr/law/code-impots/article/28
+  values:
+    2026-01-01:
+      value: 0.10
+
+taux_plafond_retraite:
+  description: >-
+    Plafond de la déduction des primes d'assurance retraite, en pourcentage du
+    revenu global
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 28-III-A — limite de 10 %
+        href: https://maloi.ma/fr/law/code-impots/article/28
+  values:
+    2026-01-01:
+      value: 0.10
+
+taux_plafond_retraite_salaire:
+  description: >-
+    Plafond de la déduction des primes d'assurance retraite pour un contribuable
+    disposant uniquement de revenus salariaux, en pourcentage du salaire net
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 28-III-A — limite de 50 % du salaire net
+        href: https://maloi.ma/fr/law/code-impots/article/28
+  values:
+    2026-01-01:
+      value: 0.50
+
+taux_foncier_liberatoire:
+  description: Taux libératoire optionnel applicable au montant brut des loyers
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 64-IV — option libératoire
+        href: https://maloi.ma/fr/law/code-impots/article/64
+      - title: Code Général des Impôts, article 73-II-F-12° — taux de 20 %
+        href: https://maloi.ma/fr/law/code-impots/article/73
+  values:
+    2026-01-01:
+      value: 0.20

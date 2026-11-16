@@ -1,0 +1,352 @@
+# Régimes professionnels (CGI 2026) — CPU, auto-entrepreneur, net simplifié et
+# report déficitaire. Les droits complémentaires suivent la table de
+# l'article 73-II-B-6° (montants annuels) : <500 → 1 200 ; 500–1 000 → 1 560 ;
+# 1 001–2 500 → 2 280 ; 2 501–5 000 → 2 880 ; 5 001–10 000 → 4 200 ;
+# 10 001–25 000 → 6 000 ; 25 001–50 000 → 9 000 ; >50 000 → 14 400.
+
+- name: CPU alimentation générale — 6 % du chiffre d'affaires et droit de 1 560 DH
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: alimentation_generale
+        chiffre_affaires_professionnel: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 2160
+        impot_regimes_professionnels: 2160
+        revenu_global_imposable: 0
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 2160
+
+- name: CPU courtiers — 45 % du chiffre d'affaires et droit de 4 200 DH
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: courtiers
+        chiffre_affaires_professionnel: 200000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 13200
+
+- name: CPU petits droits — droit complémentaire de 1 200 DH sous 500 DH
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: alimentation_generale
+        chiffre_affaires_professionnel: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 1260
+
+- name: Auto-entrepreneur commercial — 0,5 % et droit de 2 280 DH
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: commercial
+        chiffre_affaires_professionnel: 300000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 3780
+
+- name: Auto-entrepreneur de services au plafond — 1 %
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: services
+        chiffre_affaires_professionnel: 200000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 4280
+
+- name: Auto-entrepreneur de services au-delà du plafond — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: services
+        chiffre_affaires_professionnel: 250000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 0
+
+- name: Auto-entrepreneur commercial au-delà du plafond — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: commercial
+        chiffre_affaires_professionnel: 600000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 0
+
+- name: Déficit professionnel antérieur imputé sur le bénéfice de l'année
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        deficit_professionnel_reportable: 30000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_professionnel_imposable: 70000
+        revenu_global_imposable: 70000
+        impot_sur_le_revenu: 4000
+
+- name: Net simplifié — abattement de 15 % pour un adhérent d'un centre de gestion
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: net_simplifie
+        adherent_centre_gestion: true
+        revenu_professionnel_net: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_professionnel_imposable: 85000
+        impot_sur_le_revenu: 7500
+
+- name: Net simplifié — sans adhésion, aucun abattement
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: net_simplifie
+        revenu_professionnel_net: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_professionnel_imposable: 100000
+        impot_sur_le_revenu: 12000
+
+- name: Auto-entrepreneur commercial au plafond de 500 000 DH — régime applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: commercial
+        chiffre_affaires_professionnel: 500000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 4780
+
+- name: CPU au plafond de 2 000 000 DH — régime applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        nature_activite_professionnelle: commercial
+        categorie_professionnelle: alimentation_generale
+        chiffre_affaires_professionnel: 2000000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 18000
+
+- name: CPU au-delà du plafond — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        nature_activite_professionnelle: commercial
+        categorie_professionnelle: alimentation_generale
+        chiffre_affaires_professionnel: 2000001
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 0
+
+- name: CPU — droits de 500 DH, première bande pleine
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: produits_chimiques
+        chiffre_affaires_professionnel: 50000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 2060
+
+- name: CPU — droits de 1 000 DH, toujours la deuxième bande
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: produits_chimiques
+        chiffre_affaires_professionnel: 100000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 2560
+
+- name: CPU — droits de 1 010 DH, troisième bande
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: produits_chimiques
+        chiffre_affaires_professionnel: 101000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 3290
+
+- name: CPU de services au plafond de 500 000 DH — régime applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        nature_activite_professionnelle: services
+        categorie_professionnelle: autres_prestations
+        chiffre_affaires_professionnel: 500000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 14200
+
+- name: CPU de services au-delà du plafond — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        nature_activite_professionnelle: services
+        categorie_professionnelle: autres_prestations
+        chiffre_affaires_professionnel: 500001
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 0
+
+- name: CPU courtiers au plafond de services — régime applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: courtiers
+        chiffre_affaires_professionnel: 500000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 28500
+
+- name: CPU courtiers au-delà du plafond de services — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: cpu
+        categorie_professionnelle: courtiers
+        chiffre_affaires_professionnel: 500001
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_contribution_professionnelle_unique: 0
+
+- name: Auto-entrepreneur commercial juste au-dessus du plafond — régime non applicable
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        regime_professionnel: auto_entrepreneur
+        nature_activite_professionnelle: commercial
+        chiffre_affaires_professionnel: 500001
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        impot_auto_entrepreneur: 0

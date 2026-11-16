@@ -1,0 +1,76 @@
+# Plus-values immobilières et revenus de source étrangère.
+#
+# Sources : Code Général des Impôts (édition 2026), articles 25, 61-II, 63, 65
+# et 73-II-C-2° / F-5° / F-6°.
+
+description: Patrimoine immobilier et revenus étrangers
+
+taux_plus_value_immobiliere:
+  description: Taux applicable au profit net de cession d'immeubles
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 73-II-F-6° — 20 %
+        href: https://maloi.ma/fr/law/code-impots/article/73
+  values:
+    2026-01-01:
+      value: 0.20
+
+seuil_exoneration_cessions:
+  description: >-
+    Montant total annuel des cessions d'immeubles en dessous duquel le profit
+    est exonéré (article 63-II-A)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 63-II-A — 140 000 DH
+        href: https://maloi.ma/fr/law/code-impots/article/63
+  values:
+    2026-01-01:
+      value: 140000.0
+
+duree_habitation_principale:
+  description: Durée minimale de détention comme habitation principale ouvrant l'exonération
+  unit: year
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 63-II-B — cinq ans
+        href: https://maloi.ma/fr/law/code-impots/article/63
+  values:
+    2026-01-01:
+      value: 5
+
+frais_acquisition_forfait:
+  description: >-
+    Frais d'acquisition évalués forfaitairement en pourcentage du prix
+    d'acquisition (article 65-II)
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 65-II — 15 % du prix d'acquisition
+        href: https://maloi.ma/fr/law/code-impots/article/65
+  values:
+    2026-01-01:
+      value: 0.15
+
+taux_revenus_capitaux_etrangers:
+  description: Taux applicable aux revenus bruts de capitaux mobiliers de source étrangère
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 73-II-C-2° — 15 %
+        href: https://maloi.ma/fr/law/code-impots/article/73
+  values:
+    2026-01-01:
+      value: 0.15
+
+taux_profits_capitaux_etrangers:
+  description: Taux applicable aux profits bruts de capitaux mobiliers de source étrangère
+  unit: /1
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 73-II-F-5° — 20 %
+        href: https://maloi.ma/fr/law/code-impots/article/73
+  values:
+    2026-01-01:
+      value: 0.20
