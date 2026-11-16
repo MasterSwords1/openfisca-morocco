@@ -1,0 +1,413 @@
+# Aide sociale directe (ASD) — estimation des règles et montants publiés.
+# Le résultat n'établit pas l'inscription effective au RNP/RSU ni une décision ANSS.
+
+- name: Ménage administrativement admissible sans enfant — aide forfaitaire de 500 DH
+  period: 2026-01
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 9.743001
+        conditions_administratives_asd_remplies: true
+        eligible_aide_forfaitaire_asd: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+
+- name: Score supérieur au seuil — aucune aide calculée
+  period: 2026-01
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 9.743002
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 0.0
+
+- name: Conditions administratives inconnues ou non vérifiées — aucun droit présumé
+  period: 2026-01
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 5.0
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 0.0
+
+- name: Trois premiers enfants scolarisés — barème 2026
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 900.0
+
+- name: Enfants de rang 1 à 4 — application des deux paliers
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+      enfant4:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 4
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4]
+        score_rsu: 4.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 936.0
+
+- name: Rang fourni explicitement — ne dépend pas de l'ordre des membres
+  period: 2025-01
+  input:
+    persons:
+      parent: {}
+      enfantA:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 4
+      enfantB:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfantA, enfantB]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+
+- name: Enfant handicapé — barème scolarisé/moins de 6 ans de rang 1
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        enfant_handicape: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+
+- name: Soutien complémentaire orphelin de père, rang 1 et moins de 6 ans en 2026
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        enfant_moins_de_six_ans: true
+        enfant_orphelin_pere: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+
+- name: Soutiens complémentaires orphelin et handicap ajoutés au barème
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_moins_de_six_ans: true
+        enfant_orphelin_pere: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        enfant_handicape: true
+        rang_enfant_asd: 2
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 800.0
+
+- name: Première prime de naissance versée comme composante ponctuelle
+  period: 2026-01
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+        prime_naissance_rang: 1
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 2000.0
+
+- name: Trois enfants scolarisés en 2023 — 200 DH chacun
+  period: 2023-12
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 600.0
+
+- name: Trois enfants scolarisés en 2025 — 250 DH chacun
+  period: 2025-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 750.0
+
+- name: Barème initial en décembre 2023 — enfant scolarisé
+  period: 2023-12
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 2.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+
+- name: Enfant handicapé de rang 4 — 36 DH de base plus 100 DH de soutien en 2026
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+      enfant4:
+        enfant_eligible_asd: true
+        enfant_handicape: true
+        rang_enfant_asd: 4
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 1036.0
+
+- name: Enfant handicapé de rang 7 — seul le soutien de 100 DH est dû
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 4}
+      enfant5: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 5}
+      enfant6: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 6}
+      enfant7: {enfant_eligible_asd: true, enfant_handicape: true, rang_enfant_asd: 7}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4, enfant5, enfant6, enfant7]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 1108.0
+
+- name: Mère-veuve avec deux enfants handicapés et orphelins de père — base, orphelin et handicap
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1:
+        enfant_eligible_asd: true
+        enfant_handicape: true
+        enfant_orphelin_pere: true
+        rang_enfant_asd: 1
+      enfant2:
+        enfant_eligible_asd: true
+        enfant_handicape: true
+        enfant_orphelin_pere: true
+        rang_enfant_asd: 2
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 1000.0
+
+- name: Enfant orphelin de père non scolarisé de 6 ans et plus — pas de complément
+  period: 2026-01
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 2}
+      enfant3:
+        enfant_eligible_asd: true
+        enfant_orphelin_pere: true
+        rang_enfant_asd: 3
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 800.0
+
+- name: Enfant handicapé en 2025 — 250 DH de base plus 100 DH de soutien
+  period: 2025-01
+  input:
+    persons:
+      parent: {}
+      enfant1: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 1}
+      enfant2: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 2}
+      enfant3: {enfant_eligible_asd: true, enfant_scolarise: true, rang_enfant_asd: 3}
+      enfant4: {enfant_eligible_asd: true, enfant_handicape: true, rang_enfant_asd: 4}
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant1, enfant2, enfant3, enfant4]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 886.0

@@ -1,0 +1,193 @@
+# Aide sociale directe (ASD)
+# Sources: Loi n° 58-23 and Décrets n° 2-23-1067 / 2-23-1068, as completed by
+# Décrets n° 2-24-706, 2-25-1064 and 2-26-434 and by Loi n° 41-26.
+# Official texts: https://www.anss.gov.ma/fr/lois-decrets
+# Amounts follow the Décret 2-23-1067 annex as published by the ANSS
+# (https://www.anss.gov.ma/fr/typologies-d-aides).
+
+description: Barème de l'aide sociale directe (ASD)
+
+# Modèle des montants publiés. L'accès effectif dépend aussi des conditions
+# individuelles, de l'inscription au RSU et de l'examen du dossier par l'ANSS.
+
+seuil_score_rsu:
+  description: >-
+    Seuil d'éligibilité au régime ASD, appliqué à l'indice socio-économique du
+    ménage calculé par le RSU (9,743001 dans le texte officiel)
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Décret n° 2-23-1068, article 1 — BO n° 7253 du 4 décembre 2023,
+          p. 10239 (seuil fixé à 9,743001, sans modification publiée)
+        href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1068_AR.pdf
+      - title: >-
+          ANSS, conditions d'éligibilité — indice socio-économique inférieur ou
+          égal au seuil de 9,743001
+        href: https://www.anss.gov.ma/fr/conditions-d-eligibilite
+  values:
+    2023-12-01:
+      value: 9.743001
+
+plancher_mensuel:
+  description: Plancher minimum global mensuel garanti au ménage bénéficiaire
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Décret n° 2-23-1067, article 2 — montant mensuel minimal de 500 DH
+        href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf
+  values:
+    2023-12-01:
+      value: 500.0
+
+montant_enfant_scolarise_ou_moins_de_6_ans:
+  description: >-
+    Allocation mensuelle de base par enfant parmi les trois premiers, scolarisé,
+    âgé de moins de six ans ou en situation de handicap lourd
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Décret n° 2-23-1067, annexe (complétée par Décret n° 2-24-706) —
+          montants des enfants scolarisés ou de moins de 6 ans
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 200.0
+    2025-01-01:
+      value: 250.0
+    2026-01-01:
+      value: 300.0
+
+montant_enfant_non_scolarise_6_ans_et_plus:
+  description: >-
+    Allocation mensuelle de base par enfant non scolarisé âgé d'au moins six
+    ans, parmi les trois premiers
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Décret n° 2-23-1067, annexe (complétée par Décret n° 2-24-706) —
+          montants des enfants non scolarisés
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 150.0
+    2025-01-01:
+      value: 175.0
+    2026-01-01:
+      value: 200.0
+
+montant_enfant_scolarise_rang_4_a_6:
+  description: Allocation mensuelle de base par enfant scolarisé de rang 4 à 6
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Décret n° 2-23-1067, annexe — 36 DH par enfant scolarisé de rang 4 à 6 (montant non revalorisé)
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 36.0
+
+montant_enfant_non_scolarise_rang_4_a_6:
+  description: Allocation mensuelle de base par enfant non scolarisé de rang 4 à 6
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Décret n° 2-23-1067, annexe — 24 DH par enfant non scolarisé de rang 4 à 6 (montant non revalorisé)
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 24.0
+
+montant_complement_orphelin:
+  description: >-
+    Soutien complémentaire mensuel par enfant orphelin de père parmi les trois
+    premiers, scolarisé, de moins de six ans ou en situation de handicap lourd
+    (s'ajoute au montant de base : 200/250/300 + 150/125/100 = 350/375/400 DH
+    pour les ménages de mères-veuves)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Décret n° 2-23-1067, annexe, section 2 — soutien complémentaire aux
+          orphelins de père ; totaux publiés par l'ANSS pour les mères-veuves
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 150.0
+    2025-01-01:
+      value: 125.0
+    2026-01-01:
+      value: 100.0
+
+montant_complement_handicap:
+  description: >-
+    Soutien complémentaire mensuel par enfant en situation de handicap lourd,
+    à tous les rangs (le rang 7 et plus ne perçoit que ce soutien)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Décret n° 2-23-1067, annexe, section 2 — 100 DH par enfant en situation
+          de handicap ; colonnes 300/350/400 et 136/100 de l'ANSS
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 100.0
+
+aide_forfaitaire_mensuelle:
+  description: >-
+    Allocation mensuelle forfaitaire versée aux ménages sans enfant à charge
+    éligible (personnes de 21 ans et plus)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Loi n° 58-23, article 4 et Décret n° 2-23-1067 — allocation forfaitaire
+          de 500 DH par mois et par ménage
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
+  values:
+    2023-12-01:
+      value: 500.0
+
+plafond_enfants:
+  description: Nombre maximal d'enfants pris en compte pour les allocations de protection de l'enfance
+  unit: /1
+  metadata:
+    reference:
+      - title: Loi n° 58-23, article 2 — plafond de six enfants à charge
+        href: https://www.anss.gov.ma/sites/default/files/decrets/Loi_n58.23_AR.pdf
+  values:
+    2023-12-01:
+      value: 6
+
+prime_naissance_premier_enfant:
+  description: Prime forfaitaire lors de la première naissance
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Loi n° 58-23, article 2, paragraphe 3 et Décret n° 2-23-1067, annexe — première naissance
+        href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf
+  values:
+    2023-12-01:
+      value: 2000.0
+
+prime_naissance_deuxieme_enfant:
+  description: Prime forfaitaire lors de la deuxième naissance
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Loi n° 58-23, article 2, paragraphe 3 et Décret n° 2-23-1067, annexe — deuxième naissance
+        href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf
+  values:
+    2023-12-01:
+      value: 1000.0
+
+# Non modélisé : le projet de décret n° 2.26.838, adopté en Conseil de
+# gouvernement le 12 novembre 2026 mais non publié au Bulletin Officiel à la
+# date de cette version, porte le plancher et l'aide forfaitaire de 500 à
+# 600 DH à compter du 1er janvier 2027. Ne pas l'appliquer avant publication.
+# Ne sont pas non plus modélisés : l'aide de rentrée scolaire (Décret 2-24-706),
+# l'aide spéciale aux enfants placés (Décret 2-25-1064) et la prime
+# exceptionnelle de l'article 16 bis de la Loi 58-23 (Décret 2-26-434).

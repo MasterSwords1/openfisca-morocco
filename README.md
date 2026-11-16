@@ -7,11 +7,11 @@ code.
 salarial income for **annual** periods under the rules in force since
 **1 January 2025**, the **cotisations sociales obligatoires (CNSS + AMO)** and
 charges patronales for **monthly** periods, the contributory **allocations familiales (CNSS)**
-for **monthly** periods, and the **taxe sur la valeur ajoutée (TVA)** declared by an enterprise
-for **monthly** periods, with dated rates running **2004–2026**.
-Non-contributory direct social assistance (aide sociale directe) and other transfer schemes
-are tracked in the
-[issue list](https://github.com/MasterSwords1/openfisca-morocco/issues).
+for **monthly** periods, **aide sociale directe (ASD)** under the published
+statutory schedules for **monthly** periods, and the **taxe sur la valeur ajoutée (TVA)**
+declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**.
+ASD eligibility inputs and registry limitations are documented in
+[`docs/aide-sociale-directe.md`](docs/aide-sociale-directe.md).
 
 | | |
 |---|---|
