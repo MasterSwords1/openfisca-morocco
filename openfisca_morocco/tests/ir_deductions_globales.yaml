@@ -1,0 +1,188 @@
+# Déductions de l'article 28 et option foncière de 20 % (CGI 2026).
+# Barème 2026 : 30 % × 95 000 − 18 000 = 10 500 ; 30 % × 90 000 − 18 000 = 9 000.
+
+- name: Intérêts de prêt logement plafonnés à 10 % du revenu global
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        interets_pret_logement: 50000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 10000
+        revenu_imposable_apres_deductions: 90000
+        impot_sur_le_revenu: 9000
+
+- name: Intérêts de prêt logement sous le plafond — déduction intégrale
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        interets_pret_logement: 5000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 5000
+        revenu_imposable_apres_deductions: 95000
+        impot_sur_le_revenu: 10500
+
+- name: Primes d'assurance retraite plafonnées à 10 % du revenu global
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        primes_assurance_retraite: 20000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 10000
+        impot_sur_le_revenu: 9000
+
+- name: Primes d'assurance retraite sous le plafond — déduction intégrale
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        primes_assurance_retraite: 5000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 5000
+        impot_sur_le_revenu: 10500
+
+- name: Primes d'assurance retraite au plafond — déduction de 10 %
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        primes_assurance_retraite: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 10000
+        impot_sur_le_revenu: 9000
+
+- name: Revenu étranger — le plafond de 10 % s'applique, pas celui du salaire seul
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenus_etrangers_bruts: 50000
+        primes_assurance_retraite: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 5000
+
+- name: Dons aux organismes — déduction sans plafond
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        dons_organismes: 5000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 5000
+        impot_sur_le_revenu: 10500
+
+- name: Option foncière de 20 % — loyers hors barème, impôt libératoire
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenus_fonciers_bruts: 100000
+        option_foncier_liberatoire: true
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 0
+        impot_sur_le_revenu: 0
+        impot_foncier_liberatoire: 20000
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 20000
+
+- name: Option foncière de 20 % avec revenu professionnel — barème sur le seul professionnel
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        revenus_fonciers_bruts: 100000
+        option_foncier_liberatoire: true
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        revenu_global_imposable: 100000
+        impot_sur_le_revenu: 12000
+        impot_foncier_liberatoire: 20000
+    households:
+      menage:
+        impot_sur_le_revenu_menage: 32000
+
+- name: Dons au-delà de 10 % du revenu — aucune limite légale
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        dons_organismes: 50000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 50000
+        revenu_imposable_apres_deductions: 50000
+
+- name: Intérêts de prêt logement au plafond de 10 %
+  period: 2026
+  input:
+    persons:
+      contribuable:
+        revenu_professionnel_net: 100000
+        interets_pret_logement: 10000
+    households:
+      menage:
+        adults: [contribuable]
+  output:
+    persons:
+      contribuable:
+        deductions_revenu_global: 10000
+        impot_sur_le_revenu: 9000

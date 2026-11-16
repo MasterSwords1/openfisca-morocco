@@ -59,3 +59,27 @@ def test_leaf_rental_variable_before_2026_raises():
     simulation = simulate("2025", revenus_fonciers_bruts=10_000)
     with pytest.raises(ValueError, match="Rental income"):
         simulation.calculate("retenue_fonciere", "2025")
+
+
+def test_cpu_regime_before_2026_raises():
+    simulation = simulate("2025", regime_professionnel="cpu")
+    with pytest.raises(ValueError, match="simplified, CPU and auto-entrepreneur"):
+        simulation.calculate("revenu_professionnel_imposable", "2025")
+
+
+def test_article28_deduction_before_2026_raises():
+    simulation = simulate("2025", dons_organismes=1_000)
+    with pytest.raises(ValueError, match="Article 28"):
+        simulation.calculate("deductions_revenu_global", "2025")
+
+
+def test_property_gain_before_2026_raises():
+    simulation = simulate("2025", prix_cession_immobilier=1_000_000)
+    with pytest.raises(ValueError, match="Property gains"):
+        simulation.calculate("plus_value_immobiliere_imposable", "2025")
+
+
+def test_professional_turnover_before_2026_raises():
+    simulation = simulate("2025", chiffre_affaires_professionnel=100_000)
+    with pytest.raises(ValueError, match="Professional regimes"):
+        simulation.calculate("impot_contribution_professionnelle_unique", "2025")

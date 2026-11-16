@@ -1,0 +1,441 @@
+# Régimes professionnels de l'IR.
+#
+# Sources : Code Général des Impôts (édition 2026), articles 12 (report
+# déficitaire), 32 à 44 (régimes), 73-II-B-6° et 73-III (taux et droits
+# complémentaires). La table des droits complémentaires est lue dans l'édition
+# consolidée du corpus (CGI-2026-FR, art. 73-II-B-6°).
+
+description: Régimes de détermination du revenu professionnel
+
+net_simplifie:
+  description: Régime du résultat net simplifié
+
+  abattement_centre_gestion:
+    description: >-
+      Abattement de la base imposable pour les adhérents des centres de gestion
+      de comptabilité agréés (article 38-III)
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 38-III — abattement de 15 %
+          href: https://maloi.ma/fr/law/code-impots/article/38
+    values:
+      2026-01-01:
+        value: 0.15
+
+cpu:
+  description: Contribution professionnelle unique (articles 40 et 73-II-B-6°)
+
+  taux:
+    description: Taux appliqué à la base obtenue en multipliant le chiffre d'affaires par le coefficient
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-B-6°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.10
+
+  seuil_commercial:
+    description: Chiffre d'affaires maximal des activités commerciales, industrielles et artisanales
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 41-II-A — 2 000 000 DH
+          href: https://maloi.ma/fr/law/code-impots/article/41
+    values:
+      2026-01-01:
+        value: 2000000.0
+
+  seuil_services:
+    description: Chiffre d'affaires maximal des prestataires de services
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 41-II-A — 500 000 DH
+          href: https://maloi.ma/fr/law/code-impots/article/41
+    values:
+      2026-01-01:
+        value: 500000.0
+
+  coefficients:
+    description: Coefficients par catégorie de professions (article 40-I)
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 40-I — tableau des coefficients
+          href: https://maloi.ma/fr/law/code-impots/article/40
+    alimentation_generale:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie alimentation_generale
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.06}
+    autres_produits_alimentaires:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_produits_alimentaires
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.08}
+    matieres_premieres:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie matieres_premieres
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.08}
+    materiaux_construction:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie materiaux_construction
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.08}
+    produits_chimiques:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie produits_chimiques
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.10}
+    autres_produits_non_alimentaires:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_produits_non_alimentaires
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.12}
+    restauration_rapide:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie restauration_rapide
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.10}
+    restaurant_debit_boissons:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie restaurant_debit_boissons
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.20}
+    transport:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie transport
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.10}
+    entretien:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie entretien
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.15}
+    location_biens_meubles:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie location_biens_meubles
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.20}
+    autres_locations_gestion:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_locations_gestion
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.25}
+    coiffure_esthetique:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie coiffure_esthetique
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.20}
+    metiers_techniques:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie metiers_techniques
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.30}
+    autres_artisans_services:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_artisans_services
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.12}
+    courtiers:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie courtiers
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.45}
+    autres_prestations:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_prestations
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.20}
+    fabrication_alimentaire:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie fabrication_alimentaire
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.10}
+    fabrication_non_alimentaire:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie fabrication_non_alimentaire
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.10}
+    chevillard:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie chevillard
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.04}
+    marchand_tabac:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_tabac
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.03}
+    marchand_gaz:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_gaz
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.045}
+    marchand_farine:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_farine
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.05}
+    armateur_peche:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie armateur_peche
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.07}
+    boulanger:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 40-I — coefficient de la catégorie boulanger
+            href: https://maloi.ma/fr/law/code-impots/article/40
+      unit: /1
+      values:
+        2026-01-01: {value: 0.08}
+
+  droits_complementaires:
+    description: Droits complémentaires annuels selon le montant des droits dus (article 73-II-B-6°)
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-B-6° — table des droits complémentaires
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    seuil_1:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 500.0}
+    seuil_2:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 1000.0}
+    seuil_3:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 2500.0}
+    seuil_4:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 5000.0}
+    seuil_5:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 10000.0}
+    seuil_6:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 25000.0}
+    seuil_7:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 50000.0}
+    montant_1:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 1200.0}
+    montant_2:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 1560.0}
+    montant_3:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 2280.0}
+    montant_4:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 2880.0}
+    montant_5:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 4200.0}
+    montant_6:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 6000.0}
+    montant_7:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 9000.0}
+    montant_8:
+      metadata:
+        reference:
+          - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
+            href: https://maloi.ma/fr/law/code-impots/article/73
+      unit: currency-MAD
+      values:
+        2026-01-01: {value: 14400.0}
+
+auto_entrepreneur:
+  description: Régime de l'auto-entrepreneur (articles 42 bis et 73-III)
+
+  taux_commercial:
+    description: Taux applicable au chiffre d'affaires commercial, industriel ou artisanal
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-III — 0,5 %
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.005
+
+  taux_services:
+    description: Taux applicable au chiffre d'affaires des prestataires de services
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-III — 1 %
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.01
+
+  seuil_commercial:
+    description: Plafond de chiffre d'affaires des activités commerciales, industrielles et artisanales
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-III — 500 000 DH
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 500000.0
+
+  seuil_services:
+    description: Plafond de chiffre d'affaires des prestataires de services
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-III — 200 000 DH
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 200000.0

@@ -141,7 +141,7 @@ class revenu_professionnel_net(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, articles 30 à 39
 
     # Entrée : bénéfice net après charges déductibles. Un déficit est accepté ;
-    # son report sur les exercices suivants (article 37) n'est pas modélisé.
+    # le report est porté par `deficit_professionnel_reportable`.
 
 
 class revenus_fonciers_bruts(Variable):
@@ -214,12 +214,17 @@ class revenu_global_imposable(Variable):
 
     def formula(person, period, parameters):
         # Chaque catégorie est déterminée distinctement (art. 25) : un déficit
-        # professionnel ne s'impute pas sur les salaires ou le foncier. Il est
-        # ramené à zéro ici ; son report (art. 37) n'est pas modélisé.
+        # professionnel ne s'impute pas sur les salaires ou le foncier.
+        # `revenu_professionnel_imposable` applique déjà le report et le plancher.
         total = (
             person("salaire_net_imposable", period)
-            + max_(person("revenu_professionnel_net", period), 0)
-            + person("revenu_foncier_net", period)
+            + person("revenu_professionnel_imposable", period)
+            + where(
+                person("option_foncier_liberatoire", period),
+                0.0,
+                person("revenu_foncier_net", period),
+            )
+            + max_(person("revenus_etrangers_bruts", period), 0)
         )
         return max_(total, 0)
 
@@ -363,7 +368,7 @@ class ir_brut(Variable):
 
     def formula(person, period, parameters):
         bareme = parameters(period).impot_revenu.bareme
-        return bareme.calc(person("revenu_global_imposable", period))
+        return bareme.calc(person("revenu_imposable_apres_deductions", period))
 
 
 class deduction_charges_famille(Variable):
@@ -400,8 +405,15 @@ class impot_sur_le_revenu(Variable):
         deduction = person("deduction_charges_famille", period)
         apres_deduction = max_(brut - deduction, 0)
         # La retenue foncière est imputée sur l'impôt dû, sans restitution de
-        # l'excédent : le plancher à zéro borne déjà le crédit.
-        return max_(apres_deduction - person("retenue_fonciere", period), 0)
+        # l'excédent : le plancher à zéro borne déjà le crédit. Avec l'option
+        # libératoire, les loyers sont hors du barème et la retenue ne s'impute
+        # plus.
+        retenue = where(
+            person("option_foncier_liberatoire", period),
+            0.0,
+            person("retenue_fonciere", period),
+        )
+        return max_(apres_deduction - retenue, 0)
 
 
 class impot_sur_le_revenu_menage(Variable):
@@ -410,12 +422,17 @@ class impot_sur_le_revenu_menage(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = (
-        "Impôt sur le revenu du ménage (somme des impôts individuels et des "
-        "impôts libératoires du capital)"
+        "Impôt sur le revenu du ménage (impôts individuels, régimes "
+        "professionnels, capitaux, option foncière et plus-values)"
     )
     reference = "https://www.tax.gov.ma"  # CGI, article 25
 
     def formula(household, period, parameters):
-        return household.sum(
-            household.members("impot_sur_le_revenu", period)
-        ) + household.sum(household.members("impot_capitaux_mobiliers", period))
+        return (
+            household.sum(household.members("impot_sur_le_revenu", period))
+            + household.sum(household.members("impot_capitaux_mobiliers", period))
+            + household.sum(household.members("impot_regimes_professionnels", period))
+            + household.sum(household.members("impot_foncier_liberatoire", period))
+            + household.sum(household.members("impot_plus_value_immobiliere", period))
+            + household.sum(household.members("impot_capitaux_etrangers", period))
+        )
