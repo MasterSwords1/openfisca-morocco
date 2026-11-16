@@ -3,6 +3,14 @@
 This historical snapshot is from the Livre d'Assiette et de Recouvrement
 (LAR), not a CGI Article 99 edition. It does not represent the missing
 2004–2005 Article 15 product lists or imply continuous validity after 2006.
+
+The snapshot also names a live primary source for the same wording: the
+Bulletin officiel n° 5382 bis that promulgated loi de finances n° 35-05. The
+served PDF is byte-identical to the local BO_5382-bis_fr.pdf, so Article 101 is
+checkable against the enacting text and not only against a DGI edition and a
+third-party mirror. Because the 2006 text numbers the rate articles 99/100/
+101/102 where the 2007+ editions number them 97/98/99/100, a 2006 Article 100
+is not the article exposed by ``tva_article100``.
 """
 
 from __future__ import annotations
@@ -28,6 +36,23 @@ class Article101SourceCitation:
     source_page: int
     corpus_file: str
     quote: str
+
+
+@dataclass(frozen=True)
+class Article101CorroboratingSource:
+    """A live primary source whose text reproduces the 2006 Article 101."""
+
+    document_title: str
+    instrument: str
+    url: str
+    pdf_sha256: str
+    pdf_bytes: int
+    pdf_pages: tuple[int, ...]
+    printed_folios: tuple[int, ...]
+    article: int
+    corroboration_note: str
+    article_numbering_note: str
+    retrieval_verified_on: str
 
 
 @dataclass(frozen=True)
@@ -65,6 +90,7 @@ class LAR2006Article101Snapshot:
     effective_from: str
     effective_date_citation: Article101SourceCitation
     predecessor_repeal_citation: Article101SourceCitation
+    corroborating_source: Article101CorroboratingSource
     corpus_file: str
     source_pdf: str
     source_pdf_sha256: str
@@ -101,6 +127,27 @@ def _citation(data: dict) -> Article101SourceCitation:
         source_page=data["source_page"],
         corpus_file=data["corpus_file"],
         quote=data["quote"],
+    )
+
+
+def _corroborating_source(data: dict) -> Article101CorroboratingSource:
+    source = data["corroborating_source"]
+    if len(source.get("pdf_sha256", "")) != 64:
+        raise ValueError("The corroborating 2006 source must retain its SHA-256")
+    if source.get("article") != 101:
+        raise ValueError("The corroborating source must reproduce Article 101")
+    return Article101CorroboratingSource(
+        document_title=source["document_title"],
+        instrument=source["instrument"],
+        url=source["url"],
+        pdf_sha256=source["pdf_sha256"],
+        pdf_bytes=source["pdf_bytes"],
+        pdf_pages=tuple(source["pdf_pages"]),
+        printed_folios=tuple(source["printed_folios"]),
+        article=source["article"],
+        corroboration_note=source["corroboration_note"],
+        article_numbering_note=source["article_numbering_note"],
+        retrieval_verified_on=source["retrieval_verified_on"],
     )
 
 
@@ -161,6 +208,7 @@ def _load_snapshot(data: dict) -> LAR2006Article101Snapshot:
         effective_from=data["effective_from"],
         effective_date_citation=_citation(data["effective_date_citation"]),
         predecessor_repeal_citation=_citation(data["predecessor_repeal_citation"]),
+        corroborating_source=_corroborating_source(data),
         corpus_file=data["corpus_file"],
         source_pdf=data["source_pdf"],
         source_pdf_sha256=data["source_pdf_sha256"],

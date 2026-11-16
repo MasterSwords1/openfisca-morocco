@@ -1,4 +1,31 @@
 
+## 0.6.0 - [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2007-01-01 onwards (Article 99 effective dates).
+* Impacted areas:
+  - `tva_article99` (dated segments, effective-date API, date-scoped aggregation, nested `Article99SubItem` rows).
+  - `data.tva_article99_catalog` (schema version 2, hoisted instruments, per-row `effective_attribution`, `subitems`).
+  - `tva_article91_92` (two-level itemization, `abrogated` status, cross-article handoff test for the 2021 solar water heater move).
+  - `data.tva_article91_92_catalog` (schema version 2, verbatim projection: 606 items plus 603 sub-items).
+  - `scripts.build_article99_attribution` and `scripts.build_tva_article91_92_catalog` (generators, both `--check`-able).
+  - `tests` (Article 99 acceptance tests and evidence guards, Article 91/92 itemization tests, and four provenance regressions).
+* Details:
+  - Give every Article 99 row an `effective_attribution`: the dated rate segment it belongs to, with a start and an end that are dated **independently**. A boundary is `proven` only when a primary source names the instrument; it then carries the instrument, the witness artifact, a SHA-256 labelled by artifact kind (`pdf_sha256` vs `text_sha256`) and a verbatim quote. Otherwise it is `bracketed`, carries a machine-readable `reason` and a `validity_bracket`, and carries **no date at all**.
+  - Attribution is per boundary, not per row. A renumber creates no boundary, a rate move is `superseded` rather than `repealed`, and a removal that lands in another article is `exempted` with a `successor_article`.
+  - Derive the dates mechanically in `scripts/build_article99_attribution.py`: the baseline is the original enactment (Loi 43-06 art. 5); a later boundary is dated from the row's own consolidated endnote when exactly one in-interval instrument is named; an *introduction* may be dated from a verbatim reproduction in exactly one in-interval finance-law transcription. These routes prove 299 of 420 rows (71,2 %); the 121 others stay bracketed with `repeal_not_witnessed` (109), `ambiguous_instruments` (7) or `introduction_not_witnessed` (6). No date is guessed from the abolition of a rate class.
+  - Replace the earlier all-or-nothing row guard: the loader now rejects `valid_from` / `valid_to` on the snapshot row itself (dates belong only inside `effective_attribution`), validates each boundary, and requires `valid_from` / `valid_to` to equal the named instrument's own effective date.
+  - Add the `on_date` keyword to `aggregate_article_99_turnover`. When supplied, every item must be proven to cover that date, and `valid_to` is treated as exclusive (the first day the successor text applied). A bracketed row raises `Article99UndatedItemError` instead of being priced.
+  - Record the solar water heater handoff explicitly: Loi 65-20 art. 6 removed *les chauffe-eaux solaires* from Article 99 and added them as item 8° of Article 91, so the Article 99 end is `exempted` with `successor_article = 91`, and a test pins the Article 91 end of the link. The item returned to Article 99 at 10 % from 2022-01-01 by Loi 76-21.
+  - Repoint the 2007 `source_pdf`: the packaged entry named an SGG index volume (`BO_5487_2007_SGG_index.pdf`) that contains no Article 99. The volume is now `BO_5487-bis_fr.pdf`; every published hash was re-computed from its artifact, and a test does so on every run.
+  - Itemize the nested sub-items of all three exemption catalogs (issue #6 box 6). Article 99's corpus splits a multi-product clause into `billable_leaf` rows; all 134 are now exposed as `Article99SubItem` rows with an explicit `parent_item_id` instead of being flattened into the clause quote. A sub-item has no independent effective date, so `effective_attribution` returns the parent's object by identity and the packaged artifact stores no copy.
+  - Replace the Article 91/92 packaging with a verbatim projection. `scripts/build_tva_article91_92_catalog.py` copies each corpus row unchanged into `items` (article-level context and numbered clauses, addressed by corpus ID) and `subitems` (nested bullets and letters, addressed by `<parent>-sub-<n>` with the corpus ID kept as `source_item_id`). The projection is 606 + 603 rows, has no aliasing, and `--check` re-runs it and recomputes every quote. Three defects in the previous packaging are now impossible by construction:
+    - two clauses were merged into their neighbours and the remaining IDs renumbered, so 24 packaged IDs named a different clause than the corpus row they claimed (2007 Article 92 `17°` *Fondation Cheikh Zaïd* and `31°` *Sala Al-Jadida*);
+    - 45 clauses printed `(abrogé)` were published as `in_force_in_snapshot`;
+    - 605 corpus rows were silently dropped (603 nested plus the two merged ones).
+  - Keep `abrogated` rows and label them: `TVAExemptionItem.is_abrogated` reports the status the consolidated text prints, so a repeal stub is visible rather than dropped or mislabelled as in force.
+  - Re-project each Article 99 item's `conditions` from its corpus row. Six clauses had lost their `exclusion` qualifier when first packaged, which silently widened the exemption; quote and rate are now asserted identical to the corpus at the same time.
+
 ## 0.5.0 - [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7)
 
 * Tax and benefit system evolution.
@@ -48,8 +75,10 @@
   - `parameters.tva` (new).
   - `variables.tva` (new).
   - `tva_article99` (snapshot-scoped Article 99 catalog listing and lookup).
+  - `tva_article91_92` (snapshot-scoped exemption catalog listing and lookup).
+  - `tva_article100` (date-scoped specific-rate history and tax calculation).
   - `tva_article15` (separate pre-CGI historical snapshot lookup).
-  - `data` (filtered Article 99 catalog with quote provenance).
+  - `data` (Article 91/92 and 99 snapshots, Article 100 effective periods, and quote provenance).
   - `tests` (new YAML and Python tests).
 * Details:
   - Add the `Company` entity and the monthly TVA declaration of CGI articles 98, 99, 101, 104 and 247-XXXXI: collectée per rate, deductible after prorata, net payable and carry-forward credit, plus `chiffre_affaires_taux_abroge` which isolates revenue declared on an abrogated rate.
@@ -58,8 +87,11 @@
   - Give `Company` a single `membres` role, because OpenFisca cannot instantiate a group entity without one; no formula reads it.
   - The rate figures are checked against the corpus by `tests/test_tva_taux.py`, and the declaration arithmetic reproduces the validated Catala test of the corpus (257 000 / 150 000 / 107 000) in `tests/tva.yaml` and `tests/test_tva_simulation.py`.
   - Add source-ordered Article 99 item listing and exact item lookup for consolidated snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. Each result retains its edition, item ID, rate, verbatim quote, corpus source path, parent context and available quote-backed citations to finance laws. The packaged quotes now exclude unrelated page-footer notes; a footer note is not assigned to a nearby item by position alone. Product descriptions are not classified, snapshot labels do not assert continuous validity, and the missing 2004 CGI Article 99 edition and broader history gaps remain open for issue #6 and `morocco-holy-graph#80`.
-  - Add a separately named, fixed-snapshot API for the complete 2006 LAR Article 101 list. It retains all 38 quotes, rates, conditions, deduction treatment, source URLs and hashes, and the LAR Articles 212/213 date and repeal citations. This is not CGI Article 99 and does not fill the missing 2004–2005 Article 15 lists or claim continuous validity.
+  - Add an explicit Article 99 item-ID turnover aggregator for callers that have selected a legal category. It sums bases by the rate documented in one snapshot and rejects items that cite Article 247 transitional schedules.
+  - Add a separately named, fixed-snapshot API for the complete 2006 LAR Article 101 list. It retains all 38 quotes, rates, conditions, deduction treatment, source URLs and hashes, and the LAR Articles 212/213 date and repeal citations. This is not CGI Article 99 and does not fill the missing 2004–2005 Article 15 lists or claim continuous validity. The snapshot also names the enacting Bulletin officiel n° 5382 bis as a verified live primary source (fetched 2026-11-14, byte-identical SHA-256) and records that the 2006 text numbers the rate articles 99/100/101/102 where the 2007 and later editions number them 97/98/99/100, so a 2006 Article 100 is not the article exposed by `tva_article100`.
   - Add a separate API and packaged catalog for Loi n° 30-85 Article 15 lists as of 1 January 2004 (40 items) and 1 January 2005 (41 items), retaining source quotes, rates, deduction treatment, conditions, item IDs, available DGI endnotes, Gazette amendment citations and reviewed source-chain evidence. This pre-CGI data is independent of Article 99 and LAR Article 101 and makes no continuous-validity or product-classification claim. The available-source review found no additional non-finance Article 15 amendment, but the 2002 DGI baseline PDF is not pinned and the incomplete Gazette run prevents an exhaustive negative.
+  - Add exact Article 91 and 92 exemption lookups for consolidated snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. Preserve quoted clauses and deduction rights while removing snapshot-date markers that could be mistaken for continuous validity.
+  - Add CGI Article 100 per-unit rates for 2007–2019, including the 2011 metal-rate change and the 2020 repeal. Calculate monthly output TVA from explicitly supplied hectolitres/grams, include it in the company declaration total, and flag non-zero quantities outside the verified period.
 
 ## 0.2.2 - [#4](https://github.com/MasterSwords1/openfisca-morocco/issues/4)
 

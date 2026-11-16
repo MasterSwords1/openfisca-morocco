@@ -1,0 +1,249 @@
+# 2006 TVA rates - primary-source OCR evidence
+
+Supporting evidence for the 2006-01-01 TVA snapshot used by the Morocco
+package. This file is machine OCR, not a certified transcription. It exists to
+corroborate the machine-readable 2006 text in
+`laws/ma_tax_law/data/consolidated/LAR-2006-FR-p1-235.pdf.txt` (pages 95-96),
+which is the file the package data actually cites.
+
+## Source
+
+- Instrument: loi de finances n° 35-05 pour l'année budgétaire 2006
+- Enacting dahir: dahir n° 1-05-197 du 24 kaada 1426 (26 décembre 2005)
+- Publication: Bulletin officiel n° 5382 bis, 27 kaada 1426 (29-12-2005)
+- Article 211/212 (per the LAR 2006 text): the livre d'assiette et de
+  recouvrement applies from 1 January 2006 and repeals loi n° 30-85
+- Local file: laws/ma_fin_law/documents/BO_5382-bis_fr.pdf
+- sha256: 2a5465d2273108f133b4a53db8f23cd6e1b4c9653fbbba3ba33795c301a0f615
+- Pages OCR'd: PDF pages 46-47 = printed folios 1018-1019
+- The PDF is a scan with no text layer (pdftotext yields 208 characters for
+  208 pages), so this evidence required OCR.
+
+## Method
+
+- Renderer: pdftoppm -r 300 -gray -png
+- OCR: tesseract 5.5.3 (leptonica-1.87.0), `-l fra --psm 3`,
+  tessdata_fast fra.traineddata
+- Raw OCR of the two pages concatenated; sha256 of the body below
+  (excluding this header) is
+  5921779057495277c7f1eaf339c302d3ef233500b2ce5eb46d6f596a794be223
+
+## What this establishes
+
+The 2006 text numbers the TVA rate articles differently from the 2007+
+consolidated editions:
+
+| 2006 (this BO, and LAR 2006) | 2007 and later |
+| --- | --- |
+| Article 99 - base d'imposition par accord préalable | Article 97 |
+| Article 100 - taux normal (20 %) | Article 98 |
+| Article 101 - taux réduits (7 % / 10 % / 14 %) | Article 99 |
+| Article 102 - taux spécifiques | Article 100 |
+
+So the 2006 reduced-rate list is **Article 101**, and the 2006 specific rates
+(100 MAD/hl on wine and alcohol; 4 MAD/g gold and platinum; 0,05 MAD/g silver)
+are **Article 102**. Article 100 of the 2007+ editions is the *spécifiques*
+article; Article 100 of the 2006 edition is the *normal rate* article. The two
+numberings must not be conflated.
+
+The Article 101 item list below matches, item for item, the 38 rows already in
+the dataset as `historical_2006_article101`: 14 at 7 %, 16 at 10 %, 8 at 14 %.
+
+## Transcription
+
+```
+« Article 100. - Taux normal
+
+« Le taux normal de la taxe sur la valeur ajoutée est fixé à
+«20%.
+
+« Article 101. Taux réduits
+
+« Sont soumis à la taxe aux taux réduits :
+« 1°- de 7% avec droit à déduction :
+
+« Les ventes et les livraisons portant sur :
+
+« — l’eau livrée aux réseaux de distribution publique ainsi
+«que les prestations d’assainissement fournies aux
+« abonnés par les organismes chargés de l’assainissement ;
+
+«— la location de compteurs d’eau et d'électricité ;
+« — le gaz de pétrole et autres hydrocarbures gazeux ;
+«— les huiles de pétrole ou de schistes, brutes ou raffinées,
+
+«— les produits pharmaceutiques, les matières premières et
+« les produits entrant intégralement ou pour une partie de
+«leurs éléments dans la composition des produits
+« pharmaceutiques ;
+
+«—les emballages non récupérables des produits
+« pharmaceutiques ainsi que les produits et matières
+« entrant dans leur fabrication ;
+
+«— l'application du taux réduit est subordonnée à
+«l’accomplissement de formalités définies par voie
+« réglementaire ;
+
+«les fournitures scolaires, les produits et matières entrant
+« dans leur composition.
+
+« L'application du taux réduit aux produits et matières
+«entrant dans la composition des fournitures scolaires est
+« subordonnée à l’accomplissement de formalités définies par
+« voie réglementaire ;
+
+« — les aliments destinés à l’alimentation du bétail et des
+« animaux de basse-cour ainsi que les tourteaux servant à
+« leur fabrication à l’exclusion des autres aliments simples
+« tels que céréales, issues, pulpes, drêches et pailles ; .
+
+«— le sucre raffiné ou aggloméré, y compris les vergeoises,
+« les candis et les sirops de sucre pur non aromatisés ni
+« colorés, à l’exclusion de tous autres produits sucrés ne
+« répondant pas à la définition ci-dessus ;
+
+« — les conserves de sardines ;
+« — le lait en poudre ;
+«— le savon de ménage (en morceaux ou en pain) ;
+
+«-—la voiture automobile de tourisme dite « voiture
+« économique » et tous les produits, et matières entrant
+« dans sa fabrication ainsi que les prestations de montage
+« de ladite voiture économique.
+N° 5382 bis — 27 kaada 1426 (29-12-2005)
+
+« L'application du taux susvisé aux produits et matières
+«entrant dans la fabrication de la voiture économique et aux
+« prestations de montage de ladite voiture économique, est
+« subordonnée à l’accomplissement de formalités définies par
+« voie réglementaire.
+
+«— le péage dû pour emprunter les autoroutes exploitées
+« par des sociétés concessionnaires.
+
+« 2°- de 10 % avec droit à déduction :
+
+«— les opérations de vente de denrées ou de boissons à
+«consommer sur place et les opérations de fourniture de
+« logements réalisées par les hôtels à voyageurs, les
+« restaurants exploités dans les hôtels à voyageurs et les
+« ensembles immobiliers à destination touristique ;
+
+« — les opérations de vente de denrées ou de boissons à
+« consommer sur place, réalisées dans les restaurants ;
+
+«—les opérations de
+«prestataires de services au personnel salarié des
+
+« entreprises ;
+
+«—les opérations de location d’immeubles à usage
+« d’hôtels, de motels, de villages de vacances ou
+« d’ensembles immobiliers à destination touristique,
+«équipés totalement ou partiellement, y compris le
+« restaurant, le bar, le dancing, la piscine, dans la mesure
+
+« où ils font partie intégrante de l’ensemble touristique ;
+
+«— les biens d'équipement, non compris les immeubles et
+«les véhicules de transport, acquis par les minoteries et
+« les exploitations avicoles.
+
+«L'application du taux réduit est subordonnée à
+« l’accomplissement de formalités
+
+« réglementaire ;
+«— les huiles fluides alimentaires ;
+« — le sel de cuisine (gemme ou marin) ;
+
+«— le riz usiné, les farines et semoules de riz et les farines
+« de féculents ;
+
+« — les pâtes alimentaires ;
+
+«— les opérations de banque et de crédit et les commissions
+« de change visées au 1-1 1° de l’article 91 ci-dessus ;
+
+«—les transactions relatives aux valeurs mobilières
+« effectuées par les sociétés de bourse visées au titre III
+«du dahir portant loi n° 1-93-211 du 4 rabii II 1414
+
+« (21 septembre 1993) relatif à la Bourse des valeurs ;
+
+«—les opérations de crédit foncier, de crédit à la
+« construction et de crédit à l'hôtellerie effectuées par le
+« crédit
+« l'exonération prévue au 2° du III de l’article 93 ci-dessus ‘
+
+immobilier et hôtelier sous réserve de
+
+restauration fournies par les
+
+définies par voie :
+
+BULLETIN OFFICIEL 1019
+
+«— les transactions portant sur les actions et parts sociales
+«émises par les organismes de placement collectif en
+« valeurs mobilières visés par le dahir portant loi n° 1-93-213
+« du 4 rabii II 1414 (21 septembre 1993) ;
+
+« — les opérations de crédit agricole effectuées par la Caisse
+« nationale de crédit agricole ;
+
+«— les opérations de crédit-bail (leasing) ;
+
+«—les opérations effectuées dans le cadre de leur
+« profession, par les personnes visées au a) et c) du 12° de
+« l’article 91-I ci-dessus.
+
+« 3° - de 14%:
+« a) avec droit à déduction :
+
+«—le beurre à l'exclusion du beurre de fabrication
+« artisanale visé à l’article 93 (1-A-2°) ci-dessus ;
+
+«—les graisses alimentaires (animales ou végétales),
+« margarines et saindoux ;
+
+« — le thé (en vrac ou conditionné) ;
+« — les opérations d’entreprises de travaux immobiliers ;
+
+«—les opérations de transport de voyageurs et de
+« marchandises ;
+
+«—le véhicule automobile pour le transport de marchandises
+« dit « véhicule utilitaire léger économique » ainsi que le
+« cyclomoteur dit « cyclomoteur économique » ainsi que
+« tous les produits et matières entrant dans leur fabrication.
+
+« L'application du taux précité aux produits et matières
+«entrant dans la fabrication desdits véhicules est subordonnée à
+formalités
+
+« l’accomplissement de définies par voie
+
+«réglementaire ;
+«— l'énergie électrique.
+« b) sans droit à déduction :
+
+«les prestations de services rendues par tout agent
+« démarcheur ou courtier d’assurances à raison de contrats
+« apportés par lui à une entreprise d’assurances.
+
+« Article 102 .- Taux spécifiques
+
+« Par dérogation aux dispositions de l'article 98 ci-dessus,
+«les livraisons et les ventes autrement qu'à consommer sur
+« place, portant sur les vins et les boissons alcoolisées, sont
+«soumises à la taxe sur la valeur ajoutée au tarif de cent (100)
+
+« dirhams par hectolitre.
+
+« Les livraisons et les ventes de tous ouvrages ou articles,
+«autres que les outils, composés en tout ou en partie d'or, de
+«platine ou d'argent sont soumises à la taxe sur la valeur
+« ajoutée fixée à quatre dirhams par gramme d'or et de platine et
+« à 0,05 dirham par gramme d'argent.
+```

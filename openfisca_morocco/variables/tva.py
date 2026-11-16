@@ -8,6 +8,7 @@ des Impôts (loi n° 43-06) tel que réformé par la loi de finances n° 55-23 p
   31 décembre 2023) ;
 - article 247-XXXXI : taux transitoires 2024-2026 pour sept catégories
   d'opérations ;
+- article 100 : taux spécifiques en volume/masse de 2007 à 2019 ;
 - articles 101 et 104 : droit à déduction et règle du prorata ;
 - article 112 : déclaration mensuelle — d'où le période MONTH.
 
@@ -17,12 +18,15 @@ Les chiffres attendus par les tests sont ceux du modèle Catala validé du corpu
 taux datés sont ceux de ``laws/ma_tax_law/data/tva_rate_history.json``.
 
 Ce que ce module ne fait pas : il ne choisit pas le taux à la place de
-l'entreprise. L'article 99 range des produits et des opérations dans des
-listes, et le corpus n'a pas encore consolidé ces listes année par année (voir
-morocco-holy-graph#80). Le chiffre d'affaires est donc déclaré par taux, et un
-chiffre d'affaires déclaré sur un taux abrogé est isolé dans
-``chiffre_affaires_taux_abroge`` au lieu d'être imposé en silence.
+l'entreprise. Les articles 91, 92 et 99 exposent des listes d'exemptions et de
+catégories par snapshot dans des catalogues séparés; ils ne classent pas
+automatiquement les descriptions de ventes. Le chiffre d'affaires est déclaré
+par taux, et les opérations spécifiques de l'article 100 doivent être
+explicitement fournies en hectolitres ou en grammes. Les snapshots ne
+définissent pas une validité continue entre éditions.
 """
+
+from datetime import date
 
 import numpy
 from openfisca_core.indexed_enums import Enum
@@ -30,6 +34,7 @@ from openfisca_core.periods import MONTH
 from openfisca_core.variables import Variable
 
 from openfisca_morocco.entities import Company
+from openfisca_morocco.tva_article100 import list_article_100_rates
 
 
 class OperationTauxTransitoire(Enum):
@@ -113,6 +118,90 @@ class chiffre_affaires_taux_transitoire(Variable):
     unit = "currency-MAD"
     label = "Chiffre d'affaires du mois relevant du taux transitoire déclaré"
     reference = "https://www.tax.gov.ma"  # CGI, article 247-XXXXI
+
+
+class volume_vins_boissons_alcoolisees_article100(Variable):
+    value_type = float
+    entity = Company
+    definition_period = MONTH
+    unit = "hectolitre"
+    default_value = 0.0
+    label = (
+        "Volume vendu (hl) de vins et boissons alcoolisées relevant du taux "
+        "spécifique de l'article 100, hors consommation sur place"
+    )
+    reference = "https://www.sgg.gov.ma/BO/bo_fr/2007/BO_5487-bis_fr.pdf"
+
+
+class grammes_or_platine_article100(Variable):
+    value_type = float
+    entity = Company
+    definition_period = MONTH
+    unit = "gramme"
+    default_value = 0.0
+    label = (
+        "Grammes d'or et de platine contenus dans les ouvrages déjà classés "
+        "sous l'article 100"
+    )
+    reference = "https://www.sgg.gov.ma/BO/bo_fr/2007/BO_5487-bis_fr.pdf"
+
+
+class grammes_argent_article100(Variable):
+    value_type = float
+    entity = Company
+    definition_period = MONTH
+    unit = "gramme"
+    default_value = 0.0
+    label = (
+        "Grammes d'argent contenus dans les ouvrages déjà classés sous l'article 100"
+    )
+    reference = "https://www.sgg.gov.ma/BO/bo_fr/2007/BO_5487-bis_fr.pdf"
+
+
+class tva_collectee_article100(Variable):
+    value_type = float
+    entity = Company
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "TVA collectée aux taux spécifiques de l'article 100"
+    reference = "https://www.sgg.gov.ma/BO/bo_fr/2007/BO_5487-bis_fr.pdf"
+
+    def formula(entreprise, period, parameters):
+        as_of = date(period.start.year, period.start.month, period.start.day)
+        rates = {
+            row.product_group: float(row.rate_value)
+            for row in list_article_100_rates(as_of)
+        }
+        volume = entreprise("volume_vins_boissons_alcoolisees_article100", period)
+        gold_platinum = entreprise("grammes_or_platine_article100", period)
+        silver = entreprise("grammes_argent_article100", period)
+        if not rates:
+            return numpy.zeros_like(volume)
+        return (
+            volume * rates["wine_and_alcohol"]
+            + gold_platinum * rates["gold_platinum"]
+            + silver * rates["silver"]
+        )
+
+
+class quantites_article100_hors_periode(Variable):
+    value_type = bool
+    entity = Company
+    definition_period = MONTH
+    label = (
+        "Signale des quantités d'article 100 déclarées en dehors des périodes "
+        "de taux vérifiées (2007–2019)"
+    )
+    reference = "https://www.sgg.gov.ma/BO/bo_fr/2007/BO_5487-bis_fr.pdf"
+
+    def formula(entreprise, period, parameters):
+        as_of = date(period.start.year, period.start.month, period.start.day)
+        volume = entreprise("volume_vins_boissons_alcoolisees_article100", period)
+        gold_platinum = entreprise("grammes_or_platine_article100", period)
+        silver = entreprise("grammes_argent_article100", period)
+        if list_article_100_rates(as_of):
+            return numpy.zeros_like(volume, dtype=bool)
+        return (volume != 0) | (gold_platinum != 0) | (silver != 0)
 
 
 class tva_deductible_charges(Variable):
@@ -277,10 +366,10 @@ class tva_collectee_totale(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = (
-        "TVA collectée totale du mois (taux généraux et taux transitoire, hors "
-        "taux abrogés)"
+        "TVA collectée totale du mois (taux généraux, taux transitoires et taux "
+        "spécifiques de l'article 100 en vigueur)"
     )
-    reference = "https://www.tax.gov.ma"  # CGI, articles 98, 99 et 247-XXXXI
+    reference = "https://www.tax.gov.ma"  # CGI, articles 98, 99, 100 et 247-XXXXI
 
     def formula(entreprise, period, parameters):
         return (
@@ -289,6 +378,7 @@ class tva_collectee_totale(Variable):
             + entreprise("tva_collectee_taux_14", period)
             + entreprise("tva_collectee_taux_7", period)
             + entreprise("tva_collectee_taux_transitoire", period)
+            + entreprise("tva_collectee_article100", period)
         )
 
 

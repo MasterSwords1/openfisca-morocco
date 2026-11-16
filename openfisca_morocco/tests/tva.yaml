@@ -132,3 +132,42 @@
     tva_deductible_autorisee: 5000
     tva_nette_a_payer: 0
     credit_tva_a_reporter: 15000
+
+- name: Article 100 en 2010 — vin, or et argent aux quotités historiques
+  period: 2010-06
+  input:
+    volume_vins_boissons_alcoolisees_article100: 2
+    grammes_or_platine_article100: 3
+    grammes_argent_article100: 10
+  output:
+    tva_collectee_article100: 212.5
+    tva_collectee_totale: 212.5
+    quantites_article100_hors_periode: false
+
+- name: Article 100 en 2011 — les quotités des métaux précieux sont réévaluées
+  period: 2011-01
+  input:
+    grammes_or_platine_article100: 3
+    grammes_argent_article100: 10
+  output:
+    tva_collectee_article100: 16
+    quantites_article100_hors_periode: false
+
+- name: Article 100 abrogé à partir de 2020 — les quantités sont signalées et ne reçoivent pas l'ancien taux
+  period: 2020-01
+  input:
+    volume_vins_boissons_alcoolisees_article100: 2
+    grammes_or_platine_article100: 3
+    grammes_argent_article100: 10
+  output:
+    tva_collectee_article100: 0
+    tva_collectee_totale: 0
+    quantites_article100_hors_periode: true
+
+- name: Le régime antérieur à l'Article 100 n'est pas extrapolé
+  period: 2006-12
+  input:
+    volume_vins_boissons_alcoolisees_article100: 1
+  output:
+    tva_collectee_article100: 0
+    quantites_article100_hors_periode: true

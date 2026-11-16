@@ -7,6 +7,7 @@ from importlib import resources
 import pytest
 
 from openfisca_morocco.tva_article101 import (
+    Article101CorroboratingSource,
     Article101SourceCitation,
     LAR2006Article101ItemNotFoundError,
     get_lar_2006_article_101_item,
@@ -158,3 +159,26 @@ def test_returned_snapshot_and_items_are_immutable():
 
     with pytest.raises(FrozenInstanceError):
         snapshot.effective_from = "2004-01-01"
+
+
+def test_snapshot_names_a_live_primary_source_with_its_own_hash():
+    source = _load_packaged_source()
+    snapshot = get_lar_2006_article_101_snapshot()
+    primary = snapshot.corroborating_source
+
+    assert isinstance(primary, Article101CorroboratingSource)
+    assert primary.article == 101
+    assert primary.url == "https://www.sgg.gov.ma/BO/bo_fr/2005/BO_5382-bis_fr.pdf"
+    assert primary.url == source["corroborating_source"]["url"]
+    assert len(primary.pdf_sha256) == 64
+    assert primary.pdf_sha256 == source["corroborating_source"]["pdf_sha256"]
+    assert primary.pdf_sha256 != snapshot.source_pdf_sha256
+    assert primary.pdf_bytes == 16561566
+    assert primary.pdf_pages == (46, 47)
+    assert primary.printed_folios == (1018, 1019)
+    assert "Bulletin officiel n° 5382 bis" in primary.document_title
+    assert "35-05" in primary.instrument
+    assert primary.retrieval_verified_on == "2026-11-14"
+    assert "byte-identical" in primary.corroboration_note
+    assert "Article 102 = specific rates" in primary.article_numbering_note
+    assert "NOT the article" in primary.article_numbering_note

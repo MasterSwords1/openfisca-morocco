@@ -15,6 +15,25 @@
     "corpus_file": "laws/ma_tax_law/data/consolidated/LAR-2006-FR-p1-235.pdf.txt",
     "quote": "I.- A compter du 1er janvier 2006, sont abrogées les dispositions :\n\n1- de la loi n° 24-86 instituant un impôt sur les sociétés, promulguée par le dahir n° 1-86-239 du 28 rabii II 1407 (31 décembre 1986) ;\n\n2- de la loi n° 17-89 relative à l’impôt général sur le revenu, promulguée par le dahir n° 1-89-116 du 21 rabii II 1410 (21 novembre 1989) ;\n\n3- de la loi n° 30- 85 relative à la taxe sur la valeur ajoutée, promulguée par le dahir n° 1-85-347 du 7 rabii II 1406 (20 décembre 1985) ;"
   },
+  "corroborating_source": {
+    "document_title": "Bulletin officiel n° 5382 bis, 27 kaada 1426 (29-12-2005)",
+    "instrument": "Loi de finances n° 35-05 pour l'année budgétaire 2006, promulguée par le dahir n° 1-05-197 du 24 kaada 1426 (26 décembre 2005)",
+    "url": "https://www.sgg.gov.ma/BO/bo_fr/2005/BO_5382-bis_fr.pdf",
+    "pdf_sha256": "2a5465d2273108f133b4a53db8f23cd6e1b4c9653fbbba3ba33795c301a0f615",
+    "pdf_bytes": 16561566,
+    "pdf_pages": [
+      46,
+      47
+    ],
+    "printed_folios": [
+      1018,
+      1019
+    ],
+    "article": 101,
+    "corroboration_note": "The bulletin text of Article 101 is word-for-word the same as the LAR 2006 text on printed folios 95-96, checked item by item against all 38 rows. The PDF served at this URL is byte-identical to the local BO_5382-bis_fr.pdf (same SHA-256), so this snapshot has a live primary source and not only the DGI PDF and third-party mirror recorded above.",
+    "article_numbering_note": "The 2006 text numbers the TVA rate articles differently from the 2007 and later consolidated editions: 2006 Article 99 = base by prior agreement, Article 100 = 20% normal rate, Article 101 = reduced rates (7/10/14%), Article 102 = specific rates. In 2007 and later those same four articles are numbered 97, 98, 99 and 100. A 2006 Article 100 is therefore NOT the article exposed by tva_article100, and a 2006 Article 101 is NOT a CGI Article 99 edition.",
+    "retrieval_verified_on": "2026-11-14"
+  },
   "corpus_file": "laws/ma_tax_law/data/consolidated/LAR-2006-FR-p1-235.pdf.txt",
   "source_pdf": "laws/ma_tax_law/data/consolidated/LAR-2006-FR-p1-235.pdf",
   "source_pdf_sha256": "b5d1a9541d94bb0c366f7b838771cc6564ad63a9698e6116d4964fb839e6dad2",
