@@ -17,6 +17,7 @@ conformément à la périodicité de paie et de déclaration légale au Maroc.
 """
 
 from numpy import minimum as min_
+from openfisca_core.holders import set_input_divide_by_period
 from openfisca_core.periods import MONTH
 from openfisca_core.variables import Variable
 
@@ -27,6 +28,7 @@ class salaire_brut(Variable):
     value_type = float
     entity = Person
     definition_period = MONTH
+    set_input = set_input_divide_by_period
     unit = "currency-MAD"
     label = "Rémunération brute mensuelle soumise à cotisations sociales"
     reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184, art. 19

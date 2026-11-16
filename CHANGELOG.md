@@ -1,4 +1,24 @@
 
+## 0.7.0 - [#24](https://github.com/MasterSwords1/openfisca-morocco/pull/24)
+
+* Tax and benefit system evolution.
+* Impacted periods: Salary input conventions for all periods; IR calculations
+  remain supported from 2025-01-01 onwards.
+* Impacted areas: `variables.impot_revenu`, `variables.cotisations_sociales`.
+* Details:
+  - Enter `salaire_brut_global` and `elements_exoneres` as monthly amounts.
+    The IR pipeline sums these amounts before applying annual expense
+    deductions, caps, tax brackets and family deductions.
+  - Annual totals remain accepted for both inputs and for the monthly CNSS/AMO
+    salary base `salaire_brut`, using `set_input_divide_by_period`. Existing
+    annual YAML scenarios and the bundled API example retain their results.
+  - To read an annual gross-pay or exempt-remuneration total in Python, replace
+    `calculate(variable, "2025")` with `calculate_add(variable, "2025")`.
+    Annual IR outputs and annual contribution overrides are unchanged.
+  - Document every variable family's period, the distinct IR and CNSS/AMO
+    salary bases, missing-month defaults and the limits of evenly distributing
+    contribution salaries. Monthly withholding is still not modelled.
+
 ## 0.6.0 - [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6)
 
 * Tax and benefit system evolution.

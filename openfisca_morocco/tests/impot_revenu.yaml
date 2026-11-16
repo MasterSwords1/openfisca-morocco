@@ -5,6 +5,34 @@
 # Pipeline: brut imposable → frais professionnels (art. 59) → net imposable →
 # barème (art. 73-I) → impôt brut → déduction charges de famille (art. 74) →
 # impôt net.
+# Annual salary/exemption inputs remain totals: OpenFisca divides them between
+# months before the annual IR calculation. Keep these cases as compatibility tests.
+
+- name: Salaires mensuels alimentant le barème annuel et les cotisations CNSS/AMO
+  period: 2025
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut:
+      2025: 120000
+    salaire_brut_global:
+      2025-01: 10000
+      2025-02: 10000
+      2025-03: 10000
+      2025-04: 10000
+      2025-05: 10000
+      2025-06: 10000
+      2025-07: 10000
+      2025-08: 10000
+      2025-09: 10000
+      2025-10: 10000
+      2025-11: 10000
+      2025-12: 10000
+    nombre_personnes_a_charge: 0
+  output:
+    cotisations_sociales_obligatoires: 5937.60
+    frais_professionnels: 28515.60
+    salaire_net_imposable: 85546.80
+    impot_sur_le_revenu: 7664.04
 
 - name: Salaire de 36 000 DH sans cotisations — sous le seuil d'exonération, impôt nul
   period: 2025
