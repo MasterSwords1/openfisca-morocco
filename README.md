@@ -8,7 +8,9 @@ salarial income for **annual** periods under the rules in force since
 **1 January 2025**, the **cotisations sociales obligatoires (CNSS + AMO)** and
 charges patronales for **monthly** periods, the contributory **allocations familiales (CNSS)**
 for **monthly** periods, **aide sociale directe (ASD)** under the published
-statutory schedules for **monthly** periods, and the **taxe sur la valeur ajoutée (TVA)**
+statutory schedules for **monthly** periods, including the September
+school-return allowance and the placement and exceptional allowances, and the
+**taxe sur la valeur ajoutée (TVA)**
 declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**.
 ASD eligibility inputs and registry limitations are documented in
 [`docs/aide-sociale-directe.md`](docs/aide-sociale-directe.md).
@@ -18,8 +20,8 @@ ASD eligibility inputs and registry limitations are documented in
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales) |
-| First modelled period | 2004-01-01 (TVA), 2019-07-01 (Allocations familiales), 2025-01-01 (IR, Cotisations) |
+| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales, Aide sociale directe) |
+| First modelled period | 2004-01-01 (TVA), 2019-07-01 (Allocations familiales), 2023-12-01 (Aide sociale directe), 2025-01-01 (IR, Cotisations) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -407,6 +409,7 @@ names the article it comes from.
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
+| Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
 The corpus is the source of truth for this package: figures are taken from
@@ -449,10 +452,12 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **No import or export VAT, no registration duties, no specific rates**
   (article 100: wine, gold and silver). See issue
   [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6).
-- **Aide sociale directe not yet modelled.** Non-contributory direct social assistance under
-  Loi n° 58-23 and the RSU targeting mechanisms are tracked in issue
-  [#8](https://github.com/MasterSwords1/openfisca-morocco/issues/8).
-  [#8](https://github.com/MasterSwords1/openfisca-morocco/issues/8).
+- **Aide sociale directe models published rules, not registry membership.** The
+  package takes the RSU index and the administrative conditions as inputs; it
+  does not compute the index, decide RNP/RSU registration, or reproduce an ANSS
+  award. The September, placement and exceptional allowances are separate
+  variables, and their entry-into-force months are not prorated. See
+  [`docs/aide-sociale-directe.md`](docs/aide-sociale-directe.md).
 - **No microdata.** The package computes on situations you provide; it ships no
   survey or administrative dataset.
 - **Not published on PyPI yet.** Install from source (below) until issue
@@ -476,7 +481,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 98 passed
+# 269 passed, 5 skipped
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -567,10 +572,16 @@ pre-commit run --all-files
 ```
 
 The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
-`openfisca_morocco/tests/cotisations_sociales.yaml` and
+`openfisca_morocco/tests/cotisations_sociales.yaml`,
+`openfisca_morocco/tests/allocations_familiales.yaml`,
+`openfisca_morocco/tests/aide_sociale_directe.yaml` and
 `openfisca_morocco/tests/tva.yaml` document the expected law at the boundaries
-(each bracket, each ceiling, each dated rate, each transitional step), and
-`openfisca_morocco/tests/age.yaml` covers the `age` formula.
+(each bracket, each ceiling, each dated rate, each transitional step).
+`aide_sociale_directe` is completed by
+`aide_rentree_scolaire.yaml`, `aide_speciale_enfants_places.yaml` and
+`prime_exceptionnelle_asd.yaml` for the three related allowances, with
+`test_prime_exceptionnelle_asd.py` running the twelve-month consumption
+sequences. `openfisca_morocco/tests/age.yaml` covers the `age` formula.
 `openfisca_morocco/tests/test_cotisations_sociales.py` checks CNSS and AMO
 contributions across salary levels and validates integration into the annual IR,
 `openfisca_morocco/tests/test_tva_taux.py` checks every declared TVA rate and
@@ -604,9 +615,13 @@ openfisca_morocco/
 │   └── tva_lar_2006_article101.json # separate LAR Article 101 snapshot
 ├── parameters/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
-│   ├── prestations_sociales/   # cotisations CNSS, AMO
+│   ├── prestations_sociales/   # cotisations CNSS, AMO, allocations familiales, ASD
 │   └── tva/                    # dated rates 2004-2026, transitional schedules
 ├── variables/
+│   ├── aide_sociale_directe.py # ASD monthly household estimate
+│   ├── aide_rentree_scolaire.py # ASD September school-return allowance
+│   ├── aide_speciale_enfants_places.py # ASD special allowance for placed children
+│   ├── prime_exceptionnelle_asd.py # ASD exceptional allowance after a CNSS declaration
 │   ├── cotisations_sociales.py # CNSS and AMO contributions (employee & employer)
 │   ├── impot_revenu.py         # the IR pipeline
 │   ├── tva.py                  # monthly company TVA declaration

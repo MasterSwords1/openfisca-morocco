@@ -1,0 +1,145 @@
+# Prime exceptionnelle ASD (Loi 41-26 arts. 16 bis / 16 bis bis, Décret
+# 2-26-434 art. 10 bis, BO n° 7530 du 30 juillet 2026). Montant égal aux aides
+# perdues, une seule fois, douze mois au maximum, continus ou non.
+
+- name: Août 2026 — douze mois restants et 800 DH de référence
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 12
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 800.0
+
+- name: Juillet 2026 — décret d'application non encore en vigueur
+  period: 2026-07
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 12
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0
+
+- name: Août 2026 — plus de mois disponibles
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 0
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0
+
+- name: Août 2026 — valeur supérieure à douze mois, traitée comme invalide
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 13
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0
+
+- name: Août 2026 — montant de référence négatif, ramené à zéro
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: -100.0
+        mois_restants_prime_exceptionnelle: 6
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0
+
+- name: Août 2026 — un mois restant, prime versée
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 500.0
+        mois_restants_prime_exceptionnelle: 1
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 500.0
+
+- name: Septembre 2026 — dernier mois consommé, la prime s'arrête
+  period: 2026-09
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 0
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0
+
+- name: Septembre 2026 — l'ASD ordinaire reprend sans délai d'attente
+  period: 2026-09
+  input:
+    persons:
+      parent: {}
+      enfant:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+    households:
+      famille:
+        adults: [parent]
+        children: [enfant]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+        montant_asd_avant_perte: 800.0
+        mois_restants_prime_exceptionnelle: 0
+  output:
+    households:
+      famille:
+        aide_sociale_directe: 500.0
+        prime_exceptionnelle_asd: 0.0
+
+- name: Août 2026 — mois restants non renseignés, aucune prime
+  period: 2026-08
+  input:
+    persons:
+      adulte: {}
+    households:
+      famille:
+        adults: [adulte]
+        montant_asd_avant_perte: 800.0
+  output:
+    households:
+      famille:
+        prime_exceptionnelle_asd: 0.0

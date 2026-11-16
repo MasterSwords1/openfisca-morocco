@@ -33,7 +33,9 @@ required registers or will be awarded support by the ANSS.
 
 The monthly formula covers the published child schedule, the household
 minimum, the flat allowance when explicitly identified, and birth grants when
-an event is supplied for that month.
+an event is supplied for that month. Three related benefits are separate
+variables: the September school-return allowance, the special allowance for
+children in placement, and the exceptional allowance after a CNSS declaration.
 
 ### Amount rules represented
 
@@ -65,21 +67,98 @@ an event is supplied for that month.
   added after the monthly calculation and only in the month supplied; they are
   not multiplied for multiple births.
 
+### Related ASD benefits
+
+#### School-return allowance — `aide_rentree_scolaire`
+
+Paid only in September: 200 DH per child in primary or lower secondary and
+300 DH per child in upper secondary, up to six schooled children (Décret
+n° 2-24-706, BO n° 7321 of 29 July 2024). The annex row covers children
+**schooled in a public education institution**, so `scolarise_etablissement_public`
+is required and defaults to `false`; a private-school child pays nothing.
+
+The six-child limit is applied to the **number** of eligible children, not to
+their rank: the decree publishes no ordering rule. Because the two rates
+differ, the model keeps upper-secondary children first (300 DH) and then
+primary/lower-secondary ones (200 DH), the reading most favourable to the
+household. A household with six primary and one upper-secondary child therefore
+receives 1,300 DH, not 1,200 DH.
+
+The aid is paid in September if the household is eligible that month **or in
+August** — the ANSS describes an early-September payment for August
+beneficiaries and an end-September payment for households first eligible in
+September. The difference between those two payment dates is not reproduced.
+`enfant_scolarise` governs the monthly schedule; `niveau_scolaire_asd` is the
+reference input here, and the two can contradict each other if only one is set.
+
+A child hosted in a protection institution is excluded from this aid. That is a
+modelling choice to avoid double support: the no-cumulation rule of Décret
+n° 2-25-1064 covers the monthly allowance and the complementary support, not
+the school-return allowance.
+
+#### Special allowance for children in placement — `aide_speciale_enfant_place`
+
+500 DH per child per month for orphaned or abandoned children hosted in an
+authorised protection institution (article 16 of Loi 58-23; Décret n° 2-25-1064,
+BO n° 7468 of 25 December 2025). In force 25 March 2026. Because periods are
+monthly, March 2026 pays nothing and April 2026 is the first paid month.
+
+Two inputs separate hosting from acceptance: `enfant_place_institution` says the
+child is hosted, and `aide_speciale_accordee` says the application was accepted.
+The allowance is paid only when both are true, and the household's child
+amounts and complements stop when a hosted child's application is accepted, as
+article 9 provides. A hosted child whose application is pending therefore still
+counts in the household's ASD, and an acceptance flag without hosting does not
+stop anything.
+
+A household whose only child is placed and accepted therefore has no child
+amount: it receives no household ASD unless it qualifies for the flat
+allowance, which still requires `eligible_aide_forfaitaire_asd`; the child
+still receives the 500 DH special allowance. The institution's authorisation,
+the CDG account in the child's name, the 10,000 DH floor at majority and the
+other article 1 conditions (nationality, registry entry, absence of
+family-allowance cover, scholarship offset) are administrative facts, not
+computed.
+
+#### Exceptional allowance — `prime_exceptionnelle_asd`
+
+For households that lost ASD because the head of household or a spouse was
+declared to the private-sector social-security scheme (Loi n° 41-26, BO n° 7523
+of 6 July 2026; Décret n° 2-26-434, BO n° 7530 of 30 July 2026). The amount
+equals the entitlement the household could have received, granted once for at
+most twelve months, continuous or not. The reference amount and the remaining
+months are inputs: the model does not decide the CNSS declaration, the loss of
+entitlement or the involuntary end of employment.
+
+The twelve-month ceiling is an input contract, not enforced state. The model
+does not consume months, does not detect a caller who resets the counter, and
+cannot enforce the "granted once" rule. A value above twelve is refused and pays
+nothing; a decimal value is truncated by the integer type (12.9 becomes 12). The
+model also does not prevent the exceptional allowance and the ordinary monthly
+ASD from being computed in the same month, although the law's premise is that
+the household lost ASD.
+
+Monthly granularity means July 2026 pays nothing and August 2026 is the first
+paid month; the exact entry-into-force day is not prorated.
+
+Article 16 bis bis (re-entry into ASD after the declared employment ends
+involuntarily, without the article 7(2) waiting period) has no dedicated rule.
+The model applies no waiting period at all, so it cannot distinguish a
+legitimate re-entry from a first entry: the re-entry path is not "supported",
+it is simply not gated. This is a limitation, not a feature.
+
 Not modelled, and therefore not to be read as an exhaustive entitlement
 calculation:
 
-- the school-return allowance added by Décret 2-24-706 (200 DH in primary and
-  lower secondary, 300 DH in upper secondary, September only, up to six
-  children);
-- the special allowance for orphans and abandoned children in protection
-  institutions (article 16 of Loi 58-23, Décret 2-25-1064);
-- the exceptional allowance for households that lost ASD after a CNSS
-  declaration (articles 16 bis and 16 bis bis of Loi 58-23, inserted by Loi
-  41-26; Décret 2-26-434 fixes its maximum duration at twelve months);
 - the exemption from the age condition for a widow caring for a disabled
   child; the widow scenario must be encoded through the eligibility inputs;
-- multiple births (the birth grant is not multiplied), cumulation rules,
-  scholarship offsets, and institutional or protection cases.
+- multiple births (the birth grant is not multiplied), the cumulation rules of
+  articles 5 and 6, scholarship offsets, and the authorisation of protection
+  institutions;
+- the article 7(2) waiting period on a first entry, and therefore any
+  distinction between a re-entry and a first entry;
+- the early/late September distinction within the school-return allowance, and
+  any proration of the March and July 2026 entry-into-force months.
 
 ## Legal sources
 
@@ -98,6 +177,15 @@ calculation:
 - [Décret n° 2-23-1068 (official ANSS PDF)](https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1068_AR.pdf),
   article 1: the eligibility threshold is fixed at **9,743001** (BO n° 7253 of
   4 December 2023, p. 10239).
+- Décret n° 2-24-706 of 25 July 2024 (BO n° 7321 of 29 July 2024), completing
+  the annex of Décret n° 2-23-1067 with the school-return allowance.
+- Décret n° 2-25-1064 of 23 December 2025 (BO n° 7468 of 25 December 2025),
+  implementing article 16 of Loi 58-23 for children in protection
+  institutions; in force three months after publication.
+- Loi n° 41-26 of 25 June 2026 (BO n° 7523 of 6 July 2026), inserting articles
+  16 bis and 16 bis bis into Loi 58-23, and Décret n° 2-26-434 of 23 July 2026
+  (BO n° 7530 of 30 July 2026), fixing the exceptional allowance at twelve
+  months.
 
 Parameter entries carry their own legal references in
 `openfisca_morocco/parameters/prestations_sociales/aide_sociale_directe.yaml`.
@@ -119,8 +207,9 @@ could not be read and the points left unverified.
   November 2024 states "inférieur". The model follows the ANSS page and treats
   `9.743001` as eligible and `9.743002` as not eligible; the boundary case is
   decided administratively, not by the text.
-- The published parameters start in December 2023; a simulation for an earlier
-  period raises a parameter error rather than returning zero.
+- The published parameters start in December 2023; a September simulation
+  before that date raises a parameter error rather than returning zero, while
+  other months return zero before the parameter lookup.
 - Amounts and scores are stored as single-precision floats. `9.7430014` rounds
   to the same value as the ceiling and is therefore eligible, so the effective
   boundary is about `9.74300145`; on the six-decimal grid the model still treats
@@ -148,8 +237,10 @@ could not be read and the points left unverified.
   publication at the time of writing and is deliberately **not** parameterised.
   A 2027 parameter set will need its own dated entries.
 
-The rule tables are dates of legal effect, not a claim that registry membership
-or the administration's operational decisions can be inferred.
+The rule tables are dates of legal effect, except the school-return entries,
+which carry its September payment dates (first in September 2024), not a claim
+that registry membership or the administration's operational decisions can be
+inferred.
 
 ## Tests
 
@@ -157,3 +248,23 @@ or the administration's operational decisions can be inferred.
 boundary, missing administrative confirmation, the flat allowance, child tiers,
 explicit ranks, the orphan and disability complements (including ranks 4–6 and
 7+), birth grants, and the dated December 2023, 2025 and 2026 schedules.
+
+Three further YAML suites and a sequence harness cover the related
+benefits:
+
+- `aide_rentree_scolaire.yaml`: September-only payment (an October case pins the
+  month), both school levels, the public-school condition, the six-child count
+  cap (including ranks 7 and 8 and duplicated ranks), the mixed-level ordering,
+  the August cohort, an unset level, a non-eligible child, missing
+  administrative confirmation and the exclusion of hosted children;
+- `aide_speciale_enfants_places.yaml`: the April 2026 amount, the March
+  entry-into-force month, a non-placed child, the pending-application case, and
+  the no-cumulation rule against household child amounts;
+- `test_prime_exceptionnelle_asd.py` runs the consumption sequence itself: twelve
+  continuous months, a thirteenth month at zero, a non-continuous sequence
+  (six months paid, two paused, six resumed) and a value above twelve;
+- `prime_exceptionnelle_asd.yaml`: payment at twelve remaining months, the July
+  2026 non-payment, exhausted months over two consecutive months, an invalid
+  value above twelve, a negative reference amount, an unset counter, and a
+  household that moves from the prime back to the ordinary monthly ASD in the
+  month the counter reaches zero.
