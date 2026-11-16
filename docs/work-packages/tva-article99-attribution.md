@@ -1,6 +1,6 @@
 # Work package: Article 99 effective dates and row-level attribution
 
-Covers issue #6 acceptance boxes 4 and 5:
+Covers issue #6 acceptance boxes 4, 5 and 6:
 
 - [x] Each Article 99 clause has its own effective date **where a source names
       the instrument**, so the dated rows can be used as a date-scoped lookup.
@@ -10,9 +10,9 @@ Covers issue #6 acceptance boxes 4 and 5:
       an end boundary that is either witnessed (instrument + artifact +
       SHA-256 + verbatim quote) or explicitly bracketed with a machine-readable
       reason (§10).
-
-Box 6 (nested sub-item itemization) stays open on the corpus gap
-`article-91-92-subclauses-not-leaf-itemized`; see §10.4.
+- [x] Nested sub-items are itemized in all three exemption catalogs: 603 nested
+      Article 91/92 rows (565 leaf, 38 container, depth 1–3) and 134 Article 99
+      `billable_leaf` rows, each linked to its parent clause (§10.4).
 
 Status: **implemented.** All seven anchor intervals are derived mechanically by
 `scripts/build_article99_attribution.py`; 299 of 420 rows (71,2 %) are proven,
@@ -20,7 +20,8 @@ Status: **implemented.** All seven anchor intervals are derived mechanically by
 Source route: consolidated CGI editions (endnotes) + SGG Bulletin officiel
 (diff text). Not `corpus.ma`, not `finances.gov.ma`.
 
-Last checked against the corpus at `bbe45e1` → `bae3551` on 2026-11-15.
+Last checked against the corpus at `bbe45e1` → `bae3551` on 2026-11-15; the
+Article 91/92 projection was verified against corpus `52da35f`.
 
 ## 1. Why this is not a Holy Graph task
 
@@ -529,23 +530,50 @@ stay bracketed. That is the intended outcome, not a shortfall.
   all. The hash was correct — it was simply the hash of the wrong file. It is
   repointed to `BO_5487-bis_fr.pdf` (4 453 162 B).
 
-### 10.4 Why box 6 is still open
+### 10.4 Box 6: nested sub-item itemization
 
-Box 6 asks for nested Article 91/92/99 sub-items to be fully itemized. The
-package cannot close it from its own data:
+Box 6 asked for nested Article 91/92/99 sub-items to be fully itemized. The
+earlier conclusion recorded here — that the package could not close it from its
+own data — was **wrong**, and was wrong in a way worth recording.
 
-- the corpus's 554 Article 99 rows are split 497 `billable_leaf`, 48
-  `container` and 9 `context`; the packaged catalog keeps 420 quoted rows and
-  deliberately drops the 134 whose IDs contain `-leaf-`, because those leaf IDs
-  are not stable across editions (554 − 134 = 420);
-- the corpus gap `article-91-92-subclauses-not-leaf-itemized` (with
-  `nested-list-items-not-fully-normalized`) is still open, so nested lists such
-  as the CGI 2024 Article 99 10 % bullet list are not leaf-itemized at the
-  source.
+Two assumptions failed. First, the 134 Article 99 rows whose IDs contain
+`-leaf-` are not unstable duplicates to drop: they are `billable_leaf` rows with
+a real `parent_item_id` and a semantic `product_key`, i.e. exactly the
+itemization box 6 asks for. Read as duplicates, 554 − 134 = 420 looked like the
+correct denominator. Second, "subclauses not leaf-itemized" was read as "the
+source has no leaves", when the corpus in fact carries 603 nested rows for
+Articles 91 and 92. The gap entry describes extraction quality, not absence.
 
-The cross-article link itself **is** implemented and tested
-(§5.5, §7); what is missing is the sub-item itemization beneath it, which is a
-corpus-side change.
+What the package now does:
+
+- **Article 99** keeps its 420 top-level rows and adds all 134 leaves as
+  `subitems`, each with `parent_item_id`, `product_key`, `itemization_role` and
+  the clause's conditions. A leaf carries no date of its own;
+  `effective_attribution` returns the parent's object by identity, and the
+  artifact stores no copy, so the two cannot drift.
+- **Articles 91 and 92** are now a verbatim projection of the corpus rather than
+  a re-parse: 606 `items` (article-level context plus numbered clauses, keeping
+  the corpus ID) and 603 `subitems` (nested bullets and letters, `<parent>-sub-<n>`
+  with the corpus ID kept as `source_item_id`). The nested level is genuinely
+  nested: `nesting_depth` 1–3, `item_role` `leaf` 565 / `container` 38. Article
+  91 has no nesting after 2014 because the source prints none, which is a
+  property of the text, not a gap.
+- **`abrogated` rows survive.** 45 top-level and 11 sub-item rows are printed
+  `(abrogé)` in their edition and are retained with `is_abrogated` true.
+
+Three package defects surfaced while proving this, all fixed and all covered by
+regression tests:
+
+| Defect | Scope | Effect before the fix |
+|---|---|---|
+| merged clauses + renumbering | 2007 art. 92 `17°`, `31°` | 24 packaged IDs resolved to a different clause than they claimed |
+| `(abrogé)` published as in force | 45 rows | a repeal stub read as a live exemption |
+| silent row loss | 605 rows | 603 nested rows plus the 2 merged clauses were absent |
+| lost `exclusion` qualifiers | 6 Article 99 clauses | the exemption read wider than the law |
+
+The corpus has not withdrawn its `article-91-92-subclauses-not-leaf-itemized`
+or `nested-list-items-not-fully-normalized` entries. That disagreement is
+reported to `morocco-holy-graph#80` rather than patched on the corpus side.
 
 ### 10.5 Residual limitations
 

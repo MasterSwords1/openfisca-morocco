@@ -171,6 +171,43 @@ class Article99Item:
     effective_attribution: Article99Attribution | None = None
 
 
+@dataclass(frozen=True)
+class Article99SubItem:
+    """A nested Article 99 sub-item beneath one of the listed clauses.
+
+    The corpus splits multi-product clauses into ``billable_leaf`` rows (for
+    example *les produits pharmaceutiques*, *les matières premières* and the
+    inputs used in their composition are three leaves of one clause). Those are
+    real sub-items, so they are exposed here with an explicit parent link rather
+    than flattened into the clause quote.
+
+    A sub-item has no independent effective date: it is dated only by its parent
+    clause, so ``effective_attribution`` is the parent's object, not a copy.
+    """
+
+    edition_year: int
+    item_id: str
+    parent_item_id: str
+    product_key: str | None
+    item_type: str | None
+    itemization: str
+    itemization_role: str
+    billable: bool | None
+    right_to_deduct: bool | None
+    status: str
+    rate: str
+    rate_context_quote: str
+    quote: str
+    conditions: tuple[Article99Condition, ...]
+    corpus_file: str
+    parent: Article99Item
+
+    @property
+    def effective_attribution(self) -> Article99Attribution | None:
+        """The parent clause's dated segment; a sub-item has no date of its own."""
+        return self.parent.effective_attribution
+
+
 class UnsupportedArticle99EditionError(ValueError):
     """Raised when the requested consolidated Article 99 snapshot is absent."""
 
@@ -528,6 +565,49 @@ for _edition_year, _edition in _EDITIONS.items():
         )
         _ITEMS_BY_EDITION[_edition_year].append(_ITEMS[_item_key])
 
+_SUBITEMS = {}
+_SUBITEMS_BY_EDITION = {edition_year: [] for edition_year in _EDITIONS}
+
+for _edition_year, _edition in _EDITIONS.items():
+    for _row in _edition.get("subitems", ()):
+        if _row.get("article") != 99 or _row.get("edition_year") != _edition_year:
+            raise ValueError("An Article 99 sub-item is attached to the wrong edition")
+        if {"valid_from", "valid_to", "effective_attribution"} & _row.keys():
+            raise ValueError(
+                "A sub-item is dated only by its parent clause; it must not carry "
+                "its own effective dates"
+            )
+        _item_key = (_edition_year, _row["item_id"])
+        if _item_key in _SUBITEMS or _item_key in _ITEMS:
+            raise ValueError("Duplicate Article 99 sub-item ID in an edition snapshot")
+        _parent = _ITEMS.get((_edition_year, _row.get("parent_item_id")))
+        if _parent is None:
+            raise ValueError(
+                "An Article 99 sub-item must name a parent clause in the same edition"
+            )
+        _SUBITEMS[_item_key] = Article99SubItem(
+            edition_year=_edition_year,
+            item_id=_row["item_id"],
+            parent_item_id=_parent.item_id,
+            product_key=_row.get("product_key"),
+            item_type=_row.get("item_type"),
+            itemization=_row["itemization"],
+            itemization_role=_row["itemization_role"],
+            billable=_row.get("billable"),
+            right_to_deduct=_row.get("right_to_deduct"),
+            status=_row["status"],
+            rate=_row["rate"],
+            rate_context_quote=_row["rate_context_quote"],
+            quote=_row["quote"],
+            conditions=tuple(
+                Article99Condition(kind=condition["kind"], quote=condition["quote"])
+                for condition in (_row.get("conditions") or ())
+            ),
+            corpus_file=_row["corpus_file"],
+            parent=_parent,
+        )
+        _SUBITEMS_BY_EDITION[_edition_year].append(_SUBITEMS[_item_key])
+
 
 def _require_supported_edition(edition_year: int) -> None:
     if isinstance(edition_year, bool) or not isinstance(edition_year, int):
@@ -584,6 +664,34 @@ def get_article_99_item(edition_year: int, item_id: str) -> Article99Item:
     except KeyError as error:
         raise Article99ItemNotFoundError(
             f"Article 99 item {item_id!r} is not present in the {edition_year} snapshot"
+        ) from error
+
+
+def list_article_99_subitems(edition_year: int) -> tuple[Article99SubItem, ...]:
+    """Return the nested sub-items of one exact Article 99 snapshot.
+
+    These are the ``billable_leaf`` rows the corpus splits out of a
+    multi-product clause. Each one names its parent through ``parent_item_id``
+    and shares the parent's ``effective_attribution``.
+    """
+    _require_supported_edition(edition_year)
+    return tuple(_SUBITEMS_BY_EDITION[edition_year])
+
+
+def get_article_99_subitem(edition_year: int, item_id: str) -> Article99SubItem:
+    """Return one exact nested Article 99 sub-item from a requested snapshot."""
+    _require_supported_edition(edition_year)
+    if not isinstance(item_id, str):
+        raise TypeError("item_id must be a string catalog ID")
+    if not item_id:
+        raise ValueError("item_id must not be empty")
+
+    try:
+        return _SUBITEMS[(edition_year, item_id)]
+    except KeyError as error:
+        raise Article99ItemNotFoundError(
+            f"Article 99 sub-item {item_id!r} is not present in the "
+            f"{edition_year} snapshot"
         ) from error
 
 
@@ -698,10 +806,13 @@ __all__ = [
     "Article99Instrument",
     "Article99Item",
     "Article99ItemNotFoundError",
+    "Article99SubItem",
     "Article99TransitionalRateError",
     "Article99UndatedItemError",
     "UnsupportedArticle99EditionError",
     "aggregate_article_99_turnover",
     "get_article_99_item",
+    "get_article_99_subitem",
     "list_article_99_items",
+    "list_article_99_subitems",
 ]

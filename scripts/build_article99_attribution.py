@@ -47,6 +47,7 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parent.parent
 CATALOG = REPO / "openfisca_morocco" / "data" / "tva_article99_catalog.json"
 HOLY_GRAPH = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+CORPUS_DATASET = Path("laws/ma_tax_law/data/consolidated/tva_article_lists.json")
 
 YEARS = (2007, 2010, 2014, 2018, 2021, 2024, 2026)
 
@@ -882,6 +883,116 @@ def verify_evidence():
     return problems
 
 
+def attach_subitems(catalog):
+    """Attach the corpus's nested Article 99 leaves to their parent clause.
+
+    The catalog's ``items`` are the 420 top-level rows. The corpus also splits
+    multi-product clauses into ``billable_leaf`` rows (134 across the seven
+    editions). Those are real nested sub-items, not duplicates, so they are
+    exposed under ``subitems`` with an explicit ``parent_item_id`` instead of
+    being flattened away.
+
+    Effective dates are deliberately *not* copied here: a leaf is dated only by
+    its parent's segment, so the loader resolves ``effective_attribution`` from
+    the parent at import time. Storing a second copy would let the two drift.
+    """
+    dataset = HOLY_GRAPH / CORPUS_DATASET
+    corpus = json.loads(dataset.read_text(encoding="utf-8"))
+
+    leaves_by_edition = defaultdict(list)
+    for row in corpus["items"]:
+        if row.get("article") != 99 or "-leaf-" not in row["item_id"]:
+            continue
+        leaves_by_edition[row["edition_year"]].append(row)
+
+    for edition in catalog["editions"]:
+        year = edition["edition_year"]
+        parent_ids = {row["item_id"] for row in edition["items"]}
+        subitems = []
+        for row in leaves_by_edition.get(year, ()):
+            if row["parent_item_id"] not in parent_ids:
+                raise SystemExit(
+                    f"Article 99 leaf {row['item_id']} names a parent "
+                    f"{row['parent_item_id']} that is not packaged"
+                )
+            if row.get("status") != "in_force_in_snapshot":
+                raise SystemExit(
+                    f"Article 99 leaf {row['item_id']} has an unsupported status"
+                )
+            if row.get("itemization_role") != "billable_leaf":
+                raise SystemExit(
+                    f"Article 99 leaf {row['item_id']} is not a billable_leaf"
+                )
+            subitems.append(
+                {
+                    "article": 99,
+                    "edition_year": year,
+                    "item_id": row["item_id"],
+                    "parent_item_id": row["parent_item_id"],
+                    "product_key": row.get("product_key"),
+                    "item_type": row.get("item_type"),
+                    "itemization": row["itemization"],
+                    "itemization_role": row["itemization_role"],
+                    "billable": row.get("billable"),
+                    "right_to_deduct": row.get("right_to_deduct"),
+                    "status": row["status"],
+                    "rate": row["rate"],
+                    "rate_context_quote": row["rate_context_quote"],
+                    "quote": row["quote"],
+                    "conditions": row.get("conditions") or [],
+                    "corpus_file": row["corpus_file"],
+                }
+            )
+        subitems.sort(key=lambda item: item["item_id"])
+        edition["subitems"] = subitems
+
+    return sum(len(edition["subitems"]) for edition in catalog["editions"])
+
+
+def project_corpus_conditions(catalog):
+    """Re-project each item's ``conditions`` from the corpus row it names.
+
+    ``conditions`` are qualifiers that narrow a listed clause (for example
+    *à l'exclusion des autres aliments simples tels que céréales, issues,
+    pulpes, drêches et pailles*). They are part of the law, so they are copied
+    verbatim from the corpus row rather than re-parsed. Quote and rate are
+    checked at the same time: a row that disagrees with its corpus row about the
+    law's text is an error, not something to overwrite silently.
+    """
+    dataset = HOLY_GRAPH / CORPUS_DATASET
+    corpus = json.loads(dataset.read_text(encoding="utf-8"))
+    source = {
+        (row["edition_year"], row["item_id"]): row
+        for row in corpus["items"]
+        if row.get("article") == 99
+    }
+
+    changed = []
+    for edition in catalog["editions"]:
+        year = edition["edition_year"]
+        for row in edition["items"]:
+            origin = source.get((year, row["item_id"]))
+            if origin is None:
+                raise SystemExit(
+                    f"Article 99 item {row['item_id']} has no corpus row in {year}"
+                )
+            if origin["quote"] != row["quote"]:
+                raise SystemExit(
+                    f"Article 99 item {row['item_id']} quote differs from the corpus"
+                )
+            if origin["rate"] != row["rate"]:
+                raise SystemExit(
+                    f"Article 99 item {row['item_id']} rate differs from the corpus"
+                )
+            projected = origin.get("conditions") or []
+            if projected == (row.get("conditions") or []):
+                continue
+            changed.append(row["item_id"])
+            row["conditions"] = projected
+
+    return changed
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -912,6 +1023,7 @@ def main(argv=None) -> int:
         edition["source_pdf_sha256"] = edition_pdfs[year][1]
 
     rows = [row for edition in catalog["editions"] for row in edition["items"]]
+    conditions_restored = project_corpus_conditions(catalog)
     groups, keys = resolve_identities(rows)
 
     uncovered_laws = set()
@@ -945,6 +1057,7 @@ def main(argv=None) -> int:
             )
 
     catalog["schema_version"] = SCHEMA_VERSION
+    subitem_count = attach_subitems(catalog)
     catalog["date_semantics"] = (
         "edition_year identifies a consolidated text snapshot, not a continuous "
         "effective period. Effective dates come only from effective_attribution: "
@@ -968,6 +1081,8 @@ def main(argv=None) -> int:
             1 for row in rows if row["effective_attribution"]["status"] == "proven"
         )
         print(f"rows: {len(rows)}  identities: {len(groups)}")
+        print(f"nested subitems: {subitem_count}")
+        print(f"conditions re-projected from the corpus: {len(conditions_restored)}")
         print(f"proven: {proven} ({proven / len(rows):.1%})")
         print(f"bracketed: {len(rows) - proven}")
 

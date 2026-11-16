@@ -20,7 +20,9 @@ from openfisca_morocco.tva_article99 import (
     UnsupportedArticle99EditionError,
     aggregate_article_99_turnover,
     get_article_99_item,
+    get_article_99_subitem,
     list_article_99_items,
+    list_article_99_subitems,
 )
 
 
@@ -585,3 +587,141 @@ def test_declared_witness_hashes_match_their_artifacts():
             assert witness_path.is_file()
             assert _sha256(witness_path) == instrument.date_witness_text_sha256
     assert checked
+
+
+# ---------------------------------------------------------------------------
+# Nested sub-items (issue #6 box 6)
+# ---------------------------------------------------------------------------
+
+
+def _all_subitems():
+    for edition_year in ARTICLE_99_SNAPSHOT_YEARS:
+        yield from list_article_99_subitems(edition_year)
+
+
+def test_article_99_leaves_are_itemized_rather_than_flattened():
+    """Box 6: a multi-product clause keeps its billable leaves addressable."""
+    total = 0
+    for edition_year in ARTICLE_99_SNAPSHOT_YEARS:
+        for subitem in list_article_99_subitems(edition_year):
+            total += 1
+            assert subitem.edition_year == edition_year
+            assert subitem.parent_item_id
+            assert subitem.itemization_role == "billable_leaf"
+            assert subitem.itemization == "listed_clause"
+            assert subitem.billable is True
+            assert subitem.status == "in_force_in_snapshot"
+            assert subitem.rate in {"7%", "10%", "14%", "20%"}
+            assert subitem.quote.strip()
+            assert subitem.corpus_file
+    assert total == 134
+
+
+def test_every_article_99_subitem_names_a_packaged_parent_clause():
+    for edition_year in ARTICLE_99_SNAPSHOT_YEARS:
+        parents = {item.item_id: item for item in list_article_99_items(edition_year)}
+        for subitem in list_article_99_subitems(edition_year):
+            parent = parents[subitem.parent_item_id]
+            assert subitem.parent is parent
+            assert subitem.rate == parent.rate
+            assert subitem.right_to_deduct == parent.right_to_deduct
+            # A leaf either repeats the clause-scope condition or omits it; it
+            # never contradicts it. When it is empty, read ``subitem.parent``.
+            assert subitem.conditions in (parent.conditions, ())
+
+
+def test_article_99_subitem_inherits_its_parent_attribution_by_identity():
+    """A leaf has no date of its own; it borrows the parent's dated segment."""
+    resource = (
+        resources.files("openfisca_morocco")
+        .joinpath("data")
+        .joinpath("tva_article99_catalog.json")
+    )
+    with resource.open("r", encoding="utf-8") as catalog_file:
+        catalog = json.load(catalog_file)
+    for edition in catalog["editions"]:
+        for row in edition["subitems"]:
+            # The packaged artifact must not store a second copy of the dates.
+            assert "valid_from" not in row
+            assert "valid_to" not in row
+            assert "effective_attribution" not in row
+
+    for subitem in _all_subitems():
+        assert subitem.effective_attribution is subitem.parent.effective_attribution
+
+
+def test_article_99_subitem_lookup_is_exact_and_edition_scoped():
+    subitem = get_article_99_subitem(
+        2007, "2007-art99-7pct-005-leaf-pharmaceutical-products"
+    )
+    assert subitem.quote == "les produits pharmaceutiques"
+    assert subitem.parent_item_id == "2007-art99-7pct-005"
+    assert subitem.product_key == "pharmaceutical-products"
+
+    with pytest.raises(Article99ItemNotFoundError):
+        get_article_99_subitem(2010, "2007-art99-7pct-005-leaf-pharmaceutical-products")
+    with pytest.raises(Article99ItemNotFoundError):
+        get_article_99_subitem(2007, "2007-art99-7pct-005")
+    with pytest.raises(TypeError):
+        get_article_99_subitem(2007, 5)
+    with pytest.raises(ValueError):
+        get_article_99_subitem(2007, "")
+    with pytest.raises(UnsupportedArticle99EditionError):
+        list_article_99_subitems(2004)
+
+
+def test_article_99_subitem_is_frozen_and_distinct_from_its_parent():
+    subitem = next(iter(_all_subitems()))
+    assert subitem.item_id != subitem.parent_item_id
+    with pytest.raises(FrozenInstanceError):
+        subitem.quote = "rewritten"
+
+
+@pytest.mark.skipif(
+    not _HOLY_GRAPH.is_dir(), reason="Holy Graph corpus is not present locally"
+)
+def test_every_article_99_subitem_is_verbatim_from_the_corpus():
+    dataset = _HOLY_GRAPH / "laws/ma_tax_law/data/consolidated/tva_article_lists.json"
+    corpus = json.loads(dataset.read_text(encoding="utf-8"))
+    source = {row["item_id"]: row for row in corpus["items"]}
+
+    checked = 0
+    for subitem in _all_subitems():
+        origin = source[subitem.item_id]
+        assert origin["quote"] == subitem.quote
+        assert origin["status"] == subitem.status
+        assert origin["rate"] == subitem.rate
+        assert origin["parent_item_id"] == subitem.parent_item_id
+        assert origin["itemization_role"] == subitem.itemization_role
+        checked += 1
+    assert checked == 134
+
+
+@pytest.mark.skipif(
+    not _HOLY_GRAPH.is_dir(), reason="Holy Graph corpus is not present locally"
+)
+def test_packaged_items_keep_the_exclusions_the_corpus_records():
+    """Regression: 6 clauses lost their ``exclusion`` qualifier when packaged.
+
+    The qualifier narrows the exemption (*à l'exclusion des autres aliments
+    simples...*), so dropping it silently widened the clause. It is now
+    projected verbatim from the corpus.
+    """
+    dataset = _HOLY_GRAPH / "laws/ma_tax_law/data/consolidated/tva_article_lists.json"
+    corpus = json.loads(dataset.read_text(encoding="utf-8"))
+    source = {
+        (row["edition_year"], row["item_id"]): row
+        for row in corpus["items"]
+        if row.get("article") == 99
+    }
+
+    exclusions = 0
+    for item in _all_items():
+        origin = source[(item.edition_year, item.item_id)]
+        assert origin["quote"] == item.quote
+        assert origin["rate"] == item.rate
+        assert [{"kind": c.kind, "quote": c.quote} for c in item.conditions] == (
+            origin.get("conditions") or []
+        )
+        exclusions += sum(1 for c in item.conditions if c.kind == "exclusion")
+    assert exclusions == 6

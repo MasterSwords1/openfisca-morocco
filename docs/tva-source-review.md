@@ -59,17 +59,43 @@ exposes exact Article 91 and 92 snapshots for 2007, 2010, 2014, 2018, 2021,
 2019.
 
 The Article 91/92 entries preserve numbered clauses, source context and
-deduction treatment. They do not split every nested bullet or multi-operation
-clause into individual categories. Their edition dates are snapshot dates, not
-continuous effective dates. Article 100 instead has continuous rate intervals
-supported by the 2011 metal-rate amendment and the 2020 repeal. The package
-does not reconstruct Article 100's predecessor regime before 2007 or assign
-post-repeal transactions to a new category.
+deduction treatment. They are itemized at two levels: the article-level context
+and numbered clauses, and the nested bullets and letters printed beneath a
+clause. The nested level is a genuine legal structure in the source, not an
+extraction artefact: 603 rows carry `nesting_depth` 1–3 and an `item_role` of
+`leaf` (565) or `container` (38). Article 91 has no nesting after the 2014
+edition because the consolidated text prints none there — that is a property of
+the source, not a missing extraction. Their edition dates are snapshot dates,
+not continuous effective dates. Article 100 instead has continuous rate
+intervals supported by the 2011 metal-rate amendment and the 2020 repeal. The
+package does not reconstruct Article 100's predecessor regime before 2007 or
+assign post-repeal transactions to a new category.
 
 Article 99 rows differ: they carry a dated segment in `effective_attribution`,
 derived per boundary from the seven consolidated editions and fifteen
 finance-law transcriptions (see below). A row is dated only where a source names
 the instrument, and an undated row refuses a date query.
+
+### Enforced coupling to the corpus
+
+Three package defects were found by verifying the packaged rows against the
+corpus row each one names, and all three are now impossible by construction:
+
+- two 2007 Article 92 clauses (`17°` *Fondation Cheikh Zaïd Ibn Soltan* and
+  `31°` *Sala Al-Jadida*) had been merged into their neighbours and the
+  remaining IDs renumbered, so 24 packaged IDs resolved to a different clause
+  than the corpus row they claimed;
+- 45 clauses the consolidated text prints `(abrogé)` were published as
+  `in_force_in_snapshot`;
+- 605 corpus rows were dropped (603 nested sub-items plus the two merged
+  clauses), and six Article 99 clauses lost an `exclusion` qualifier that
+  narrowed them.
+
+`scripts/build_tva_article91_92_catalog.py` now copies each corpus row verbatim
+and `scripts/build_article99_attribution.py` re-projects `conditions` from the
+corpus, asserting quote and rate identity at the same time. Both support
+`--check`, and tests re-derive the projection on every run rather than trusting
+the artifact.
 
 ### Article 99 effective dates
 
@@ -151,9 +177,16 @@ packaged as Article 100 rate periods; see the `gaps` entry in
 
 The company calculation accepts explicit rate-category inputs and exposes
 source-backed exemption and rate catalogs; it does not infer a legal category
-from free-form product descriptions. The Article 91/92 nested-list gaps and
-the gaps between consolidated editions remain. To close those, use an
-authorized article-history export from Legal IQ or Corpus, or reconstruct the
-missing editions from official annual CGI publications and each controlling
+from free-form product descriptions. The gaps between consolidated editions
+remain: the seven snapshots are anchors, not a continuous history, and
+`tva_article_lists.json` still declares `schema_version` 1 while 1 763 of its
+1 768 rows carry `valid_from == valid_to`. The Article 91/92 nested-list gap is
+resolved for the seven editions the corpus covers — the package now projects
+every corpus row — but the corpus's own
+`article-91-92-subclauses-not-leaf-itemized` and
+`nested-list-items-not-fully-normalized` entries have not been withdrawn, so the
+upstream register and the packaged result disagree. To close the remaining gaps,
+use an authorized article-history export from Legal IQ or Corpus, or reconstruct
+the missing editions from official annual CGI publications and each controlling
 finance-law amendment. Preserve the amendment text and effective date for each
 change rather than extending a snapshot across intervening years.
