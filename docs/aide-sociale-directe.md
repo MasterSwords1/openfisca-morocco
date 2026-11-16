@@ -8,7 +8,9 @@ required registers or will be awarded support by the ANSS.
 
 - `score_rsu` is the household's externally supplied RSU socio-economic index.
   The model applies the published ceiling (`index <= 9.743001`); it does not
-  calculate the index from household income or other attributes.
+  calculate the index from household income or other attributes. A missing
+  index defaults to a sentinel above the ceiling, so an unset score does **not**
+  make the household eligible.
 - `conditions_administratives_asd_remplies` must be explicitly set to `true`.
   It stands for the applicable residence, RNP/RSU enrollment, dossier and other
   administrative conditions, including the exclusion cases in article 7 of
@@ -18,7 +20,10 @@ required registers or will be awarded support by the ANSS.
   exception. It is an input because age, school-attendance and exception
   evidence are not all represented by this module.
 - `rang_enfant_asd` is supplied per child; OpenFisca member ordering is not
-  assumed to reproduce the legal order in the administrative dossier.
+  assumed to reproduce the legal order in the administrative dossier. Ranks must
+  be unique per child: a duplicated rank is counted twice and defeats the
+  six-child cap. Rank `0` means unknown or not concerned and receives no base
+  amount and no disability complement.
 - `eligible_aide_forfaitaire_asd` explicitly identifies households for the
   flat allowance, including households with no currently eligible children.
 - Schooling, under-six status, severe disability, paternal orphan status and
@@ -40,17 +45,22 @@ an event is supplied for that month.
   24 DH (not schooled). These amounts are not revalorised in the published
   table.
 - Paternal-orphan complement, ranks 1–3: 150 DH (Dec. 2023), 125 DH (2025),
-  100 DH (2026), added to the base amount for schooled, under-six or severely
-  disabled children. This reproduces the ANSS totals of 350 / 375 / 400 DH for
-  widows' schooled children. Extending the complement to under-six and disabled
-  children is the model's reading of the annex rows, not a sentence of the
-  published table.
-- Severe-disability complement: 100 DH per child at every rank, including the
-  seventh child and beyond, where only this complement is due.
+  100 DH (2026), added to the base amount when the child is schooled or under
+  six — the condition printed in the annex (`دون 6 سنوات أو يتابع دراسته`). A
+  disabled child aged six or more and not schooled therefore receives the base
+  rate and the disability complement, but not the orphan complement. For
+  schooled children this reproduces the ANSS widow totals of 350 / 375 / 400 DH.
+- Severe-disability complement: 100 DH per child at every supplied rank from 1,
+  including the seventh child and beyond, where only this complement is due.
+  The base-rate header of the annex does include disability
+  (`أو في وضعية إعاقة`), which is why a disabled child keeps the schooled /
+  under-six base rate.
 - Where a child amount applies, a household total below 500 DH is raised to
-  500 DH. The flat allowance for households without a child amount is a separate
-  500 DH parameter (`aide_forfaitaire_mensuelle`), even though the two amounts
-  are currently equal.
+  500 DH. The floor is documented in ANSS's published guidance; the annex page
+  itself only carries the 500 DH flat allowance, so no primary article is cited
+  for the floor. The flat allowance for households without a child amount is a
+  separate 500 DH parameter (`aide_forfaitaire_mensuelle`), even though the two
+  amounts are currently equal.
 - Birth grants: 2,000 DH for the first birth and 1,000 DH for the second,
   added after the monthly calculation and only in the month supplied; they are
   not multiplied for multiple births.
@@ -82,8 +92,9 @@ calculation:
   inserts articles 16 bis / 16 bis bis and rewrites article 17.
 - [Décret n° 2-23-1067 (official ANSS PDF)](https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf),
   article 2 and annex. Published in BO n° 7253 of 4 December 2023. The annex is
-  completed by Décret n° 2-24-706 (BO n° 7321 of 29 July 2024) and by
-  Décret n° 2-26-434 (BO n° 7530 of 30 July 2026).
+  completed by Décret n° 2-24-706 (BO n° 7321 of 29 July 2024); Décret
+  n° 2-26-434 (BO n° 7530 of 30 July 2026) inserts article 10 bis into the
+  decree body and does not change the annex.
 - [Décret n° 2-23-1068 (official ANSS PDF)](https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1068_AR.pdf),
   article 1: the eligibility threshold is fixed at **9,743001** (BO n° 7253 of
   4 December 2023, p. 10239).
@@ -108,6 +119,13 @@ could not be read and the points left unverified.
   November 2024 states "inférieur". The model follows the ANSS page and treats
   `9.743001` as eligible and `9.743002` as not eligible; the boundary case is
   decided administratively, not by the text.
+- The published parameters start in December 2023; a simulation for an earlier
+  period raises a parameter error rather than returning zero.
+- Amounts and scores are stored as single-precision floats. `9.7430014` rounds
+  to the same value as the ceiling and is therefore eligible, so the effective
+  boundary is about `9.74300145`; on the six-decimal grid the model still treats
+  `9.743001` as eligible and `9.743002` as not. A NaN score is ineligible
+  because the comparison is false.
 - The 2025 column is labelled "à partir de 2025" by ANSS and already appears in
   the annex as published in BO n° 7253 (December 2023), so no separate
   revaluation instrument was identified. The first revaluation was nevertheless

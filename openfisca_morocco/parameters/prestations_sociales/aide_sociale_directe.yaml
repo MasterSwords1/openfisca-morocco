@@ -1,6 +1,9 @@
 # Aide sociale directe (ASD)
-# Sources: Loi n° 58-23 and Décrets n° 2-23-1067 / 2-23-1068, as completed by
-# Décrets n° 2-24-706, 2-25-1064 and 2-26-434 and by Loi n° 41-26.
+# Sources: Loi n° 58-23 and Décrets n° 2-23-1067 / 2-23-1068.
+# Amending texts: Décret n° 2-24-706 (adds the school-return table to the
+# annex), Loi n° 41-26 (arts. 16 bis / 16 bis bis, art. 17) and Décret
+# n° 2-26-434 (art. 10 bis). Décret n° 2-25-1064 implements article 16 for
+# children in protection institutions; it does not amend Décret 2-23-1067.
 # Official texts: https://www.anss.gov.ma/fr/lois-decrets
 # Amounts follow the Décret 2-23-1067 annex as published by the ANSS
 # (https://www.anss.gov.ma/fr/typologies-d-aides).
@@ -35,9 +38,11 @@ plancher_mensuel:
   metadata:
     reference:
       - title: >-
-          Décret n° 2-23-1067, annexe — plancher mensuel de 500 DH (numéro
-          d'article non vérifié au texte primaire)
-        href: https://www.anss.gov.ma/sites/default/files/decrets/decret_n2.23.1067_AR.pdf
+          ANSS, typologies des aides — « Le montant des aides sociales directes
+          mensuelles est systématiquement revalorisé à 500 DH dans le cas où le
+          total est inférieur à ce seuil » (le texte primaire de cette clause
+          n'a pas été vérifié)
+        href: https://www.anss.gov.ma/fr/typologies-d-aides
   values:
     2023-12-01:
       value: 500.0
@@ -105,15 +110,17 @@ montant_enfant_non_scolarise_rang_4_a_6:
 montant_complement_orphelin:
   description: >-
     Soutien complémentaire mensuel par enfant orphelin de père parmi les trois
-    premiers, scolarisé, de moins de six ans ou en situation de handicap lourd
-    (s'ajoute au montant de base : 200/250/300 + 150/125/100 = 350/375/400 DH
-    pour les ménages de mères-veuves)
+    premiers, lorsque l'enfant est scolarisé ou âgé de moins de six ans (la
+    condition imprimée dans l'annexe ne vise pas le handicap). S'ajoute au
+    montant de base : 200/250/300 + 150/125/100 = 350/375/400 DH pour les
+    ménages de mères-veuves
   unit: currency-MAD
   metadata:
     reference:
       - title: >-
           Décret n° 2-23-1067, annexe, section 2 — soutien complémentaire aux
-          orphelins de père ; totaux publiés par l'ANSS pour les mères-veuves
+          orphelins de père (« دون 6 سنوات أو يتابع دراسته ») ; totaux publiés
+          par l'ANSS pour les mères-veuves
         href: https://www.anss.gov.ma/fr/typologies-d-aides
   values:
     2023-12-01:
@@ -154,7 +161,9 @@ aide_forfaitaire_mensuelle:
       value: 500.0
 
 plafond_enfants:
-  description: Nombre maximal d'enfants pris en compte pour les allocations de protection de l'enfance
+  description: >-
+    Plafond de six enfants pris en compte pour les montants de base. Le calcul
+    parcourt les rangs 1 à 6 : une valeur supérieure à 6 n'étend pas la boucle.
   unit: /1
   metadata:
     reference:

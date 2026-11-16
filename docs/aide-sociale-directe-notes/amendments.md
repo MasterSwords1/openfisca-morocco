@@ -122,7 +122,7 @@ BO 7253 annex page. Corrections are stated here rather than silently rewritten.
 ### Gaps
 - **BO publication of Décret 2.26.838 not found** as of 16 Nov 2026; the legal effective date of 1 Jan 2027 is stated by the government but can still be affected by the published text.
 - Whether 2.26.838 raises **only** the minimum or also adjusts the flat allowance article separately (they are arguably the same 500 in practice), and whether it adds a new 2027/2028 column to the annex, is **NOT CHECKED**.
-- The **exact wording of the 500 DH revalorisation clause** in the annex of 2.23.1067 (article number and phrasing) could not be quoted from the primary text; the schedule columns were read visually (Q3), but the clause sentence was not, and only ANSS's French rendering is available. **NOT CHECKED.**
+- The **500 DH floor has no verified primary-text basis.** The annex page carries only the 500 DH **flat allowance** (`ب) مبلغ الإعانة الجزافية: 500 درهم`); the floor rule ("systématiquement revalorisé à 500 DH dans le cas où le total est inférieur") appears only in ANSS's published guidance. No article or clause stating a floor was located, so the parameter now cites the ANSS page and says the primary basis is unverified. **NOT CHECKED.**
 
 ---
 
