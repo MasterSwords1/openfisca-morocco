@@ -1,0 +1,138 @@
+# Revenus professionnels, fonciers et du capital — IR.
+#
+# Sources : Code Général des Impôts (édition 2026), articles 25 à 41 (revenus
+# professionnels), 61 à 64 (revenus fonciers), 66 à 69 (capitaux mobiliers) et
+# 73-II (taux spécifiques). Les règles foncières et de capitaux mobiliers sont
+# encodées à partir de 2026 ; le revenu professionnel net est accepté dès 2025,
+# comme le barème. Une simulation antérieure à 2026 qui fournit un revenu
+# foncier ou du capital lève une erreur.
+#
+# Les revenus du capital modélisés sont ceux soumis à un taux libératoire
+# (article 73-II-B-7°, G-3°, C-1° et F-2°) : ils ne s'ajoutent pas au barème.
+
+description: Taux et seuils des catégories de revenus de l'impôt sur le revenu
+
+revenus_fonciers:
+  description: Revenus fonciers (locations d'immeubles)
+
+  abattement:
+    description: >-
+      Abattement forfaitaire appliqué au revenu foncier brut pour obtenir le
+      revenu net imposable (article 64-II)
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 64-II — abattement de 40 %
+          href: https://maloi.ma/fr/law/code-impots/article/64
+    values:
+      2026-01-01:
+        value: 0.40
+
+  seuil_taux_reduit:
+    description: >-
+      Montant brut de revenus fonciers sous lequel le taux de 10 % s'applique
+      (article 73-II-B-5°) ; à partir de ce montant, le taux est de 15 %
+      (article 73-II-C-4°)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-B-5° et C-4°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 120000.0
+
+  taux_reduit:
+    description: Taux applicable au revenu foncier brut inférieur à 120 000 DH
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-B-5°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.10
+
+  taux_normal:
+    description: Taux applicable au revenu foncier brut égal ou supérieur à 120 000 DH
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-C-4°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.15
+
+  seuil_exoneration_retenue:
+    description: >-
+      Montant brut annuel de revenus fonciers en dessous duquel le débiteur
+      n'opère pas la retenue à la source de l'article 160 bis
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 160 bis
+          href: https://maloi.ma/fr/law/code-impots/article/160%20bis
+    values:
+      2026-01-01:
+        value: 40000.0
+
+capitaux_mobiliers:
+  description: Revenus et profits de capitaux mobiliers à taux libératoire
+
+  taux_dividendes:
+    description: >-
+      Taux libératoire des produits d'actions et parts sociales, fixé par le
+      barème dégressif de l'article 247-XXXVII-C
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            Code Général des Impôts, article 73-II-B-7° et article 247-XXXVII-C
+            — 11,25 % pour les montants distribués à compter du 1er janvier 2026,
+            10 % à compter du 1er janvier 2027
+          href: https://maloi.ma/fr/law/code-impots/article/247
+    values:
+      2026-01-01:
+        value: 0.1125
+      2027-01-01:
+        value: 0.10
+
+  taux_interets:
+    description: >-
+      Taux libératoire des produits de placements à revenu fixe
+      (article 73-II-G-3°)
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-G-3°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.30
+
+  taux_plus_values_cotees:
+    description: >-
+      Taux des profits nets de cession d'actions cotées en bourse
+      (article 73-II-C-1°)
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-C-1°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.15
+
+  taux_plus_values_non_cotees:
+    description: >-
+      Taux des profits nets de cession d'actions non cotées, d'obligations et
+      d'autres titres (article 73-II-F-2°)
+    unit: /1
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 73-II-F-2°
+          href: https://maloi.ma/fr/law/code-impots/article/73
+    values:
+      2026-01-01:
+        value: 0.20
