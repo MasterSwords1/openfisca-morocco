@@ -87,6 +87,11 @@ Parameter entries carry their own legal references in
 
 ## Verification notes
 
+The full citation trail behind these statements is kept in
+[`docs/aide-sociale-directe-notes/`](aide-sociale-directe-notes/): one note on
+the threshold decree and one on the amending texts, including the sources that
+could not be read and the points left unverified.
+
 - The threshold value is an exact transcription of the Arabic text
   ("تحدد في 9,743001 عتبة الاستفادة"), not a rounding of the press figure 9.74.
   The decree does not itself use the words "score" or "index": it fixes the
