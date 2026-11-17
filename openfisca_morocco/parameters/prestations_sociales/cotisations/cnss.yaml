@@ -17,7 +17,7 @@ plafond_mensuel:
   metadata:
     reference:
       - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 du 11 juillet 2002 fixant le plafond des rémunérations soumises à cotisation CNSS à 6 000 DH par mois
-        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+        href: https://www.cnss.ma/
   values:
     2002-07-11:
       value: 6000.0
@@ -30,7 +30,7 @@ court_terme:
     metadata:
       reference:
         - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation salariale court terme (0,33 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2002-07-11:
         value: 0.0033
@@ -40,7 +40,7 @@ court_terme:
     metadata:
       reference:
         - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation patronale court terme (0,67 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2002-07-11:
         value: 0.0067
@@ -53,7 +53,7 @@ long_terme:
     metadata:
       reference:
         - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation salariale long terme (3,96 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2002-07-11:
         value: 0.0396
@@ -63,7 +63,7 @@ long_terme:
     metadata:
       reference:
         - title: Dahir portant loi n° 1-72-184, article 19 et Décret n° 2-02-175 — cotisation patronale long terme (7,93 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2002-07-11:
         value: 0.0793
@@ -76,7 +76,7 @@ indemnite_perte_emploi:
     metadata:
       reference:
         - title: Loi n° 03-14 complétant le Dahir 1-72-184 (articles 46 bis à 46 sexies) et Décret n° 2-14-540 — cotisation salariale IPE (0,19 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2014-12-01:
         value: 0.0019
@@ -86,7 +86,7 @@ indemnite_perte_emploi:
     metadata:
       reference:
         - title: Loi n° 03-14 complétant le Dahir 1-72-184 (articles 46 bis à 46 sexies) et Décret n° 2-14-540 — cotisation patronale IPE (0,38 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2014-12-01:
         value: 0.0038
@@ -99,7 +99,7 @@ prestations_familiales:
     metadata:
       reference:
         - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — cotisation patronale allocations familiales (6,40 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       2019-07-01:
         value: 0.064
@@ -112,7 +112,7 @@ taxe_formation_professionnelle:
     metadata:
       reference:
         - title: Loi n° 30-97 relative à la taxe de formation professionnelle (1,60 %)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json
+          href: https://www.cnss.ma/
     values:
       1997-01-01:
         value: 0.016

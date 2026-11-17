@@ -22,11 +22,11 @@ normal:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99-A — taux normal de 20 %
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Code Général des Impôts, article 98 — taux normal de 20 % (loi n° 43-06)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Loi n° 30-85, taux normal de 20 % (rédaction applicable au 1er janvier 2004)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2005_26-04.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 0.2
@@ -38,11 +38,11 @@ reduit_10:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99-B — taux réduit de 10 %
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Code Général des Impôts, article 99-2° — taux réduit de 10 % (loi n° 43-06)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Loi n° 30-85, taux réduit de 10 % (rédaction applicable au 1er janvier 2004)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2005_26-04.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 0.1
@@ -54,9 +54,9 @@ reduit_14:
     metadata:
       reference:
         - title: Code Général des Impôts, article 99-3° — taux réduit de 14 % (loi n° 43-06)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Loi n° 30-85, article 15-3° — taux réduit de 14 % (loi de finances 2004)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2004_48-03.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 0.14
@@ -66,7 +66,7 @@ reduit_14:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99 réécrit en A) 20 % / B) 10 % et article 98 abrogé à compter du 1er janvier 2024
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 1
@@ -80,9 +80,9 @@ reduit_7:
     metadata:
       reference:
         - title: Code Général des Impôts, article 99-1° — taux réduit de 7 % (loi n° 43-06)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2007_43-06.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
         - title: Loi n° 30-85, article 15-1° — taux réduit de 7 % (loi de finances 2004)
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2004_48-03.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 0.07
@@ -92,7 +92,7 @@ reduit_7:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99 réécrit en A) 20 % / B) 10 % à compter du 1er janvier 2024
-          href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/data/text/finance-laws/FL_2024_55-23.txt
+          href: https://maloi.ma/fr/law/code-impots/article/99
     values:
       2004-01-01:
         value: 1

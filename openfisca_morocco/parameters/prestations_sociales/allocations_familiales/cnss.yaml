@@ -14,7 +14,7 @@ plafond_enfants:
   metadata:
     reference:
       - title: Dahir portant loi n° 1-72-184, article 38 et Décret n° 2-19-461 fixant le plafond à 6 enfants par assuré social
-        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+        href: https://www.cnss.ma/
   values:
     2019-07-01:
       value: 6
@@ -25,7 +25,7 @@ montant_enfants_1_a_3:
   metadata:
     reference:
       - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 300 DH par mois et par enfant pour les 3 premiers enfants
-        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+        href: https://www.cnss.ma/
   values:
     2019-07-01:
       value: 300.0
@@ -36,7 +36,7 @@ montant_enfants_4_a_6:
   metadata:
     reference:
       - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 36 DH par mois et par enfant pour les enfants du 4ème au 6ème rang
-        href: https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/family_allowances_grid.json
+        href: https://www.cnss.ma/
   values:
     2019-07-01:
       value: 36.0
