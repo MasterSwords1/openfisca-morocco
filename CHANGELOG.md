@@ -1,3 +1,14 @@
+## 0.10.2
+
+* Documentation.
+* Impacted areas: `openfisca_morocco/parameters/` metadata.
+* Details:
+  - Point the parameter references at official government sources instead of a
+    private consolidator: SGG Bulletin Officiel PDFs (BO 5487-bis for the CGI,
+    BO 7362 for the 2025 finance law, BO 7253 for the 2024 finance law) and the
+    ANSS/CNSS official pages.
+  - No parameter value changed.
+
 ## 0.10.1
 
 * Documentation.

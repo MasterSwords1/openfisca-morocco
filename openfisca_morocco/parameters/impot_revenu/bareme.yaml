@@ -13,9 +13,9 @@ description: Barème de l'impôt sur le revenu - article 73-I du CGI
 metadata:
   reference:
     - title: Code Général des Impôts, article 73-I (Direction Générale des Impôts)
-      href: https://maloi.ma/fr/law/code-impots/article/73
+      href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
     - title: Loi de Finances 2025 (réforme du barème progressif)
-      href: https://maloi.ma/fr/law/code-impots/article/73
+      href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
   threshold_unit: currency-MAD
   rate_unit: /1
 brackets:

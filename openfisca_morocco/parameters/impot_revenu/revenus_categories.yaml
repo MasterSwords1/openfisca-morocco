@@ -23,7 +23,7 @@ revenus_fonciers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 64-II — abattement de 40 %
-          href: https://maloi.ma/fr/law/code-impots/article/64
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.40
@@ -37,7 +37,7 @@ revenus_fonciers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-B-5° et C-4°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 120000.0
@@ -48,7 +48,7 @@ revenus_fonciers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-B-5°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.10
@@ -59,7 +59,7 @@ revenus_fonciers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-C-4°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.15
@@ -72,7 +72,7 @@ revenus_fonciers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 160 bis
-          href: https://maloi.ma/fr/law/code-impots/article/160%20bis
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 40000.0
@@ -91,7 +91,7 @@ capitaux_mobiliers:
             Code Général des Impôts, article 73-II-B-7° et article 247-XXXVII-C
             — 11,25 % pour les montants distribués à compter du 1er janvier 2026,
             10 % à compter du 1er janvier 2027
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2026-01-01:
         value: 0.1125
@@ -106,7 +106,7 @@ capitaux_mobiliers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-G-3°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.30
@@ -119,7 +119,7 @@ capitaux_mobiliers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-C-1°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.15
@@ -132,7 +132,7 @@ capitaux_mobiliers:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-F-2°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.20
