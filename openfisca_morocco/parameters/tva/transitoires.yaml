@@ -18,7 +18,7 @@ electricite:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-B — énergie électrique 16 % / 18 % / 20 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.16
@@ -34,7 +34,7 @@ compteur_electricite:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-C — location du compteur d'électricité 11 % / 15 % / 20 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.11
@@ -50,7 +50,7 @@ electricite_renouvelable:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-D — électricité renouvelable 12 % / 10 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.12
@@ -64,7 +64,7 @@ sucre:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-E — sucre 8 % / 9 % / 10 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.08
@@ -80,7 +80,7 @@ transport_hors_urbain_et_routier:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-F — transport (hors urbain et routier) 16 % / 18 % / 20 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.16
@@ -96,7 +96,7 @@ transport_urbain_et_routier:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-G — transport urbain et routier 13 % / 12 % / 10 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.13
@@ -112,7 +112,7 @@ courtier_assurances:
     metadata:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 247-XXXXI-H — courtiers d'assurances 12 % / 10 %
-          href: https://maloi.ma/fr/law/code-impots/article/247
+          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
     values:
       2024-01-01:
         value: 0.12

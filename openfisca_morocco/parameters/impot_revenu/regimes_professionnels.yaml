@@ -18,7 +18,7 @@ net_simplifie:
     metadata:
       reference:
         - title: Code Général des Impôts, article 38-III — abattement de 15 %
-          href: https://maloi.ma/fr/law/code-impots/article/38
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.15
@@ -32,7 +32,7 @@ cpu:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-B-6°
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.10
@@ -43,7 +43,7 @@ cpu:
     metadata:
       reference:
         - title: Code Général des Impôts, article 41-II-A — 2 000 000 DH
-          href: https://maloi.ma/fr/law/code-impots/article/41
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 2000000.0
@@ -54,7 +54,7 @@ cpu:
     metadata:
       reference:
         - title: Code Général des Impôts, article 41-II-A — 500 000 DH
-          href: https://maloi.ma/fr/law/code-impots/article/41
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 500000.0
@@ -64,12 +64,12 @@ cpu:
     metadata:
       reference:
         - title: Code Général des Impôts, article 40-I — tableau des coefficients
-          href: https://maloi.ma/fr/law/code-impots/article/40
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     alimentation_generale:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie alimentation_generale
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.06}
@@ -77,7 +77,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_produits_alimentaires
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.08}
@@ -85,7 +85,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie matieres_premieres
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.08}
@@ -93,7 +93,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie materiaux_construction
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.08}
@@ -101,7 +101,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie produits_chimiques
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.10}
@@ -109,7 +109,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_produits_non_alimentaires
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.12}
@@ -117,7 +117,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie restauration_rapide
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.10}
@@ -125,7 +125,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie restaurant_debit_boissons
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.20}
@@ -133,7 +133,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie transport
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.10}
@@ -141,7 +141,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie entretien
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.15}
@@ -149,7 +149,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie location_biens_meubles
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.20}
@@ -157,7 +157,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_locations_gestion
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.25}
@@ -165,7 +165,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie coiffure_esthetique
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.20}
@@ -173,7 +173,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie metiers_techniques
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.30}
@@ -181,7 +181,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_artisans_services
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.12}
@@ -189,7 +189,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie courtiers
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.45}
@@ -197,7 +197,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie autres_prestations
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.20}
@@ -205,7 +205,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie fabrication_alimentaire
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.10}
@@ -213,7 +213,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie fabrication_non_alimentaire
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.10}
@@ -221,7 +221,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie chevillard
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.04}
@@ -229,7 +229,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_tabac
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.03}
@@ -237,7 +237,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_gaz
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.045}
@@ -245,7 +245,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie marchand_farine
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.05}
@@ -253,7 +253,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie armateur_peche
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.07}
@@ -261,7 +261,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 40-I — coefficient de la catégorie boulanger
-            href: https://maloi.ma/fr/law/code-impots/article/40
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: /1
       values:
         2026-01-01: {value: 0.08}
@@ -271,12 +271,12 @@ cpu:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-II-B-6° — table des droits complémentaires
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     seuil_1:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 500.0}
@@ -284,7 +284,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 1000.0}
@@ -292,7 +292,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 2500.0}
@@ -300,7 +300,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 5000.0}
@@ -308,7 +308,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 10000.0}
@@ -316,7 +316,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 25000.0}
@@ -324,7 +324,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 50000.0}
@@ -332,7 +332,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 1200.0}
@@ -340,7 +340,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 1560.0}
@@ -348,7 +348,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 2280.0}
@@ -356,7 +356,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 2880.0}
@@ -364,7 +364,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 4200.0}
@@ -372,7 +372,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 6000.0}
@@ -380,7 +380,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 9000.0}
@@ -388,7 +388,7 @@ cpu:
       metadata:
         reference:
           - title: Code Général des Impôts, article 73-II-B-6° — seuils et montants annuels des droits complémentaires
-            href: https://maloi.ma/fr/law/code-impots/article/73
+            href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       unit: currency-MAD
       values:
         2026-01-01: {value: 14400.0}
@@ -402,7 +402,7 @@ auto_entrepreneur:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-III — 0,5 %
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.005
@@ -413,7 +413,7 @@ auto_entrepreneur:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-III — 1 %
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.01
@@ -424,7 +424,7 @@ auto_entrepreneur:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-III — 500 000 DH
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 500000.0
@@ -435,7 +435,7 @@ auto_entrepreneur:
     metadata:
       reference:
         - title: Code Général des Impôts, article 73-III — 200 000 DH
-          href: https://maloi.ma/fr/law/code-impots/article/73
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2026-01-01:
         value: 200000.0

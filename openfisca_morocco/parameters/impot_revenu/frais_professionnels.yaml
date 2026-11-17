@@ -10,7 +10,7 @@ taux_basse_remuneration:
   metadata:
     reference:
       - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
-        href: https://maloi.ma/fr/law/code-impots/article/59
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 0.35
@@ -20,7 +20,7 @@ taux_haute_remuneration:
   metadata:
     reference:
       - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
-        href: https://maloi.ma/fr/law/code-impots/article/59
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 0.25
@@ -30,7 +30,7 @@ seuil_taux_basse_remuneration:
   metadata:
     reference:
       - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
-        href: https://maloi.ma/fr/law/code-impots/article/59
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 78000.0
@@ -40,7 +40,7 @@ plafond:
   metadata:
     reference:
       - title: Code Général des Impôts, article 59 (Direction Générale des Impôts)
-        href: https://maloi.ma/fr/law/code-impots/article/59
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 35000.0

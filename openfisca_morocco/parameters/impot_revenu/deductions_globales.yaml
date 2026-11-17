@@ -11,7 +11,7 @@ taux_plafond_logement:
   metadata:
     reference:
       - title: Code Général des Impôts, article 28-II — limite de 10 %
-        href: https://maloi.ma/fr/law/code-impots/article/28
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.10
@@ -24,7 +24,7 @@ taux_plafond_retraite:
   metadata:
     reference:
       - title: Code Général des Impôts, article 28-III-A — limite de 10 %
-        href: https://maloi.ma/fr/law/code-impots/article/28
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.10
@@ -37,7 +37,7 @@ taux_plafond_retraite_salaire:
   metadata:
     reference:
       - title: Code Général des Impôts, article 28-III-A — limite de 50 % du salaire net
-        href: https://maloi.ma/fr/law/code-impots/article/28
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.50
@@ -48,9 +48,9 @@ taux_foncier_liberatoire:
   metadata:
     reference:
       - title: Code Général des Impôts, article 64-IV — option libératoire
-        href: https://maloi.ma/fr/law/code-impots/article/64
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       - title: Code Général des Impôts, article 73-II-F-12° — taux de 20 %
-        href: https://maloi.ma/fr/law/code-impots/article/73
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.20

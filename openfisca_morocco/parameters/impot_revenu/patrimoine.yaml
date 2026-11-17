@@ -11,7 +11,7 @@ taux_plus_value_immobiliere:
   metadata:
     reference:
       - title: Code Général des Impôts, article 73-II-F-6° — 20 %
-        href: https://maloi.ma/fr/law/code-impots/article/73
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.20
@@ -24,7 +24,7 @@ seuil_exoneration_cessions:
   metadata:
     reference:
       - title: Code Général des Impôts, article 63-II-A — 140 000 DH
-        href: https://maloi.ma/fr/law/code-impots/article/63
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 140000.0
@@ -35,7 +35,7 @@ duree_habitation_principale:
   metadata:
     reference:
       - title: Code Général des Impôts, article 63-II-B — cinq ans
-        href: https://maloi.ma/fr/law/code-impots/article/63
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 5
@@ -48,7 +48,7 @@ frais_acquisition_forfait:
   metadata:
     reference:
       - title: Code Général des Impôts, article 65-II — 15 % du prix d'acquisition
-        href: https://maloi.ma/fr/law/code-impots/article/65
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.15
@@ -59,7 +59,7 @@ taux_revenus_capitaux_etrangers:
   metadata:
     reference:
       - title: Code Général des Impôts, article 73-II-C-2° — 15 %
-        href: https://maloi.ma/fr/law/code-impots/article/73
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.15
@@ -70,7 +70,7 @@ taux_profits_capitaux_etrangers:
   metadata:
     reference:
       - title: Code Général des Impôts, article 73-II-F-5° — 20 %
-        href: https://maloi.ma/fr/law/code-impots/article/73
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2026-01-01:
       value: 0.20

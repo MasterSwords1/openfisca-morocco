@@ -13,7 +13,7 @@ montant_par_personne:
       - title: >-
           Code Général des Impôts, article 74 (Direction Générale des Impôts) ;
           Loi de finances n° 50-25 pour l'année budgétaire 2026, article 7
-        href: https://maloi.ma/fr/law/code-impots/article/74
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 500.0
@@ -25,7 +25,7 @@ nombre_maximum_personnes:
   metadata:
     reference:
       - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
-        href: https://maloi.ma/fr/law/code-impots/article/74
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2025-01-01:
       value: 6
