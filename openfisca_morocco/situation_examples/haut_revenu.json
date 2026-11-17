@@ -1,0 +1,45 @@
+{
+    "persons": {
+        "Cadre": {
+            "birth": {
+                "ETERNITY": "1978-01-12"
+            },
+            "salaire_brut": {
+                "2026": 720000
+            },
+            "salaire_brut_global": {
+                "2026": 720000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 2
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        },
+        "Enfant1": {
+            "birth": {
+                "ETERNITY": "2015-01-01"
+            }
+        },
+        "Enfant2": {
+            "birth": {
+                "ETERNITY": "2016-01-01"
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Cadre"
+            ],
+            "children": [
+                "Enfant1",
+                "Enfant2"
+            ]
+        }
+    }
+}

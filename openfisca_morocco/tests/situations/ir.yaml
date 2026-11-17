@@ -1,0 +1,97 @@
+# IR sur les situations d'exemple (2026), avec une marge pour le stockage
+# float32 des montants.
+
+- name: Salarié sous le seuil d'exonération
+  period: 2026
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Salarie:
+        salaire_brut: {2026: 36000}
+        salaire_brut_global: {2026: 36000}
+    households:
+      Menage:
+        adults: [Salarie]
+  output:
+    persons:
+      Salarie:
+        impot_sur_le_revenu: 0
+
+- name: Salarié au-dessus du seuil
+  period: 2026
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Salarie:
+        salaire_brut: {2026: 120000}
+        salaire_brut_global: {2026: 120000}
+        nombre_personnes_a_charge: {2026: 1}
+    households:
+      Menage:
+        adults: [Salarie]
+  output:
+    persons:
+      Salarie:
+        impot_sur_le_revenu: 7064.04
+        deduction_charges_famille: 600
+
+- name: Exemple historique de 2025 — 25 800 DH d'impôt
+  period: 2025
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Salarie:
+        salaire_brut_global: {2025: 200000}
+        cotisations_sociales_obligatoires: {2025: 20000}
+        nombre_personnes_a_charge: {2025: 3}
+    households:
+      Menage:
+        adults: [Salarie]
+  output:
+    persons:
+      Salarie:
+        impot_sur_le_revenu: 25800
+
+- name: Haut revenu au dernier taux
+  period: 2026
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Cadre:
+        salaire_brut: {2026: 720000}
+        salaire_brut_global: {2026: 720000}
+        nombre_personnes_a_charge: {2026: 2}
+    households:
+      Menage:
+        adults: [Cadre]
+  output:
+    persons:
+      Cadre:
+        impot_sur_le_revenu: 217635.88
+
+- name: Couple avec deux enfants
+  period: 2026
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Conjoint1:
+        salaire_brut: {2026: 96000}
+        salaire_brut_global: {2026: 96000}
+        nombre_personnes_a_charge: {2026: 3}
+      Conjoint2:
+        salaire_brut: {2026: 72000}
+        salaire_brut_global: {2026: 72000}
+      Enfant1: {}
+      Enfant2: {}
+    households:
+      Menage:
+        adults: [Conjoint1, Conjoint2]
+        children: [Enfant1, Enfant2]
+  output:
+    persons:
+      Conjoint1:
+        impot_sur_le_revenu: 1790.72
+        deduction_charges_famille: 1800
+      Conjoint2:
+        impot_sur_le_revenu: 364.57
+

@@ -1,0 +1,30 @@
+# Aide sociale directe sur une situation d'exemple (juin 2026).
+
+- name: Ménage bénéficiaire de l'aide sociale directe
+  period: 2026-06
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Parent: {}
+      Enfant:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 1
+      Enfant2:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 2
+      Enfant3:
+        enfant_eligible_asd: true
+        enfant_scolarise: true
+        rang_enfant_asd: 3
+    households:
+      Menage:
+        adults: [Parent]
+        children: [Enfant, Enfant2, Enfant3]
+        score_rsu: 3.0
+        conditions_administratives_asd_remplies: true
+  output:
+    households:
+      Menage:
+        aide_sociale_directe: 900

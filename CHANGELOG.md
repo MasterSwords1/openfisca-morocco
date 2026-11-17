@@ -1,3 +1,21 @@
+## 0.10.0 - [#10](https://github.com/MasterSwords1/openfisca-morocco/issues/10) [#11](https://github.com/MasterSwords1/openfisca-morocco/issues/11)
+
+* Tax and benefit system evolution.
+* Impacted periods: all; the examples use 2025 and 2026.
+* Impacted areas: `situation_examples/`, `reforms/`, `tests/situations/`,
+  `tests/reforms/`.
+* Details:
+  - Add five situation examples alongside `salarie.json`: below and above the
+    IR exemption, a couple with two children, a high earner, an employer-cost
+    case and an ASD household. Each requests its outputs and is simulated and
+    asserted.
+  - Add `ReformeBaremeIR`, restoring the pre-2025 IR scale (30,000 DH exemption,
+    38 % top rate) for distributional analysis, and `ReformeTVA`, setting the
+    normal VAT rate to 18 % from 2025 while preserving the 2004-2024 history.
+  - Add YAML situation tests for the IR, CNSS and benefit families, mirroring the
+    JSON examples, and pytest coverage for the examples and both reforms.
+  - No template demo situations or reforms remained to remove.
+
 ## 0.9.0 - [#33](https://github.com/MasterSwords1/openfisca-morocco/issues/33) [#34](https://github.com/MasterSwords1/openfisca-morocco/issues/34) [#35](https://github.com/MasterSwords1/openfisca-morocco/issues/35)
 
 * Tax and benefit system evolution.

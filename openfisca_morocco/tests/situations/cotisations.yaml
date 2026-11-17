@@ -1,0 +1,41 @@
+# CNSS et coût employeur sur les situations d'exemple (juin 2026).
+
+- name: Cotisations d'un salarié à 120 000 DH par an
+  period: 2026-06
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Salarie:
+        salaire_brut: {2026: 120000}
+    households:
+      Menage:
+        adults: [Salarie]
+  output:
+    persons:
+      Salarie:
+        cotisations_sociales_salarie: 494.8
+        cout_employeur: 11749.8
+
+- name: Cotisations d'un couple avec deux enfants
+  period: 2026-06
+  absolute_error_margin: 0.01
+  input:
+    persons:
+      Conjoint1:
+        salaire_brut: {2026: 96000}
+      Conjoint2:
+        salaire_brut: {2026: 72000}
+      Enfant1: {}
+      Enfant2: {}
+    households:
+      Menage:
+        adults: [Conjoint1, Conjoint2]
+        children: [Enfant1, Enfant2]
+  output:
+    persons:
+      Conjoint1:
+        cotisations_sociales_salarie: 449.6
+        cout_employeur: 9507.6
+      Conjoint2:
+        cotisations_sociales_salarie: 404.4
+        cout_employeur: 7265.4
