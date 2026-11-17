@@ -1,0 +1,59 @@
+{
+    "persons": {
+        "Parent": {},
+        "Enfant": {
+            "enfant_eligible_asd": {
+                "2026-06": true
+            },
+            "enfant_scolarise": {
+                "2026-06": true
+            },
+            "rang_enfant_asd": {
+                "2026-06": 1
+            }
+        },
+        "Enfant2": {
+            "enfant_eligible_asd": {
+                "2026-06": true
+            },
+            "enfant_scolarise": {
+                "2026-06": true
+            },
+            "rang_enfant_asd": {
+                "2026-06": 2
+            }
+        },
+        "Enfant3": {
+            "enfant_eligible_asd": {
+                "2026-06": true
+            },
+            "enfant_scolarise": {
+                "2026-06": true
+            },
+            "rang_enfant_asd": {
+                "2026-06": 3
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Parent"
+            ],
+            "children": [
+                "Enfant",
+                "Enfant2",
+                "Enfant3"
+            ],
+            "score_rsu": {
+                "2026-06": 3.0
+            },
+            "conditions_administratives_asd_remplies": {
+                "2026-06": true
+            },
+            "aide_sociale_directe": {
+                "2026-06": null
+            }
+        }
+    }
+}

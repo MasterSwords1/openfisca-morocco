@@ -70,7 +70,8 @@ The figures, for reference:
   20 % (60 001–80 000), 30 % (80 001–100 000), 34 % (100 001–180 000), 37 % above.
 - **Professional expenses (art. 59):** 35 % of gross pay up to 78 000 DH, 25 %
   above, capped at 35 000 DH in both cases.
-- **Family charges (art. 74):** 500 DH per dependent, at most 6 dependents.
+- **Family charges (art. 74):** 600 DH per dependent from 2026 (500 DH before),
+  at most 6 dependents.
 
 `birth` and `age` are also available: they are factual demographics, not
 legislation, and carry no legal reference. Moroccan age-based provisions will
@@ -495,7 +496,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 352 passed, 5 skipped
+# 373 passed, 5 skipped (plus 207 pytest tests)
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -620,6 +621,34 @@ curl -X POST -H "Content-Type: application/json" \
 
 The bundled example answers `"impot_sur_le_revenu": {"2025": 25800.0}`.
 
+### Situation examples
+
+`openfisca_morocco/situation_examples/` holds ready-to-serve situations. Each
+file requests its outputs, so the Web API computes them:
+
+- `salarie.json` — the original single-salaried example (25,800 DH of IR);
+- `salarie_exonere.json` — below the exemption threshold, IR 0;
+- `salarie_impose.json` — above the threshold, with one dependent;
+- `couple_avec_enfants.json` — two earners and two children;
+- `haut_revenu.json` — a high earner at the top bracket;
+- `cout_employeur.json` — salary, CNSS/AMO and employer cost;
+- `menage_asd.json` — a household receiving the direct social support.
+
+Every file is simulated by `tests/situations/`.
+
+### Reform examples
+
+```python
+from openfisca_morocco import CountryTaxBenefitSystem
+from openfisca_morocco.reforms import ReformeBaremeIR, ReformeTVA
+
+baseline = CountryTaxBenefitSystem()
+old_scale = ReformeBaremeIR(baseline)  # pre-2025 IR scale
+vat_18 = ReformeTVA(baseline)  # normal VAT rate at 18 % from 2025
+```
+
+Both are tested against the baseline in `tests/reforms/`.
+
 ### Run the tests
 
 ```sh
@@ -662,6 +691,10 @@ rows carry a method, an instrument and a matching hash, bracketed rows carry no
 date, a renumber is not a repeal, a rate move is not a repeal, and a date query
 never reaches an undated row.
 
+`openfisca_morocco/tests/situations/` mirrors the bundled examples for the IR,
+CNSS and ASD families, and `openfisca_morocco/tests/reforms/` checks both
+reforms against the baseline.
+
 ## Repository layout
 
 ```
@@ -691,9 +724,20 @@ openfisca_morocco/
 │   ├── impot_revenu.py         # the IR pipeline
 │   ├── tva.py                  # monthly company TVA declaration
 │   └── demographics.py         # birth, age
-├── situation_examples/
-│   └── salarie.json            # one salaried taxpayer, used by the Web API spec
+├── reforms/
+│   ├── reforme_bareme_ir.py    # pre-2025 IR scale
+│   └── reforme_tva.py          # normal VAT rate at 18 %
+├── situation_examples/         # ready-to-post Web API situations
+│   ├── salarie.json
+│   ├── salarie_exonere.json
+│   ├── salarie_impose.json
+│   ├── couple_avec_enfants.json
+│   ├── haut_revenu.json
+│   ├── cout_employeur.json
+│   └── menage_asd.json
 └── tests/                      # YAML and Python tests
+    ├── situations/             # the example families
+    └── reforms/                # reform deltas vs baseline
 scripts/
 ├── build_article99_attribution.py     # Article 99 effective dates + sub-items
 └── build_tva_article91_92_catalog.py  # verbatim Article 91/92 projection

@@ -14,3 +14,9 @@ def parse(file_name):
 
 
 salarie = parse("salarie.json")
+salarie_exonere = parse("salarie_exonere.json")
+salarie_impose = parse("salarie_impose.json")
+couple_avec_enfants = parse("couple_avec_enfants.json")
+haut_revenu = parse("haut_revenu.json")
+cout_employeur = parse("cout_employeur.json")
+menage_asd = parse("menage_asd.json")

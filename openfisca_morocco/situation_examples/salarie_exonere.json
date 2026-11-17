@@ -1,0 +1,31 @@
+{
+    "persons": {
+        "Salarie": {
+            "birth": {
+                "ETERNITY": "1990-04-01"
+            },
+            "salaire_brut": {
+                "2026": 36000
+            },
+            "salaire_brut_global": {
+                "2026": 36000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 0
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Salarie"
+            ]
+        }
+    }
+}

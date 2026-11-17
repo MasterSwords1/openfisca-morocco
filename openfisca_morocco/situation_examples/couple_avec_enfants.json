@@ -1,0 +1,72 @@
+{
+    "persons": {
+        "Conjoint1": {
+            "birth": {
+                "ETERNITY": "1982-02-10"
+            },
+            "salaire_brut": {
+                "2026": 96000
+            },
+            "salaire_brut_global": {
+                "2026": 96000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 3
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        },
+        "Conjoint2": {
+            "birth": {
+                "ETERNITY": "1984-09-20"
+            },
+            "salaire_brut": {
+                "2026": 72000
+            },
+            "salaire_brut_global": {
+                "2026": 72000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 0
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        },
+        "Enfant1": {
+            "birth": {
+                "ETERNITY": "2012-05-05"
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        },
+        "Enfant2": {
+            "birth": {
+                "ETERNITY": "2016-11-30"
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Conjoint1",
+                "Conjoint2"
+            ],
+            "children": [
+                "Enfant1",
+                "Enfant2"
+            ]
+        }
+    }
+}

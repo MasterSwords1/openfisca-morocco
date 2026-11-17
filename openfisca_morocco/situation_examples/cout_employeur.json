@@ -1,0 +1,37 @@
+{
+    "persons": {
+        "Salarie": {
+            "birth": {
+                "ETERNITY": "1988-03-03"
+            },
+            "salaire_brut": {
+                "2026": 180000
+            },
+            "salaire_brut_global": {
+                "2026": 180000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 0
+            },
+            "cotisations_sociales_salarie": {
+                "2026-06": null
+            },
+            "cout_employeur": {
+                "2026-06": null
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Salarie"
+            ]
+        }
+    }
+}

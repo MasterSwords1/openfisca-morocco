@@ -5,3 +5,8 @@ system to carry out experiments.
 
 See https://openfisca.org/doc/key-concepts/reforms.html
 """
+
+from .reforme_bareme_ir import ReformeBaremeIR
+from .reforme_tva import ReformeTVA
+
+__all__ = ["ReformeBaremeIR", "ReformeTVA"]

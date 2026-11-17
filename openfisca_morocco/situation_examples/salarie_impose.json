@@ -1,0 +1,39 @@
+{
+    "persons": {
+        "Salarie": {
+            "birth": {
+                "ETERNITY": "1985-06-15"
+            },
+            "salaire_brut": {
+                "2026": 120000
+            },
+            "salaire_brut_global": {
+                "2026": 120000
+            },
+            "elements_exoneres": {
+                "2026": 0
+            },
+            "nombre_personnes_a_charge": {
+                "2026": 1
+            },
+            "impot_sur_le_revenu": {
+                "2026": null
+            }
+        },
+        "Enfant1": {
+            "birth": {
+                "ETERNITY": "2015-01-01"
+            }
+        }
+    },
+    "households": {
+        "Menage": {
+            "adults": [
+                "Salarie"
+            ],
+            "children": [
+                "Enfant1"
+            ]
+        }
+    }
+}
