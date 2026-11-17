@@ -1,3 +1,15 @@
+## 0.10.1
+
+* Documentation.
+* Impacted areas: `openfisca_morocco/parameters/` metadata.
+* Details:
+  - Replace the private-corpus and DGI-homepage references with public,
+    article-level sources: Ma Loi for the CGI, CNSS for social contributions and
+    family allowances, ANSS for direct social support, and Ma Loi for the AMO
+    code.
+  - The parameter explorer deployed from this package can now render usable
+    "Références législatives" links; no parameter value changed.
+
 ## 0.10.0 - [#10](https://github.com/MasterSwords1/openfisca-morocco/issues/10) [#11](https://github.com/MasterSwords1/openfisca-morocco/issues/11)
 
 * Tax and benefit system evolution.
