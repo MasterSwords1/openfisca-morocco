@@ -4,7 +4,7 @@ requires = ["setuptools-scm"]
 
 [project]
 name = "openfisca-morocco"
-version = "0.10.2"
+version = "1.0.0"
 description = "OpenFisca Rules as Code model for Morocco."
 readme = "README.md"
 keywords = [ "benefit", "microsimulation", "rac", "rules-as-code", "tax" ]
@@ -45,11 +45,11 @@ dev = [
 ]
 
 [project.urls]
-Changelog = "git://github.com/MasterSwords1/openfisca-morocco.git/blob/main/CHANGELOG.md"
+Changelog = "https://github.com/MasterSwords1/openfisca-morocco/blob/main/CHANGELOG.md"
 Documentation = "https://openfisca.org/doc"
-Homepage = "git://github.com/MasterSwords1/openfisca-morocco.git"
-Issues = "git://github.com/MasterSwords1/openfisca-morocco.git/issues"
-Repository = "git://github.com/MasterSwords1/openfisca-morocco.git"
+Homepage = "https://github.com/MasterSwords1/openfisca-morocco"
+Issues = "https://github.com/MasterSwords1/openfisca-morocco/issues"
+Repository = "https://github.com/MasterSwords1/openfisca-morocco"
 
 [tool.ruff]
 target-version = "py39"
@@ -73,4 +73,9 @@ testpaths = [ "openfisca_morocco/tests" ]
 python_files = "**/*.py"
 
 [tool.setuptools.package-data]
-openfisca_morocco = [ "data/*.json" ]
+openfisca_morocco = [
+    "data/*.json",
+    "parameters/**/*.yaml",
+    "situation_examples/*.json",
+    "tests/**/*.yaml",
+]
