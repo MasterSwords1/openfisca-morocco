@@ -1,6 +1,6 @@
 # OpenFisca Morocco
 
-[![CI](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml/badge.svg?branch=main&event=pull_request)](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml)
+[![CI](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml/badge.svg)](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml)
 
 [OpenFisca](https://openfisca.org) model of Moroccan tax and benefit law, as
 code.
@@ -770,12 +770,13 @@ public, published package.
    build the distributions with `uv build`, and check them with
    `uv run --frozen twine check dist/*`.
 3. Make the repository public and configure the PyPI trusted publisher for
-   `.github/workflows/cd.yaml` and the `pypi` environment. Use one publication
-   path and verify the resulting `1.0.0` tag points to the published source.
+   `.github/workflows/cd.yaml` and the `pypi` environment. From `main`, manually
+   run **Continuous deployment** in GitHub Actions. Verify the resulting
+   `1.0.0` tag points to the published source.
 4. In a clean directory outside the checkout, run `uv init --bare`,
    `uv add openfisca-morocco==1.0.0`, and `uv run openfisca test
    --country-package openfisca_morocco /path/to/checkout/openfisca_morocco/tests`
-   against a copy of the release's YAML scenarios. Confirm the installed package
+   against the release's YAML scenarios. Confirm the installed package
    is imported from the clean environment.
 5. After publication, add the `openfisca` topic and enable the PyPI badge below.
    Submit Morocco (`MA`) to the [OpenFisca packages listing](https://openfisca.org/en/packages/)
