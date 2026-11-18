@@ -1,3 +1,9 @@
+# 1.0.0 - [#12](https://github.com/MasterSwords1/openfisca-morocco/issues/12)
+
+* Technical improvement.
+* Prepare the first public release. The wheel ships legislation parameters,
+  example situations, and YAML scenarios for verifying an installed copy.
+
 ## 0.10.2
 
 * Documentation.
