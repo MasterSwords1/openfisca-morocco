@@ -1,5 +1,7 @@
 # OpenFisca Morocco
 
+[![CI](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml/badge.svg?branch=main&event=pull_request)](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml)
+
 [OpenFisca](https://openfisca.org) model of Moroccan tax and benefit law, as
 code.
 
@@ -751,6 +753,37 @@ realistic situation and reform examples, PyPI publication — is tracked in the
 [v1.0 milestone](https://github.com/MasterSwords1/openfisca-morocco/milestone/1).
 Each issue states its goal, scope, acceptance criteria and the issues it depends
 on.
+
+## Release and community listing
+
+Publication of `1.0.0` is postponed. Before starting, make sure the project
+issues other than the release and community listing are resolved. See the
+[release issue](https://github.com/MasterSwords1/openfisca-morocco/issues/12)
+and the [community listing issue](https://github.com/MasterSwords1/openfisca-morocco/issues/13).
+If the release issue still requires the listing issue to close first, reconcile
+the dependency in those issues before proceeding. The listing requires a
+public, published package.
+
+1. Confirm the AGPL-3.0-or-later licence and template attribution. Review the
+   full Git history for secrets before changing repository visibility.
+2. Prepare the `1.0.0` version and changelog on a release branch. Run the tests,
+   build the distributions with `uv build`, and check them with
+   `uv run --frozen twine check dist/*`.
+3. Make the repository public and configure the PyPI trusted publisher for
+   `.github/workflows/cd.yaml` and the `pypi` environment. Use one publication
+   path and verify the resulting `1.0.0` tag points to the published source.
+4. In a clean directory outside the checkout, run `uv init --bare`,
+   `uv add openfisca-morocco==1.0.0`, and `uv run openfisca test
+   --country-package openfisca_morocco /path/to/checkout/openfisca_morocco/tests`
+   against a copy of the release's YAML scenarios. Confirm the installed package
+   is imported from the clean environment.
+5. After publication, add the `openfisca` topic and enable the PyPI badge below.
+   Submit Morocco (`MA`) to the [OpenFisca packages listing](https://openfisca.org/en/packages/)
+   and link the upstream pull request from the community listing issue.
+
+<!-- Enable after the first PyPI release:
+[![PyPI](https://img.shields.io/pypi/v/openfisca-morocco)](https://pypi.org/project/openfisca-morocco/)
+-->
 
 ## Contributing
 
