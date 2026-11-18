@@ -7,6 +7,8 @@
     private consolidator: SGG Bulletin Officiel PDFs (BO 5487-bis for the CGI,
     BO 7362 for the 2025 finance law, BO 7253 for the 2024 finance law) and the
     ANSS/CNSS official pages.
+  - Ship the legislation parameters, situation examples and YAML scenarios in
+    the wheel, and verify the installed wheel outside the checkout in CI.
   - No parameter value changed.
 
 ## 0.10.1
