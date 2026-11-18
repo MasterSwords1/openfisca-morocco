@@ -47,3 +47,14 @@ jobs:
 
       - name: Test the built package
         run: uv run --frozen twine check dist/*
+
+      - name: Test the installed wheel outside the checkout
+        run: |
+          wheel=("$GITHUB_WORKSPACE"/dist/*.whl)
+          test "${#wheel[@]}" -eq 1
+          cd "$RUNNER_TEMP"
+          venv="$RUNNER_TEMP/openfisca-release-venv"
+          uv venv "$venv"
+          uv pip install --python "$venv/bin/python" "${wheel[0]}"
+          scenarios="$("$venv/bin/python" -c 'from pathlib import Path; import openfisca_morocco; print(Path(openfisca_morocco.__file__).parent / "tests")')"
+          "$venv/bin/openfisca" test --country-package openfisca_morocco "$scenarios"
