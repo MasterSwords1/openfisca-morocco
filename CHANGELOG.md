@@ -1,9 +1,3 @@
-# 1.0.0 - [#12](https://github.com/MasterSwords1/openfisca-morocco/issues/12)
-
-* Technical improvement.
-* Prepare the first public release. The wheel ships legislation parameters,
-  example situations, and YAML scenarios for verifying an installed copy.
-
 ## 0.10.2
 
 * Documentation.
@@ -13,6 +7,8 @@
     private consolidator: SGG Bulletin Officiel PDFs (BO 5487-bis for the CGI,
     BO 7362 for the 2025 finance law, BO 7253 for the 2024 finance law) and the
     ANSS/CNSS official pages.
+  - Ship the legislation parameters, situation examples and YAML scenarios in
+    the wheel, and verify the installed wheel outside the checkout in CI.
   - No parameter value changed.
 
 ## 0.10.1

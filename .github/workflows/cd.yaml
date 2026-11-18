@@ -8,10 +8,15 @@ concurrency:
 
 jobs:
   build:
-    if: github.ref == 'refs/heads/main' && github.event.repository.visibility == 'public'
     runs-on: ubuntu-latest
 
     steps:
+      - name: Check the release preconditions
+        if: github.ref != 'refs/heads/main' || github.event.repository.visibility != 'public'
+        run: |
+          echo "::error::Releases must be dispatched from public main."
+          exit 1
+
       - uses: actions/checkout@v7.0.1
 
       - name: "Set up Python"

@@ -50,8 +50,12 @@ jobs:
 
       - name: Test the installed wheel outside the checkout
         run: |
+          shopt -s nullglob
           wheel=("$GITHUB_WORKSPACE"/dist/*.whl)
-          test "${#wheel[@]}" -eq 1
+          if [[ "${#wheel[@]}" -ne 1 ]]; then
+            echo "::error::Expected exactly one wheel in dist/, found ${#wheel[@]}."
+            exit 1
+          fi
           cd "$RUNNER_TEMP"
           venv="$RUNNER_TEMP/openfisca-release-venv"
           uv venv "$venv"
