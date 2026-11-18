@@ -1,11 +1,14 @@
 ---
 name: Continuous deployment
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pypi-release
 
 jobs:
   build:
+    if: github.ref == 'refs/heads/main' && github.event.repository.visibility == 'public'
     runs-on: ubuntu-latest
 
     steps:
@@ -53,6 +56,8 @@ jobs:
       - name: Publish
         run: uv publish
   push-tag:
+    permissions:
+      contents: write
     needs:
       - publish
     runs-on: ubuntu-latest
@@ -68,6 +73,6 @@ jobs:
 
       - name: Add tag on GitHub
         run: |
-          uv version --short
-          git tag `uv version --short`
-          git push --tags
+          version="$(uv version --short)"
+          git tag "$version"
+          git push origin "refs/tags/$version"
