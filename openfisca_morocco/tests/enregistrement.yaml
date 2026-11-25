@@ -1,0 +1,155 @@
+# Droits d'enregistrement et conservation foncière (CGI 2026, décret 2-16-375).
+# 4 % locaux construits, 5 % terrains nus, 6 % fonds de commerce ; minimum de
+# 100 DH sur les droits proportionnels ; conservation 1,5 % + 100 DH, minimum
+# 500 DH, certificat de 100 DH en option.
+
+- name: Local construit — 4 %, conservation et total
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: immeuble_bati
+        valeur_bien_acquis: {2026: 1000000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 40000
+        frais_conservation_fonciere: 15100
+        frais_acquisition_immobiliere_totaux: 55100
+
+- name: Local construit avec certificat de propriété — 100 DH de plus
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: immeuble_bati
+        valeur_bien_acquis: {2026: 1000000}
+        demande_certificat_propriete: true
+  output:
+    households:
+      Menage:
+        frais_conservation_fonciere: 15200
+        frais_acquisition_immobiliere_totaux: 55200
+
+- name: Terrain nu — 5 % et conservation
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: terrain_nu
+        valeur_bien_acquis: {2026: 1000000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 50000
+        frais_conservation_fonciere: 15100
+        frais_acquisition_immobiliere_totaux: 65100
+
+- name: Fonds de commerce — 6 %, sans conservation foncière
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: fonds_commerce
+        valeur_bien_acquis: {2026: 1000000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 60000
+        frais_conservation_fonciere: 0
+        frais_acquisition_immobiliere_totaux: 60000
+
+- name: Petite acquisition — minimum de 100 DH et plancher de conservation
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: immeuble_bati
+        valeur_bien_acquis: {2026: 10000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 400
+        frais_conservation_fonciere: 500
+        frais_acquisition_immobiliere_totaux: 900
+
+- name: Acquisition à 1 000 DH — droit proportionnel minimum de 100 DH
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: immeuble_bati
+        valeur_bien_acquis: {2026: 1000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 100
+        frais_conservation_fonciere: 500
+        frais_acquisition_immobiliere_totaux: 600
+
+- name: Paiement non traçable au-delà de 300 000 DH — supplément de 2 %
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        type_acquisition_immobiliere: immeuble_bati
+        valeur_bien_acquis: {2026: 1000000}
+        paiement_par_moyen_tracable: false
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 60000
+        frais_conservation_fonciere: 15100
+        frais_acquisition_immobiliere_totaux: 75100
+
+- name: Type d'acquisition non renseigné — aucun droit
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+        valeur_bien_acquis: {2026: 1000000}
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 0
+        frais_conservation_fonciere: 0
+        frais_acquisition_immobiliere_totaux: 0
+
+- name: Aucune acquisition — aucun droit
+  period: 2026
+  input:
+    persons:
+      Parent: {}
+    households:
+      Menage:
+        adults: [Parent]
+  output:
+    households:
+      Menage:
+        droits_enregistrement: 0
+        frais_conservation_fonciere: 0
+        frais_acquisition_immobiliere_totaux: 0

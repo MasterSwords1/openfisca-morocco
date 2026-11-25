@@ -15,7 +15,7 @@ for **monthly** periods, **aide sociale directe (ASD)** under the published
 statutory schedules for **monthly** periods, including the September
 school-return allowance and the placement and exceptional allowances, and the
 **taxe sur la valeur ajoutée (TVA)**
-declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**.
+declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**, and **registration duties and land-conservation fees** on real-estate acquisitions and company capital from 2026.
 ASD eligibility inputs and registry limitations are documented in
 [`docs/aide-sociale-directe.md`](docs/aide-sociale-directe.md).
 
@@ -422,6 +422,7 @@ names the article it comes from.
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
+| Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 6577 bis) and Décret n° 2-16-375 (BO n° 6484); 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
 | IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net income in 2025 |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
@@ -498,7 +499,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 373 passed, 5 skipped (plus 207 pytest tests)
+# 392 passed, 5 skipped (plus 217 pytest tests)
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -666,6 +667,7 @@ The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
 `openfisca_morocco/tests/ir_regimes_professionnels.yaml`,
 `openfisca_morocco/tests/ir_deductions_globales.yaml`,
 `openfisca_morocco/tests/ir_patrimoine.yaml`,
+`openfisca_morocco/tests/enregistrement.yaml`,
 `openfisca_morocco/tests/test_ir_categories_gating.py`,
 `openfisca_morocco/tests/test_ir_parameter_tables.py`,
 `openfisca_morocco/tests/test_ir_deductions_election.py` and
@@ -716,6 +718,7 @@ openfisca_morocco/
 ├── parameters/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
 │   ├── prestations_sociales/   # cotisations CNSS, AMO, allocations familiales, ASD
+│   ├── enregistrement/         # registration and conservation duties
 │   └── tva/                    # dated rates 2004-2026, transitional schedules
 ├── variables/
 │   ├── aide_sociale_directe.py # ASD monthly household estimate
@@ -723,6 +726,7 @@ openfisca_morocco/
 │   ├── aide_speciale_enfants_places.py # ASD special allowance for placed children
 │   ├── prime_exceptionnelle_asd.py # ASD exceptional allowance after a CNSS declaration
 │   ├── cotisations_sociales.py # CNSS and AMO contributions (employee & employer)
+│   ├── enregistrement.py       # registration and conservation duties
 │   ├── impot_revenu.py         # the IR pipeline
 │   ├── tva.py                  # monthly company TVA declaration
 │   └── demographics.py         # birth, age
