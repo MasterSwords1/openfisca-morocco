@@ -1,57 +1,88 @@
 # Barème progressif annuel de l'impôt sur le revenu (IR).
-# Article 73-I du Code Général des Impôts (Loi n° 43-06), tel que réformé par la
-# Loi de Finances 2025. Le barème s'applique au revenu net imposable annuel.
-# Les barèmes antérieurs à 2025 ne sont pas encore encodés.
-# Impôt = taux × revenu − somme à déduire (par tranche) :
-#   ≤ 40 000 DH : 0 %
-#   40 001–60 000 : 10 % (à déduire : 4 000)
-#   60 001–80 000 : 20 % (à déduire : 10 000)
-#   80 001–100 000 : 30 % (à déduire : 18 000)
-#   100 001–180 000 : 34 % (à déduire : 22 000)
-#   > 180 000 : 37 % (à déduire : 27 400)
+# Article 73-I du Code Général des Impôts (Loi n° 43-06).
+#
+# Deux barèmes sont encodés :
+#   - du 2010-01-01 au 2024-12-31 (Loi de finances n° 48-09 pour 2010) :
+#       ≤ 30 000 DH : 0 % ; 30 001–50 000 : 10 % ; 50 001–60 000 : 20 % ;
+#       60 001–80 000 : 30 % ; 80 001–180 000 : 34 % ; > 180 000 : 38 %
+#     (sommes à déduire : 0 / 3 000 / 8 000 / 14 000 / 17 200 / 24 400)
+#   - à partir du 2025-01-01 (Loi de finances n° 60-24 pour 2025) :
+#       ≤ 40 000 DH : 0 % ; 40 001–60 000 : 10 % ; 60 001–80 000 : 20 % ;
+#       80 001–100 000 : 30 % ; 100 001–180 000 : 34 % ; > 180 000 : 37 %
+#     (sommes à déduire : 0 / 4 000 / 10 000 / 18 000 / 22 000 / 27 400)
 description: Barème de l'impôt sur le revenu - article 73-I du CGI
 metadata:
   reference:
     - title: Code Général des Impôts, article 73-I (Direction Générale des Impôts)
-      href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
-    - title: Loi de Finances 2025 (réforme du barème progressif)
+      href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+    - title: >-
+        Loi de finances n° 48-09 pour l'année budgétaire 2010, BO n° 5800 bis
+        (barème 2010–2024)
+      href: https://www.sgg.gov.ma/BO/bo_fr/2009/bo_5800-bis_fr.pdf
+    - title: >-
+        Loi de finances n° 60-24 pour l'année budgétaire 2025, BO n° 7362 bis
+        (barème à partir de 2025)
       href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
   threshold_unit: currency-MAD
   rate_unit: /1
 brackets:
 - rate:
+    2010-01-01:
+      value: 0.0
     2025-01-01:
       value: 0.0
   threshold:
+    2010-01-01:
+      value: 0.0
     2025-01-01:
       value: 0.0
 - rate:
+    2010-01-01:
+      value: 0.10
     2025-01-01:
       value: 0.10
   threshold:
+    2010-01-01:
+      value: 30000.0
     2025-01-01:
       value: 40000.0
 - rate:
+    2010-01-01:
+      value: 0.20
     2025-01-01:
       value: 0.20
   threshold:
+    2010-01-01:
+      value: 50000.0
     2025-01-01:
       value: 60000.0
 - rate:
+    2010-01-01:
+      value: 0.30
     2025-01-01:
       value: 0.30
   threshold:
+    2010-01-01:
+      value: 60000.0
     2025-01-01:
       value: 80000.0
 - rate:
+    2010-01-01:
+      value: 0.34
     2025-01-01:
       value: 0.34
   threshold:
+    2010-01-01:
+      value: 80000.0
     2025-01-01:
       value: 100000.0
 - rate:
+    2010-01-01:
+      value: 0.38
     2025-01-01:
       value: 0.37
   threshold:
+    2010-01-01:
+      value: 180000.0
     2025-01-01:
       value: 180000.0

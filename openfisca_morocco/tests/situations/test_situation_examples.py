@@ -46,7 +46,7 @@ def test_salarie_below_exemption():
 def test_salarie_above_exemption():
     simulation = _simulate("salarie_impose.json")
     assert _value(simulation, "impot_sur_le_revenu", "2026") == pytest.approx(
-        7_064.04, abs=0.01
+        6_618.72, abs=0.01
     )
     assert _value(simulation, "deduction_charges_famille", "2026") == 600
 
@@ -54,8 +54,8 @@ def test_salarie_above_exemption():
 def test_couple_with_children():
     simulation = _simulate("couple_avec_enfants.json")
     incomes = simulation.calculate("impot_sur_le_revenu", "2026")
-    assert float(incomes[0]) == pytest.approx(1_790.72, abs=0.01)
-    assert float(incomes[1]) == pytest.approx(364.57, abs=0.01)
+    assert float(incomes[0]) == pytest.approx(1_520.96, abs=0.01)
+    assert float(incomes[1]) == pytest.approx(194.72, abs=0.01)
     assert _value(simulation, "deduction_charges_famille", "2026") == 1_800
 
 

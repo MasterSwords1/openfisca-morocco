@@ -30,9 +30,9 @@
     nombre_personnes_a_charge: 0
   output:
     cotisations_sociales_obligatoires: 5937.60
-    frais_professionnels: 28515.60
-    salaire_net_imposable: 85546.80
-    impot_sur_le_revenu: 7664.04
+    frais_professionnels: 30000  # 25 % de 120 000, sur le brut imposable
+    salaire_net_imposable: 84062.40
+    impot_sur_le_revenu: 7218.72
 
 - name: Salaire de 36 000 DH sans cotisations — sous le seuil d'exonération, impôt nul
   period: 2025
@@ -109,3 +109,185 @@
     ir_brut: 137250  # 37 % × 445 000 − 27 400
     deduction_charges_famille: 3000  # plafonné à 6 personnes
     impot_sur_le_revenu: 134250
+
+# --- Historical scales and deductions (issue #46) ---
+# Barème 2010–2024: 0 / 30 000 / 50 000 / 60 000 / 80 000 / 180 000 with
+# 0 / 10 / 20 / 30 / 34 / 38 %. Frais professionnels: 20 % capped at 30 000 DH
+# until 2022, then 35 % up to 78 000 DH and 25 % above, capped at 35 000 DH.
+# Family deduction: 360 DH per dependent, capped at 6 (2 160 DH).
+
+- name: 2010 — barème historique et frais professionnels à 20 %
+  period: 2010
+  input:
+    salaire_brut_global: 60000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 12000  # 20 % de 60 000, sous le plafond de 30 000
+    salaire_net_imposable: 48000
+    ir_brut: 1800  # 10 % × 48 000 − 3 000
+    impot_sur_le_revenu: 1800
+
+- name: 2018 — barème historique et deux personnes à charge à 360 DH
+  period: 2018
+  input:
+    salaire_brut_global: 120000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 2
+  output:
+    frais_professionnels: 24000  # 20 % de 120 000
+    salaire_net_imposable: 96000
+    ir_brut: 15440  # 34 % × 96 000 − 17 200
+    deduction_charges_famille: 720  # 2 × 360
+    impot_sur_le_revenu: 14720
+
+- name: 2022 — plafond historique de 30 000 DH et tranche à 38 %
+  period: 2022
+  input:
+    salaire_brut_global: 240000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 3
+  output:
+    frais_professionnels: 30000  # 20 % de 240 000 = 48 000, plafonné à 30 000
+    salaire_net_imposable: 210000
+    ir_brut: 55400  # 38 % × 210 000 − 24 400
+    deduction_charges_famille: 1080  # 3 × 360
+    impot_sur_le_revenu: 54320
+
+- name: 2023 — frais professionnels à 35 %/25 % et plafond de 35 000 DH
+  period: 2023
+  input:
+    salaire_brut_global: 100000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 1
+  output:
+    frais_professionnels: 25000  # 25 % de 100 000 (> 78 000)
+    salaire_net_imposable: 75000
+    ir_brut: 8500  # 30 % × 75 000 − 14 000
+    deduction_charges_famille: 360
+    impot_sur_le_revenu: 8140
+
+- name: 2024 — déduction familiale de 360 DH par personne
+  period: 2024
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 200000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 1
+  output:
+    ir_brut: 38900
+    deduction_charges_famille: 360
+    impot_sur_le_revenu: 38540
+
+- name: 2024 — plafond de frais professionnels de 35 000 DH
+  period: 2024
+  input:
+    salaire_brut_global: 200000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 35000  # 25 % de 200 000 = 50 000, plafonné à 35 000
+    salaire_net_imposable: 165000
+    ir_brut: 38900  # 34 % × 165 000 − 17 200
+    impot_sur_le_revenu: 38900
+
+- name: 2023 — taux de 35 % en dessous du seuil de 78 000 DH
+  period: 2023
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 60000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 21000  # 35 % de 60 000
+    salaire_net_imposable: 39000
+    ir_brut: 900  # 10 % × 9 000
+    impot_sur_le_revenu: 900
+
+- name: 2023 — seuil exact de 78 000 DH, taux de 35 %
+  period: 2023
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 78000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 27300  # 35 % de 78 000
+    salaire_net_imposable: 50700
+    ir_brut: 2140  # 10 % × 20 000 + 20 % × 700
+
+- name: 2023 — un dirham au-dessus du seuil, bascule à 25 %
+  period: 2023
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 78001
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 19500.25  # 25 % de 78 001, et non 35 %
+    salaire_net_imposable: 58500.75
+    ir_brut: 3700.15  # 10 % × 20 000 + 20 % × 8 500,75
+    impot_sur_le_revenu: 3700.15
+
+- name: 2023 — plafond de 35 000 DH atteint au taux de 25 %
+  period: 2023
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 150000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 0
+  output:
+    frais_professionnels: 35000  # 25 % de 150 000 = 37 500, plafonné
+    salaire_net_imposable: 115000
+    ir_brut: 21900  # 34 % × 115 000 − 17 200
+    impot_sur_le_revenu: 21900
+
+- name: 2022 — plafond de 6 personnes à charge (2 160 DH)
+  period: 2022
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 240000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 7
+  output:
+    frais_professionnels: 30000
+    salaire_net_imposable: 210000
+    ir_brut: 55400
+    deduction_charges_famille: 2160  # 6 × 360, et non 7 × 360
+    impot_sur_le_revenu: 53240
+
+- name: 2025 — déduction familiale de 500 DH par personne
+  period: 2025
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 100000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 1
+  output:
+    ir_brut: 5000
+    deduction_charges_famille: 500
+    impot_sur_le_revenu: 4500
+
+- name: 2025 — plafond de 6 personnes à charge (3 000 DH)
+  period: 2025
+  absolute_error_margin: 0.01
+  input:
+    salaire_brut_global: 100000
+    elements_exoneres: 0
+    cotisations_sociales_obligatoires: 0
+    nombre_personnes_a_charge: 7
+  output:
+    deduction_charges_famille: 3000  # 6 × 500, et non 7 × 500
+    impot_sur_le_revenu: 2000

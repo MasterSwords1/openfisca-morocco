@@ -1,14 +1,16 @@
 """Impôt sur le revenu (IR) — revenus salariaux et assimilés.
 
-Pipeline encoded from the Code Général des Impôts (Loi n° 43-06), as reformed
-by the Loi de Finances 2025:
+Pipeline encoded from the Code Général des Impôts (Loi n° 43-06):
 
 - article 56: salarial income subject to the IR
-- article 59: forfaitary professional-expense deduction (35 % up to 78 000 DH of
-  gross annual pay, 25 % above, both capped at 35 000 DH)
-- article 73-I: progressive annual scale on net taxable income
-- article 74: 600 DH deduction per dependent from 2026 (500 in 2025),
-  capped at 6 dependents
+- article 59: forfaitary professional-expense deduction on gross taxable pay
+  (20 % capped at 30 000 DH from 2010 to 2022; 35 % up to 78 000 DH of gross
+  annual pay, 25 % above, both capped at 35 000 DH from 2023); social
+  contributions are deducted separately, not from the forfait base
+- article 73-I: progressive annual scale on net taxable income (2010-2024
+  scale and the 2025 reform)
+- article 74: 360 DH deduction per dependent from 2010 to 2024, 500 DH in 2025
+  and 600 DH from 2026, capped at 6 dependents
 
 Salary and exempt remuneration inputs are monthly amounts. Annual totals can
 still be supplied and are divided between months by OpenFisca. The taxable
@@ -100,19 +102,22 @@ class frais_professionnels(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 59
 
     def formula(person, period, parameters):
-        base = person("salaire_brut_imposable", period) - person(
-            "cotisations_sociales_obligatoires", period
-        )
-        seuil = parameters(
-            period
-        ).impot_revenu.frais_professionnels.seuil_taux_basse_remuneration
-        taux = (person("salaire_brut_imposable", period) <= seuil) * parameters(
-            period
-        ).impot_revenu.frais_professionnels.taux_basse_remuneration + (
-            person("salaire_brut_imposable", period) > seuil
-        ) * parameters(period).impot_revenu.frais_professionnels.taux_haute_remuneration
-        plafond = parameters(period).impot_revenu.frais_professionnels.plafond
-        return min_(base * taux, plafond)
+        if period.start.year < 2010:
+            raise ValueError("The IR pipeline is only modelled from 2010.")
+        params = parameters(period).impot_revenu.frais_professionnels
+        # Art. 59-I: the forfait applies to the gross art. 56 income less the
+        # art. 57 exempt elements. Social contributions are deducted separately
+        # (art. 59-II), not from the forfait base.
+        base = person("salaire_brut_imposable", period)
+        if period.start.year < 2023:
+            taux = params.taux_2010_2022
+        else:
+            taux = where(
+                base <= params.seuil_taux_basse_remuneration,
+                params.taux_basse_remuneration,
+                params.taux_haute_remuneration,
+            )
+        return min_(base * taux, params.plafond)
 
 
 class salaire_net_imposable(Variable):
@@ -367,6 +372,8 @@ class ir_brut(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 73-I
 
     def formula(person, period, parameters):
+        if period.start.year < 2010:
+            raise ValueError("The IR scale is only modelled from 2010.")
         bareme = parameters(period).impot_revenu.bareme
         return bareme.calc(person("revenu_imposable_apres_deductions", period))
 
@@ -376,7 +383,7 @@ class deduction_charges_famille(Variable):
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Déduction pour charges de famille (500 DH en 2025, 600 DH à partir de 2026, maximum 6 personnes)"
+    label = "Déduction pour charges de famille (360 DH jusqu'en 2024, 500 DH en 2025, 600 DH à partir de 2026, maximum 6 personnes)"
     reference = "https://www.tax.gov.ma"  # CGI, article 74
 
     def formula(person, period, parameters):

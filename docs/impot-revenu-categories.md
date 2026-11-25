@@ -1,7 +1,8 @@
 # IR: professional, rental and capital income
 
 This page documents the categories added to the `impot_revenu` pipeline for the
-2026 rules. The salarial pipeline (2025 onward) is unchanged.
+2026 rules. The salarial pipeline is unchanged and runs from 2010 (see the
+historical scales in the README).
 
 ## Scope
 
@@ -107,14 +108,24 @@ a **sum of individual liabilities**, not a joint barème. It is informational an
 matches what the household owes in total, but it cannot be used to derive a
 marginal rate for the household.
 
-## 2025 and earlier
+## Before 2026
 
-- Rental and capital rules are encoded **from 2026 only**. A 2025 or earlier
-  simulation that supplies rental or capital income **raises an error** instead
-  of applying a 2026 rate to an earlier year.
-- Professional net income is accepted from 2025, because the net-réel regime and
-  the barème exist in 2025; no category rate is involved.
-- The 2026 family deduction replaces the 2025 value from 2026-01-01.
+- The salarial pipeline uses the historical 2010–2024 scale, a 20 %
+  professional-expense deduction on gross taxable pay before contributions
+  capped at 30 000 DH (35 %/25 %, capped at 35 000 DH, from 2023; the
+  78 000 DH threshold switches the whole forfait to 25 %) and a 360 DH family
+  deduction, then the 2025 values. IR before 2010 is not modelled.
+- Rental and capital rules are encoded **from 2026 only**. A simulation before
+  2026 that supplies rental or capital income **raises an error** instead of
+  applying a 2026 rate to an earlier year.
+- Professional net income under the *résultat net réel* regime is accepted
+  before 2026, because that regime and the barème exist; the simplified, CPU and
+  auto-entrepreneur regimes raise.
+- The default CNSS/AMO chain starts in 2016. For 2010–2015, supply
+  `cotisations_sociales_obligatoires` explicitly; otherwise the contribution
+  layer raises before the IR is calculated.
+- The family deduction is 360 DH per dependent from 2010 to 2024, 500 DH in
+  2025 and 600 DH from 2026.
 
 ## Rental withholding
 

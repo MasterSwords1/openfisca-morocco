@@ -6,8 +6,10 @@
 code. The project was started from the [OpenFisca Country Template](https://github.com/openfisca/country-template).
 
 **Status: early.** The package models: the **impôt sur le revenu (IR)** on
-salarial income for **annual** periods under the rules in force since
-**1 January 2025**, professional income from 2025, and rental, capital,
+salarial income for **annual** periods from **1 January 2010**, with the
+historical scales and deductions of 2010–2024 and the 2025 reform (before 2016,
+pass `cotisations_sociales_obligatoires` explicitly), professional income from
+2025 (net-réel input accepted from 2010), and rental, capital,
 professional-regime, property and foreign income from 2026 (see
 [`docs/impot-revenu-categories.md`](docs/impot-revenu-categories.md)), the **cotisations sociales obligatoires (CNSS + AMO)** and
 charges patronales for **monthly** periods, the contributory **allocations familiales (CNSS)**
@@ -25,7 +27,7 @@ ASD eligibility inputs and registry limitations are documented in
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
 | Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales, Aide sociale directe) |
-| First modelled period | 2004-01-01 (TVA), 2019-07-01 (Allocations familiales), 2023-12-01 (Aide sociale directe), 2025-01-01 (IR, Cotisations) |
+| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (default CNSS/AMO), 2019-07-01 (Allocations familiales), 2023-12-01 (Aide sociale directe) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -48,6 +50,10 @@ salaire_brut_global − elements_exoneres            (art. 56, 57)
     = impot_sur_le_revenu  (floored at 0)
 ```
 
+The professional-expense forfait is computed on `salaire_brut_imposable`
+(art. 59-I), not on the balance after social contributions; the contributions
+are a separate deduction (art. 59-II).
+
 Dividends, fixed-income interest and capital gains are taxed at liberatory rates
 outside this barème; `impot_capitaux_mobiliers` reports them and
 `impot_sur_le_revenu_menage` sums the individual liabilities.
@@ -56,24 +62,31 @@ outside this barème; `impot_capitaux_mobiliers` reports them and
 
 | CGI article | Provision | Variables | Parameters | From |
 |---|---|---|---|---|
-| 56 | Salaries, wages, benefits in cash or in kind | `salaire_brut_global` (input) | — | 2025-01-01 |
-| 57 | Exempt elements of pay | `elements_exoneres` (input) | — | 2025-01-01 |
-| 58 | Compulsory social contributions borne by the employee | `cotisations_sociales_obligatoires` (input) | — | 2025-01-01 |
-| 56–58 | Gross taxable pay | `salaire_brut_imposable` | — | 2025-01-01 |
-| 59 | Forfaitary professional-expense deduction | `frais_professionnels` | `impot_revenu.frais_professionnels` | 2025-01-01 |
-| 58–59 | Net taxable pay (the scale's base) | `salaire_net_imposable` | — | 2025-01-01 |
-| 73-I | Progressive annual scale | `ir_brut` | `impot_revenu.bareme` | 2025-01-01 |
-| 74 | Family-charge deduction | `deduction_charges_famille` | `impot_revenu.deduction_charges_famille` | 2025-01-01 |
-| 74 | Net income tax payable | `impot_sur_le_revenu` | — | 2025-01-01 |
+| 56 | Salaries, wages, benefits in cash or in kind | `salaire_brut_global` (input) | — | 2010-01-01 |
+| 57 | Exempt elements of pay | `elements_exoneres` (input) | — | 2010-01-01 |
+| 58 | Compulsory social contributions borne by the employee | `cotisations_sociales_obligatoires` (input) | — | 2010-01-01 |
+| 56–58 | Gross taxable pay | `salaire_brut_imposable` | — | 2010-01-01 |
+| 59 | Forfaitary professional-expense deduction | `frais_professionnels` | `impot_revenu.frais_professionnels` | 2010-01-01 |
+| 58–59 | Net taxable pay (the scale's base) | `salaire_net_imposable` | — | 2010-01-01 |
+| 73-I | Progressive annual scale | `ir_brut` | `impot_revenu.bareme` | 2010-01-01 |
+| 74 | Family-charge deduction | `deduction_charges_famille` | `impot_revenu.deduction_charges_famille` | 2010-01-01 |
+| 74 | Net income tax payable | `impot_sur_le_revenu` | — | 2010-01-01 |
 
 The figures, for reference:
 
-- **Scale (art. 73-I, LF 2025):** 0 % up to 40 000 DH, then 10 % (40 001–60 000),
-  20 % (60 001–80 000), 30 % (80 001–100 000), 34 % (100 001–180 000), 37 % above.
-- **Professional expenses (art. 59):** 35 % of gross pay up to 78 000 DH, 25 %
-  above, capped at 35 000 DH in both cases.
-- **Family charges (art. 74):** 600 DH per dependent from 2026 (500 DH before),
-  at most 6 dependents.
+- **Scale, 2010–2024 (art. 73-I, LF 2010):** 0 % up to 30 000 DH, then 10 %
+  (30 001–50 000), 20 % (50 001–60 000), 30 % (60 001–80 000), 34 %
+  (80 001–180 000), 38 % above.
+- **Scale, from 2025 (art. 73-I, LF 2025):** 0 % up to 40 000 DH, then 10 %
+  (40 001–60 000), 20 % (60 001–80 000), 30 % (80 001–100 000), 34 %
+  (100 001–180 000), 37 % above.
+- **Professional expenses (art. 59):** 20 % of gross taxable pay before social
+  contributions, capped at 30 000 DH, from 2010 to 2022; 35 % up to 78 000 DH
+  and 25 % above, capped at 35 000 DH, from 2023. The 78 000 DH threshold is a
+  switch, not a progressive band: 78 001 DH moves the whole forfait to 25 %.
+- **Family charges (art. 74):** 360 DH per dependent from 2010 to 2024, 500 DH
+  in 2025 and 600 DH from 2026, at most 6 dependents (2 160 DH maximum to 2024,
+  3 000 DH in 2025, 3 600 DH from 2026).
 
 `birth` and `age` are also available: they are factual demographics, not
 legislation, and carry no legal reference. Moroccan age-based provisions will
@@ -412,7 +425,8 @@ names the article it comes from.
 |---|---|
 | Code Général des Impôts (arts. 1–248) | Loi n° 43-06, Dahir n° 1-06-232 of 31 December 2006, *Bulletin Officiel* n° 5487 bis of 31 December 2006, pp. 4153–4210 |
 | Art. 73-I scale in force in 2025 | Loi de finances n° 60-24 for the 2025 budget year, Dahir n° 1-24-65 of 13 December 2024, *Bulletin Officiel* n° 7362 bis of 19 December 2024 |
-| Arts. 59 and 74 figures | CGI as encoded in the validated Catala model of the `morocco-holy-graph` corpus (`laws/ma_tax_law/catala/cgi_ir.catala_fr`) and cross-checked against its tests (`laws/ma_tax_law/tests/test_catala_tax.py`) |
+| Art. 73-I scale for 2010–2024 | Loi de finances n° 48-09 for the 2010 budget year, *Bulletin Officiel* n° 5800 bis of 31 December 2009; the same scale appears in the 2010, 2014, 2018, 2021 and 2024 consolidated CGI editions |
+| Arts. 59 and 74 figures | CGI arts. 59 and 74, read in the 2010, 2014, 2018, 2021 and 2024 consolidated editions and in Lois de finances n° 40-08 (BO n° 5695 bis), n° 48-09 (BO n° 5800 bis), n° 50-22 (BO n° 7154 bis), n° 60-24 (BO n° 7362 bis) and n° 50-25 (BO n° 7465 bis) |
 | TVA rates 2004–2026 | `morocco-holy-graph`, verified dataset `laws/ma_tax_law/data/tva_rate_history.json` (PR #81), where every rate carries a literal quote from the finance-law text layer; cross-checked by `openfisca_morocco/tests/test_tva_taux.py` |
 | Article 99 catalog entries | Consolidated snapshots in `laws/ma_tax_law/data/consolidated/tva_article_lists.json`; the package artifact preserves each selected item's quote, rate, ID and corpus path for snapshots 2007, 2010, 2014, 2018, 2021, 2024 and 2026. It has no CGI Article 99 edition for 2004. Effective dates are derived per boundary by `scripts/build_article99_attribution.py` from the seven consolidated editions and the fifteen finance-law transcriptions, and each dated boundary names its instrument, artifact, SHA-256 and verbatim quote. |
 | Articles 91 and 92 exemption entries | Consolidated snapshots from the same parsed source catalog for 2007, 2010, 2014, 2018, 2021, 2024 and 2026; 606 article-level and numbered-clause rows plus 603 nested sub-item rows retain their quotes, deduction treatment and printed `(abrogé)` status. Projected verbatim by `scripts/build_tva_article91_92_catalog.py`; snapshots do not establish continuous validity. |
@@ -423,15 +437,15 @@ names the article it comes from.
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 6577 bis) and Décret n° 2-16-375 (BO n° 6484); 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
-| IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net income in 2025 |
+| IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net-réel income whenever the barème exists (2010 onward) |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
 The corpus is the source of truth for this package: figures are taken from
-`morocco-holy-graph`, not from memory or from unversioned web pages. Where the
-corpus itself has not yet captured the controlling text (for example the
-pre-2025 versions of articles 59 and 73), the limitation is stated below rather
-than guessed.
+`morocco-holy-graph`, not from memory or from unversioned web pages. Where a
+controlling text has not been captured (for example IR before 2010, or the
+pre-2025 amendments to other IR categories), the limitation is stated below
+rather than guessed.
 
 ## Limitations
 
@@ -446,9 +460,23 @@ Stated plainly, because they determine what you may conclude from a simulation:
   before applying the annual IR scale. Monthly withholding (retenue à la
   source) is not modelled; annual tax divided by twelve is not a withholding
   calculation.
-- **IR from 2025 only.** Earlier IR scales, rates and thresholds are not
-  encoded, so an IR simulation for 2024 or before returns the 2025 law or a
-  default value — do not use it for historical IR work.
+- **Historical IR covers salarial income, plus any professional net-réel
+  income you supply.** The 2010–2024 scale, professional-expense deduction and
+  family-charge deduction are encoded. The historical professional-regime
+  deductions and ceilings are not, and rental, capital, property and foreign
+  income remain 2026-only; those categories raise before 2026.
+- **Historical payroll contributions start in 2016.** The default CNSS/AMO
+  chain needs parameters from 2016-01-01. For 2010–2015, supply
+  `cotisations_sociales_obligatoires` explicitly; otherwise the contribution
+  layer raises a parameter-not-found error before the IR is calculated.
+- **Professional-expense special categories and benefits in kind are not
+  modelled.** Every salaried person gets the general 20 % / 35 % / 25 % rate;
+  the art. 59 B/C rates for casino staff, journalists, sales representatives,
+  merchant navy and similar categories are absent. The forfait base is the
+  whole gross taxable pay, although art. 59 excludes benefits in cash or in
+  kind from that base.
+- **IR before 2010 is not modelled.** Earlier scales, rates and thresholds are
+  not encoded; an IR simulation for 2009 or before raises an error.
 - **TVA category history is snapshot-scoped.** Articles 91, 92 and 99 support
   exact item IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026; they
   do not classify descriptions or fill the periods between snapshots. The
@@ -499,7 +527,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 392 passed, 5 skipped (plus 217 pytest tests)
+# 411 passed, 5 skipped (plus 223 pytest tests)
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.
@@ -531,7 +559,7 @@ simulation = SimulationBuilder().build_from_dict(
 
 print(simulation.calculate("salaire_brut_global", "2025-01"))  # [10000.]
 print(simulation.calculate_add("salaire_brut_global", "2025"))  # [120000.]
-print(simulation.calculate("impot_sur_le_revenu", "2025").round(2))  # [7664.04]
+print(simulation.calculate("impot_sur_le_revenu", "2025").round(2))  # [7218.72]
 ```
 
 All monetary amounts are in Moroccan dirhams (MAD). Monthly salary inputs
