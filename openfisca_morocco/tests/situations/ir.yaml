@@ -32,7 +32,7 @@
   output:
     persons:
       Salarie:
-        impot_sur_le_revenu: 7064.04
+        impot_sur_le_revenu: 6618.72
         deduction_charges_famille: 600
 
 - name: Exemple historique de 2025 — 25 800 DH d'impôt
@@ -90,8 +90,8 @@
   output:
     persons:
       Conjoint1:
-        impot_sur_le_revenu: 1790.72
+        impot_sur_le_revenu: 1520.96
         deduction_charges_famille: 1800
       Conjoint2:
-        impot_sur_le_revenu: 364.57
+        impot_sur_le_revenu: 194.72
 

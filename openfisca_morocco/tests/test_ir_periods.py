@@ -32,10 +32,10 @@ def test_monthly_and_legacy_annual_inputs_produce_the_same_ir(annual_inputs):
     assert simulation.calculate("elements_exoneres", "2025-12")[0] == 1000
     assert simulation.calculate_add("salaire_brut_global", "2025")[0] == 120000
     assert simulation.calculate("salaire_brut_imposable", "2025")[0] == 108000
-    assert simulation.calculate("frais_professionnels", "2025")[0] == 25500
-    assert simulation.calculate("salaire_net_imposable", "2025")[0] == 76500
+    assert simulation.calculate("frais_professionnels", "2025")[0] == 27000
+    assert simulation.calculate("salaire_net_imposable", "2025")[0] == 75000
     assert simulation.calculate("impot_sur_le_revenu", "2025")[0] == pytest.approx(
-        4300, abs=0.02
+        4000, abs=0.02
     )
 
 
@@ -66,9 +66,10 @@ def test_varying_monthly_pay_uses_monthly_cnss_ceiling_and_annual_ir_scale():
         0
     ] == pytest.approx(5666.4, abs=0.02)
     assert simulation.calculate("salaire_brut_imposable", "2025")[0] == 99000
-    # (99 000 - 5 666.4) * 75% = 70 000.2; IR = 20% * net - 10 000 - 1 000.
+    # 99 000 * 25% = 24 750; net = 99 000 - 5 666.4 - 24 750 = 68 583.6;
+    # IR = 20% * net - 10 000 - 1 000 = 2 716.72.
     assert simulation.calculate("impot_sur_le_revenu", "2025")[0] == pytest.approx(
-        3000.04, abs=0.02
+        2716.72, abs=0.02
     )
 
 
@@ -95,7 +96,7 @@ def test_annual_contribution_salary_is_divided_before_applying_the_monthly_cap()
         0
     ] == pytest.approx(5937.6, abs=0.02)
     assert simulation.calculate("impot_sur_le_revenu", "2025")[0] == pytest.approx(
-        7664.04, abs=0.02
+        7218.72, abs=0.02
     )
 
 

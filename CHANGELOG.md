@@ -1,3 +1,33 @@
+## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2010-01-01 onwards.
+* Impacted areas: `parameters.impot_revenu`, `variables.impot_revenu`.
+* Details:
+  - Backdate the progressive IR scale to 2010: 0 / 30 000 / 50 000 / 60 000 /
+    80 000 / 180 000 DH with 0 / 10 / 20 / 30 / 34 / 38 % for 2010–2024
+    (Loi de finances n° 48-09), keeping the 2025 scale from 2025-01-01.
+  - Encode the historical professional-expense deduction: a uniform 20 %
+    capped at 30 000 DH from 2010 to 2022, then 35 % up to 78 000 DH and 25 %
+    above, capped at 35 000 DH, from 2023 (Loi de finances n° 50-22).
+  - **Correct the professional-expense base:** the forfait is computed on gross
+    taxable pay before social contributions (art. 59-I); contributions remain a
+    separate deduction (art. 59-II). This changes 2025 and 2026 IR when the
+    forfait is below its cap, for example 120 000 DH of pay with 5 937.60 DH of
+    contributions: the tax falls from 7 664.04 to 7 218.72 DH.
+  - Replace the pre-2023 zero-threshold encoding with an explicit `taux_2010_2022`
+    parameter; the two-rate regime and its 78 000 DH threshold start in 2023.
+  - Encode the historical family-charge deduction: 360 DH per dependent
+    (2 160 DH maximum) from 2010 to 2024, 500 DH in 2025 and 600 DH from 2026.
+  - Tests at 2010, 2018, 2022, 2023 and 2024 cover the scale, the expense cap,
+    the 78 000/78 001 DH switch, the 2 160/3 000 DH family caps and the
+    contribution-free base.
+  - Add a `ValueError` for IR before 2010; the default CNSS/AMO chain starts in
+    2016, so 2010–2015 simulations must supply contributions explicitly.
+  - Historical IR remains limited to salarial income plus supplied net-réel
+    professional income; rental, capital, property and foreign income are
+    still 2026-only.
+
 ## 0.11.0 - [#42](https://github.com/MasterSwords1/openfisca-morocco/issues/42)
 
 * Tax and benefit system evolution.

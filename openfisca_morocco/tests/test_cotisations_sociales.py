@@ -133,17 +133,18 @@ def test_cotisations_sociales_obligatoires_calculees_annuellement_dans_ir():
     )
     assert pytest.approx(cotisations_annuelles, rel=1e-4) == 5937.60
 
-    # Base des frais professionnels : brut imposable (120 000) - cotisations (5 937,60) = 114 062,40 MAD
+    # Base des frais professionnels : brut imposable (120 000), avant cotisations
+    # (art. 59-I ; les cotisations sont déduites séparément, art. 59-II).
     # Taux applicable : brut imposable > 78 000 DH -> taux 25 % (plafonné à 35 000 DH)
-    # Frais pro : 114 062,40 × 25 % = 28 515,60 MAD
+    # Frais pro : 120 000 × 25 % = 30 000 MAD
     frais_pro = float(sim.calculate("frais_professionnels", "2025")[0])
-    assert pytest.approx(frais_pro, rel=1e-4) == 28515.60
+    assert pytest.approx(frais_pro, rel=1e-4) == 30000.00
 
-    # Salaire net imposable : 120 000 - 5 937,60 - 28 515,60 = 85 546,80 MAD
+    # Salaire net imposable : 120 000 - 5 937,60 - 30 000 = 84 062,40 MAD
     net_imposable = float(sim.calculate("salaire_net_imposable", "2025")[0])
-    assert pytest.approx(net_imposable, rel=1e-4) == 85546.80
+    assert pytest.approx(net_imposable, rel=1e-4) == 84062.40
 
     # Barème LF 2025 sur tranche 80 001 - 100 000 DH (taux 30 %, somme à déduire 18 000 DH) :
-    # IR brut = 85 546,80 × 30 % - 18 000 = 25 664,04 - 18 000 = 7 664,04 MAD
+    # IR brut = 84 062,40 × 30 % - 18 000 = 25 218,72 - 18 000 = 7 218,72 MAD
     ir_net = float(sim.calculate("impot_sur_le_revenu", "2025")[0])
-    assert pytest.approx(ir_net, rel=1e-4) == 7664.04
+    assert pytest.approx(ir_net, rel=1e-4) == 7218.72
