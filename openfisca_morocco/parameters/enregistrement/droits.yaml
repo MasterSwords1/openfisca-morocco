@@ -1,0 +1,182 @@
+# Droits d'enregistrement et droits de conservation foncière.
+#
+# Sources : Code Général des Impôts (édition 2026) et Loi de finances n° 73-16
+# pour 2017 (BO n° 6577 bis du 12 juin 2017) pour les taux de l'article 133 ;
+# Décret n° 2-16-375 (BO n° 6484 du 21 juillet 2016) pour la conservation
+# foncière.
+#
+# Taux 2026 : 4 % pour les locaux construits (133-I-F-1°), 5 % pour les
+# terrains nus (133-I-G-1°), 6 % pour les fonds de commerce (133-I-A-1°),
+# 0,5 % pour les apports non exonérés (133-I-H). Les apports en numéraire purs
+# et simples sont exonérés par l'article 129-IV-23° ; les apports non exonérés
+# dont le capital n'excède pas 500 000 DH paient un droit fixe de 1 000 DH
+# (article 135-I-1°).
+
+description: Droits d'enregistrement et de conservation foncière
+
+enregistrement:
+  description: Droits proportionnels et droits fixes d'enregistrement
+
+  immeuble_bati:
+    description: >-
+      Taux applicable à l'acquisition de locaux construits, à usage
+      d'habitation, commercial, professionnel ou administratif
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            Loi de finances n° 73-16 pour 2017, BO n° 6577 bis — article 133-I-F
+            (taux de 4 %)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+    values:
+      2026-01-01:
+        value: 0.04
+
+  terrain_nu:
+    description: Taux applicable à l'acquisition de terrains nus ou de constructions destinées à être démolies
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            Loi de finances n° 73-16 pour 2017, BO n° 6577 bis — article 133-I-G
+            (taux de 5 %)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+    values:
+      2026-01-01:
+        value: 0.05
+
+  fonds_commerce:
+    description: Taux applicable à la cession d'un fonds de commerce ou d'une clientèle
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            Loi de finances n° 73-16 pour 2017, BO n° 6577 bis — article 133-I-A
+            (taux de 6 %)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+    values:
+      2026-01-01:
+        value: 0.06
+
+  constitution_societe:
+    description: >-
+      Taux applicable aux apports non exonérés lors d'une constitution ou
+      augmentation de capital
+    unit: /1
+    metadata:
+      reference:
+        - title: >-
+            DGI, Droits d'enregistrement — taux de 0,5 % (CGI, article 133-I-H,
+            sous réserve de l'exonération de l'article 129-IV-23)
+          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+    values:
+      2026-01-01:
+        value: 0.005
+
+  droit_fixe_constitution:
+    description: >-
+      Droit fixe applicable aux apports non exonérés dont le capital souscrit
+      n'excède pas 500 000 DH (article 135-I-1°)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 135-I-1° — droit fixe de 1 000 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+    values:
+      2026-01-01:
+        value: 1000.0
+
+  seuil_droit_fixe_constitution:
+    description: Seuil de capital souscrit sous lequel le droit fixe de constitution s'applique
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 135-I-1° — seuil de 500 000 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+    values:
+      2026-01-01:
+        value: 500000.0
+
+  minimum_proportionnel:
+    description: Minimum de perception des droits proportionnels (article 133-II)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 133-II — minimum de 100 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+    values:
+      2026-01-01:
+        value: 100.0
+
+  supplement_non_tracable:
+    description: >-
+      Droit supplémentaire applicable lorsque le prix n'est pas acquitté par un
+      moyen traçable (article 133-III)
+    unit: /1
+    metadata:
+      reference:
+        - title: DGI, Droits d'enregistrement — supplément de 2 % (CGI, article 133-III)
+          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+    values:
+      2026-01-01:
+        value: 0.02
+
+  seuil_non_tracable:
+    description: Seuil de prix au-delà duquel le supplément de l'article 133-III s'applique
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: DGI, Droits d'enregistrement — seuil de 300 000 DH (CGI, article 133-III)
+          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+    values:
+      2026-01-01:
+        value: 300000.0
+
+conservation_fonciere:
+  description: Droits de conservation foncière (Décret n° 2-16-375)
+
+  taux:
+    description: Droit ad valorem applicable à l'inscription d'un droit réel
+    unit: /1
+    metadata:
+      reference:
+        - title: Décret n° 2-16-375, chapitre II-A — droit ad valorem de 1,5 %
+          href: https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf
+    values:
+      2026-01-01:
+        value: 0.015
+
+  droit_fixe:
+    description: Droit fixe par propriété pour l'inscription d'un droit réel
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Décret n° 2-16-375, chapitre II-A — droit fixe de 100 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf
+    values:
+      2026-01-01:
+        value: 100.0
+
+  minimum:
+    description: Minimum de perception de l'inscription (hors certificat)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Décret n° 2-16-375, chapitre II-A — minimum de 500 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf
+    values:
+      2026-01-01:
+        value: 500.0
+
+  certificat:
+    description: >-
+      Droit fixe du certificat de propriété, formality distincte et optionnelle
+      (chapitre IV-H-1)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Décret n° 2-16-375, chapitre IV-H-1 — certificat de 100 DH
+          href: https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf
+    values:
+      2026-01-01:
+        value: 100.0

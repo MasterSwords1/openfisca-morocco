@@ -1,3 +1,27 @@
+## 0.11.0 - [#42](https://github.com/MasterSwords1/openfisca-morocco/issues/42)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2026-01-01 onwards.
+* Impacted areas: `variables.enregistrement`, `parameters.enregistrement`.
+* Details:
+  - Add registration duties on real-estate acquisitions: 4 % for built premises
+    (art. 133-I-F-1°), 5 % for vacant land or buildings to be demolished
+    (art. 133-I-G-1°), 6 % for a fonds de commerce (art. 133-I-A-1°), with a
+    100 DH minimum (art. 133-II) and a 2 % surcharge for untraceable payment
+    above 300,000 DH (art. 133-III).
+  - Company capital: cash contributions are exempt (art. 129-IV-23°); other
+    contributions pay a 1,000 DH fixed duty up to 500,000 DH and 0.5 % above
+    (art. 135-I-1° / 133-I-H).
+  - Add conservation fees under Décret 2-16-375: 1.5 % ad valorem + 100 DH
+    fixed, with a 500 DH minimum; the 100 DH certificate is a separate
+    optional formality.
+  - Expose the household amounts (`droits_enregistrement`,
+    `frais_conservation_fonciere`, `frais_acquisition_immobiliere_totaux`) and
+    the company equivalents, plus the capital-contribution duty.
+  - Correct the issue's rates: built commercial premises are 4 %, not 6 %;
+    vacant land is 5 %; company formation is not a flat 0.5 %.
+  - No parameter value changed for existing taxes.
+
 ## 0.10.2
 
 * Documentation.
