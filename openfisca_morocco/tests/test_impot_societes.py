@@ -180,3 +180,40 @@ def test_negative_reduced_rate_turnover_is_clipped_to_zero():
     assert simulation.calculate("cotisation_minimale", "2026")[0] == pytest.approx(
         25_000
     )
+
+
+def test_cm_base_clamps_negative_components_separately():
+    simulation = _company(
+        benefice_fiscal=0,
+        chiffre_affaires_annuel=-1_000_000,
+        produits_accessoires_financiers=2_000_000,
+    )
+    assert simulation.calculate("base_cotisation_minimale", "2026")[0] == pytest.approx(
+        2_000_000
+    )
+    assert simulation.calculate("cotisation_minimale", "2026")[0] == pytest.approx(
+        5_000
+    )
+
+
+def test_reduced_turnover_is_clipped_to_turnover_not_to_the_cm_base():
+    simulation = _company(
+        benefice_fiscal=0,
+        chiffre_affaires_annuel=10_000_000,
+        produits_accessoires_financiers=5_000_000,
+        chiffre_affaires_produits_taux_reduit=12_000_000,
+    )
+    # 10M at 0.15 % + 5M at 0.25 % = 15,000 + 12,500.
+    assert simulation.calculate("cotisation_minimale", "2026")[0] == pytest.approx(
+        27_500
+    )
+
+
+def test_credit_reduces_the_gross_including_the_cm():
+    simulation = _company(
+        benefice_fiscal=500_000,
+        chiffre_affaires_annuel=1_000_000_000,
+        credit_impot=1_000_000,
+    )
+    assert simulation.calculate("is_du_brut", "2026")[0] == pytest.approx(2_500_000)
+    assert simulation.calculate("is_net_a_payer", "2026")[0] == pytest.approx(1_500_000)

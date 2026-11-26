@@ -22,7 +22,9 @@ The three-year condition is exposed as `benefice_sous_seuil_trois_ans`
 crossing must set it to `False` for three consecutive exercises, which applies
 35 % even below 100,000,000 DH.
 
-The threshold itself is exposed as `benefice_atteint_100m`. OpenFisca stores
+The threshold itself is exposed as `benefice_atteint_100m`. It must not be
+forced to `False` at or above the statutory 100,000,000 DH threshold; it exists
+to correct the float32 rounding just below it. OpenFisca stores
 money as float32, whose granularity at 100,000,000 DH is about 8 DH; the flag
 defaults to the rounded comparison and can be set explicitly for a profit within
 a few dirhams of the threshold. The same float32 quantization applies to the
@@ -56,6 +58,12 @@ is_net_a_payer = max(0, is_du_brut − max(credit_impot, 0))
 from accounting. A negative profit produces zero IS but the CM floor still
 applies unless the company is exempted.
 
+The credit is subtracted from `is_du_brut` (the higher of IS and CM), so it can
+reduce the amount below the 3,000 DH CM floor; the floor applies before
+credits. This follows the issue's liquidation formula and is a deliberate
+modelling choice, not a statement that every credit is legally imputable
+against the CM.
+
 ## Variables
 
 Inputs: `benefice_fiscal`, `chiffre_affaires_annuel`,
@@ -77,7 +85,8 @@ is derived and overridable.
   non-current asset-disposal gains (the `benefice_sous_seuil_trois_ans` flag can
   express it, but the prior-year rule is not computed);
 - the 8 % forfaitary rate of art. 19-III-A for non-resident contractors awarded
-  works, construction or assembly contracts;
+  works, construction or assembly contracts, and the art. 144-I-A exclusion of
+  companies taxed under that forfait;
 - art. 144-I-C-1° (public-service concessionaires are excluded from the 36-month
   CM exemption) and art. 144-I-C-3° (temporary cessation waives only the 3,000 DH
   minimum); the `exonere_cotisation_minimale` flag is a caller assertion;

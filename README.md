@@ -564,12 +564,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 526 passed (plus 327 pytest tests; 521/322 without the corpus)
+# 529 passed (plus 330 pytest tests; 524/325 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-521 OpenFisca / 322 pytest tests.
+524 OpenFisca / 325 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 
