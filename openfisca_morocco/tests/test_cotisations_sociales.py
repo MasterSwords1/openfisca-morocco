@@ -212,4 +212,6 @@ def test_ipe_employee_chain_starts_in_2014_12():
     with pytest.raises(ParameterNotFoundError, match="indemnite_perte_emploi"):
         simulation.calculate("cotisation_cnss_salarie", "2014-11")
     simulation = simuler_salarie(10_000, "2014-12")
-    assert simulation.calculate("cotisation_cnss_salarie", "2014-12")[0] > 0
+    assert simulation.calculate("cotisation_cnss_salarie", "2014-12")[
+        0
+    ] == pytest.approx(268.80)

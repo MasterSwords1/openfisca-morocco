@@ -2,7 +2,7 @@
 
 * Tax and benefit system evolution.
 * Impacted periods: 2009-01-01 (employer family-allowance rate), 2010-01-01 (IR gating), 2016-01-01 (CNSS/AMO), 2019-07-01 (CNSS allocations), 2023-01-01 (4th–6th child amount), 2026-01-01 (registration duties), 2026-07-01 (2 % registration surcharge).
-* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.enregistrement`.
+* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.ir_regimes_professionnels`, `variables.enregistrement`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
     statutory age and situation conditions: under 12; 12–20 and in studies

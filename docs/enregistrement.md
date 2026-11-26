@@ -58,8 +58,8 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 
 - notary fees, mortgage registration and other professional costs;
 - the first 2 % trigger (a deed that does not state the payment modalities or
-  references) and the bank-credit / article 193-deposit carve-outs: the model
-  only reads `paiement_par_moyen_tracable`;
+  references) and the bank-credit and similar traceable-payment carve-outs:
+  the model only reads `paiement_par_moyen_tracable`;
 - the share premium (*prime d'émission*), which is excluded from the 500,000 DH
   threshold but included in the 0.5 % base under circular 721; no input is
   provided;
