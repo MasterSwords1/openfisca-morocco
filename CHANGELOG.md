@@ -1,8 +1,8 @@
 ## 0.13.0 - Challenger review fixes
 
 * Tax and benefit system evolution.
-* Impacted periods: 2010-01-01 (foreign-income gating), 2019-07-01 (CNSS allocations).
-* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`.
+* Impacted periods: 2010-01-01 (IR gating), 2019-07-01 (CNSS allocations), 2026-01-01 (registration duties).
+* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.enregistrement`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
     statutory age and situation conditions: under 12; 12–20 and in studies
@@ -35,6 +35,9 @@
     capital gains and losses cannot net to zero and bypass the pre-2026 gate.
     The same per-input check now covers foreign capital income, property gains
     and article 28 deductions.
+  - The registration-duty pre-2026 guards now check the acquisition type, the
+    payment-traceability flag, the certificate request and both capital-apport
+    inputs, so an auxiliary input alone raises instead of returning zero.
 
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 
@@ -240,7 +243,7 @@
 ## 0.5.0 - [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7)
 
 * Tax and benefit system evolution.
-* Impacted periods: 2010-01-01 (foreign-income gating), 2019-07-01 (CNSS allocations).
+* Impacted periods: 2019-07-01 onwards.
 * Impacted areas:
   - `parameters.prestations_sociales.allocations_familiales` (new CNSS family allowances grid).
   - `variables.allocations_familiales` (new variables `nombre_enfants` and `allocations_familiales` on `Household`).

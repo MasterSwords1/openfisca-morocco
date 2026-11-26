@@ -26,8 +26,9 @@ de propriété (100 DH, chapitre IV-H-1) est une formalité distincte et
 optionnelle, exposée par `demande_certificat_propriete`.
 
 Le type d'acquisition n'a pas de valeur par défaut : sans `type_acquisition`,
-aucun droit n'est calculé. Les taux sont encodés à partir de 2026 ; une
-simulation antérieure qui fournit une valeur lève une erreur.
+aucun droit n'est calculé. Les taux sont encodés à partir de 2026 ; une simulation antérieure qui fournit
+l'un des inputs du droit concerné (valeur, type, moyen de paiement ou certificat
+pour l'acquisition ; apport pour la constitution) lève une erreur.
 """
 
 from numpy import maximum as max_, where
@@ -137,7 +138,16 @@ class droits_enregistrement(Variable):
 
     def formula(household, period, parameters):
         if period.start.year < 2026:
-            if (household("valeur_bien_acquis", period) != 0).any():
+            provided = (
+                (household("valeur_bien_acquis", period) != 0)
+                | (
+                    household("type_acquisition_immobiliere", period)
+                    != TypeAcquisition.non_renseigne
+                )
+                | ~household("paiement_par_moyen_tracable", period)
+                | household("demande_certificat_propriete", period)
+            )
+            if provided.any():
                 raise ValueError("Registration duties are only modelled from 2026.")
             return household.filled_array(0.0)
         params = parameters(period).enregistrement.droits.enregistrement
@@ -159,7 +169,16 @@ class frais_conservation_fonciere(Variable):
 
     def formula(household, period, parameters):
         if period.start.year < 2026:
-            if (household("valeur_bien_acquis", period) != 0).any():
+            provided = (
+                (household("valeur_bien_acquis", period) != 0)
+                | (
+                    household("type_acquisition_immobiliere", period)
+                    != TypeAcquisition.non_renseigne
+                )
+                | ~household("paiement_par_moyen_tracable", period)
+                | household("demande_certificat_propriete", period)
+            )
+            if provided.any():
                 raise ValueError("Conservation fees are only modelled from 2026.")
             return household.filled_array(0.0)
         params = parameters(period).enregistrement.droits.conservation_fonciere
@@ -232,7 +251,16 @@ class droits_enregistrement_societe(Variable):
 
     def formula(company, period, parameters):
         if period.start.year < 2026:
-            if (company("valeur_bien_acquis_societe", period) != 0).any():
+            provided = (
+                (company("valeur_bien_acquis_societe", period) != 0)
+                | (
+                    company("type_acquisition_immobiliere_societe", period)
+                    != TypeAcquisition.non_renseigne
+                )
+                | ~company("paiement_par_moyen_tracable_societe", period)
+                | company("demande_certificat_propriete_societe", period)
+            )
+            if provided.any():
                 raise ValueError("Registration duties are only modelled from 2026.")
             return company.filled_array(0.0)
         params = parameters(period).enregistrement.droits.enregistrement
@@ -254,7 +282,16 @@ class frais_conservation_fonciere_societe(Variable):
 
     def formula(company, period, parameters):
         if period.start.year < 2026:
-            if (company("valeur_bien_acquis_societe", period) != 0).any():
+            provided = (
+                (company("valeur_bien_acquis_societe", period) != 0)
+                | (
+                    company("type_acquisition_immobiliere_societe", period)
+                    != TypeAcquisition.non_renseigne
+                )
+                | ~company("paiement_par_moyen_tracable_societe", period)
+                | company("demande_certificat_propriete_societe", period)
+            )
+            if provided.any():
                 raise ValueError("Conservation fees are only modelled from 2026.")
             return company.filled_array(0.0)
         params = parameters(period).enregistrement.droits.conservation_fonciere
@@ -308,7 +345,10 @@ class droits_enregistrement_constitution_societe(Variable):
 
     def formula(company, period, parameters):
         if period.start.year < 2026:
-            if (company("apport_capital_non_exonere", period) != 0).any():
+            provided = (company("apport_capital_non_exonere", period) != 0) | (
+                company("apport_capital_numeraires", period) != 0
+            )
+            if provided.any():
                 raise ValueError("Registration duties are only modelled from 2026.")
             return company.filled_array(0.0)
         params = parameters(period).enregistrement.droits.enregistrement

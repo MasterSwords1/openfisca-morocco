@@ -130,3 +130,233 @@ def test_surcharge_threshold_boundary():
     assert float(above.calculate("droits_enregistrement", "2026")[0]) == pytest.approx(
         18_000.06
     )
+
+
+def _household_at(year, **inputs):
+    situation = {
+        "persons": {"Parent": {}},
+        "households": {
+            "Menage": {
+                "adults": ["Parent"],
+                **{name: {year: value} for name, value in inputs.items()},
+            }
+        },
+    }
+    return SimulationBuilder().build_from_dict(SYSTEM, situation)
+
+
+def _company_at(year, **inputs):
+    situation = {
+        "persons": {"Gerant": {}},
+        "companies": {
+            "Societe": {
+                "membres": ["Gerant"],
+                **{name: {year: value} for name, value in inputs.items()},
+            }
+        },
+    }
+    return SimulationBuilder().build_from_dict(SYSTEM, situation)
+
+
+@pytest.mark.parametrize(
+    ("output", "input_name", "value"),
+    [
+        ("droits_enregistrement", "valeur_bien_acquis", 1_000_000),
+        (
+            "droits_enregistrement",
+            "type_acquisition_immobiliere",
+            "immeuble_bati",
+        ),
+        ("droits_enregistrement", "paiement_par_moyen_tracable", False),
+        ("droits_enregistrement", "demande_certificat_propriete", True),
+        ("frais_conservation_fonciere", "valeur_bien_acquis", 1_000_000),
+        (
+            "frais_conservation_fonciere",
+            "type_acquisition_immobiliere",
+            "immeuble_bati",
+        ),
+        ("frais_conservation_fonciere", "paiement_par_moyen_tracable", False),
+        ("frais_conservation_fonciere", "demande_certificat_propriete", True),
+    ],
+)
+def test_household_single_input_before_2026_raises(output, input_name, value):
+    simulation = _household_at(2025, **{input_name: value})
+    with pytest.raises(ValueError, match="Registration duties|Conservation fees"):
+        simulation.calculate(output, "2025")
+
+
+@pytest.mark.parametrize(
+    ("output", "input_name", "value"),
+    [
+        ("droits_enregistrement_societe", "valeur_bien_acquis_societe", 1_000_000),
+        (
+            "droits_enregistrement_societe",
+            "type_acquisition_immobiliere_societe",
+            "immeuble_bati",
+        ),
+        (
+            "droits_enregistrement_societe",
+            "paiement_par_moyen_tracable_societe",
+            False,
+        ),
+        (
+            "droits_enregistrement_societe",
+            "demande_certificat_propriete_societe",
+            True,
+        ),
+        (
+            "frais_conservation_fonciere_societe",
+            "valeur_bien_acquis_societe",
+            1_000_000,
+        ),
+        (
+            "frais_conservation_fonciere_societe",
+            "type_acquisition_immobiliere_societe",
+            "immeuble_bati",
+        ),
+        (
+            "frais_conservation_fonciere_societe",
+            "paiement_par_moyen_tracable_societe",
+            False,
+        ),
+        (
+            "frais_conservation_fonciere_societe",
+            "demande_certificat_propriete_societe",
+            True,
+        ),
+        (
+            "droits_enregistrement_constitution_societe",
+            "apport_capital_non_exonere",
+            1_000_000,
+        ),
+        (
+            "droits_enregistrement_constitution_societe",
+            "apport_capital_numeraires",
+            1_000_000,
+        ),
+    ],
+)
+def test_company_single_input_before_2026_raises(output, input_name, value):
+    simulation = _company_at(2025, **{input_name: value})
+    with pytest.raises(ValueError, match="Registration duties|Conservation fees"):
+        simulation.calculate(output, "2025")
+
+
+def test_household_default_before_2026_returns_zero():
+    simulation = _household_at(2025)
+    assert float(simulation.calculate("droits_enregistrement", "2025")[0]) == 0
+    assert float(simulation.calculate("frais_conservation_fonciere", "2025")[0]) == 0
+
+
+def test_company_default_before_2026_returns_zero():
+    simulation = _company_at(2025)
+    for variable in (
+        "droits_enregistrement_societe",
+        "frais_conservation_fonciere_societe",
+        "droits_enregistrement_constitution_societe",
+    ):
+        assert float(simulation.calculate(variable, "2025")[0]) == 0
+
+
+def test_household_registration_guard_is_vectorized_over_entities():
+    situation = {
+        "persons": {"Clean": {}, "Dirty": {}},
+        "households": {
+            "clean": {"adults": ["Clean"]},
+            "dirty": {
+                "adults": ["Dirty"],
+                "valeur_bien_acquis": {2025: 1_000_000},
+            },
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Registration duties"):
+        simulation.calculate("droits_enregistrement", "2025")
+
+
+def test_company_registration_and_capital_guards_are_vectorized():
+    situation = {
+        "persons": {"Gerant1": {}, "Gerant2": {}},
+        "companies": {
+            "clean": {"membres": ["Gerant1"]},
+            "dirty": {
+                "membres": ["Gerant2"],
+                "type_acquisition_immobiliere_societe": {2025: "immeuble_bati"},
+            },
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Registration duties"):
+        simulation.calculate("droits_enregistrement_societe", "2025")
+
+    situation = {
+        "persons": {"Gerant1": {}, "Gerant2": {}},
+        "companies": {
+            "clean": {"membres": ["Gerant1"]},
+            "cash": {
+                "membres": ["Gerant2"],
+                "apport_capital_numeraires": {2025: 1_000_000},
+            },
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Registration duties"):
+        simulation.calculate("droits_enregistrement_constitution_societe", "2025")
+
+
+def test_conservation_guards_are_vectorized_over_entities():
+    situation = {
+        "persons": {"Clean": {}, "Dirty": {}},
+        "households": {
+            "clean": {"adults": ["Clean"]},
+            "dirty": {
+                "adults": ["Dirty"],
+                "valeur_bien_acquis": {2025: 1_000_000},
+            },
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Conservation fees"):
+        simulation.calculate("frais_conservation_fonciere", "2025")
+
+    situation = {
+        "persons": {"Gerant1": {}, "Gerant2": {}},
+        "companies": {
+            "clean": {"membres": ["Gerant1"]},
+            "dirty": {
+                "membres": ["Gerant2"],
+                "type_acquisition_immobiliere_societe": {2025: "immeuble_bati"},
+            },
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Conservation fees"):
+        simulation.calculate("frais_conservation_fonciere_societe", "2025")
+
+
+@pytest.mark.parametrize(
+    ("output", "input_name", "value"),
+    [
+        ("droits_enregistrement", "valeur_bien_acquis", -1),
+        ("frais_conservation_fonciere", "valeur_bien_acquis", -1),
+        ("droits_enregistrement_societe", "valeur_bien_acquis_societe", -1),
+        ("frais_conservation_fonciere_societe", "valeur_bien_acquis_societe", -1),
+        (
+            "droits_enregistrement_constitution_societe",
+            "apport_capital_non_exonere",
+            -1,
+        ),
+        (
+            "droits_enregistrement_constitution_societe",
+            "apport_capital_numeraires",
+            -1,
+        ),
+    ],
+)
+def test_negative_pre_2026_inputs_raise(output, input_name, value):
+    if output.endswith("_societe"):
+        simulation = _company_at(2025, **{input_name: value})
+    else:
+        simulation = _household_at(2025, **{input_name: value})
+    with pytest.raises(ValueError, match="Registration duties|Conservation fees"):
+        simulation.calculate(output, "2025")

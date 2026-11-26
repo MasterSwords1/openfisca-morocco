@@ -55,9 +55,10 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 - multiple acquisitions in the same entity-year: one value and one type per
   entity and year;
 - lease agreements and the other fixed or proportional duties of arts. 127–135;
-- the rate history before 2026: the 2026 rules apply from 2026-01-01, and a
-  pre-2026 acquisition or non-exempt capital contribution raises an error
-  (exempt cash contributions return zero);
+- the rate history before 2026: the 2026 rules apply from 2026-01-01, and any
+  pre-2026 input for a duty (acquisition value, type, payment method or
+  certificate; capital apport, including exempt cash, for the constitution
+  duty) raises an error;
 - the conservation formalities other than the inscription (morcellement,
   bornage, duplicata, etc.).
 
