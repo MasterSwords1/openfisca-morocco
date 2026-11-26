@@ -46,9 +46,9 @@ minimum_societe:
   metadata:
     reference:
       - title: >-
-          Loi de finances n° 70-19 pour 2019, BO n° 6738 bis — minimum de
-          3 000 DH pour les sociétés
-        href: https://www.sgg.gov.ma/BO/bo_fr/2018/BO_6738-bis_fr.pdf
+          Loi de finances n° 110-13 pour 2014, BO n° 6217 bis — minimum de
+          3 000 DH pour les sociétés (CGI, article 144-I-D)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2013/BO_6217-bis_fr.pdf
   values:
     2026-01-01:
       value: 3000.0

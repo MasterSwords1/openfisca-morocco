@@ -49,7 +49,7 @@ the dates themselves are not inputs.
 
 ```
 is_du_brut    = max(is_theorique, cotisation_minimale)
-is_net_a_payer = max(0, is_du_brut − credit_impot)
+is_net_a_payer = max(0, is_du_brut − max(credit_impot, 0))
 ```
 
 `benefice_fiscal` is an input: the model does not reconstruct the fiscal profit
@@ -61,11 +61,11 @@ applies unless the company is exempted.
 Inputs: `benefice_fiscal`, `chiffre_affaires_annuel`,
 `produits_accessoires_financiers`, `chiffre_affaires_produits_taux_reduit`,
 `est_etablissement_financier`, `benefice_sous_seuil_trois_ans`,
-`exclusion_taux_35`, `benefice_atteint_100m`, `exonere_cotisation_minimale`,
-`credit_impot`.
+`exclusion_taux_35`, `exonere_cotisation_minimale`, `credit_impot`.
 
 Outputs: `taux_is_applique`, `is_theorique`, `base_cotisation_minimale`,
-`cotisation_minimale`, `is_du_brut`, `is_net_a_payer`.
+`cotisation_minimale`, `is_du_brut`, `is_net_a_payer`; `benefice_atteint_100m`
+is derived and overridable.
 
 ## What is not modelled
 
@@ -98,9 +98,9 @@ Outputs: `taux_is_applique`, `is_theorique`, `base_cotisation_minimale`,
 - [Loi de finances n° 50-22, BO 7154 bis](https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf)
   (20 % / 35 % / 40 %, 100,000,000 DH threshold and the 0.25 % / 0.15 % CM
   rates)
-- [Loi de finances n° 70-19, BO 6738 bis](https://www.sgg.gov.ma/BO/bo_fr/2018/BO_6738-bis_fr.pdf)
+- [Loi de finances n° 110-13, BO 6217 bis](https://www.sgg.gov.ma/BO/bo_fr/2013/BO_6217-bis_fr.pdf)
   (3,000 DH CM floor)
 
-> The `morocco-holy-graph` Catala `cgi_is.catala_fr` file still encodes the
-> pre-2023 10/20/35 scale and a 0.50 % CM; this module follows the 2026 CGI,
-> not that stale oracle.
+> The `morocco-holy-graph` Catala `cgi_is.catala_fr` file encodes an obsolete
+> 10/20/35 scale and a 0.50 % CM that does not match the 2026 CGI; this module
+> follows the 2026 CGI, not that stale oracle.
