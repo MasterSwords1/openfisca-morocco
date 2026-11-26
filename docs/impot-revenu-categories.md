@@ -75,7 +75,9 @@ separately and added to the household total, not to the global base.
 
 ## Article 28 deductions and the rental option
 
-`deductions_revenu_global` sums donations (no ceiling in art. 28-I), housing-loan
+`deductions_revenu_global` sums donations (no ceiling in art. 28-I for individuals;
+the 2 ‰ cap of art. 10-I-B-2° applies to the corporate taxable result and is not
+applied here), housing-loan
 interest capped at 10 % of global income, and retirement premiums. For a
 taxpayer with only salary income the premium cap is 50 % of net salary; with
 salary and other income the taxpayer may elect between 50 % of net salary and

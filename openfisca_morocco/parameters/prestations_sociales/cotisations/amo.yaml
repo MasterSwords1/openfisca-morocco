@@ -5,6 +5,9 @@
 # Textes légaux de référence :
 # - Loi n° 65-00 portant Code de la Couverture Médicale de Base (articles 114 et suivants)
 # - Décret n° 2-05-734 tel que modifié par Décret n° 2-14-707 (taux de cotisation et solidarité AMO)
+#
+# La date 2016-01-01 ci-dessous est le début des paramètres du corpus, pas la
+# date d'entrée en vigueur de l'AMO (les textes de 2005 et 2014 la fondent).
 
 description: Assurance Maladie Obligatoire (AMO) et participation patronale de solidarité
 

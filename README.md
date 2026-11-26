@@ -519,8 +519,9 @@ Stated plainly, because they determine what you may conclude from a simulation:
   quantities outside the verified interval are flagged.
 - **TVA before 2004 is not modelled.** The rate dataset starts on 1 January
   2004; before that date the parameters return the 2004 regime.
-- **No import or export VAT, no registration duties, no specific rates**
-  (article 100: wine, gold and silver). See issue
+- **No import or export VAT.** Domestic VAT is modelled; import/export
+  procedures are not. Registration duties and the Article 100 specific rates
+  are modelled, with the coverage limits stated above. See issue
   [#6](https://github.com/MasterSwords1/openfisca-morocco/issues/6).
 - **Aide sociale directe models published rules, not registry membership.** The
   package takes the RSU index and the administrative conditions as inputs; it
