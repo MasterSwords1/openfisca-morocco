@@ -2,7 +2,7 @@
 
 * Tax and benefit system evolution.
 * Impacted periods: 2010-01-01 (foreign-income gating), 2019-07-01 (CNSS allocations).
-* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`.
+* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
     statutory age and situation conditions: under 12; 12–20 and in studies
@@ -29,6 +29,12 @@
     instead of being silently included in the global IR base. Foreign income
     is taken at its gross positive amount and remains outside the capital
     rates.
+  - `impot_plus_values` now raises before 2026 for a nonzero amount on
+    listed or unlisted securities, instead of silently returning zero.
+  - `impot_capitaux_mobiliers` now sums the gated leaves, so offsetting
+    capital gains and losses cannot net to zero and bypass the pre-2026 gate.
+    The same per-input check now covers foreign capital income, property gains
+    and article 28 deductions.
 
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 

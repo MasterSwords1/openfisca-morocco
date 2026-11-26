@@ -549,7 +549,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 411 passed, 5 skipped (plus 223 pytest tests)
+# 447 passed, 5 skipped (plus 259 pytest tests)
 ```
 
 Once published, installation will be `uv add openfisca-morocco`.

@@ -101,12 +101,15 @@ class plus_value_immobiliere_imposable(Variable):
     def formula(person, period, parameters):
         if period.start.year < 2026:
             provided = (
-                person("prix_cession_immobilier", period)
-                + person("prix_acquisition_immobilier", period)
-                + person("frais_cession_immobilier", period)
-                + person("depenses_investissement_immobilier", period)
+                (person("prix_cession_immobilier", period) != 0)
+                | (person("prix_acquisition_immobilier", period) != 0)
+                | (person("frais_cession_immobilier", period) != 0)
+                | (person("depenses_investissement_immobilier", period) != 0)
+                | (person("total_cessions_immobilieres_annee", period) != 0)
+                | person("habitation_principale_cedee", period)
+                | (person("annees_detention_habitation", period) != 0)
             )
-            if (provided != 0).any():
+            if provided.any():
                 raise ValueError("Property gains are only modelled from 2026.")
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.patrimoine
@@ -139,6 +142,9 @@ class impot_plus_value_immobiliere(Variable):
 
     def formula(person, period, parameters):
         if period.start.year < 2026:
+            # The base raises when a property-gain input is supplied; return 0
+            # only when the base itself is zero.
+            person("plus_value_immobiliere_imposable", period)
             return person.filled_array(0.0)
         taux = parameters(period).impot_revenu.patrimoine.taux_plus_value_immobiliere
         return person("plus_value_immobiliere_imposable", period) * taux
@@ -181,10 +187,10 @@ class impot_capitaux_etrangers(Variable):
 
     def formula(person, period, parameters):
         if period.start.year < 2026:
-            provided = person("revenus_capitaux_etrangers_bruts", period) + person(
-                "profits_capitaux_etrangers", period
+            provided = (person("revenus_capitaux_etrangers_bruts", period) != 0) | (
+                person("profits_capitaux_etrangers", period) != 0
             )
-            if (provided != 0).any():
+            if provided.any():
                 raise ValueError("Foreign capital income is only modelled from 2026.")
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.patrimoine

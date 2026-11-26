@@ -17,7 +17,7 @@ historical scales in the README).
 | Unlisted securities | `plus_values_titres_non_cotes` | 20 % (art. 73-II-F-2°) |
 | Global base | `revenu_global_imposable` | Salary net + professional net + rental net + foreign income, floored at zero (arts. 22, 25) |
 | Global IR | `impot_sur_le_revenu` | Barème on the global base after article 28 deductions, less the family deduction, less the rental withholding (none under the 20 % option) |
-| Capital total | `impot_capitaux_mobiliers` | Sum of the four liberatory taxes |
+| Capital total | `impot_capitaux_mobiliers` | Sum of the three liberatory tax leaves (the plus-values leaf carries two rates) |
 | Household total | `impot_sur_le_revenu_menage` | Sum of members' global IR and capital taxes |
 
 The barème is unchanged from 2025: 0 % up to 40,000 DH, then 10 %, 20 %, 30 %,
