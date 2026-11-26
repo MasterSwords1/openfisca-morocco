@@ -360,3 +360,67 @@ def test_negative_pre_2026_inputs_raise(output, input_name, value):
         simulation = _household_at(2025, **{input_name: value})
     with pytest.raises(ValueError, match="Registration duties|Conservation fees"):
         simulation.calculate(output, "2025")
+
+
+def _household_with_date(date_str, **inputs):
+    situation = {
+        "persons": {"Parent": {}},
+        "households": {
+            "Menage": {
+                "adults": ["Parent"],
+                "date_acte_enregistrement": {"ETERNITY": date_str},
+                **{name: {2026: value} for name, value in inputs.items()},
+            }
+        },
+    }
+    return SimulationBuilder().build_from_dict(SYSTEM, situation)
+
+
+@pytest.mark.parametrize(
+    ("date_str", "expected"),
+    [("2026-06-30", 40_000), ("2026-07-01", 60_000)],
+)
+def test_two_percent_surcharge_starts_on_1_july_2026(date_str, expected):
+    simulation = _household_with_date(
+        date_str,
+        type_acquisition_immobiliere="immeuble_bati",
+        valeur_bien_acquis=1_000_000,
+        paiement_par_moyen_tracable=False,
+    )
+    assert simulation.calculate("droits_enregistrement", "2026")[0] == pytest.approx(
+        expected
+    )
+
+
+def test_fonds_de_commerce_has_no_300k_threshold_for_the_surcharge():
+    simulation = _household_with_date(
+        "2026-07-01",
+        type_acquisition_immobiliere="fonds_commerce",
+        valeur_bien_acquis=200_000,
+        paiement_par_moyen_tracable=False,
+    )
+    assert simulation.calculate("droits_enregistrement", "2026")[0] == pytest.approx(
+        16_000
+    )
+
+    simulation = _household_with_date(
+        "2026-07-01",
+        type_acquisition_immobiliere="fonds_commerce",
+        valeur_bien_acquis=200_000,
+        paiement_par_moyen_tracable=True,
+    )
+    assert simulation.calculate("droits_enregistrement", "2026")[0] == pytest.approx(
+        12_000
+    )
+
+
+def test_built_property_under_300k_is_not_surcharged():
+    simulation = _household_with_date(
+        "2026-07-01",
+        type_acquisition_immobiliere="immeuble_bati",
+        valeur_bien_acquis=200_000,
+        paiement_par_moyen_tracable=False,
+    )
+    assert simulation.calculate("droits_enregistrement", "2026")[0] == pytest.approx(
+        8_000
+    )

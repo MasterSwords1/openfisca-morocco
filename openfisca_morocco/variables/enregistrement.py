@@ -1,8 +1,12 @@
 """Droits d'enregistrement et droits de conservation foncière.
 
-Sources : Code Général des Impôts (édition 2026), articles 127 à 155, Loi de
-finances n° 73-16 pour 2017 (BO n° 6577 bis) et Décret n° 2-16-375
-(BO n° 6484 du 21 juillet 2016).
+Sources : Code Général des Impôts (édition 2026), articles 127 à 155 ; lois de
+finances n° 38-07 pour 2008 (6 %, BO n° 5591 bis), n° 22-12 pour 2012 (4 %,
+BO n° 6048), n° 73-16 pour 2017 (5 %, BO n° 6577 bis), n° 115-12 pour 2013
+(droit fixe de 1 000 DH et seuil de 500 000 DH, BO n° 6113 bis), n° 65-20 pour
+2021 (0,5 %, BO n° 6944 bis) et n° 50-25 pour 2026 (supplément de 2 %,
+BO n° 7465 bis) ; Décret n° 2-16-375 (BO n° 6484) pour la conservation
+foncière.
 
 Taux d'enregistrement :
 
@@ -17,8 +21,10 @@ Taux d'enregistrement :
   (art. 129-IV-23°).
 
 Les droits proportionnels ont un minimum de perception de 100 DH
-(art. 133-II), et un supplément de 2 % s'applique au prix supérieur à
-300 000 DH qui n'est pas acquitté par un moyen traçable (art. 133-III).
+(art. 133-II), et un supplément de 2 % s'applique, pour les actes à compter du
+1er juillet 2026, au prix non acquitté par un moyen traçable (art. 133-III).
+Pour les immeubles, seul le prix supérieur à 300 000 DH est concerné ; le fonds
+de commerce n'a pas de seuil.
 
 Conservation foncière (Décret n° 2-16-375, chapitre II-A) : 1,5 % ad valorem
 + 100 DH de droit fixe, avec un minimum de perception de 500 DH. Le certificat
@@ -31,14 +37,18 @@ l'un des inputs du droit concerné (valeur, type, moyen de paiement ou certifica
 pour l'acquisition ; apport pour la constitution) lève une erreur.
 """
 
-from numpy import maximum as max_, where
+from datetime import date
+
+from numpy import datetime64, maximum as max_, where
 from openfisca_core.indexed_enums import Enum
-from openfisca_core.periods import YEAR
+from openfisca_core.periods import ETERNITY, YEAR
 from openfisca_core.variables import Variable
 
 from openfisca_morocco.entities import Company, Household
 
-BO_2017 = "https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf"
+BO_CGI = "https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf"
+BO_50_25 = "https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf"
+BO_68_17 = "https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6633-bis_fr.pdf"
 BO_6484 = "https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf"
 
 
@@ -65,15 +75,21 @@ def _taux(nature, params):
     )
 
 
-def _droits_enregistrement(nature, valeur, tracable, params):
+def _droits_enregistrement(nature, valeur, tracable, date_acte, params):
     taux = _taux(nature, params)
     droits = where(
         (nature == TypeAcquisition.non_renseigne) | (valeur <= 0),
         0.0,
         max_(valeur * taux, params.minimum_proportionnel),
     )
+    # The 2 % surcharge applies to acts from 1 July 2026. The 300,000 DH
+    # threshold concerns immovable property; a fonds de commerce is liable
+    # from the first dirham.
+    seuil_applicable = (nature == TypeAcquisition.fonds_commerce) | (
+        valeur > params.seuil_non_tracable
+    )
     supplement = where(
-        (~tracable) & (valeur > params.seuil_non_tracable),
+        (~tracable) & (date_acte >= datetime64("2026-07-01")) & seuil_applicable,
         valeur * params.supplement_non_tracable,
         0.0,
     )
@@ -91,6 +107,15 @@ def _conservation(nature, valeur, certificat, params):
     )
 
 
+class date_acte_enregistrement(Variable):
+    value_type = date
+    entity = Household
+    definition_period = ETERNITY
+    default_value = date(2026, 7, 1)
+    label = "Date de l'acte d'acquisition (pour le supplément de 2 % à compter du 1er juillet 2026)"
+    reference = BO_50_25
+
+
 class type_acquisition_immobiliere(Variable):
     value_type = Enum
     entity = Household
@@ -98,7 +123,7 @@ class type_acquisition_immobiliere(Variable):
     possible_values = TypeAcquisition
     default_value = TypeAcquisition.non_renseigne
     label = "Nature du bien acquis par le ménage"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class valeur_bien_acquis(Variable):
@@ -107,7 +132,7 @@ class valeur_bien_acquis(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Valeur d'acquisition du bien"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class paiement_par_moyen_tracable(Variable):
@@ -116,7 +141,7 @@ class paiement_par_moyen_tracable(Variable):
     definition_period = YEAR
     default_value = True
     label = "Prix acquitté par un moyen de paiement traçable"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class demande_certificat_propriete(Variable):
@@ -134,7 +159,7 @@ class droits_enregistrement(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Droits d'enregistrement dus par le ménage"
-    reference = BO_2017
+    reference = BO_CGI
 
     def formula(household, period, parameters):
         if period.start.year < 2026:
@@ -155,6 +180,7 @@ class droits_enregistrement(Variable):
             household("type_acquisition_immobiliere", period),
             max_(household("valeur_bien_acquis", period), 0),
             household("paiement_par_moyen_tracable", period),
+            household("date_acte_enregistrement", period),
             params,
         )
 
@@ -196,12 +222,21 @@ class frais_acquisition_immobiliere_totaux(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Total des droits et frais d'acquisition immobilière du ménage"
-    reference = BO_2017
+    reference = BO_CGI
 
     def formula(household, period, parameters):
         return household("droits_enregistrement", period) + household(
             "frais_conservation_fonciere", period
         )
+
+
+class date_acte_enregistrement_societe(Variable):
+    value_type = date
+    entity = Company
+    definition_period = ETERNITY
+    default_value = date(2026, 7, 1)
+    label = "Date de l'acte d'acquisition de la société (supplément de 2 % à compter du 1er juillet 2026)"
+    reference = BO_50_25
 
 
 class type_acquisition_immobiliere_societe(Variable):
@@ -211,7 +246,7 @@ class type_acquisition_immobiliere_societe(Variable):
     possible_values = TypeAcquisition
     default_value = TypeAcquisition.non_renseigne
     label = "Nature du bien acquis par la société"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class valeur_bien_acquis_societe(Variable):
@@ -220,7 +255,7 @@ class valeur_bien_acquis_societe(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Valeur d'acquisition du bien par la société"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class paiement_par_moyen_tracable_societe(Variable):
@@ -229,7 +264,7 @@ class paiement_par_moyen_tracable_societe(Variable):
     definition_period = YEAR
     default_value = True
     label = "Prix acquitté par la société au moyen d'un paiement traçable"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class demande_certificat_propriete_societe(Variable):
@@ -247,7 +282,7 @@ class droits_enregistrement_societe(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Droits d'enregistrement dus par la société"
-    reference = BO_2017
+    reference = BO_CGI
 
     def formula(company, period, parameters):
         if period.start.year < 2026:
@@ -268,6 +303,7 @@ class droits_enregistrement_societe(Variable):
             company("type_acquisition_immobiliere_societe", period),
             max_(company("valeur_bien_acquis_societe", period), 0),
             company("paiement_par_moyen_tracable_societe", period),
+            company("date_acte_enregistrement_societe", period),
             params,
         )
 
@@ -309,7 +345,7 @@ class frais_acquisition_immobiliere_totaux_societe(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Total des droits et frais d'acquisition immobilière de la société"
-    reference = BO_2017
+    reference = BO_CGI
 
     def formula(company, period, parameters):
         return company("droits_enregistrement_societe", period) + company(
@@ -323,7 +359,7 @@ class apport_capital_numeraires(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Apports en numéraire purs et simples, exonérés (art. 129-IV-23°)"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class apport_capital_non_exonere(Variable):
@@ -332,7 +368,7 @@ class apport_capital_non_exonere(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Apports non exonérés lors d'une constitution ou augmentation de capital"
-    reference = BO_2017
+    reference = BO_CGI
 
 
 class droits_enregistrement_constitution_societe(Variable):
@@ -341,7 +377,7 @@ class droits_enregistrement_constitution_societe(Variable):
     definition_period = YEAR
     unit = "currency-MAD"
     label = "Droits sur les apports non exonérés en capital"
-    reference = BO_2017
+    reference = BO_CGI
 
     def formula(company, period, parameters):
         if period.start.year < 2026:

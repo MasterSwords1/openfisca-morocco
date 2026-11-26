@@ -15,10 +15,13 @@ the 2026 CGI; the conservation tariff is Décret n° 2-16-375.
 | Non-exempt company capital contribution, capital > 500,000 DH | **0.5 %** | CGI art. 133-I-H |
 
 Proportional duties have a **100 DH minimum** (art. 133-II). A **2 % additional
-duty** applies to the **whole price** above **300,000 DH** when it is not paid by
-a traceable means (art. 133-III); mixed cash/traceable payments are not
-modelled, and the model assumes traceable payment unless
-`paiement_par_moyen_tracable` is set to false.
+duty** applies from **1 July 2026** when the price is not paid by a traceable
+means (art. 133-III). For immovable property it applies to the **whole price**
+above **300,000 DH**; a *fonds de commerce* has no threshold. Mixed
+cash/traceable payments are not modelled, and the model assumes traceable
+payment unless `paiement_par_moyen_tracable` is set to false. The act date is
+`date_acte_enregistrement`, which defaults to 2026-07-01; set an earlier date
+for an act concluded before July 2026.
 
 The land-conservation fee is **1.5 % ad valorem + 100 DH fixed**, with a
 **500 DH minimum** on the inscription. The **100 DH certificate of ownership**
@@ -55,8 +58,8 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 - multiple acquisitions in the same entity-year: one value and one type per
   entity and year;
 - lease agreements and the other fixed or proportional duties of arts. 127–135;
-- the rate history before 2026: the 2026 rules apply from 2026-01-01, and any
-  pre-2026 input for a duty (acquisition value, type, payment method or
+- the rate history before 2026: the 2026 rules apply from 2026-01-01, except the
+  2 % surcharge (acts from 2026-07-01), and any pre-2026 input for a duty (acquisition value, type, payment method or
   certificate; capital apport, including exempt cash, for the constitution
   duty) raises an error;
 - the conservation formalities other than the inscription (morcellement,
@@ -64,12 +67,21 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 
 ## Sources
 
+- [Loi de finances n° 38-07, BO n° 5591 bis](https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5591-bis_fr.pdf)
+  (6 % rate on a *fonds de commerce*, applicable from 1 January 2008)
+- [Loi de finances n° 22-12, BO n° 6048](https://www.sgg.gov.ma/BO/bo_fr/2012/bo_6048_fr.pdf)
+  (4 % rate on built premises)
 - [Loi de finances n° 73-16, BO n° 6577 bis](https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf)
-  (4 %, 5 % and 6 % rates, the 1,000 DH fixed duty and its 500,000 DH threshold)
+  (5 % rate on vacant land, created in 2017)
+- [Loi de finances n° 115-12, BO n° 6113 bis](https://www.sgg.gov.ma/BO/bo_fr/2012/BO_6113-bis_Fr.pdf)
+  (1,000 DH fixed duty and 500,000 DH threshold)
+- [Loi de finances n° 65-20, BO n° 6944 bis](https://www.sgg.gov.ma/Portals/0/BO/2020/BO_6944-bis_Fr.pdf)
+  (0.5 % capital rate)
+- [Loi de finances n° 50-25, BO n° 7465 bis](https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf)
+  (2 % surcharge for acts from 1 July 2026; 300,000 DH threshold for immovable
+  property, no threshold for a *fonds de commerce*)
 - [CGI, BO 5487-bis](https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf)
-  (0.5 % capital rate and the 100 DH minimum)
-- [DGI, Droits d'enregistrement](https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/)
-  (0.5 % rate and the 2 % surcharge above 300,000 DH)
+  (100 DH proportional minimum)
 - [Décret n° 2-16-375, BO n° 6484](https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf)
   (conservation-foncière tariff)
 
@@ -79,5 +91,6 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 without the certificate, vacant land, a *fonds de commerce*, the 100 DH and
 500 DH floors, the 2 % surcharge, an unset type and a zero acquisition;
 `openfisca_morocco/tests/test_enregistrement.py` covers company acquisitions,
-the certificate, the cash exemption, the fixed 1,000 DH band, the 0.5 % band
-and the pre-2026 guard.
+the certificate, the cash exemption, the fixed 1,000 DH band, the 0.5 % band,
+the pre-2026 guards, the 1 July 2026 surcharge start, the absence of a
+threshold for a *fonds de commerce* and the 300,000 DH boundary.
