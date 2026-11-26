@@ -34,8 +34,9 @@ l'assuré. L'âge limite dépend de la situation :
 La condition d'affiliation (108 jours de cotisations, art. 40), la résidence
 effective au Maroc, la charge exclusive et effective de l'enfant de moins de
 12 ans, la preuve de la scolarité ou du handicap, la condition de rémunération
-d'au moins 60 % du SMIG/SMAG (Décret 2-08-358, art. 2) et le cas de la fille ou
-sœur de l'article 6(e) ne sont pas modélisés. Les inputs `enfant_*_cnss` permettent de déclarer la situation de
+d'au moins 60 % du SMIG/SMAG (Décret 2-08-358, art. 2), la condition de
+ressources du père (loi n° 07-92, art. 21) et le cas de la fille ou sœur de
+l'article 6(e) ne sont pas modélisés. Les inputs `enfant_*_cnss` permettent de déclarer la situation de
 chaque enfant ; un enfant de moins de 12 ans est éligible par défaut **si son
 âge est connu** (une date de naissance absente donne un âge bien au-delà des limites et
 n'ouvre pas le droit au titre de l'âge ; seule la branche handicap peut alors
@@ -104,8 +105,8 @@ class enfant_handicape_sans_revenu_cnss(Variable):
     definition_period = MONTH
     default_value = False
     label = (
-        "Enfant handicapé sans revenu (condition du droit aux allocations "
-        "familiales ; sans effet si l'enfant n'est pas handicapé)"
+        "Enfant handicapé sans revenu stable ; la condition de ressources du père "
+        "(loi n° 07-92, art. 21) doit être vérifiée par l'appelant"
     )
     reference = "https://www.cnss.ma/fr/assure/salarie/prestations-sociales/allocations-familiales"
 

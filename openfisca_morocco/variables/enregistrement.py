@@ -408,8 +408,10 @@ class droits_enregistrement_constitution_societe(Variable):
         total = company("apport_capital_total", period)
         taxable = max_(company("apport_capital_non_exonere", period), 0)
         # Art. 135-I-1° reads "le capital social souscrit au titre dudit
-        # apport" ; the package adopts the total-subscribed-capital reading,
-        # the only one under which cash apports affect the regime. The 1,000 DH
+        # apport" ; DGI circular 721 clarifies that the 500,000 DH is the
+        # amount of the capital increase, not the post-increase share capital.
+        # The total includes cash apports, while only the non-exempt apport is
+        # taxable. The 1,000 DH
         # fixed duty applies when that total does not exceed 500,000 DH. Above
         # it, the 0.5 % duty applies to the non-exempt apport, with the 1,000 DH
         # capital minimum of art. 133-II.

@@ -480,7 +480,8 @@ Stated plainly, because they determine what you may conclude from a simulation:
   before the applicable age limit) and without income
   (`enfant_handicape_sans_revenu_cnss`). The 108-day affiliation condition,
   Moroccan residence, the under-12 “charge exclusive et effective” condition,
-  the **60 % SMIG/SMAG salary condition** and the art. 6(e) girl/sister case
+  the **60 % SMIG/SMAG salary condition**, the father-income condition of
+  loi n° 07-92 art. 21 for a disabled child and the art. 6(e) girl/sister case
   are not modelled. A child without a birth date defaults to 1970 and is
   excluded from the age-based bands; the disability branch can still apply.
   Dependent adults and disabled children must be placed in the `children`
@@ -552,12 +553,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 495 passed (plus 307 pytest tests; 490/302 without the corpus)
+# 496 passed (plus 308 pytest tests; 491/303 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-490 OpenFisca / 302 pytest tests.
+491 OpenFisca / 303 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 

@@ -23,8 +23,9 @@
   - A child born during a month is counted for that month.
   - The 108-day affiliation condition, Moroccan residence, the under-12
     “charge exclusive et effective” condition, the 60 % SMIG/SMAG salary
-    condition, proof of schooling or disability and the art. 6(e) case remain
-    unmodelled.
+    condition, the father-income condition of loi n° 07-92 art. 21 for a
+    disabled child, proof of schooling or disability and the art. 6(e) case
+    remain unmodelled.
   - Add `revenu_etranger_imposable`: foreign income now raises before 2026
     instead of being silently included in the global IR base. Foreign income
     is taken at its gross positive amount and remains outside the capital

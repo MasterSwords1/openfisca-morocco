@@ -15,6 +15,10 @@ the 2026 CGI; the conservation tariff is Décret n° 2-16-375.
 | Company formation, total capital > 500,000 DH **and a non-exempt apport** | **0.5 % on the non-exempt apport**, minimum 1,000 DH | CGI art. 133-I-H and 133-II |
 | Cash-only formation | **0** (exempt) | CGI art. 129-IV-23° |
 
+The 500,000 DH threshold is the amount of the capital increase for the
+operation, not the post-increase share capital (DGI circular 721); cash apports
+count toward it but are excluded from the taxable base.
+
 Proportional duties have a **100 DH minimum** (art. 133-II), raised to **1,000 DH for company formations**. A **2 % additional
 duty** applies from **1 July 2026** when the price is not paid by a traceable
 means (art. 133-III). For immovable property it applies to the **whole price**
@@ -46,7 +50,8 @@ Household:
 
 Company: the same inputs and amounts with the `_societe` suffix, plus
 `apport_capital_numeraires` (exempt but counted in the 500,000 DH threshold),
-`apport_capital_non_exonere`, `apport_capital_total` and
+`apport_capital_non_exonere`, `apport_capital_total`,
+`date_acte_enregistrement` / `date_acte_enregistrement_societe` and
 `droits_enregistrement_constitution_societe`.
 
 ## What is not modelled

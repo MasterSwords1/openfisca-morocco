@@ -335,3 +335,16 @@ def test_property_gain_each_money_input_raises_before_2026():
             simulation = simulate("2025", **{variable: amount})
             with pytest.raises(ValueError, match="Property gains"):
                 simulation.calculate("plus_value_immobiliere_imposable", "2025")
+
+
+def test_liberatory_rental_leaf_before_2026_raises():
+    simulation = simulate(
+        "2025",
+        revenus_fonciers_bruts=100_000,
+        option_foncier_liberatoire=True,
+    )
+    with pytest.raises(ValueError, match="Rental income"):
+        simulation.calculate("impot_foncier_liberatoire", "2025")
+
+    simulation = simulate("2025")
+    assert simulation.calculate("impot_foncier_liberatoire", "2025")[0] == 0
