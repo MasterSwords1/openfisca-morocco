@@ -78,11 +78,11 @@ class deductions_revenu_global(Variable):
     def formula(person, period, parameters):
         if period.start.year < 2026:
             provided = (
-                person("dons_organismes", period)
-                + person("interets_pret_logement", period)
-                + person("primes_assurance_retraite", period)
+                (person("dons_organismes", period) != 0)
+                | (person("interets_pret_logement", period) != 0)
+                | (person("primes_assurance_retraite", period) != 0)
             )
-            if (provided != 0).any():
+            if provided.any():
                 raise ValueError("Article 28 deductions are only modelled from 2026.")
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.deductions_globales
@@ -148,6 +148,14 @@ class impot_foncier_liberatoire(Variable):
 
     def formula(person, period, parameters):
         if period.start.year < 2026:
+            provided = (person("revenus_fonciers_bruts", period) != 0) | person(
+                "option_foncier_liberatoire", period
+            )
+            if provided.any():
+                raise ValueError(
+                    "Rental income is only modelled from 2026; no pre-2026 rules "
+                    "are encoded."
+                )
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.deductions_globales
         brut = max_(person("revenus_fonciers_bruts", period), 0)

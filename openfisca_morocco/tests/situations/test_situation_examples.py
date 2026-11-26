@@ -57,6 +57,8 @@ def test_couple_with_children():
     assert float(incomes[0]) == pytest.approx(1_520.96, abs=0.01)
     assert float(incomes[1]) == pytest.approx(194.72, abs=0.01)
     assert _value(simulation, "deduction_charges_famille", "2026") == 1_800
+    assert _value(simulation, "allocations_familiales", "2026-06") == 600
+    assert float(simulation.calculate_add("allocations_familiales", "2026")[0]) == 7_200
 
 
 def test_high_earner():
@@ -82,3 +84,7 @@ def test_employer_cost_example():
 def test_asd_example():
     simulation = _simulate("menage_asd.json")
     assert _value(simulation, "aide_sociale_directe", "2026-06") == 900
+    assert _value(simulation, "allocations_familiales", "2026-06") == 900
+    assert (
+        float(simulation.calculate_add("allocations_familiales", "2026")[0]) == 10_800
+    )

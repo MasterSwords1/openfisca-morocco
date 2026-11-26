@@ -38,6 +38,7 @@ import argparse
 import difflib
 import hashlib
 import json
+import os
 import re
 import sys
 import unicodedata
@@ -46,7 +47,9 @@ from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
 CATALOG = REPO / "openfisca_morocco" / "data" / "tva_article99_catalog.json"
-HOLY_GRAPH = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+HOLY_GRAPH = Path(
+    os.environ.get("MOROCCO_HOLY_GRAPH") or REPO.parent / "morocco-holy-graph"
+)
 CORPUS_DATASET = Path("laws/ma_tax_law/data/consolidated/tva_article_lists.json")
 
 YEARS = (2007, 2010, 2014, 2018, 2021, 2024, 2026)

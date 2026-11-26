@@ -96,7 +96,7 @@ class cotisation_cnss_employeur(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Cotisation CNSS patronale mensuelle (prestations familiales, court et long terme, TFP, IPE)"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184 ; Décret 2-02-175 ; Décret 2-19-461 ; Loi 30-97 ; Loi 03-14
+    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184 ; Décret 2-02-175 ; Décret 2-01-2723 (6,40 %) ; Loi 30-97 ; Loi 03-14
 
     def formula(person, period, parameters):
         base = person("salaire_brut", period)

@@ -171,8 +171,8 @@ class revenu_foncier_net(Variable):
         if period.start.year < 2026:
             if (brut != 0).any():
                 raise ValueError(
-                    "Rental income is only modelled from 2026; no 2025 rules "
-                    "are encoded."
+                    "Rental income is only modelled from 2026; no pre-2026 "
+                    "rules are encoded."
                 )
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.revenus_categories.revenus_fonciers
@@ -192,8 +192,8 @@ class retenue_fonciere(Variable):
         if period.start.year < 2026:
             if (brut != 0).any():
                 raise ValueError(
-                    "Rental income is only modelled from 2026; no 2025 rules "
-                    "are encoded."
+                    "Rental income is only modelled from 2026; no pre-2026 "
+                    "rules are encoded."
                 )
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.revenus_categories.revenus_fonciers
@@ -209,12 +209,32 @@ class retenue_fonciere(Variable):
         )
 
 
+class revenu_etranger_imposable(Variable):
+    value_type = float
+    entity = Person
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Revenu étranger imposable au barème"
+    reference = "https://www.tax.gov.ma"  # CGI, article 25
+
+    def formula(person, period, parameters):
+        brut = person("revenus_etrangers_bruts", period)
+        if period.start.year < 2026 and (brut != 0).any():
+            raise ValueError(
+                "Foreign income is only modelled from 2026; no pre-2026 rules "
+                "are encoded."
+            )
+        return max_(brut, 0)
+
+
 class revenu_global_imposable(Variable):
     value_type = float
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Revenu global imposable au barème (salaires, professionnel, foncier)"
+    label = (
+        "Revenu global imposable au barème (salaires, professionnel, foncier, étranger)"
+    )
     reference = "https://www.tax.gov.ma"  # CGI, articles 22 et 25
 
     def formula(person, period, parameters):
@@ -229,7 +249,7 @@ class revenu_global_imposable(Variable):
                 0.0,
                 person("revenu_foncier_net", period),
             )
-            + max_(person("revenus_etrangers_bruts", period), 0)
+            + person("revenu_etranger_imposable", period)
         )
         return max_(total, 0)
 
@@ -282,8 +302,8 @@ class impot_dividendes(Variable):
         if period.start.year < 2026:
             if (person("dividendes_bruts", period) != 0).any():
                 raise ValueError(
-                    "Capital income is only modelled from 2026; no 2025 rates "
-                    "are encoded."
+                    "Capital income is only modelled from 2026; no pre-2026 "
+                    "rates are encoded."
                 )
             return person.filled_array(0.0)
         taux = parameters(
@@ -304,8 +324,8 @@ class impot_interets(Variable):
         if period.start.year < 2026:
             if (person("interets_bruts", period) != 0).any():
                 raise ValueError(
-                    "Capital income is only modelled from 2026; no 2025 rates "
-                    "are encoded."
+                    "Capital income is only modelled from 2026; no pre-2026 "
+                    "rates are encoded."
                 )
             return person.filled_array(0.0)
         taux = parameters(
@@ -323,14 +343,19 @@ class impot_plus_values(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 73-II-C-1° et F-2°
 
     def formula(person, period, parameters):
+        actions = person("plus_values_actions_cotees", period)
+        titres = person("plus_values_titres_non_cotes", period)
         if period.start.year < 2026:
+            if ((actions != 0) | (titres != 0)).any():
+                raise ValueError(
+                    "Capital income is only modelled from 2026; no pre-2026 "
+                    "rates are encoded."
+                )
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.revenus_categories.capitaux_mobiliers
         return (
-            max_(person("plus_values_actions_cotees", period), 0)
-            * params.taux_plus_values_cotees
-            + max_(person("plus_values_titres_non_cotes", period), 0)
-            * params.taux_plus_values_non_cotees
+            max_(actions, 0) * params.taux_plus_values_cotees
+            + max_(titres, 0) * params.taux_plus_values_non_cotees
         )
 
 
@@ -343,19 +368,9 @@ class impot_capitaux_mobiliers(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 73-II
 
     def formula(person, period, parameters):
-        if period.start.year < 2026:
-            capital = (
-                person("dividendes_bruts", period)
-                + person("interets_bruts", period)
-                + person("plus_values_actions_cotees", period)
-                + person("plus_values_titres_non_cotes", period)
-            )
-            if (capital != 0).any():
-                raise ValueError(
-                    "Capital income is only modelled from 2026; no 2025 rates "
-                    "are encoded."
-                )
-            return person.filled_array(0.0)
+        # Each leaf applies its own pre-2026 gate. Summing the leaves rather
+        # than the raw inputs prevents offsetting gains and losses from
+        # cancelling out and slipping past the gate.
         return (
             person("impot_dividendes", period)
             + person("impot_interets", period)

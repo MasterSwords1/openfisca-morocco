@@ -1,10 +1,11 @@
 # Tests des allocations familiales servies par la CNSS.
 #
 # Cadre légal et réglementaire :
-# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 38 à 41)
-# - Décret n° 2-19-461 du 19 juillet 2019 :
+# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 40 et 41)
+# - Décret n° 2-72-541, article 6 : âges limites (12/18/21 ans, handicap)
+# - Décret n° 2-08-358, modifié par les décrets n° 2-19-750 et n° 2-23-715 :
 #   * Rangs 1 à 3 : 300 MAD par mois et par enfant
-#   * Rangs 4 à 6 : 36 MAD par mois et par enfant
+#   * Rangs 4 à 6 : 100 MAD par mois et par enfant depuis 2023
 #   * Plafond légal de 6 enfants par assuré
 
 - name: Ménage sans enfant — allocation nulle
@@ -26,7 +27,8 @@
   input:
     persons:
       parent1: {}
-      enfant1: {}
+      enfant1:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -42,8 +44,10 @@
   input:
     persons:
       parent1: {}
-      enfant1: {}
-      enfant2: {}
+      enfant1:
+        birth: 2015-01-01
+      enfant2:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -59,9 +63,12 @@
   input:
     persons:
       parent1: {}
-      enfant1: {}
-      enfant2: {}
-      enfant3: {}
+      enfant1:
+        birth: 2015-01-01
+      enfant2:
+        birth: 2015-01-01
+      enfant3:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -72,15 +79,19 @@
         nombre_enfants: 3
         allocations_familiales: 900.0
 
-- name: Ménage avec 4 enfants — franchissement vers le second palier (936 DH)
+- name: Ménage avec 4 enfants — franchissement vers le second palier (1 000 DH)
   period: 2025-01
   input:
     persons:
       parent1: {}
-      enfant1: {}
-      enfant2: {}
-      enfant3: {}
-      enfant4: {}
+      enfant1:
+        birth: 2015-01-01
+      enfant2:
+        birth: 2015-01-01
+      enfant3:
+        birth: 2015-01-01
+      enfant4:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -89,19 +100,25 @@
     households:
       famille:
         nombre_enfants: 4
-        allocations_familiales: 936.0
+        allocations_familiales: 1000.0
 
-- name: Ménage avec 6 enfants — plafond légal plein (1 008 DH)
+- name: Ménage avec 6 enfants — plafond légal plein (1 200 DH)
   period: 2025-01
   input:
     persons:
       parent1: {}
-      enfant1: {}
-      enfant2: {}
-      enfant3: {}
-      enfant4: {}
-      enfant5: {}
-      enfant6: {}
+      enfant1:
+        birth: 2015-01-01
+      enfant2:
+        birth: 2015-01-01
+      enfant3:
+        birth: 2015-01-01
+      enfant4:
+        birth: 2015-01-01
+      enfant5:
+        birth: 2015-01-01
+      enfant6:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -110,21 +127,29 @@
     households:
       famille:
         nombre_enfants: 6
-        allocations_familiales: 1008.0
+        allocations_familiales: 1200.0
 
-- name: Ménage avec 8 enfants — écrêtement au plafond légal de 6 enfants (1 008 DH)
+- name: Ménage avec 8 enfants — écrêtement au plafond légal de 6 enfants (1 200 DH)
   period: 2025-01
   input:
     persons:
       parent1: {}
-      enfant1: {}
-      enfant2: {}
-      enfant3: {}
-      enfant4: {}
-      enfant5: {}
-      enfant6: {}
-      enfant7: {}
-      enfant8: {}
+      enfant1:
+        birth: 2015-01-01
+      enfant2:
+        birth: 2015-01-01
+      enfant3:
+        birth: 2015-01-01
+      enfant4:
+        birth: 2015-01-01
+      enfant5:
+        birth: 2015-01-01
+      enfant6:
+        birth: 2015-01-01
+      enfant7:
+        birth: 2015-01-01
+      enfant8:
+        birth: 2015-01-01
     households:
       famille:
         adults: [parent1]
@@ -133,4 +158,4 @@
     households:
       famille:
         nombre_enfants: 8
-        allocations_familiales: 1008.0
+        allocations_familiales: 1200.0

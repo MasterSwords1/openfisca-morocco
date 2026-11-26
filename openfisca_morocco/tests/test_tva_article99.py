@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import re
 from dataclasses import FrozenInstanceError
 from datetime import UTC, date, datetime
@@ -282,7 +283,17 @@ def test_aggregation_rejects_transitional_categories_and_bad_bases():
 # Effective attribution (see docs/work-packages/tva-article99-attribution.md §7)
 # ---------------------------------------------------------------------------
 
-_HOLY_GRAPH = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+_CORPUS_DATASET = "laws/ma_tax_law/data/consolidated/tva_article_lists.json"
+_ENV_CORPUS = os.environ.get("MOROCCO_HOLY_GRAPH")
+if _ENV_CORPUS:
+    _HOLY_GRAPH = Path(_ENV_CORPUS)
+    if not (_HOLY_GRAPH / _CORPUS_DATASET).is_file():
+        pytest.exit(
+            f"MOROCCO_HOLY_GRAPH={_ENV_CORPUS!r} does not contain {_CORPUS_DATASET}",
+            returncode=1,
+        )
+else:
+    _HOLY_GRAPH = Path(__file__).resolve().parents[2].parent / "morocco-holy-graph"
 _HEX64 = re.compile(r"\A[0-9a-f]{64}\Z")
 
 

@@ -2,6 +2,7 @@
 
 import hashlib
 import json
+import os
 import re
 from dataclasses import FrozenInstanceError
 from importlib import resources
@@ -23,7 +24,17 @@ from openfisca_morocco.tva_article91_92 import (
     list_article_92_subitems,
 )
 
-_HOLY_GRAPH = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+_CORPUS_DATASET = "laws/ma_tax_law/data/consolidated/tva_article_lists.json"
+_ENV_CORPUS = os.environ.get("MOROCCO_HOLY_GRAPH")
+if _ENV_CORPUS:
+    _HOLY_GRAPH = Path(_ENV_CORPUS)
+    if not (_HOLY_GRAPH / _CORPUS_DATASET).is_file():
+        pytest.exit(
+            f"MOROCCO_HOLY_GRAPH={_ENV_CORPUS!r} does not contain {_CORPUS_DATASET}",
+            returncode=1,
+        )
+else:
+    _HOLY_GRAPH = Path(__file__).resolve().parents[2].parent / "morocco-holy-graph"
 _ASCII_ID = re.compile(r"\A[A-Za-z0-9-]+\Z")
 
 

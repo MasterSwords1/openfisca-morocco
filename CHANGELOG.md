@@ -1,3 +1,56 @@
+## 0.13.0 - Challenger review fixes
+
+* Tax and benefit system evolution.
+* Impacted periods: 2009-01-01 (employer family-allowance rate), 2010-01-01 (IR gating), 2016-01-01 (CNSS/AMO), 2019-07-01 (CNSS allocations), 2023-01-01 (4th–6th child amount), 2026-01-01 (registration duties), 2026-07-01 (2 % registration surcharge).
+* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.enregistrement`.
+* Details:
+  - `nombre_enfants` now counts only `children`-role members who meet the
+    statutory age and situation conditions: under 12; 12–20 and in studies
+    (schooled or higher education); 12–17 and apprenticed; or disabled and
+    without income, where the caller asserts that the disability dates from
+    before the applicable age limit.
+  - Add Person inputs `enfant_scolarise_cnss`, `enfant_apprenti_cnss`,
+    `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss` and
+    `enfant_handicape_sans_revenu_cnss`.
+  - Split the age bands per Décret n° 2-72-541, art. 6: apprenticeship ends
+    before 18, studies before 21; the under-12 band remains unconditional.
+  - Raise the 4th–6th child amount from 36 DH to 100 DH from 2023-01-01,
+    following the retroactive effect of Décret n° 2-23-715 (BO n° 7453). The
+    maximum for six children becomes 1,200 DH/month.
+  - A child without a birth date defaults to 1970-01-01 and is excluded from
+    the age-based bands; the disability branch can still apply. Supply a birth
+    date for dependent children.
+  - A child born during a month is counted for that month.
+  - The 108-day affiliation condition, Moroccan residence, the under-12
+    “charge exclusive et effective” condition, the 60 % SMIG/SMAG salary
+    condition, the father-income condition of loi n° 07-92 art. 21 for a
+    disabled child, proof of schooling or disability and the art. 6(e) case
+    remain unmodelled.
+  - Add `revenu_etranger_imposable`: foreign income now raises before 2026
+    instead of being silently included in the global IR base. Foreign income
+    is taken at its gross positive amount and remains outside the capital
+    rates.
+  - `impot_plus_values` now raises before 2026 for a nonzero amount on
+    listed or unlisted securities, instead of silently returning zero.
+  - `impot_capitaux_mobiliers` now sums the gated leaves, so offsetting
+    capital gains and losses cannot net to zero and bypass the pre-2026 gate.
+    The same per-input check now covers foreign capital income, property gains
+    and article 28 deductions.
+  - The registration-duty pre-2026 guards now check the acquisition type, the
+    payment-traceability flag, the certificate request and both capital-apport
+    inputs, so an auxiliary input alone raises instead of returning zero.
+  - The 2 % registration surcharge now applies only to acts from 2026-07-01,
+    through the new `date_acte_enregistrement` / `_societe` inputs, and a
+    *fonds de commerce* is no longer subject to the 300,000 DH threshold.
+  - Fix the company-formation threshold: the 1,000 DH fixed duty applies when
+    total subscribed capital (cash + non-exempt) is ≤ 500,000 DH and a
+    non-exempt apport is present; above that, 0.5 % applies to the non-exempt
+    apport with a 1,000 DH minimum. A cash-only formation remains exempt.
+  - Backdate the 6,40 % employer family-allowance contribution to 2009-01-01
+    (Décret 2-01-2723 art. 1, as amended by Décret 2-08-359); the 2019-07 date
+    belongs to the benefit amounts, not the rate. The employer CNSS/AMO chain
+    is therefore usable from 2016-01, like the employee chain.
+
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 
 * Tax and benefit system evolution.

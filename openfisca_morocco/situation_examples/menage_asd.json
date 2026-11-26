@@ -10,6 +10,9 @@
             },
             "rang_enfant_asd": {
                 "2026-06": 1
+            },
+            "birth": {
+                "ETERNITY": "2018-05-10"
             }
         },
         "Enfant2": {
@@ -21,6 +24,9 @@
             },
             "rang_enfant_asd": {
                 "2026-06": 2
+            },
+            "birth": {
+                "ETERNITY": "2020-09-15"
             }
         },
         "Enfant3": {
@@ -32,6 +38,9 @@
             },
             "rang_enfant_asd": {
                 "2026-06": 3
+            },
+            "birth": {
+                "ETERNITY": "2022-03-20"
             }
         }
     },

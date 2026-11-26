@@ -30,10 +30,14 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import os
 import sys
 from pathlib import Path
 
-DEFAULT_CORPUS = Path("/home/masterswords/Desktop/morocco-holy-graph-issue80-final")
+DEFAULT_CORPUS = Path(
+    os.environ.get("MOROCCO_HOLY_GRAPH")
+    or Path(__file__).resolve().parent.parent.parent / "morocco-holy-graph"
+)
 CORPUS_DATASET = Path("laws/ma_tax_law/data/consolidated/tva_article_lists.json")
 PACKAGE_CATALOG = Path("openfisca_morocco/data/tva_article91_92_catalog.json")
 

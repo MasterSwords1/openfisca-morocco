@@ -6,7 +6,9 @@
 # - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale
 # - Décret n° 2-02-175 du 11 juillet 2002 fixant le plafond à 6 000 DH/mois
 # - Loi n° 03-14 et Décret n° 2-14-540 instituant l'indemnité pour perte d'emploi (IPE)
-# - Décret n° 2-19-461 fixant le taux des prestations familiales à 6,40 %
+# - Décret n° 2-01-2723 du 12 mars 2002, article 1, tel que modifié par le
+#   décret n° 2-08-359 — cotisation patronale allocations familiales de 6,40 %
+#   à compter du 1er janvier 2009
 # - Loi n° 30-97 relative à la taxe de formation professionnelle (1,60 %)
 
 description: Cotisations de sécurité sociale (CNSS) et taxes annexes
@@ -98,10 +100,13 @@ prestations_familiales:
     unit: /1
     metadata:
       reference:
-        - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — cotisation patronale allocations familiales (6,40 %)
+        - title: >-
+            Décret n° 2-01-2723 du 12 mars 2002, article 1, tel que modifié par
+            le décret n° 2-08-359 — cotisation patronale allocations familiales
+            de 6,40 % à compter du 1er janvier 2009
           href: https://www.cnss.ma/
     values:
-      2019-07-01:
+      2009-01-01:
         value: 0.064
 
 taxe_formation_professionnelle:

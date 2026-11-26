@@ -1,16 +1,19 @@
 # Droits d'enregistrement et droits de conservation foncière.
 #
-# Sources : Code Général des Impôts (édition 2026) et Loi de finances n° 73-16
-# pour 2017 (BO n° 6577 bis du 12 juin 2017) pour les taux de l'article 133 ;
-# Décret n° 2-16-375 (BO n° 6484 du 21 juillet 2016) pour la conservation
-# foncière.
+# Sources : Code Général des Impôts (édition 2026), article 133 ; lois de
+# finances n° 38-07 pour 2008 (6 %, BO n° 5591 bis), n° 22-12 pour 2012
+# (4 %, BO n° 6048), n° 73-16 pour 2017 (5 %, BO n° 6577 bis), n° 115-12 pour
+# 2013 (droit fixe de 1 000 DH et seuil de
+# 500 000 DH, BO n° 6113 bis), n° 65-20 pour 2021 (0,5 %, BO n° 6944 bis) et
+# n° 50-25 pour 2026 (supplément de 2 %, BO n° 7465 bis) ; Décret n° 2-16-375
+# (BO n° 6484 du 21 juillet 2016) pour la conservation foncière.
 #
 # Taux 2026 : 4 % pour les locaux construits (133-I-F-1°), 5 % pour les
 # terrains nus (133-I-G-1°), 6 % pour les fonds de commerce (133-I-A-1°),
 # 0,5 % pour les apports non exonérés (133-I-H). Les apports en numéraire purs
-# et simples sont exonérés par l'article 129-IV-23° ; les apports non exonérés
-# dont le capital n'excède pas 500 000 DH paient un droit fixe de 1 000 DH
-# (article 135-I-1°).
+# et simples sont exonérés par l'article 129-IV-23° ; les constitutions dont le
+# capital souscrit total n'excède pas 500 000 DH et qui comportent un apport non
+# exonéré paient un droit fixe de 1 000 DH (article 135-I-1°).
 
 description: Droits d'enregistrement et de conservation foncière
 
@@ -25,9 +28,9 @@ enregistrement:
     metadata:
       reference:
         - title: >-
-            Loi de finances n° 73-16 pour 2017, BO n° 6577 bis — article 133-I-F
+            Loi de finances n° 22-12 pour 2012, BO n° 6048 — article 133-I-F
             (taux de 4 %)
-          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+          href: https://www.sgg.gov.ma/BO/bo_fr/2012/bo_6048_fr.pdf
     values:
       2026-01-01:
         value: 0.04
@@ -51,9 +54,9 @@ enregistrement:
     metadata:
       reference:
         - title: >-
-            Loi de finances n° 73-16 pour 2017, BO n° 6577 bis — article 133-I-A
+            Loi de finances n° 38-07 pour 2008, BO n° 5591 bis — article 133-I-A
             (taux de 6 %)
-          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5591-bis_fr.pdf
     values:
       2026-01-01:
         value: 0.06
@@ -61,44 +64,65 @@ enregistrement:
   constitution_societe:
     description: >-
       Taux applicable aux apports non exonérés lors d'une constitution ou
-      augmentation de capital
+      augmentation de capital ; minimum de perception de 1 000 DH (art. 133-II)
     unit: /1
     metadata:
       reference:
         - title: >-
-            DGI, Droits d'enregistrement — taux de 0,5 % (CGI, article 133-I-H,
-            sous réserve de l'exonération de l'article 129-IV-23)
-          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+            Loi de finances n° 65-20 pour 2021, BO n° 6944 bis — article 133-I-H
+            (taux de 0,5 %, sous réserve de l'article 129-IV-23)
+          href: https://www.sgg.gov.ma/Portals/0/BO/2020/BO_6944-bis_Fr.pdf
     values:
       2026-01-01:
         value: 0.005
 
   droit_fixe_constitution:
     description: >-
-      Droit fixe applicable aux apports non exonérés dont le capital souscrit
-      n'excède pas 500 000 DH (article 135-I-1°)
+      Droit fixe applicable lorsque le capital souscrit total (apports en
+      numéraire et apports non exonérés) n'excède pas 500 000 DH et qu'un
+      apport non exonéré est présent (article 135-I-1°)
     unit: currency-MAD
     metadata:
       reference:
-        - title: Code Général des Impôts, article 135-I-1° — droit fixe de 1 000 DH
-          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+        - title: >-
+            Loi de finances n° 115-12 pour 2013, BO n° 6113 bis — droit fixe de
+            1 000 DH pour un capital souscrit total ≤ 500 000 DH (CGI, article
+            135-I-1°)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2012/BO_6113-bis_Fr.pdf
     values:
       2026-01-01:
         value: 1000.0
 
   seuil_droit_fixe_constitution:
-    description: Seuil de capital souscrit sous lequel le droit fixe de constitution s'applique
+    description: Seuil de capital souscrit total sous lequel le droit fixe de constitution s'applique
     unit: currency-MAD
     metadata:
       reference:
-        - title: Code Général des Impôts, article 135-I-1° — seuil de 500 000 DH
-          href: https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6577-bis_Fr.pdf
+        - title: >-
+            Loi de finances n° 115-12 pour 2013, BO n° 6113 bis — seuil de
+            500 000 DH de capital souscrit total (CGI, article 135-I-1°)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2012/BO_6113-bis_Fr.pdf
     values:
       2026-01-01:
         value: 500000.0
 
+  minimum_constitution:
+    description: >-
+      Minimum de perception de 1 000 DH pour les actes de constitution et
+      d'augmentation de capital (article 133-II)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 133-II — minimum de 1 000 DH pour les actes de constitution
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+    values:
+      2026-01-01:
+        value: 1000.0
+
   minimum_proportionnel:
-    description: Minimum de perception des droits proportionnels (article 133-II)
+    description: >-
+      Minimum de perception des droits proportionnels (article 133-II), porté
+      à 1 000 DH pour les actes de constitution et d'augmentation de capital
     unit: currency-MAD
     metadata:
       reference:
@@ -110,24 +134,33 @@ enregistrement:
 
   supplement_non_tracable:
     description: >-
-      Droit supplémentaire applicable lorsque le prix n'est pas acquitté par un
-      moyen traçable (article 133-III)
+      Droit supplémentaire de 2 % applicable aux actes à compter du 1er juillet
+      2026 lorsque le prix n'est pas acquitté par un moyen traçable (article
+      133-III) ; pour les immeubles, seul le prix supérieur à 300 000 DH est
+      concerné, le fonds de commerce n'ayant pas de seuil
     unit: /1
     metadata:
       reference:
-        - title: DGI, Droits d'enregistrement — supplément de 2 % (CGI, article 133-III)
-          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+        - title: >-
+            Loi de finances n° 50-25 pour 2026, BO n° 7465 bis — supplément de
+            2 % applicable aux actes à compter du 1er juillet 2026 (CGI, article
+            133-III)
+          href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
     values:
+      # The rate is stored from the 2026 annual anchor; the act-date gate in
+      # `_droits_enregistrement` applies it only to acts from 2026-07-01.
       2026-01-01:
         value: 0.02
 
   seuil_non_tracable:
-    description: Seuil de prix au-delà duquel le supplément de l'article 133-III s'applique
+    description: Seuil de prix des immeubles au-delà duquel le supplément de l'article 133-III s'applique (sans seuil pour un fonds de commerce)
     unit: currency-MAD
     metadata:
       reference:
-        - title: DGI, Droits d'enregistrement — seuil de 300 000 DH (CGI, article 133-III)
-          href: https://tax.gov.ma/wps/portal/DGI/Vos-impots-procedures/Droits-d_enregistrement/
+        - title: >-
+            Loi de finances n° 50-25 pour 2026, BO n° 7465 bis — seuil de
+            300 000 DH pour les immeubles (CGI, article 133-III)
+          href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
     values:
       2026-01-01:
         value: 300000.0
