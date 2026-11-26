@@ -11,10 +11,10 @@ the 2026 CGI; the conservation tariff is Décret n° 2-16-375.
 | Acquisition of built premises (residential, commercial, professional, administrative) | **4 %** | CGI art. 133-I-F-1° |
 | Acquisition of vacant land or buildings to be demolished | **5 %** | CGI art. 133-I-G-1° |
 | Sale of a *fonds de commerce* (going concern) | **6 %** | CGI art. 133-I-A-1° |
-| Non-exempt company capital contribution, capital ≤ 500,000 DH | **1,000 DH fixed** | CGI art. 135-I-1° |
-| Non-exempt company capital contribution, capital > 500,000 DH | **0.5 %** | CGI art. 133-I-H |
+| Company formation, **total subscribed capital** ≤ 500,000 DH | **1,000 DH fixed** | CGI art. 135-I-1° |
+| Company formation, total capital > 500,000 DH | **0.5 % on the non-exempt apport**, minimum 1,000 DH | CGI art. 133-I-H and 133-II |
 
-Proportional duties have a **100 DH minimum** (art. 133-II). A **2 % additional
+Proportional duties have a **100 DH minimum** (art. 133-II), raised to **1,000 DH for company formations**. A **2 % additional
 duty** applies from **1 July 2026** when the price is not paid by a traceable
 means (art. 133-III). For immovable property it applies to the **whole price**
 above **300,000 DH**; a *fonds de commerce* has no threshold. Mixed
