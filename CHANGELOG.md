@@ -1,8 +1,8 @@
-## 0.13.0 - CNSS family-allowance eligibility
+## 0.13.0 - Challenger review fixes
 
 * Tax and benefit system evolution.
-* Impacted periods: 2019-07-01 onwards.
-* Impacted areas: `variables.allocations_familiales`.
+* Impacted periods: 2010-01-01 (foreign-income gating), 2019-07-01 (CNSS allocations).
+* Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
     statutory age and situation conditions: under 12; 12–20 and in studies
@@ -25,6 +25,10 @@
     “charge exclusive et effective” condition, the 60 % SMIG/SMAG salary
     condition, proof of schooling or disability and the art. 6(e) case remain
     unmodelled.
+  - Add `revenu_etranger_imposable`: foreign income now raises before 2026
+    instead of being silently included in the global IR base. Foreign income
+    is taken at its gross positive amount and remains outside the capital
+    rates.
 
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 
@@ -230,7 +234,7 @@
 ## 0.5.0 - [#7](https://github.com/MasterSwords1/openfisca-morocco/issues/7)
 
 * Tax and benefit system evolution.
-* Impacted periods: 2019-07-01 onwards.
+* Impacted periods: 2010-01-01 (foreign-income gating), 2019-07-01 (CNSS allocations).
 * Impacted areas:
   - `parameters.prestations_sociales.allocations_familiales` (new CNSS family allowances grid).
   - `variables.allocations_familiales` (new variables `nombre_enfants` and `allocations_familiales` on `Household`).

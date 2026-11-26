@@ -15,7 +15,7 @@ historical scales in the README).
 | Fixed-income interest | `interets_bruts` | 30 % liberatory (art. 73-II-G-3°) |
 | Listed shares | `plus_values_actions_cotees` | 15 % (art. 73-II-C-1°) |
 | Unlisted securities | `plus_values_titres_non_cotes` | 20 % (art. 73-II-F-2°) |
-| Global base | `revenu_global_imposable` | Salary net + professional net + rental net, floored at zero (arts. 22, 25) |
+| Global base | `revenu_global_imposable` | Salary net + professional net + rental net + foreign income, floored at zero (arts. 22, 25) |
 | Global IR | `impot_sur_le_revenu` | Barème on the global base after article 28 deductions, less the family deduction, less the rental withholding (none under the 20 % option) |
 | Capital total | `impot_capitaux_mobiliers` | Sum of the four liberatory taxes |
 | Household total | `impot_sur_le_revenu_menage` | Sum of members' global IR and capital taxes |
@@ -115,15 +115,22 @@ marginal rate for the household.
   capped at 30 000 DH (35 %/25 %, capped at 35 000 DH, from 2023; the
   78 000 DH threshold switches the whole forfait to 25 %) and a 360 DH family
   deduction, then the 2025 values. IR before 2010 is not modelled.
-- Rental and capital rules are encoded **from 2026 only**. A simulation before
-  2026 that supplies rental or capital income **raises an error** instead of
-  applying a 2026 rate to an earlier year.
+- Rental, capital and foreign-income rules are encoded **from 2026 only**.
+  A simulation before 2026 that supplies rental, capital or foreign income
+  **raises an error** instead of applying a 2026 rate to an earlier year.
 - Professional net income under the *résultat net réel* regime is accepted
   before 2026, because that regime and the barème exist; the simplified, CPU and
   auto-entrepreneur regimes raise.
 - The default CNSS/AMO chain starts in 2016. For 2010–2015, supply
   `cotisations_sociales_obligatoires` explicitly; otherwise the contribution
   layer raises before the IR is calculated.
+- From 2026, foreign income is taken at its gross positive amount: a negative
+  `revenus_etrangers_bruts` is clamped to zero; before 2026 a nonzero negative
+  input raises. Foreign capital income must use
+  `revenus_capitaux_etrangers_bruts`, not `revenus_etrangers_bruts`.
+- The pre-2026 gates are simulation-wide: a nonzero foreign, rental or capital
+  input anywhere in the simulation raises, even when another household is
+  calculated.
 - The family deduction is 360 DH per dependent from 2010 to 2024, 500 DH in
   2025 and 600 DH from 2026.
 

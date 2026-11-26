@@ -1,6 +1,6 @@
 """Gating and edge cases for the non-salarial IR categories.
 
-The rental and capital rules are encoded from 2026 only. A pre-2026 input must
+The rental, capital and foreign-income rules are encoded from 2026 only. A pre-2026 input must
 raise rather than be silently ignored; professional net income, whose net-réel
 regime predates 2026, is accepted whenever the barème exists.
 """
@@ -83,3 +83,45 @@ def test_professional_turnover_before_2026_raises():
     simulation = simulate("2025", chiffre_affaires_professionnel=100_000)
     with pytest.raises(ValueError, match="Professional regimes"):
         simulation.calculate("impot_contribution_professionnelle_unique", "2025")
+
+
+def test_foreign_income_before_2026_raises():
+    for year in ("2018", "2025"):
+        for foreign_income in (100_000, -5_000):
+            simulation = simulate(year, revenus_etrangers_bruts=foreign_income)
+            with pytest.raises(ValueError, match="Foreign income.*2026"):
+                simulation.calculate("revenu_etranger_imposable", year)
+            with pytest.raises(ValueError, match="Foreign income.*2026"):
+                simulation.calculate("revenu_global_imposable", year)
+            with pytest.raises(ValueError, match="Foreign income.*2026"):
+                simulation.calculate("impot_sur_le_revenu", year)
+
+
+def test_foreign_income_applies_in_2026_and_2027():
+    for year in ("2026", "2027"):
+        simulation = simulate(year, revenus_etrangers_bruts=100_000)
+        assert simulation.calculate("revenu_etranger_imposable", year)[
+            0
+        ] == pytest.approx(100_000)
+        assert simulation.calculate("impot_sur_le_revenu", year)[0] == pytest.approx(
+            12_000
+        )
+
+
+def test_negative_foreign_income_is_clamped_in_2026():
+    simulation = simulate("2026", revenus_etrangers_bruts=-5_000)
+    assert simulation.calculate("revenu_etranger_imposable", "2026")[0] == 0
+    assert simulation.calculate("impot_sur_le_revenu", "2026")[0] == 0
+
+
+def test_foreign_income_gate_is_vectorized_over_all_persons():
+    situation = {
+        "persons": {
+            "salary_only": {},
+            "foreign_income": {"revenus_etrangers_bruts": {"2025": 100_000}},
+        },
+        "households": {"menage": {"adults": ["salary_only", "foreign_income"]}},
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    with pytest.raises(ValueError, match="Foreign income.*2026"):
+        simulation.calculate("impot_sur_le_revenu", "2025")

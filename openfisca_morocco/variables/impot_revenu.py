@@ -209,12 +209,32 @@ class retenue_fonciere(Variable):
         )
 
 
+class revenu_etranger_imposable(Variable):
+    value_type = float
+    entity = Person
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Revenu étranger imposable au barème"
+    reference = "https://www.tax.gov.ma"  # CGI, article 25
+
+    def formula(person, period, parameters):
+        brut = person("revenus_etrangers_bruts", period)
+        if period.start.year < 2026 and (brut != 0).any():
+            raise ValueError(
+                "Foreign income is only modelled from 2026; no pre-2026 rules "
+                "are encoded."
+            )
+        return max_(brut, 0)
+
+
 class revenu_global_imposable(Variable):
     value_type = float
     entity = Person
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Revenu global imposable au barème (salaires, professionnel, foncier)"
+    label = (
+        "Revenu global imposable au barème (salaires, professionnel, foncier, étranger)"
+    )
     reference = "https://www.tax.gov.ma"  # CGI, articles 22 et 25
 
     def formula(person, period, parameters):
@@ -229,7 +249,7 @@ class revenu_global_imposable(Variable):
                 0.0,
                 person("revenu_foncier_net", period),
             )
-            + max_(person("revenus_etrangers_bruts", period), 0)
+            + person("revenu_etranger_imposable", period)
         )
         return max_(total, 0)
 

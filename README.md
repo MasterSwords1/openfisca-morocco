@@ -43,6 +43,7 @@ salaire_brut_global − elements_exoneres            (art. 56, 57)
     = salaire_net_imposable
     + revenu_professionnel_net                      (arts. 30–39)
     + revenus_fonciers_bruts × (1 − 40 %)           (art. 64-II)
+    + revenu_etranger_imposable (gross, 2026+)       (art. 25)
     = revenu_global_imposable
     → ir_brut via the progressive scale             (art. 73-I)
     − deduction_charges_famille                     (art. 74)
