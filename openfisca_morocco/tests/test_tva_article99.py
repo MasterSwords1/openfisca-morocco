@@ -5,7 +5,7 @@ import json
 import os
 import re
 from dataclasses import FrozenInstanceError
-from datetime import UTC, date, datetime
+from datetime import date, datetime, timezone
 from decimal import Decimal
 from importlib import resources
 from pathlib import Path
@@ -568,7 +568,7 @@ def test_aggregation_uses_the_witnessed_segment_when_a_date_is_given():
         aggregate_article_99_turnover(
             2007,
             {item.item_id: Decimal(1)},
-            on_date=datetime(2008, 12, 31, 12, tzinfo=UTC),
+            on_date=datetime(2008, 12, 31, 12, tzinfo=timezone.utc),
         )
 
 
