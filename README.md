@@ -552,7 +552,7 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 489 passed (plus 301 pytest tests; 484/296 without the corpus)
+# 494 passed (plus 306 pytest tests; 489/301 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
