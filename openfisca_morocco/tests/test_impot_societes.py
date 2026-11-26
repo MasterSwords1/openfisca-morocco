@@ -217,3 +217,13 @@ def test_credit_reduces_the_gross_including_the_cm():
     )
     assert simulation.calculate("is_du_brut", "2026")[0] == pytest.approx(2_500_000)
     assert simulation.calculate("is_net_a_payer", "2026")[0] == pytest.approx(1_500_000)
+
+
+def test_credit_can_reduce_the_cm_floor_to_zero():
+    simulation = _company(
+        benefice_fiscal=0,
+        chiffre_affaires_annuel=0,
+        credit_impot=3_000,
+    )
+    assert simulation.calculate("is_du_brut", "2026")[0] == 3_000
+    assert simulation.calculate("is_net_a_payer", "2026")[0] == 0
