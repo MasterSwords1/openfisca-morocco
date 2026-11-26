@@ -12,7 +12,8 @@ project started from the [OpenFisca Country Template](https://github.com/openfis
 The package models the **impôt sur le revenu (IR)** on salarial income for
 **annual** periods from **1 January 2010**, with the historical scales and
 deductions of 2010–2024 and the 2025 reform (before 2016, pass
-`cotisations_sociales_obligatoires` explicitly). Professional income under the
+`cotisations_sociales_obligatoires` explicitly), and the **monthly payroll
+withholding** (*retenue à la source*) from **January 2016**. Professional income under the
 net-réel regime is modelled from 2010, and the simplified/CPU/auto-entrepreneur
 regimes, rental, capital, property and foreign income from 2026 (see
 [`impot-revenu-categories.md`](impot-revenu-categories.md)).
@@ -34,8 +35,8 @@ ASD eligibility inputs and registry limitations are documented in
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR, IS/CM, registration duties), `MONTH` (TVA, social contributions, family allowances, direct social assistance) |
-| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer), 2019-07-01 (family-allowance amounts), 2023-12-01 (direct social assistance), 2026-01-01 (IS/CM, registration duties) |
+| Periods | `YEAR` (IR assessment, IS/CM, registration duties), `MONTH` (IR withholding, TVA, social contributions, family allowances, direct social assistance) |
+| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer, monthly IR withholding), 2019-07-01 (family-allowance amounts), 2023-12-01 (direct social assistance), 2026-01-01 (IS/CM, registration duties) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -67,6 +68,33 @@ Dividends, fixed-income interest and capital gains are taxed at liberatory rates
 outside this barème; `impot_capitaux_mobiliers` reports them and
 `impot_sur_le_revenu_menage` sums the individual liabilities.
 
+### Monthly withholding
+
+Payroll withholding applies the same articles month by month from **January
+2016**:
+
+```
+salaire_brut_global − elements_exoneres                 (arts. 56–57)
+    = salaire_brut_imposable_mensuel
+    − cotisations_sociales_salarie                       (art. 58)
+    − frais_professionnels_mensuel                       (art. 59)
+    = salaire_net_imposable_mensuel
+    → ir_brut_mensuel via the monthly scale              (art. 73-I)
+    − deduction_charges_famille_mensuelle                (art. 74)
+    = ir_prelevement_source_mensuel
+salaire_net_a_payer = salaire_brut − cotisations_sociales_salarie
+                      − ir_prelevement_source_mensuel
+```
+
+The monthly scale is the annual art. 73-I scale divided by twelve, with the
+published centime thresholds. The professional-expense ceiling and the 78 000
+DH switch are prorated to the month, and the family deduction is the annual
+amount divided by twelve. This is a payroll estimate: the annual
+`impot_sur_le_revenu` remains the reference, and no annual regularisation or
+credit for the twelve withholdings is modelled. With constant pay the twelve
+withholdings add up to the annual tax, because every base is prorated
+linearly; with variable pay they do not.
+
 ### Coverage table
 
 | CGI article | Provision | Variables | Parameters | From |
@@ -80,6 +108,13 @@ outside this barème; `impot_capitaux_mobiliers` reports them and
 | 73-I | Progressive annual scale | `ir_brut` | `impot_revenu.bareme` | 2010-01-01 |
 | 74 | Family-charge deduction | `deduction_charges_famille` | `impot_revenu.deduction_charges_famille` | 2010-01-01 |
 | 74 | Net income tax payable | `impot_sur_le_revenu` | — | 2010-01-01 |
+| 56–58 | Monthly gross taxable pay | `salaire_brut_imposable_mensuel` | — | 2016-01-01 |
+| 59 | Monthly professional-expense deduction | `frais_professionnels_mensuel` | `impot_revenu.frais_professionnels` | 2016-01-01 |
+| 58–59 | Monthly net taxable pay | `salaire_net_imposable_mensuel` | — | 2016-01-01 |
+| 73-I | Monthly progressive scale | `ir_brut_mensuel` | `impot_revenu.bareme_mensuel` | 2016-01-01 |
+| 74 | Monthly family-charge deduction | `deduction_charges_famille_mensuelle` | `impot_revenu.deduction_charges_famille` | 2016-01-01 |
+| 73-I–74 | Monthly withholding | `ir_prelevement_source_mensuel` | — | 2016-01-01 |
+| 56–74 | Monthly net pay | `salaire_net_a_payer` | — | 2016-01-01 |
 
 The figures, for reference:
 
@@ -448,6 +483,7 @@ names the article it comes from.
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | Dahir portant loi n° 1-72-184 (articles 40 et 41), Décret n° 2-72-541 art. 6 (âges), Décret n° 2-08-358 modifié par les décrets n° 2-19-750 et n° 2-23-715 (montants) |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 5487 bis codification) with rates from Lois 38-07 (BO n° 5591 bis), 22-12 (BO n° 6048), 73-16 (BO n° 6577 bis), 115-12 (BO n° 6113 bis), 65-20 (BO n° 6944 bis) and 50-25 (BO n° 7465 bis); Décret n° 2-16-375 (BO n° 6484) for conservation; 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
+| Monthly IR withholding | CGI art. 73-I (annual barème divided by twelve) and art. 74, with the LF 2010 and LF 2025 scales; monthly professional expenses and family deduction are the annual amounts divided by twelve |
 | IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net-réel income whenever the barème exists (2010 onward) |
 | IS and cotisation minimale | CGI 2026 arts. 19 and 144; 20 % / 35 % at 100,000,000 DH / 40 % financial, CM 0.25 % / 0.15 % with a 3,000 DH floor; see [`impot-societes.md`](impot-societes.md) |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
@@ -468,10 +504,12 @@ Stated plainly, because they determine what you may conclude from a simulation:
   per-client 80,000 DH withholding, the regime option procedures, treaty relief
   and foreign tax credits are not modelled, so this is still not a complete IR.
   See [`impot-revenu-categories.md`](impot-revenu-categories.md).
-- **Annual assessment only (IR).** Salary inputs are monthly and are summed
-  before applying the annual IR scale. Monthly withholding (retenue à la
-  source) is not modelled; annual tax divided by twelve is not a withholding
-  calculation.
+- **Monthly withholding is a payroll estimate (IR).** The monthly pipeline
+  applies the annual barème divided by twelve from 2016, with prorated
+  professional expenses and family deductions. For variable pay it does not
+  reconcile with the annual assessment: `impot_sur_le_revenu` remains the
+  annual tax, and no regularisation or credit for the twelve withholdings is
+  modelled. Before 2016, the AMO parameters are not encoded.
 - **Historical IR covers salarial income, plus any professional net-réel
   income you supply.** The 2010–2024 scale, professional-expense deduction and
   family-charge deduction are encoded. The historical professional-regime

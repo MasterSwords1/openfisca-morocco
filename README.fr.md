@@ -21,7 +21,7 @@ couvertes.
 
 | Domaine | Périmètre | Depuis |
 |---|---|---|
-| **IR — salaires** | Barème progressif, frais professionnels, charges de famille | 2010 |
+| **IR — salaires** | Barème progressif, frais professionnels, charges de famille, retenue mensuelle à la source depuis 2016 | 2010 |
 | **IR — professionnel (net réel)** | Revenu professionnel net réel fourni | 2010 |
 | **IR — autres régimes et revenus** | Régimes simplifié/CPU/auto-entrepreneur, revenus fonciers, de capitaux, du patrimoine et étrangers | 2026 |
 | **CNSS / AMO** | Cotisations salariales et patronales, plafonds, coût employeur | 2016 |
@@ -31,9 +31,9 @@ couvertes.
 | **Droits d'enregistrement** | Acquisitions immobilières, capital social, conservation foncière | 2026 |
 | **IS / cotisation minimale** | Impôt sur les sociétés et cotisation minimale | 2026 |
 
-Entités : `Person`, `Household`, `Company`. Périodes : `YEAR` pour l'IR,
-l'IS/CM et les droits d'enregistrement ; `MONTH` pour la TVA, les cotisations,
-les allocations familiales et l'ASD.
+Entités : `Person`, `Household`, `Company`. Périodes : `YEAR` pour l'IR
+annuel, l'IS/CM et les droits d'enregistrement ; `MONTH` pour la retenue à la
+source de l'IR, la TVA, les cotisations, les allocations familiales et l'ASD.
 
 Le périmètre détaillé, les références légales et les limites connues sont
 dans [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).

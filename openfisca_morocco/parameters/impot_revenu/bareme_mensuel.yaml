@@ -1,0 +1,99 @@
+# Barème mensuel de la retenue à la source sur les salaires.
+# Article 73-I du Code Général des Impôts fixe le barème annuel ; la retenue
+# mensuelle opérée par l'employeur applique la table mensuelle de la DGI,
+# obtenue en divisant ce barème par douze, seuils et sommes à déduire compris.
+#
+# Deux barèmes sont encodés :
+#   - du 2010-01-01 au 2024-12-31 (barème annuel de la Loi de finances n° 48-09
+#     pour 2010, divisé par 12) :
+#       0 % jusqu'à 2 500 DH ; 10 % de 2 500 à 4 166,67 ;
+#       20 % de 4 166,67 à 5 000 ; 30 % de 5 000 à 6 666,67 ;
+#       34 % de 6 666,67 à 15 000 ; 38 % au-delà.
+#     (sommes à déduire : 0 / 250 / 666,67 / 1 166,67 / 1 433,33 / 2 033,33)
+#   - à partir du 2025-01-01 (barème annuel de la Loi de finances n° 60-24 pour
+#     2025, divisé par 12) :
+#       0 % jusqu'à 3 333,33 DH ; 10 % de 3 333,33 à 5 000 ;
+#       20 % de 5 000 à 6 666,67 ; 30 % de 6 666,67 à 8 333,33 ;
+#       34 % de 8 333,33 à 15 000 ; 37 % au-delà.
+#     (sommes à déduire : 0 / 333,33 / 833,33 / 1 500 / 1 833,33 / 2 283,33)
+#
+# Les seuils sont ceux publiés au centime. La retenue est calculée sur le
+# salaire net imposable du mois, après cotisations sociales et frais
+# professionnels ; la déduction pour charges de famille est appliquée ensuite.
+description: Barème mensuel de la retenue à la source sur les salaires - article 73-I du CGI
+metadata:
+  reference:
+    - title: Code Général des Impôts, article 73-I (Direction Générale des Impôts)
+      href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+    - title: >-
+        Loi de finances n° 48-09 pour l'année budgétaire 2010, BO n° 5800 bis
+        (barème annuel 2010–2024, divisé par douze pour la retenue mensuelle)
+      href: https://www.sgg.gov.ma/BO/bo_fr/2009/bo_5800-bis_fr.pdf
+    - title: >-
+        Loi de finances n° 60-24 pour l'année budgétaire 2025, BO n° 7362 bis
+        (barème annuel à partir de 2025, divisé par douze pour la retenue
+        mensuelle)
+      href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
+  threshold_unit: currency-MAD
+  rate_unit: /1
+brackets:
+- rate:
+    2010-01-01:
+      value: 0.0
+    2025-01-01:
+      value: 0.0
+  threshold:
+    2010-01-01:
+      value: 0.0
+    2025-01-01:
+      value: 0.0
+- rate:
+    2010-01-01:
+      value: 0.10
+    2025-01-01:
+      value: 0.10
+  threshold:
+    2010-01-01:
+      value: 2500.0
+    2025-01-01:
+      value: 3333.33
+- rate:
+    2010-01-01:
+      value: 0.20
+    2025-01-01:
+      value: 0.20
+  threshold:
+    2010-01-01:
+      value: 4166.67
+    2025-01-01:
+      value: 5000.0
+- rate:
+    2010-01-01:
+      value: 0.30
+    2025-01-01:
+      value: 0.30
+  threshold:
+    2010-01-01:
+      value: 5000.0
+    2025-01-01:
+      value: 6666.67
+- rate:
+    2010-01-01:
+      value: 0.34
+    2025-01-01:
+      value: 0.34
+  threshold:
+    2010-01-01:
+      value: 6666.67
+    2025-01-01:
+      value: 8333.33
+- rate:
+    2010-01-01:
+      value: 0.38
+    2025-01-01:
+      value: 0.37
+  threshold:
+    2010-01-01:
+      value: 15000.0
+    2025-01-01:
+      value: 15000.0

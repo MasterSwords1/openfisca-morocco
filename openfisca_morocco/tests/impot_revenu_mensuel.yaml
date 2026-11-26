@@ -1,0 +1,109 @@
+# Retenue à la source mensuelle sur les salaires (CGI arts. 73-I et 74).
+# Le barème mensuel est le barème annuel divisé par douze ; les frais
+# professionnels et la déduction pour charges de famille sont proratisés.
+# Cas vérifiés à la main contre les sommes à déduire publiées.
+
+- name: 2025 — salaire sous le seuil mensuel de 0 %
+  period: 2025-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 3000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2025: 0
+  output:
+    frais_professionnels_mensuel: 1050
+    salaire_net_imposable_mensuel: 1950
+    ir_brut_mensuel: 0
+    deduction_charges_famille_mensuelle: 0
+    ir_prelevement_source_mensuel: 0
+
+- name: 2025 — salaire médian de 6 000 DH, sans personne à charge
+  period: 2025-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 6000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2025: 0
+  output:
+    frais_professionnels_mensuel: 2100
+    salaire_net_imposable_mensuel: 3900
+    ir_brut_mensuel: 56.67
+    deduction_charges_famille_mensuelle: 0
+    ir_prelevement_source_mensuel: 56.67
+
+- name: 2025 — salaire médian de 6 000 DH, deux personnes à charge
+  period: 2025-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 6000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2025: 2
+  output:
+    deduction_charges_famille_mensuelle: 83.33
+    ir_prelevement_source_mensuel: 0
+
+- name: 2025 — cadre à 25 000 DH, trois personnes à charge
+  period: 2025-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 25000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2025: 3
+  output:
+    frais_professionnels_mensuel: 2916.67
+    salaire_net_imposable_mensuel: 22083.33
+    ir_brut_mensuel: 5887.50
+    deduction_charges_famille_mensuelle: 125
+    ir_prelevement_source_mensuel: 5762.50
+
+- name: 2016 — barème mensuel 2010–2024, deux personnes à charge
+  period: 2016-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 6000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2016: 2
+  output:
+    frais_professionnels_mensuel: 1200
+    salaire_net_imposable_mensuel: 4800
+    ir_brut_mensuel: 293.33
+    deduction_charges_famille_mensuelle: 60
+    ir_prelevement_source_mensuel: 233.33
+
+- name: 2026 — déduction familiale à 600 DH par an
+  period: 2026-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 25000
+    elements_exoneres: 0
+    salaire_brut: 0
+    nombre_personnes_a_charge:
+      2026: 3
+  output:
+    deduction_charges_famille_mensuelle: 150
+    ir_prelevement_source_mensuel: 5737.50
+
+- name: 2025 — cotisations CNSS/AMO et salaire net à payer
+  period: 2025-01
+  absolute_error_margin: 0.02
+  input:
+    salaire_brut_global: 25000
+    elements_exoneres: 0
+    salaire_brut: 25000
+    nombre_personnes_a_charge:
+      2025: 0
+  output:
+    cotisations_sociales_salarie: 833.80
+    salaire_net_imposable_mensuel: 21249.53
+    ir_prelevement_source_mensuel: 5579.00
+    salaire_net_a_payer: 18587.20

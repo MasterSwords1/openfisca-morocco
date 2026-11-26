@@ -1,3 +1,21 @@
+## 0.15.0 - [#44](https://github.com/MasterSwords1/openfisca-morocco/issues/44)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2016-01-01 onwards.
+* Impacted areas: `variables.impot_revenu`, `parameters.impot_revenu.bareme_mensuel`.
+* Details:
+  - Add the monthly payroll withholding (*retenue à la source*):
+    `salaire_brut_imposable_mensuel`, `frais_professionnels_mensuel`,
+    `salaire_net_imposable_mensuel`, `ir_brut_mensuel`,
+    `deduction_charges_famille_mensuelle`, `ir_prelevement_source_mensuel`
+    and `salaire_net_a_payer`.
+  - The monthly scale is the annual art. 73-I scale divided by twelve; the
+    professional-expense ceiling and the 78 000 DH switch are prorated, and
+    the family deduction is the annual amount divided by twelve.
+  - Withholding starts in 2016, when the AMO parameters start (the CNSS rates go back to 2002).
+    The annual `impot_sur_le_revenu` remains the reference and no annual
+    regularisation is modelled.
+
 ## Unreleased - openfisca-core 46
 
 * Technical improvement.

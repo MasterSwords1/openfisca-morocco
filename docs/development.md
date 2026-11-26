@@ -22,12 +22,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 530 passed (of which 331 pytest; 525/326 without the corpus)
+# 546 passed (of which 340 pytest; 541/335 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-525 OpenFisca / 326 pytest tests.
+541 OpenFisca / 335 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 
@@ -59,11 +59,20 @@ simulation = SimulationBuilder().build_from_dict(
 print(simulation.calculate("salaire_brut_global", "2025-01"))  # [10000.]
 print(simulation.calculate_add("salaire_brut_global", "2025"))  # [120000.]
 print(simulation.calculate("impot_sur_le_revenu", "2025").round(2))  # [7218.72]
+
+# Payroll withholding for one month (from 2016)
+print(
+    simulation.calculate("ir_prelevement_source_mensuel", "2025-01").round(2)
+)  # [601.56]
+print(simulation.calculate("salaire_net_a_payer", "2025-01").round(2))  # [8903.64]
 ```
 
 All monetary amounts are in Moroccan dirhams (MAD). Monthly salary inputs
 are summed over the requested calendar year; the annual expense thresholds,
-caps, tax brackets and family deduction are applied once to that total.
+caps, tax brackets and family deduction are applied once to that total. The
+monthly withholding variables are a separate payroll calculation: the monthly
+barème and prorated deductions apply to the month's pay, and they do not
+change the annual `impot_sur_le_revenu`.
 
 ### Period conventions
 
@@ -79,9 +88,16 @@ The periods of every variable family are:
 | `cotisations_sociales_obligatoires` | `YEAR` | Sum of monthly employee contributions, or an explicit annual deduction override (including other mandatory contributions). |
 | `nombre_personnes_a_charge` | `YEAR` | Count of spouse and dependent children used for the annual IR deduction; never divided by twelve. |
 | `salaire_brut_imposable`, `frais_professionnels`, `salaire_net_imposable`, `ir_brut`, `deduction_charges_famille`, `impot_sur_le_revenu` | `YEAR` | Annual IR bases, deductions and tax. |
+| `salaire_brut_imposable_mensuel`, `frais_professionnels_mensuel`, `salaire_net_imposable_mensuel`, `ir_brut_mensuel`, `deduction_charges_famille_mensuelle`, `ir_prelevement_source_mensuel`, `salaire_net_a_payer` | `MONTH` | Payroll withholding from 2016: the annual barème, expense ceiling and family amount are prorated to the month. |
 | `nombre_enfants`, `allocations_familiales` | `MONTH` | Eligible child count and monthly allowance. |
 | `enfant_scolarise_cnss`, `enfant_apprenti_cnss`, `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss`, `enfant_handicape_sans_revenu_cnss` | `MONTH` | CNSS eligibility flags; declare them for every month they apply, because a one-month value does not carry over. |
 | All variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
+
+The monthly withholding subtracts `cotisations_sociales_salarie`, which is
+computed from `salaire_brut`. Supply both gross bases for a complete payroll
+estimate; if `salaire_brut` is omitted, contributions are zero and the
+withholding is overstated, while `salaire_net_a_payer` is zero because it has
+no contribution base to start from.
 
 The two gross salary inputs are **distinct bases**. `salaire_brut_global`
 feeds IR; `salaire_brut` feeds CNSS/AMO. Supply both when both apply, as in the
