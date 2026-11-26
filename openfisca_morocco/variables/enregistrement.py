@@ -16,7 +16,7 @@ Taux d'enregistrement :
   (art. 133-I-G-1°) ;
 - fonds de commerce : 6 % (art. 133-I-A-1°) ;
 - apports non exonérés en capital : 0,5 % (art. 133-I-H), avec un droit fixe
-  de 1 000 DH lorsque le capital souscrit n'excède pas 500 000 DH
+  de 1 000 DH lorsque le capital souscrit total n'excède pas 500 000 DH
   (art. 135-I-1°). Les apports en numéraire purs et simples sont exonérés
   (art. 129-IV-23°).
 
@@ -358,7 +358,11 @@ class apport_capital_numeraires(Variable):
     entity = Company
     definition_period = YEAR
     unit = "currency-MAD"
-    label = "Apports en numéraire purs et simples, exonérés (art. 129-IV-23°)"
+    label = (
+        "Apports en numéraire purs et simples, exonérés (art. 129-IV-23°) ; "
+        "exclus de l'assiette, mais inclus dans le capital souscrit total du "
+        "seuil de 500 000 DH"
+    )
     reference = BO_CGI
 
 
@@ -369,6 +373,20 @@ class apport_capital_non_exonere(Variable):
     unit = "currency-MAD"
     label = "Apports non exonérés lors d'une constitution ou augmentation de capital"
     reference = BO_CGI
+
+
+class apport_capital_total(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Capital souscrit total (apports en numéraire et apports non exonérés)"
+    reference = BO_CGI
+
+    def formula(company, period, parameters):
+        return max_(company("apport_capital_numeraires", period), 0) + max_(
+            company("apport_capital_non_exonere", period), 0
+        )
 
 
 class droits_enregistrement_constitution_societe(Variable):
@@ -388,13 +406,23 @@ class droits_enregistrement_constitution_societe(Variable):
                 raise ValueError("Registration duties are only modelled from 2026.")
             return company.filled_array(0.0)
         params = parameters(period).enregistrement.droits.enregistrement
-        apport = max_(company("apport_capital_non_exonere", period), 0)
+        total = company("apport_capital_total", period)
+        taxable = max_(company("apport_capital_non_exonere", period), 0)
+        # Art. 135-I-1° reads "le capital social souscrit au titre dudit
+        # apport" ; the package adopts the total-subscribed-capital reading,
+        # the only one under which cash apports affect the regime. The 1,000 DH
+        # fixed duty applies when that total does not exceed 500,000 DH. Above
+        # it, the 0.5 % duty applies to the non-exempt apport, with the 1,000 DH
+        # capital minimum of art. 133-II.
         return where(
-            apport <= 0,
+            (total <= 0) | (taxable <= 0),
             0.0,
             where(
-                apport <= params.seuil_droit_fixe_constitution,
+                total <= params.seuil_droit_fixe_constitution,
                 params.droit_fixe_constitution,
-                apport * params.constitution_societe,
+                max_(
+                    taxable * params.constitution_societe,
+                    params.minimum_constitution,
+                ),
             ),
         )

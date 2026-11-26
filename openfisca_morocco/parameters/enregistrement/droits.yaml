@@ -64,7 +64,7 @@ enregistrement:
   constitution_societe:
     description: >-
       Taux applicable aux apports non exonérés lors d'une constitution ou
-      augmentation de capital
+      augmentation de capital ; minimum de perception de 1 000 DH (art. 133-II)
     unit: /1
     metadata:
       reference:
@@ -78,34 +78,51 @@ enregistrement:
 
   droit_fixe_constitution:
     description: >-
-      Droit fixe applicable aux apports non exonérés dont le capital souscrit
-      n'excède pas 500 000 DH (article 135-I-1°)
+      Droit fixe applicable lorsque le capital souscrit total (apports en
+      numéraire et apports non exonérés) n'excède pas 500 000 DH
+      (article 135-I-1°)
     unit: currency-MAD
     metadata:
       reference:
         - title: >-
             Loi de finances n° 115-12 pour 2013, BO n° 6113 bis — droit fixe de
-            1 000 DH (CGI, article 135-I-1°)
+            1 000 DH pour un capital souscrit total ≤ 500 000 DH (CGI, article
+            135-I-1°)
           href: https://www.sgg.gov.ma/BO/bo_fr/2012/BO_6113-bis_Fr.pdf
     values:
       2026-01-01:
         value: 1000.0
 
   seuil_droit_fixe_constitution:
-    description: Seuil de capital souscrit sous lequel le droit fixe de constitution s'applique
+    description: Seuil de capital souscrit total sous lequel le droit fixe de constitution s'applique
     unit: currency-MAD
     metadata:
       reference:
         - title: >-
             Loi de finances n° 115-12 pour 2013, BO n° 6113 bis — seuil de
-            500 000 DH (CGI, article 135-I-1°)
+            500 000 DH de capital souscrit total (CGI, article 135-I-1°)
           href: https://www.sgg.gov.ma/BO/bo_fr/2012/BO_6113-bis_Fr.pdf
     values:
       2026-01-01:
         value: 500000.0
 
+  minimum_constitution:
+    description: >-
+      Minimum de perception de 1 000 DH pour les actes de constitution et
+      d'augmentation de capital (article 133-II)
+    unit: currency-MAD
+    metadata:
+      reference:
+        - title: Code Général des Impôts, article 133-II — minimum de 1 000 DH pour les actes de constitution
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+    values:
+      2026-01-01:
+        value: 1000.0
+
   minimum_proportionnel:
-    description: Minimum de perception des droits proportionnels (article 133-II)
+    description: >-
+      Minimum de perception des droits proportionnels (article 133-II), porté
+      à 1 000 DH pour les actes de constitution et d'augmentation de capital
     unit: currency-MAD
     metadata:
       reference:

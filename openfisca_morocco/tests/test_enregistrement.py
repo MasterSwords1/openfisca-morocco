@@ -424,3 +424,78 @@ def test_built_property_under_300k_is_not_surcharged():
     assert simulation.calculate("droits_enregistrement", "2026")[0] == pytest.approx(
         8_000
     )
+
+
+def test_cash_apport_is_not_added_to_the_taxable_capital_base():
+    simulation = _company_at(
+        2026,
+        apport_capital_numeraires=1_000_000,
+        apport_capital_non_exonere=100_000,
+    )
+    assert simulation.calculate("droits_enregistrement_constitution_societe", "2026")[
+        0
+    ] == pytest.approx(1_000)
+
+    simulation = _company_at(
+        2026,
+        apport_capital_numeraires=1_000_000,
+        apport_capital_non_exonere=1_000_000,
+    )
+    assert simulation.calculate("droits_enregistrement_constitution_societe", "2026")[
+        0
+    ] == pytest.approx(5_000)
+
+
+def test_cash_only_apport_at_low_value_is_exempt():
+    for amount in (100_000, 499_999, 1_000_000):
+        simulation = _company_at(2026, apport_capital_numeraires=amount)
+        assert (
+            simulation.calculate("droits_enregistrement_constitution_societe", "2026")[
+                0
+            ]
+            == 0
+        )
+
+
+def test_capital_threshold_uses_total_subscribed_capital():
+    # Total 500,000 → fixed duty; total 600,000 → 0.5 % on 100,000 = 500,
+    # raised to the 1,000 DH capital minimum.
+    for cash, non_exempt, expected in (
+        (400_000, 100_000, 1_000),
+        (500_000, 100_000, 1_000),
+        (1_000_000, 300_000, 1_500),
+    ):
+        simulation = _company_at(
+            2026,
+            apport_capital_numeraires=cash,
+            apport_capital_non_exonere=non_exempt,
+        )
+        assert simulation.calculate(
+            "droits_enregistrement_constitution_societe", "2026"
+        )[0] == pytest.approx(expected)
+
+
+def test_capital_threshold_includes_cash_at_the_boundary():
+    for cash, non_exempt, expected in (
+        (200_000, 300_000, 1_000),
+        (200_001, 300_000, 1_500),
+    ):
+        simulation = _company_at(
+            2026,
+            apport_capital_numeraires=cash,
+            apport_capital_non_exonere=non_exempt,
+        )
+        assert simulation.calculate(
+            "droits_enregistrement_constitution_societe", "2026"
+        )[0] == pytest.approx(expected)
+
+
+def test_negative_cash_apport_cannot_cancel_a_positive_apport():
+    simulation = _company_at(
+        2026,
+        apport_capital_numeraires=-100_001,
+        apport_capital_non_exonere=100_000,
+    )
+    assert simulation.calculate("droits_enregistrement_constitution_societe", "2026")[
+        0
+    ] == pytest.approx(1_000)
