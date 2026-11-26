@@ -1,7 +1,7 @@
 ## 0.13.0 - Challenger review fixes
 
 * Tax and benefit system evolution.
-* Impacted periods: 2010-01-01 (IR gating), 2019-07-01 (CNSS allocations), 2026-01-01 (registration duties).
+* Impacted periods: 2009-01-01 (employer family-allowance rate), 2010-01-01 (IR gating), 2016-01-01 (CNSS/AMO), 2019-07-01 (CNSS allocations), 2026-01-01 (registration duties).
 * Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.enregistrement`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
@@ -38,6 +38,10 @@
   - The registration-duty pre-2026 guards now check the acquisition type, the
     payment-traceability flag, the certificate request and both capital-apport
     inputs, so an auxiliary input alone raises instead of returning zero.
+  - Backdate the 6,40 % employer family-allowance contribution to 2009-01-01
+    (Décret 2-01-2723 art. 1, as amended by Décret 2-08-359); the 2019-07 date
+    belongs to the benefit amounts, not the rate. The employer CNSS/AMO chain
+    is therefore usable from 2016-01, like the employee chain.
 
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 

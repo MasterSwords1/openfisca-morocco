@@ -27,7 +27,7 @@ ASD eligibility inputs and registry limitations are documented in
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
 | Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales, Aide sociale directe) |
-| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (default CNSS/AMO), 2019-07-01 (Allocations familiales), 2023-12-01 (Aide sociale directe) |
+| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer), 2019-07-01 (Allocations familiales amounts), 2023-12-01 (Aide sociale directe) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -466,10 +466,12 @@ Stated plainly, because they determine what you may conclude from a simulation:
   family-charge deduction are encoded. The historical professional-regime
   deductions and ceilings are not, and rental, capital, property and foreign
   income remain 2026-only; those categories raise before 2026.
-- **Historical payroll contributions start in 2016.** The default CNSS/AMO
-  chain needs parameters from 2016-01-01. For 2010–2015, supply
-  `cotisations_sociales_obligatoires` explicitly; otherwise the contribution
-  layer raises a parameter-not-found error before the IR is calculated.
+- **Historical payroll contributions start in 2016.** The employee and
+  employer CNSS/AMO chains need parameters from 2016-01-01. For 2010–2015,
+  supply `cotisations_sociales_obligatoires` explicitly; otherwise the
+  contribution layer raises before the IR is calculated. The family-allowance
+  benefit amounts start in 2019-07; the 6.40 % employer contribution rate is
+  encoded from 2009-01-01.
 - **CNSS family-allowance eligibility is input-driven.** The model pays only
   for `children`-role members with a known birth date who are under 12; 12–20
   and declared `enfant_scolarise_cnss` (or its subset
@@ -483,7 +485,7 @@ Stated plainly, because they determine what you may conclude from a simulation:
   excluded from the age-based bands; the disability branch can still apply.
   Dependent adults and disabled children must be placed in the `children`
   role.
-- **CNSS family allowances before 2019-07 are not modelled.** The package starts
+- **CNSS family-allowance amounts before 2019-07 are not modelled.** The package starts
   with the 2019-07 parameters (300 DH for ranks 1–3, 36 DH for ranks 4–6); the
   1972–2019-06 schedule, including the former 200 DH first-tier amount, is not
   encoded.

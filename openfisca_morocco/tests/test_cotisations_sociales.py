@@ -9,6 +9,7 @@ Vérifie :
 """
 
 import pytest
+from openfisca_core.errors.parameter_not_found_error import ParameterNotFoundError
 from openfisca_core.simulations import SimulationBuilder
 
 from openfisca_morocco import CountryTaxBenefitSystem
@@ -148,3 +149,49 @@ def test_cotisations_sociales_obligatoires_calculees_annuellement_dans_ir():
     # IR brut = 84 062,40 × 30 % - 18 000 = 25 218,72 - 18 000 = 7 218,72 MAD
     ir_net = float(sim.calculate("impot_sur_le_revenu", "2025")[0])
     assert pytest.approx(ir_net, rel=1e-4) == 7218.72
+
+
+def test_cnss_chains_start_in_2016_01():
+    simulation = simuler_salarie(10_000, "2016-01")
+    assert simulation.calculate("cotisations_sociales_salarie", "2016-01")[
+        0
+    ] == pytest.approx(494.80)
+    assert simulation.calculate("cotisations_sociales_employeur", "2016-01")[
+        0
+    ] == pytest.approx(1749.80)
+    assert simulation.calculate("cout_employeur", "2016-01")[0] == pytest.approx(
+        11749.80
+    )
+
+    simulation = simuler_salarie(10_000, "2015-12")
+    with pytest.raises(ParameterNotFoundError, match="amo"):
+        simulation.calculate("cotisations_sociales_employeur", "2015-12")
+
+    for period in ("2019-06", "2019-07"):
+        simulation = simuler_salarie(10_000, period)
+        assert simulation.calculate("cotisations_sociales_employeur", period)[
+            0
+        ] == pytest.approx(1749.80)
+
+
+def test_employer_family_allowance_rate_starts_in_2009():
+    assert (
+        TBS.parameters(
+            "2009-01-01"
+        ).prestations_sociales.cotisations.cnss.prestations_familiales.employeur
+        == pytest.approx(0.064)
+    )
+    with pytest.raises(ParameterNotFoundError):
+        _ = TBS.parameters(
+            "2008-12-01"
+        ).prestations_sociales.cotisations.cnss.prestations_familiales.employeur
+
+
+def test_cnss_employer_only_is_computable_before_amo():
+    for period in ("2014-12", "2015-12"):
+        simulation = simuler_salarie(10_000, period)
+        assert simulation.calculate("cotisation_cnss_employeur", period)[
+            0
+        ] == pytest.approx(1338.80)
+        with pytest.raises(ParameterNotFoundError, match="amo"):
+            simulation.calculate("cotisations_sociales_employeur", period)
