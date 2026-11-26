@@ -1,7 +1,7 @@
 ## 0.13.0 - Challenger review fixes
 
 * Tax and benefit system evolution.
-* Impacted periods: 2009-01-01 (employer family-allowance rate), 2010-01-01 (IR gating), 2016-01-01 (CNSS/AMO), 2019-07-01 (CNSS allocations), 2026-01-01 (registration duties).
+* Impacted periods: 2009-01-01 (employer family-allowance rate), 2010-01-01 (IR gating), 2016-01-01 (CNSS/AMO), 2019-07-01 (CNSS allocations), 2023-01-01 (4th–6th child amount), 2026-01-01 (registration duties), 2026-07-01 (2 % registration surcharge).
 * Impacted areas: `variables.allocations_familiales`, `variables.impot_revenu`, `variables.ir_patrimoine`, `variables.ir_deductions_globales`, `variables.enregistrement`.
 * Details:
   - `nombre_enfants` now counts only `children`-role members who meet the
@@ -38,6 +38,9 @@
   - The registration-duty pre-2026 guards now check the acquisition type, the
     payment-traceability flag, the certificate request and both capital-apport
     inputs, so an auxiliary input alone raises instead of returning zero.
+  - The 2 % registration surcharge now applies only to acts from 2026-07-01,
+    through the new `date_acte_enregistrement` / `_societe` inputs, and a
+    *fonds de commerce* is no longer subject to the 300,000 DH threshold.
   - Fix the company-formation threshold: the 1,000 DH fixed duty applies when
     total subscribed capital (cash + non-exempt) is ≤ 500,000 DH and a
     non-exempt apport is present; above that, 0.5 % applies to the non-exempt

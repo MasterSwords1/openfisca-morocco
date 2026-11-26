@@ -130,9 +130,10 @@ marginal rate for the household.
   `revenus_etrangers_bruts` is clamped to zero; before 2026 a nonzero negative
   input raises. Foreign capital income must use
   `revenus_capitaux_etrangers_bruts`, not `revenus_etrangers_bruts`.
-- The pre-2026 gates are simulation-wide: a nonzero foreign, rental or capital
-  input anywhere in the simulation raises, even when another household is
-  calculated.
+- The pre-2026 gates are simulation-wide: a calculation that reads a gated
+  variable raises when any person in the simulation has a nonzero foreign,
+  rental or capital input, even if another household is the one being
+  inspected.
 - The family deduction is 360 DH per dependent from 2010 to 2024, 500 DH in
   2025 and 600 DH from 2026.
 

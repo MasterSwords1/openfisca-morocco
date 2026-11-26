@@ -48,7 +48,6 @@ from openfisca_morocco.entities import Company, Household
 
 BO_CGI = "https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf"
 BO_50_25 = "https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf"
-BO_68_17 = "https://www.sgg.gov.ma/BO/bo_fr/2017/BO_6633-bis_fr.pdf"
 BO_6484 = "https://www.sgg.gov.ma/BO/bo_fr/2016/BO_6484_Fr.pdf"
 
 

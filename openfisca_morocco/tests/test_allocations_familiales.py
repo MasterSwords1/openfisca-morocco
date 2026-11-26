@@ -5,7 +5,9 @@ Tests the statutory rules encoded from:
 - Décret n° 2-72-541, article 6 (âges limites)
 - Décret n° 2-08-358, modifié par les décrets n° 2-19-750 et n° 2-23-715
   (montants)
-- Corpus `morocco-holy-graph` dataset `laws/ma_social_protection/data/family_allowances_grid.json`
+- Corpus `morocco-holy-graph` dataset only as a historical cross-check; the
+  amounts and ages follow Décrets 2-08-358 / 2-19-750 / 2-23-715 and 2-72-541
+  art. 6.
 """
 
 import pytest

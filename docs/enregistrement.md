@@ -61,7 +61,9 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
   entity and year;
 - lease agreements and the other fixed or proportional duties of arts. 127–135;
 - the rate history before 2026: the 2026 rules apply from 2026-01-01, except the
-  2 % surcharge (acts from 2026-07-01), and any pre-2026 input for a duty (acquisition value, type, payment method or
+  2 % surcharge (acts from 2026-07-01). A lone pre-2026 act date is ignored; the
+  value, type, payment or certificate input triggers the guard. Any pre-2026
+  input for a duty (acquisition value, type, payment method or
   certificate; capital apport, including exempt cash, for the constitution
   duty) raises an error;
 - the conservation formalities other than the inscription (morcellement,

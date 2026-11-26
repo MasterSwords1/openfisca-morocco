@@ -499,3 +499,32 @@ def test_negative_cash_apport_cannot_cancel_a_positive_apport():
     assert simulation.calculate("droits_enregistrement_constitution_societe", "2026")[
         0
     ] == pytest.approx(1_000)
+
+
+def test_company_untraceable_fonds_uses_the_act_date():
+    simulation = _company_at(
+        2026,
+        type_acquisition_immobiliere_societe="fonds_commerce",
+        valeur_bien_acquis_societe=200_000,
+        paiement_par_moyen_tracable_societe=False,
+    )
+    assert simulation.calculate("droits_enregistrement_societe", "2026")[
+        0
+    ] == pytest.approx(16_000)
+
+    situation = {
+        "persons": {"Gerant": {}},
+        "companies": {
+            "Societe": {
+                "membres": ["Gerant"],
+                "type_acquisition_immobiliere_societe": {"2026": "fonds_commerce"},
+                "valeur_bien_acquis_societe": {"2026": 200_000},
+                "paiement_par_moyen_tracable_societe": {"2026": False},
+                "date_acte_enregistrement_societe": {"ETERNITY": "2026-06-01"},
+            }
+        },
+    }
+    simulation = SimulationBuilder().build_from_dict(SYSTEM, situation)
+    assert simulation.calculate("droits_enregistrement_societe", "2026")[
+        0
+    ] == pytest.approx(12_000)
