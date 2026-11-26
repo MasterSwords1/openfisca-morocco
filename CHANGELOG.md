@@ -1,3 +1,13 @@
+## Unreleased - openfisca-core 46
+
+* Technical improvement.
+* Details:
+  - Require Python 3.11+ and `openfisca-core[web-api] >= 46.1.0` (previously
+    Python 3.9+ and `openfisca-core >= 44.1.0`).
+  - The tax and benefit calculations are unchanged. The full suite passes on
+    Python 3.12, 3.13 and 3.14 with `openfisca-core` 46.1.0, including the
+    Web API.
+
 ## 0.14.0 - [#43](https://github.com/MasterSwords1/openfisca-morocco/issues/43)
 
 * Tax and benefit system evolution.

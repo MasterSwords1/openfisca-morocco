@@ -1,6 +1,6 @@
 """Tests for the source-backed Article 100 per-unit rate history."""
 
-from datetime import date, datetime, timezone
+from datetime import UTC, date, datetime
 from decimal import Decimal
 
 import pytest
@@ -61,7 +61,7 @@ def test_article100_lookup_validates_date_and_quantity_inputs():
     with pytest.raises(TypeError, match="datetime.date"):
         list_article_100_rates("2011-01-01")
     with pytest.raises(TypeError, match="datetime.date"):
-        list_article_100_rates(datetime(2011, 1, 1, tzinfo=timezone.utc))
+        list_article_100_rates(datetime(2011, 1, 1, tzinfo=UTC))
     with pytest.raises(ValueError, match="finite and non-negative"):
         calculate_article_100_tax(date(2011, 1, 1), silver_g=-1)
     with pytest.raises(ValueError, match="finite and non-negative"):
