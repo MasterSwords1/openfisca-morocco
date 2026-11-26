@@ -1,0 +1,54 @@
+# Cotisation minimale (CM) sur le chiffre d'affaires.
+#
+# Article 144 du Code Général des Impôts (édition 2026) :
+#   - taux normal de 0,25 % (144-I-D) ;
+#   - 0,15 % pour les ventes de produits pétroliers, gaz, beurre, huile, sucre,
+#     farine, eau, électricité et médicaments ;
+#   - minimum de 3 000 DH pour les contribuables soumis à l'IS, même en
+#     l'absence de chiffre d'affaires.
+#
+# Le taux de 4 % de l'article 144-I-D vise les professions des articles
+# 89-I-12° et 91-VI-1° soumises à l'IR : il ne s'applique pas à l'entité
+# `Company` et n'est pas encodé ici.
+description: Cotisation minimale - article 144 du CGI
+
+taux_normal:
+  description: Taux normal de la cotisation minimale
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 0,25 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
+  values:
+    2026-01-01:
+      value: 0.0025
+
+taux_produits_reduits:
+  description: >-
+    Taux applicable aux ventes de produits pétroliers, gaz, beurre, huile,
+    sucre, farine, eau, électricité et médicaments
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 0,15 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
+  values:
+    2026-01-01:
+      value: 0.0015
+
+minimum_societe:
+  description: >-
+    Montant minimum de la cotisation minimale pour les contribuables soumis à
+    l'IS, même en l'absence de chiffre d'affaires
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: >-
+          Loi de finances n° 110-13 pour 2014, BO n° 6217 bis — minimum de
+          3 000 DH pour les sociétés (CGI, article 144-I-D)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2013/BO_6217-bis_fr.pdf
+  values:
+    2026-01-01:
+      value: 3000.0

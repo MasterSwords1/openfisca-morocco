@@ -1,3 +1,30 @@
+## 0.14.0 - [#43](https://github.com/MasterSwords1/openfisca-morocco/issues/43)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2026-01-01 onwards.
+* Impacted areas: `variables.impot_societes`, `parameters.impot_societes`.
+* Details:
+  - Add the corporate income tax on `Company`: 20 % normal (subject to the
+    three-consecutive-years condition), 35 % at a net profit of 100,000,000 DH
+    or more with the art. 19-I-B exclusions, and 40 % for credit institutions,
+    Bank Al-Maghrib, CDG and insurers/reinsurers.
+  - Add the cotisation minimale: 0.25 % on turnover and other operating,
+    financial and subsidy products, 0.15 % on the listed products, with a
+    3,000 DH floor; `exonere_cotisation_minimale` carries the start-up
+    exemption.
+  - Liquidate `is_du_brut = max(is_theorique, cotisation_minimale)` and
+    `is_net_a_payer = max(0, is_du_brut - max(credit_impot, 0))`.
+  - Add `benefice_atteint_100m` so the float32 storage at 100M can be
+    overridden by the caller.
+  - `benefice_fiscal` is an input; the fiscal profit is not reconstructed. The
+    three-year condition, the 35 % exclusions, the CM exemption dates and the
+    microfinance exclusion are caller assertions. The 4 % CM rate for IR
+    professions is outside the `Company` scope.
+  - Tests cover a standard PME, a 35 % large firm, a loss-making company at
+    the 3,000 DH floor, a 40 % financial institution, reduced-rate products,
+    the three-year crossing, the 35 % exclusion, credits, exemption and other
+    products.
+
 ## 0.13.0 - Challenger review fixes
 
 * Tax and benefit system evolution.
