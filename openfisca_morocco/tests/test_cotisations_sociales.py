@@ -195,3 +195,23 @@ def test_cnss_employer_only_is_computable_before_amo():
         ] == pytest.approx(1338.80)
         with pytest.raises(ParameterNotFoundError, match="amo"):
             simulation.calculate("cotisations_sociales_employeur", period)
+
+
+def test_employee_amo_chain_starts_in_2016_01():
+    simulation = simuler_salarie(10_000, "2015-12")
+    with pytest.raises(ParameterNotFoundError, match="amo"):
+        simulation.calculate("cotisations_sociales_salarie", "2015-12")
+    simulation = simuler_salarie(10_000, "2016-01")
+    assert simulation.calculate("cotisations_sociales_salarie", "2016-01")[
+        0
+    ] == pytest.approx(494.80)
+
+
+def test_ipe_employee_chain_starts_in_2014_12():
+    simulation = simuler_salarie(10_000, "2014-11")
+    with pytest.raises(ParameterNotFoundError, match="indemnite_perte_emploi"):
+        simulation.calculate("cotisation_cnss_salarie", "2014-11")
+    simulation = simuler_salarie(10_000, "2014-12")
+    assert simulation.calculate("cotisation_cnss_salarie", "2014-12")[
+        0
+    ] == pytest.approx(268.80)

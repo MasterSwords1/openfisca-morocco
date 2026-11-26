@@ -201,7 +201,10 @@ class impot_contribution_professionnelle_unique(Variable):
 
     def formula(person, period, parameters):
         if period.start.year < 2026:
-            if (person("chiffre_affaires_professionnel", period) != 0).any():
+            provided = (person("chiffre_affaires_professionnel", period) != 0) | (
+                person("regime_professionnel", period) != RegimeProfessionnel.net_reel
+            )
+            if provided.any():
                 raise ValueError("Professional regimes are only modelled from 2026.")
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.regimes_professionnels
@@ -243,7 +246,10 @@ class impot_auto_entrepreneur(Variable):
 
     def formula(person, period, parameters):
         if period.start.year < 2026:
-            if (person("chiffre_affaires_professionnel", period) != 0).any():
+            provided = (person("chiffre_affaires_professionnel", period) != 0) | (
+                person("regime_professionnel", period) != RegimeProfessionnel.net_reel
+            )
+            if provided.any():
                 raise ValueError("Professional regimes are only modelled from 2026.")
             return person.filled_array(0.0)
         params = parameters(period).impot_revenu.regimes_professionnels
