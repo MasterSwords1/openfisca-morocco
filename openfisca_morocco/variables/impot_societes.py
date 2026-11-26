@@ -132,6 +132,23 @@ class credit_impot(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, articles 19 et 144
 
 
+class benefice_atteint_100m(Variable):
+    value_type = bool
+    entity = Company
+    definition_period = YEAR
+    label = (
+        "Le bénéfice net atteint 100 000 000 DH ; la comparaison par défaut "
+        "suit la valeur stockée en float32 et peut être déclarée par l'appelant"
+    )
+    reference = "https://www.tax.gov.ma"  # CGI, article 19-I-B
+
+    def formula(company, period, parameters):
+        return (
+            company("benefice_fiscal", period)
+            >= parameters(period).impot_societes.taux.seuil_taux_eleve
+        )
+
+
 class taux_is_applique(Variable):
     value_type = float
     entity = Company
@@ -142,8 +159,7 @@ class taux_is_applique(Variable):
 
     def formula(company, period, parameters):
         params = parameters(period).impot_societes.taux
-        benefice = company("benefice_fiscal", period)
-        au_dessus = benefice >= params.seuil_taux_eleve
+        au_dessus = company("benefice_atteint_100m", period)
         taux_eleve = (au_dessus | ~company("benefice_sous_seuil_trois_ans", period)) & (
             ~company("exclusion_taux_35", period)
         )
@@ -230,4 +246,7 @@ class is_net_a_payer(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, articles 19 et 144
 
     def formula(company, period, parameters):
-        return max_(company("is_du_brut", period) - company("credit_impot", period), 0)
+        return max_(
+            company("is_du_brut", period) - max_(company("credit_impot", period), 0),
+            0,
+        )

@@ -112,3 +112,71 @@ def test_is_before_2026_raises():
     )
     with pytest.raises(ParameterNotFoundError):
         simulation.calculate("is_theorique", "2025")
+
+
+def test_negative_credit_cannot_increase_the_tax():
+    simulation = _company(
+        benefice_fiscal=500_000,
+        chiffre_affaires_annuel=2_000_000,
+        credit_impot=-20_000,
+    )
+    assert simulation.calculate("is_net_a_payer", "2026")[0] == 100_000
+
+
+def test_near_threshold_can_be_declared_below_100_million():
+    # float32 storage rounds 99,999,999 to 100,000,000; the caller can
+    # override the derived flag to keep the 20 % band.
+    default = _company(
+        benefice_fiscal=99_999_999,
+        chiffre_affaires_annuel=1_000_000,
+    )
+    assert default.calculate("taux_is_applique", "2026")[0] == pytest.approx(0.35)
+    declared = _company(
+        benefice_fiscal=99_999_999,
+        chiffre_affaires_annuel=1_000_000,
+        benefice_atteint_100m=False,
+    )
+    assert declared.calculate("taux_is_applique", "2026")[0] == pytest.approx(0.20)
+
+
+def test_financial_rate_takes_priority_above_100_million():
+    simulation = _company(
+        benefice_fiscal=150_000_000,
+        chiffre_affaires_annuel=1_000_000_000,
+        est_etablissement_financier=True,
+    )
+    assert simulation.calculate("taux_is_applique", "2026")[0] == pytest.approx(0.40)
+    assert simulation.calculate("is_theorique", "2026")[0] == pytest.approx(60_000_000)
+
+
+def test_exclusion_does_not_override_the_financial_rate():
+    simulation = _company(
+        benefice_fiscal=150_000_000,
+        chiffre_affaires_annuel=1_000_000_000,
+        est_etablissement_financier=True,
+        exclusion_taux_35=True,
+    )
+    assert simulation.calculate("taux_is_applique", "2026")[0] == pytest.approx(0.40)
+
+
+def test_cotisation_minimale_can_exceed_a_positive_is():
+    simulation = _company(
+        benefice_fiscal=1_000_000,
+        chiffre_affaires_annuel=1_000_000_000,
+    )
+    assert simulation.calculate("is_theorique", "2026")[0] == pytest.approx(200_000)
+    assert simulation.calculate("cotisation_minimale", "2026")[0] == pytest.approx(
+        2_500_000
+    )
+    assert simulation.calculate("is_du_brut", "2026")[0] == pytest.approx(2_500_000)
+
+
+def test_negative_reduced_rate_turnover_is_clipped_to_zero():
+    simulation = _company(
+        benefice_fiscal=0,
+        chiffre_affaires_annuel=10_000_000,
+        chiffre_affaires_produits_taux_reduit=-1_000_000,
+    )
+    assert simulation.calculate("cotisation_minimale", "2026")[0] == pytest.approx(
+        25_000
+    )
