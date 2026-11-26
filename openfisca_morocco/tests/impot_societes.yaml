@@ -1,0 +1,197 @@
+# Impôt sur les sociétés (CGI art. 19) et cotisation minimale (art. 144).
+# Taux 2026 : 20 % normal, 35 % à partir de 100 000 000 DH, 40 % pour le
+# secteur financier ; CM 0,25 % (0,15 % pour les produits listés), minimum
+# 3 000 DH.
+
+- name: PME — bénéfice de 500 000 DH, IS à 20 %, CM au taux normal
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 500000}
+        chiffre_affaires_annuel: {2026: 2000000}
+  output:
+    companies:
+      Societe:
+        taux_is_applique: 0.20
+        is_theorique: 100000
+        base_cotisation_minimale: 2000000
+        cotisation_minimale: 5000
+        is_du_brut: 100000
+        is_net_a_payer: 100000
+
+- name: Grande entreprise — bénéfice de 150 000 000 DH, IS à 35 %
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 150000000}
+        chiffre_affaires_annuel: {2026: 1000000000}
+  output:
+    companies:
+      Societe:
+        taux_is_applique: 0.35
+        is_theorique: 52500000
+        cotisation_minimale: 2500000
+        is_du_brut: 52500000
+
+- name: Société déficitaire — CM plancher de 3 000 DH
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: -50000}
+        chiffre_affaires_annuel: {2026: 1000000}
+  output:
+    companies:
+      Societe:
+        is_theorique: 0
+        cotisation_minimale: 3000
+        is_du_brut: 3000
+        is_net_a_payer: 3000
+
+- name: Établissement financier — IS à 40 %
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 50000000}
+        chiffre_affaires_annuel: {2026: 100000000}
+        est_etablissement_financier: true
+  output:
+    companies:
+      Societe:
+        taux_is_applique: 0.40
+        is_theorique: 20000000
+        cotisation_minimale: 250000
+        is_du_brut: 20000000
+
+- name: Produits à taux réduit — CM à 0,15 % sur 4 000 000 DH
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 0}
+        chiffre_affaires_annuel: {2026: 10000000}
+        chiffre_affaires_produits_taux_reduit: {2026: 4000000}
+  output:
+    companies:
+      Societe:
+        cotisation_minimale: 21000
+
+- name: Bénéfice sous le seuil mais condition des trois ans non remplie — 35 %
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 50000000}
+        chiffre_affaires_annuel: {2026: 100000000}
+        benefice_sous_seuil_trois_ans: false
+  output:
+    companies:
+      Societe:
+        taux_is_applique: 0.35
+        is_theorique: 17500000
+
+- name: Exclusion du taux de 35 % — retour au taux de 20 %
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 150000000}
+        chiffre_affaires_annuel: {2026: 1000000000}
+        exclusion_taux_35: true
+  output:
+    companies:
+      Societe:
+        taux_is_applique: 0.20
+        is_theorique: 30000000
+
+- name: Crédit d'impôt imputé sur l'IS dû
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 500000}
+        chiffre_affaires_annuel: {2026: 2000000}
+        credit_impot: {2026: 20000}
+  output:
+    companies:
+      Societe:
+        is_du_brut: 100000
+        is_net_a_payer: 80000
+
+- name: Exonération de cotisation minimale
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: -50000}
+        chiffre_affaires_annuel: {2026: 1000000}
+        exonere_cotisation_minimale: true
+  output:
+    companies:
+      Societe:
+        cotisation_minimale: 0
+        is_du_brut: 0
+        is_net_a_payer: 0
+
+- name: Autres produits d'exploitation et financiers dans la base de la CM
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+        benefice_fiscal: {2026: 0}
+        chiffre_affaires_annuel: {2026: 1000000}
+        produits_accessoires_financiers: {2026: 500000}
+  output:
+    companies:
+      Societe:
+        base_cotisation_minimale: 1500000
+        cotisation_minimale: 3750
+
+- name: Absence d'activité — la CM plancher reste due
+  period: 2026
+  input:
+    persons:
+      Gerant: {}
+    companies:
+      Societe:
+        membres: [Gerant]
+  output:
+    companies:
+      Societe:
+        is_theorique: 0
+        cotisation_minimale: 3000
+        is_du_brut: 3000
+        is_net_a_payer: 3000

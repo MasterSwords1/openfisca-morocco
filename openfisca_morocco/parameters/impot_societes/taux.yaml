@@ -1,0 +1,77 @@
+# Taux de l'impôt sur les sociétés (IS).
+#
+# Article 19 du Code Général des Impôts (édition 2026) :
+#   - 20 % (19-I-A) ;
+#   - 35 % lorsque le bénéfice net est égal ou supérieur à 100 000 000 DH
+#     (19-I-B), sous réserve des exclusions de cet article ;
+#   - 40 % pour les établissements de crédit et organismes assimilés, Bank
+#     Al-Maghrib, la Caisse de dépôt et de gestion et les entreprises
+#     d'assurances et de réassurance (19-I-C).
+#
+# Le taux de 20 % ne s'applique à un bénéfice inférieur à 100 000 000 DH que
+# si ce bénéfice est resté inférieur à ce montant pendant trois exercices
+# consécutifs (19-I-B, alinéas finaux). Cette condition est portée par
+# `benefice_sous_seuil_trois_ans` ; les exclusions du taux de 35 % par
+# `exclusion_taux_35`.
+description: Taux de l'impôt sur les sociétés - article 19 du CGI
+
+taux_normal:
+  description: Taux normal de l'impôt sur les sociétés
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Code Général des Impôts, article 19-I-A — taux normal de 20 % (CGI
+          2026)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 20 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
+  values:
+    2026-01-01:
+      value: 0.20
+
+taux_eleve:
+  description: Taux applicable aux bénéfices nets égaux ou supérieurs au seuil
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Code Général des Impôts, article 19-I-B — taux de 35 % à partir de
+          100 000 000 DH
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 35 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
+  values:
+    2026-01-01:
+      value: 0.35
+
+taux_financier:
+  description: >-
+    Taux applicable aux établissements de crédit, à Bank Al-Maghrib, à la CDG
+    et aux entreprises d'assurances et de réassurance
+  unit: /1
+  metadata:
+    reference:
+      - title: >-
+          Code Général des Impôts, article 19-I-C — taux de 40 % pour le secteur
+          financier
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 40 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
+  values:
+    2026-01-01:
+      value: 0.40
+
+seuil_taux_eleve:
+  description: Seuil de bénéfice net à partir duquel le taux de 35 % s'applique
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code Général des Impôts, article 19-I-B — seuil de 100 000 000 DH
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+  values:
+    2026-01-01:
+      value: 100000000.0

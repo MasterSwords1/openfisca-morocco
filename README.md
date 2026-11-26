@@ -17,7 +17,7 @@ for **monthly** periods, **aide sociale directe (ASD)** under the published
 statutory schedules for **monthly** periods, including the September
 school-return allowance and the placement and exceptional allowances, and the
 **taxe sur la valeur ajoutée (TVA)**
-declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**, and **registration duties and land-conservation fees** on real-estate acquisitions and company capital from 2026.
+declared by an enterprise for **monthly** periods, with dated rates running **2004–2026**, **registration duties and land-conservation fees** on real-estate acquisitions and company capital from 2026, and the **impôt sur les sociétés (IS)** and **cotisation minimale (CM)** on the `Company` entity from 2026.
 ASD eligibility inputs and registry limitations are documented in
 [`docs/aide-sociale-directe.md`](docs/aide-sociale-directe.md).
 
@@ -26,8 +26,8 @@ ASD eligibility inputs and registry limitations are documented in
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR), `MONTH` (TVA, Cotisations sociales, Allocations familiales, Aide sociale directe) |
-| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer), 2019-07-01 (Allocations familiales amounts), 2023-12-01 (Aide sociale directe) |
+| Periods | `YEAR` (IR, IS/CM), `MONTH` (TVA, Cotisations sociales, Allocations familiales, Aide sociale directe) |
+| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer), 2019-07-01 (Allocations familiales amounts), 2023-12-01 (Aide sociale directe), 2026-01-01 (IS/CM) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -439,6 +439,7 @@ names the article it comes from.
 | Allocations familiales (CNSS) | Dahir portant loi n° 1-72-184 (articles 40 et 41), Décret n° 2-72-541 art. 6 (âges), Décret n° 2-08-358 modifié par les décrets n° 2-19-750 et n° 2-23-715 (montants) |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 5487 bis codification) with rates from Lois 38-07 (BO n° 5591 bis), 22-12 (BO n° 6048), 73-16 (BO n° 6577 bis), 115-12 (BO n° 6113 bis), 65-20 (BO n° 6944 bis) and 50-25 (BO n° 7465 bis); Décret n° 2-16-375 (BO n° 6484) for conservation; 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
 | IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net-réel income whenever the barème exists (2010 onward) |
+| IS and cotisation minimale | CGI 2026 arts. 19 and 144; 20 % / 35 % at 100,000,000 DH / 40 % financial, CM 0.25 % / 0.15 % with a 3,000 DH floor; see [`docs/impot-societes.md`](docs/impot-societes.md) |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
 | Parameter values | `metadata.reference` (title + href) on each parameter, or on each of its dated values, under `openfisca_morocco/parameters/` — enforced by `openfisca_morocco/tests/test_parameter_provenance.py` |
 
@@ -502,6 +503,10 @@ Stated plainly, because they determine what you may conclude from a simulation:
   kind from that base.
 - **IR before 2010 is not modelled.** Earlier scales, rates and thresholds are
   not encoded; an IR simulation for 2009 or before raises an error.
+- **IS/CM inputs and caller assertions.** `benefice_fiscal` is supplied, not
+  reconstructed; the three-year condition, the 35 % exclusions, the CM start-up
+  exemption, the microfinance five-year exclusion and the 4 % IR-profession CM
+  rate are not computed. See [`docs/impot-societes.md`](docs/impot-societes.md).
 - **TVA category history is snapshot-scoped.** Articles 91, 92 and 99 support
   exact item IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026; they
   do not classify descriptions or fill the periods between snapshots. The
@@ -557,12 +562,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 499 passed (plus 311 pytest tests; 494/306 without the corpus)
+# 520 passed (plus 321 pytest tests; 515/316 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-494 OpenFisca / 306 pytest tests.
+515 OpenFisca / 316 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 
@@ -723,6 +728,7 @@ pre-commit run --all-files
 ```
 
 The YAML tests in `openfisca_morocco/tests/impot_revenu.yaml`,
+`openfisca_morocco/tests/impot_societes.yaml`,
 `openfisca_morocco/tests/cotisations_sociales.yaml`,
 `openfisca_morocco/tests/allocations_familiales.yaml`,
 `openfisca_morocco/tests/aide_sociale_directe.yaml`,
@@ -782,6 +788,7 @@ openfisca_morocco/
 │   ├── impot_revenu/           # barème, frais professionnels, charges de famille
 │   ├── prestations_sociales/   # cotisations CNSS, AMO, allocations familiales, ASD
 │   ├── enregistrement/         # registration and conservation duties
+│   ├── impot_societes/         # IS rates and cotisation minimale
 │   └── tva/                    # dated rates 2004-2026, transitional schedules
 ├── variables/
 │   ├── aide_sociale_directe.py # ASD monthly household estimate
@@ -791,6 +798,7 @@ openfisca_morocco/
 │   ├── cotisations_sociales.py # CNSS and AMO contributions (employee & employer)
 │   ├── enregistrement.py       # registration and conservation duties
 │   ├── impot_revenu.py         # the IR pipeline
+│   ├── impot_societes.py       # IS and cotisation minimale
 │   ├── tva.py                  # monthly company TVA declaration
 │   └── demographics.py         # birth, age
 ├── reforms/
