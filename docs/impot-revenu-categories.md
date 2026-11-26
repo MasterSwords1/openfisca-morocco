@@ -2,7 +2,7 @@
 
 This page documents the categories added to the `impot_revenu` pipeline for the
 2026 rules. The salarial pipeline is unchanged and runs from 2010 (see the
-historical scales in the README).
+historical scales in [coverage](coverage.md)).
 
 ## Scope
 
