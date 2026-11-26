@@ -21,10 +21,6 @@ taux_normal:
   metadata:
     reference:
       - title: >-
-          Code Général des Impôts, article 19-I-A — taux normal de 20 % (CGI
-          2026)
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
-      - title: >-
           Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 20 %
         href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
   values:
@@ -36,10 +32,6 @@ taux_eleve:
   unit: /1
   metadata:
     reference:
-      - title: >-
-          Code Général des Impôts, article 19-I-B — taux de 35 % à partir de
-          100 000 000 DH
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       - title: >-
           Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 35 %
         href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
@@ -55,10 +47,6 @@ taux_financier:
   metadata:
     reference:
       - title: >-
-          Code Général des Impôts, article 19-I-C — taux de 40 % pour le secteur
-          financier
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
-      - title: >-
           Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 40 %
         href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
   values:
@@ -70,8 +58,10 @@ seuil_taux_eleve:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Code Général des Impôts, article 19-I-B — seuil de 100 000 000 DH
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+      - title: >-
+          Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — seuil de
+          100 000 000 DH du taux de 35 %
+        href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
   values:
     2026-01-01:
       value: 100000000.0

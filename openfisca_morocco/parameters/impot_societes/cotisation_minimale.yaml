@@ -18,9 +18,6 @@ taux_normal:
   metadata:
     reference:
       - title: >-
-          Code Général des Impôts, article 144-I-D — taux normal de 0,25 %
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
-      - title: >-
           Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 0,25 %
         href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
   values:
@@ -34,10 +31,6 @@ taux_produits_reduits:
   unit: /1
   metadata:
     reference:
-      - title: >-
-          Code Général des Impôts, article 144-I-D — taux de 0,15 % pour les
-          produits listés
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       - title: >-
           Loi de finances n° 50-22 pour 2023, BO n° 7154 bis — taux de 0,15 %
         href: https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf
@@ -53,9 +46,9 @@ minimum_societe:
   metadata:
     reference:
       - title: >-
-          Code Général des Impôts, article 144-I-D — minimum de 3 000 DH pour
-          les sociétés
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+          Loi de finances n° 70-19 pour 2019, BO n° 6738 bis — minimum de
+          3 000 DH pour les sociétés
+        href: https://www.sgg.gov.ma/BO/bo_fr/2018/BO_6738-bis_fr.pdf
   values:
     2026-01-01:
       value: 3000.0

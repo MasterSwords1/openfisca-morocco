@@ -36,7 +36,7 @@ The base is the turnover plus other operating, financial and subsidy products
 | Turnover | Rate |
 |---|---|
 | Ordinary sales | **0.25 %** |
-| Sales of fuel, gas, butter, oil, sugar, flour, water, electricity and medicines | **0.15 %** |
+| Sales of fuel, gas, butter, oil, sugar, flour, water, electricity and medicines, by commercial companies | **0.15 %** |
 | Professional/agricultural income subject to IR | 4 % — **not applicable to `Company`**, not modelled |
 
 `chiffre_affaires_produits_taux_reduit` is the part of turnover eligible for
@@ -71,10 +71,11 @@ Outputs: `taux_is_applique`, `is_theorique`, `base_cotisation_minimale`,
 
 - reconstruction of the fiscal profit from accounting (depreciation, provisions,
   loss carry-forwards, tax credits' eligibility);
-- the microfinance five-year exclusion from the 40 % rate;
+- the microfinance five-year exclusion from the 40 % rate (a caller can set
+  `est_etablissement_financier=False` for the first five exercises);
 - the art. 19-I-B final-paragraph carve-out for a threshold crossing caused by
-  non-current asset-disposal gains (the `benefice_atteint_100m` flag can express
-  it, but the prior-year rule is not computed);
+  non-current asset-disposal gains (the `benefice_sous_seuil_trois_ans` flag can
+  express it, but the prior-year rule is not computed);
 - the 8 % forfaitary rate of art. 19-III-A for non-resident contractors awarded
   works, construction or assembly contracts;
 - art. 144-I-C-1° (public-service concessionaires are excluded from the 36-month
@@ -95,4 +96,11 @@ Outputs: `taux_is_applique`, `is_theorique`, `base_cotisation_minimale`,
 - [CGI, BO 5487 bis](https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf)
   (articles 19 and 144, codification)
 - [Loi de finances n° 50-22, BO 7154 bis](https://www.sgg.gov.ma/BO/FR/2873/2022/BO_7154-bis_Fr.pdf)
-  (20 % / 35 % / 40 % and the 0.25 % / 0.15 % CM rates)
+  (20 % / 35 % / 40 %, 100,000,000 DH threshold and the 0.25 % / 0.15 % CM
+  rates)
+- [Loi de finances n° 70-19, BO 6738 bis](https://www.sgg.gov.ma/BO/bo_fr/2018/BO_6738-bis_fr.pdf)
+  (3,000 DH CM floor)
+
+> The `morocco-holy-graph` Catala `cgi_is.catala_fr` file still encodes the
+> pre-2023 10/20/35 scale and a 0.50 % CM; this module follows the 2026 CGI,
+> not that stale oracle.

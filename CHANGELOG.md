@@ -13,7 +13,9 @@
     3,000 DH floor; `exonere_cotisation_minimale` carries the start-up
     exemption.
   - Liquidate `is_du_brut = max(is_theorique, cotisation_minimale)` and
-    `is_net_a_payer = max(0, is_du_brut - credit_impot)`.
+    `is_net_a_payer = max(0, is_du_brut - max(credit_impot, 0))`.
+  - Add `benefice_atteint_100m` so the float32 storage at 100M can be
+    overridden by the caller.
   - `benefice_fiscal` is an input; the fiscal profit is not reconstructed. The
     three-year condition, the 35 % exclusions, the CM exemption dates and the
     microfinance exclusion are caller assertions. The 4 % CM rate for IR

@@ -506,7 +506,9 @@ Stated plainly, because they determine what you may conclude from a simulation:
 - **IS/CM inputs and caller assertions.** `benefice_fiscal` is supplied, not
   reconstructed; the three-year condition, the 35 % exclusions, the CM start-up
   exemption, the microfinance five-year exclusion and the 4 % IR-profession CM
-  rate are not computed. See [`docs/impot-societes.md`](docs/impot-societes.md).
+  rate are not computed. Money is stored as float32, so a profit within a few
+  dirhams of 100,000,000 DH should set `benefice_atteint_100m` explicitly. See
+  [`docs/impot-societes.md`](docs/impot-societes.md).
 - **TVA category history is snapshot-scoped.** Articles 91, 92 and 99 support
   exact item IDs for editions 2007, 2010, 2014, 2018, 2021, 2024 and 2026; they
   do not classify descriptions or fill the periods between snapshots. The
