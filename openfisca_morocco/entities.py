@@ -46,7 +46,7 @@ Household = build_entity(
             "key": "child",
             "plural": "children",
             "label": "Child",
-            "doc": "The non-adults of the household.",
+            "doc": "The dependants of the household (children, students and disabled adult children). The role describes dependency, not age.",
         },
     ],
 )

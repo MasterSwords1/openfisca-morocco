@@ -1,3 +1,31 @@
+## 0.13.0 - CNSS family-allowance eligibility
+
+* Tax and benefit system evolution.
+* Impacted periods: 2019-07-01 onwards.
+* Impacted areas: `variables.allocations_familiales`.
+* Details:
+  - `nombre_enfants` now counts only `children`-role members who meet the
+    statutory age and situation conditions: under 12; 12–20 and in studies
+    (schooled or higher education); 12–17 and apprenticed; or disabled and
+    without income, where the caller asserts that the disability dates from
+    before the applicable age limit.
+  - Add Person inputs `enfant_scolarise_cnss`, `enfant_apprenti_cnss`,
+    `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss` and
+    `enfant_handicape_sans_revenu_cnss`.
+  - Split the age bands per Décret n° 2-72-541, art. 6: apprenticeship ends
+    before 18, studies before 21; the under-12 band remains unconditional.
+  - Raise the 4th–6th child amount from 36 DH to 100 DH from 2023-01-01,
+    following the retroactive effect of Décret n° 2-23-715 (BO n° 7453). The
+    maximum for six children becomes 1,200 DH/month.
+  - A child without a birth date defaults to 1970-01-01 and is excluded from
+    the age-based bands; the disability branch can still apply. Supply a birth
+    date for dependent children.
+  - A child born during a month is counted for that month.
+  - The 108-day affiliation condition, Moroccan residence, the under-12
+    “charge exclusive et effective” condition, the 60 % SMIG/SMAG salary
+    condition, proof of schooling or disability and the art. 6(e) case remain
+    unmodelled.
+
 ## 0.12.0 - [#46](https://github.com/MasterSwords1/openfisca-morocco/issues/46)
 
 * Tax and benefit system evolution.

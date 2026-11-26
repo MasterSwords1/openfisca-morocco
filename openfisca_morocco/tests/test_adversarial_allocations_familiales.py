@@ -2,7 +2,7 @@
 
 Exhaustively verifies:
 1. Negative child count input (clips cleanly to 0, producing 0 MAD benefits).
-2. Huge child count input (100, 1000, max int32 strictly cap at statutory ceiling of 1 008 MAD).
+2. Huge child count input (100, 1000, max int32 strictly cap at statutory ceiling of 1 200 MAD).
 3. Float/non-integer values and type coercions.
 4. Household topology edge cases (child-only households, multi-adult/blended families, single adults).
 5. Large vector populations (hundreds of households) benchmarking performance and vectorization.
@@ -10,8 +10,9 @@ Exhaustively verifies:
 7. Interoperability with Person variables (cotisations_sociales CNSS/AMO and impot_sur_le_revenu).
 
 Legal references:
-- Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 38 à 41)
-- Décret n° 2-19-461 du 19 juillet 2019 fixant le barème des allocations familiales (300 DH/1-3, 36 DH/4-6)
+- Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 40 et 41)
+- Décret n° 2-72-541, article 6 (âges limites)
+- Décret n° 2-08-358, modifié par les décrets n° 2-19-750 et n° 2-23-715 (300 DH/1-3, 100 DH/4-6 depuis 2023)
 """
 
 import time
@@ -25,6 +26,7 @@ from openfisca_core.simulations import SimulationBuilder
 from openfisca_morocco import CountryTaxBenefitSystem
 
 TBS = CountryTaxBenefitSystem()
+CHILD = {"birth": {"ETERNITY": "2015-01-01"}}
 
 
 # --- 1. Negative child count handling ---
@@ -66,7 +68,7 @@ def test_negative_child_count_vectorized():
     sim = SimulationBuilder().build_from_dict(TBS, situation)
     af = sim.calculate("allocations_familiales", "2025-01")
 
-    expected = np.array([0.0, 0.0, 0.0, 0.0, 300.0, 600.0, 0.0, 900.0, 1008.0])
+    expected = np.array([0.0, 0.0, 0.0, 0.0, 300.0, 600.0, 0.0, 900.0, 1200.0])
     assert np.allclose(af, expected)
     assert np.all(af >= 0.0), "Benefits must never be negative"
 
@@ -79,7 +81,7 @@ def test_negative_child_count_vectorized():
     [7, 8, 10, 50, 100, 1000, 1_000_000, 2147483647],
 )
 def test_huge_child_count_direct_input(huge_count):
-    """Ensure huge child counts cleanly saturate at statutory cap of 6 children (1 008 MAD)."""
+    """Ensure huge child counts cleanly saturate at statutory cap of 6 children (1 200 MAD)."""
     sim = SimulationBuilder().build_from_dict(
         TBS,
         {
@@ -94,7 +96,7 @@ def test_huge_child_count_direct_input(huge_count):
     )
     af = sim.calculate("allocations_familiales", "2025-01")
     assert len(af) == 1
-    assert float(af[0]) == 1008.0
+    assert float(af[0]) == 1200.0
 
 
 def test_huge_declared_entities_in_single_household():
@@ -103,7 +105,7 @@ def test_huge_declared_entities_in_single_household():
     persons_def = {"parent": {}}
     child_ids = [f"child_{i}" for i in range(num_children)]
     for cid in child_ids:
-        persons_def[cid] = {}
+        persons_def[cid] = dict(CHILD)
 
     sim = SimulationBuilder().build_from_entities(
         TBS,
@@ -119,7 +121,7 @@ def test_huge_declared_entities_in_single_household():
     )
     hh = sim.household
     assert hh("nombre_enfants", "2025-01")[0] == num_children
-    assert float(hh("allocations_familiales", "2025-01")[0]) == 1008.0
+    assert float(hh("allocations_familiales", "2025-01")[0]) == 1200.0
 
 
 def test_monotonicity_across_spectrum():
@@ -144,7 +146,7 @@ def test_monotonicity_across_spectrum():
 
     # Check bounds
     assert np.all(results >= 0.0)
-    assert np.all(results <= 1008.0)
+    assert np.all(results <= 1200.0)
 
 
 # --- 3. Float and non-integer value handling ---
@@ -156,12 +158,12 @@ def test_monotonicity_across_spectrum():
         (0.0, 0.0),
         (1.0, 300.0),
         (3.0, 900.0),
-        (6.0, 1008.0),
-        (10.0, 1008.0),
+        (6.0, 1200.0),
+        (10.0, 1200.0),
         (0.9, 0.0),  # Truncates to 0
         (2.5, 600.0),  # Truncates to 2
-        (4.9, 936.0),  # Truncates to 4
-        (7.2, 1008.0),  # Truncates to 7, capped at 6
+        (4.9, 1000.0),  # Truncates to 4
+        (7.2, 1200.0),  # Truncates to 7, capped at 6
     ],
 )
 def test_float_input_coercion(float_input, expected_amount):
@@ -216,7 +218,7 @@ def test_string_numeric_and_invalid_inputs():
             },
         },
     )
-    assert float(sim.calculate("allocations_familiales", "2025-01")[0]) == 936.0
+    assert float(sim.calculate("allocations_familiales", "2025-01")[0]) == 1000.0
 
     # Non-numeric string
     with pytest.raises(SituationParsingError):
@@ -243,9 +245,9 @@ def test_household_children_only_no_adults():
         TBS,
         {
             "persons": {
-                "child_1": {},
-                "child_2": {},
-                "child_3": {},
+                "child_1": dict(CHILD),
+                "child_2": dict(CHILD),
+                "child_3": dict(CHILD),
             },
             "households": {
                 "orphan_household": {
@@ -268,8 +270,8 @@ def test_multi_adult_and_blended_households():
                 "adult_1": {},
                 "adult_2": {},
                 "adult_3": {},
-                "child_1": {},
-                "child_2": {},
+                "child_1": dict(CHILD),
+                "child_2": dict(CHILD),
             },
             "households": {
                 "extended_family": {
@@ -291,15 +293,15 @@ def test_heterogeneous_household_cohort():
         "persons": {
             "s_adult": {},
             "sp_adult": {},
-            "sp_child": {},
+            "sp_child": dict(CHILD),
             "c_adult1": {},
             "c_adult2": {},
-            "c_child1": {},
-            "c_child2": {},
-            "c_child3": {},
-            "c_child4": {},
-            "b_child1": {},
-            "b_child2": {},
+            "c_child1": dict(CHILD),
+            "c_child2": dict(CHILD),
+            "c_child3": dict(CHILD),
+            "c_child4": dict(CHILD),
+            "b_child1": dict(CHILD),
+            "b_child2": dict(CHILD),
         },
         "households": {
             "single_no_children": {"adults": ["s_adult"]},
@@ -323,7 +325,7 @@ def test_heterogeneous_household_cohort():
     amounts = hh("allocations_familiales", "2025-01")
 
     assert np.array_equal(counts, [0, 1, 4, 2])
-    assert np.allclose(amounts, [0.0, 300.0, 936.0, 600.0])
+    assert np.allclose(amounts, [0.0, 300.0, 1000.0, 600.0])
 
 
 # --- 5. Large vector populations and performance benchmarking ---
@@ -345,7 +347,7 @@ def test_large_vector_population_performance():
         persons_def[adult_id] = {}
         child_ids = [f"child_pop_{i}_{k}" for k in range(num_children)]
         for cid in child_ids:
-            persons_def[cid] = {}
+            persons_def[cid] = dict(CHILD)
 
         households_def[f"hh_{i}"] = {
             "adults": [adult_id],
@@ -356,7 +358,7 @@ def test_large_vector_population_performance():
         elig = min(num_children, 6)
         t1 = min(elig, 3)
         t2 = max(min(elig - 3, 3), 0)
-        expected_amounts.append(float(t1 * 300.0 + t2 * 36.0))
+        expected_amounts.append(float(t1 * 300.0 + t2 * 100.0))
 
     sim = SimulationBuilder().build_from_entities(
         TBS,
@@ -396,7 +398,7 @@ def test_large_vector_override_population():
     clipped_counts = np.clip(counts, 0, 6)
     t1 = np.clip(clipped_counts, 0, 3)
     t2 = np.clip(clipped_counts - 3, 0, 3)
-    expected = t1 * 300.0 + t2 * 36.0
+    expected = t1 * 300.0 + t2 * 100.0
 
     assert np.allclose(actual, expected)
 
@@ -405,7 +407,7 @@ def test_large_vector_override_population():
 
 
 def test_temporal_boundary_prior_to_decree():
-    """Querying parameters before Décret 2-19-461 (2019-07-01) raises ParameterNotFoundError."""
+    """Querying parameters before Décret 2-19-750 (2019-07-01) raises ParameterNotFoundError."""
     with pytest.raises(ParameterNotFoundError):
         _ = TBS.parameters(
             "2019-06"
@@ -459,7 +461,7 @@ def test_temporal_boundary_exact_inception_and_future():
             },
         },
     )
-    assert float(sim_future.calculate("allocations_familiales", "2030-01")[0]) == 972.0
+    assert float(sim_future.calculate("allocations_familiales", "2030-01")[0]) == 1100.0
 
 
 def test_annual_periodicity_and_aggregation():
@@ -467,7 +469,7 @@ def test_annual_periodicity_and_aggregation():
     sim = SimulationBuilder().build_from_dict(
         TBS,
         {
-            "persons": {"p1": {}, "c1": {}, "c2": {}},
+            "persons": {"p1": {}, "c1": dict(CHILD), "c2": dict(CHILD)},
             "households": {
                 "h1": {
                     "adults": ["p1"],
@@ -512,10 +514,10 @@ def test_full_system_interoperability():
                     "elements_exoneres": {"2025": 0.0},
                     "nombre_personnes_a_charge": {"2025": 0},
                 },
-                "child_1": {},
-                "child_2": {},
-                "child_3": {},
-                "child_4": {},
+                "child_1": dict(CHILD),
+                "child_2": dict(CHILD),
+                "child_3": dict(CHILD),
+                "child_4": dict(CHILD),
             },
             "households": {
                 "family": {
@@ -526,10 +528,10 @@ def test_full_system_interoperability():
         },
     )
 
-    # 1. Household allocations familiales (4 children -> 936 MAD)
+    # 1. Household allocations familiales (4 children -> 1 000 MAD)
     af = sim.calculate("allocations_familiales", "2025-01")
     assert len(af) == 1
-    assert float(af[0]) == 936.0
+    assert float(af[0]) == 1000.0
 
     # 2. Employer CNSS contribution includes the 6.40% Prestations Familiales on gross salary
     cnss_pat = sim.calculate("cotisation_cnss_employeur", "2025-01")

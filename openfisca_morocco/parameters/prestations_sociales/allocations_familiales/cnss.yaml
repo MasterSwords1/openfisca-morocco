@@ -1,10 +1,23 @@
 # Allocations familiales (CNSS)
 #
-# Source: corpus `morocco-holy-graph`, module `ma_social_protection` (CSOC),
-# dataset `laws/ma_social_protection/data/family_allowances_grid.json`.
 # Textes légaux de référence :
-# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de sécurité sociale (articles 38 à 41)
-# - Décret n° 2-19-461 du 19 juillet 2019 modifiant les montants des allocations familiales
+# - Dahir portant loi n° 1-72-184 du 27 juillet 1972 relatif au régime de
+#   sécurité sociale (articles 40 et 41 ; article 40 pour l'affiliation, la
+#   résidence et le plafond, article 41 pour le taux) : affiliation, résidence,
+#   plafond de
+#   six enfants.
+# - Décret n° 2-72-541, article 6 (modifié par le décret n° 2-96-319) : âges
+#   limites (12 ans, 18 ans pour l'apprentissage, 21 ans pour les études,
+#   sans limite pour l'enfant handicapé).
+# - Décret n° 2-08-358 du 9 juillet 2008, modifié par le décret n° 2-19-750,
+#   puis par le décret n° 2-23-715 du 29 octobre 2025 (BO n° 7453) : montants
+#   de 300 DH pour les trois premiers enfants et de 100 DH pour les 4e à 6e
+#   enfants, ce dernier montant avec effet au 1er janvier 2023.
+#
+# Le corpus `morocco-holy-graph` (module `ma_social_protection`, dataset
+# `family_allowances_grid.json`) résume les conditions d'âge ; le décret
+# 2-72-541 reste la source primaire et distingue l'apprentissage (18 ans) des
+# études (21 ans).
 
 description: Barème des allocations familiales servies par la CNSS aux assurés sociaux
 
@@ -13,7 +26,7 @@ plafond_enfants:
   unit: /1
   metadata:
     reference:
-      - title: Dahir portant loi n° 1-72-184, article 38 et Décret n° 2-19-461 fixant le plafond à 6 enfants par assuré social
+      - title: Dahir portant loi n° 1-72-184, article 40 — plafond de 6 enfants par assuré social
         href: https://www.cnss.ma/
   values:
     2019-07-01:
@@ -24,7 +37,10 @@ montant_enfants_1_a_3:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 300 DH par mois et par enfant pour les 3 premiers enfants
+      - title: >-
+          Décret n° 2-08-358 du 9 juillet 2008, modifié par le décret
+          n° 2-19-750 — 300 DH par mois et par enfant pour les 3 premiers
+          enfants
         href: https://www.cnss.ma/
   values:
     2019-07-01:
@@ -35,8 +51,16 @@ montant_enfants_4_a_6:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Dahir portant loi n° 1-72-184, articles 38 à 41 et Décret n° 2-19-461 — 36 DH par mois et par enfant pour les enfants du 4ème au 6ème rang
+      - title: >-
+          Décret n° 2-08-358, modifié par le décret n° 2-19-750 — 36 DH par
+          mois et par enfant pour les enfants du 4e au 6e rang
+        href: https://www.cnss.ma/
+      - title: >-
+          Décret n° 2-23-715 du 29 octobre 2025 (BO n° 7453) — 100 DH par mois
+          et par enfant du 4e au 6e rang, avec effet au 1er janvier 2023
         href: https://www.cnss.ma/
   values:
     2019-07-01:
       value: 36.0
+    2023-01-01:
+      value: 100.0

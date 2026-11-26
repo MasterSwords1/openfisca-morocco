@@ -435,7 +435,7 @@ names the article it comes from.
 | 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
-| Allocations familiales (CNSS) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/family_allowances_grid.json` citing Dahir portant loi n° 1-72-184 (articles 38 à 41) et Décret n° 2-19-461 |
+| Allocations familiales (CNSS) | Dahir portant loi n° 1-72-184 (articles 40 et 41), Décret n° 2-72-541 art. 6 (âges), Décret n° 2-08-358 modifié par les décrets n° 2-19-750 et n° 2-23-715 (montants) |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 6577 bis) and Décret n° 2-16-375 (BO n° 6484); 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
 | IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net-réel income whenever the barème exists (2010 onward) |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
@@ -469,6 +469,27 @@ Stated plainly, because they determine what you may conclude from a simulation:
   chain needs parameters from 2016-01-01. For 2010–2015, supply
   `cotisations_sociales_obligatoires` explicitly; otherwise the contribution
   layer raises a parameter-not-found error before the IR is calculated.
+- **CNSS family-allowance eligibility is input-driven.** The model pays only
+  for `children`-role members with a known birth date who are under 12; 12–20
+  and declared `enfant_scolarise_cnss` (or its subset
+  `enfant_etudes_superieures_cnss`, a study variant); 12–17 and declared `enfant_apprenti_cnss`;
+  or disabled (`enfant_handicape_cnss`, asserted by the caller to date from
+  before the applicable age limit) and without income
+  (`enfant_handicape_sans_revenu_cnss`). The 108-day affiliation condition,
+  Moroccan residence, the under-12 “charge exclusive et effective” condition,
+  the **60 % SMIG/SMAG salary condition** and the art. 6(e) girl/sister case
+  are not modelled. A child without a birth date defaults to 1970 and is
+  excluded from the age-based bands; the disability branch can still apply.
+  Dependent adults and disabled children must be placed in the `children`
+  role.
+- **CNSS family allowances before 2019-07 are not modelled.** The package starts
+  with the 2019-07 parameters (300 DH for ranks 1–3, 36 DH for ranks 4–6); the
+  1972–2019-06 schedule, including the former 200 DH first-tier amount, is not
+  encoded.
+- **CNSS family-allowance amounts changed in 2023.** The 4th–6th child amount
+  is 36 DH/month from 2019-07 to 2022-12 and 100 DH/month from 2023-01-01,
+  following the retroactive effect of Décret n° 2-23-715 (BO n° 7453); the
+  maximum for six children is therefore 1,200 DH/month from 2023.
 - **Professional-expense special categories and benefits in kind are not
   modelled.** Every salaried person gets the general 20 % / 35 % / 25 % rate;
   the art. 59 B/C rates for casino staff, journalists, sales representatives,
@@ -580,7 +601,8 @@ The periods of every variable family are:
 | `cotisations_sociales_obligatoires` | `YEAR` | Sum of monthly employee contributions, or an explicit annual deduction override (including other mandatory contributions). |
 | `nombre_personnes_a_charge` | `YEAR` | Count of spouse and dependent children used for the annual IR deduction; never divided by twelve. |
 | `salaire_brut_imposable`, `frais_professionnels`, `salaire_net_imposable`, `ir_brut`, `deduction_charges_famille`, `impot_sur_le_revenu` | `YEAR` | Annual IR bases, deductions and tax. |
-| `nombre_enfants`, `allocations_familiales` | `MONTH` | Household child count and allowance for that month. |
+| `nombre_enfants`, `allocations_familiales` | `MONTH` | Eligible child count and monthly allowance. |
+| `enfant_scolarise_cnss`, `enfant_apprenti_cnss`, `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss`, `enfant_handicape_sans_revenu_cnss` | `MONTH` | CNSS eligibility flags; declare them for every month they apply, because a one-month value does not carry over. |
 | All variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
 
 The two gross salary inputs are **distinct bases**. `salaire_brut_global`
