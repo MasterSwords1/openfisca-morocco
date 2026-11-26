@@ -13,6 +13,11 @@
 # pouvoir traiter une déclaration de 2004 à 2023, mais leur paramètre
 # `en_vigueur` vaut 0 à partir de 2024-01-01, de sorte qu'aucune formule ne
 # peut appliquer un taux abrogé sans que ce soit visible.
+# Les valeurs au 2004-01-01 relèvent du régime de la loi n° 30-85. Les BO
+# 5174 (LF 2004) et 5278 bis (LF 2005) ne réimpriment que les taux réduits
+# modifiés : 7 % et 14 % en 2004, 7 %, 10 % et 14 % en 2005. Le taux normal
+# de 20 % n'est pas réimprimé ; il est codifié à l'article 98 du CGI (BO 5487
+# bis) et repris par la LF 2024 (article 99-A).
 description: Taux généraux de la TVA (CGI, articles 98 et 99)
 normal:
   description: Taux normal de 20 % — article 98 jusqu'au 31 décembre 2023, article 99-A ensuite
@@ -23,10 +28,10 @@ normal:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99-A — taux normal de 20 %
           href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Code Général des Impôts, article 98 — taux normal de 20 % (loi n° 43-06)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Loi n° 30-85, taux normal de 20 % (rédaction applicable au 1er janvier 2004)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
+        - title: >-
+            Code Général des Impôts, article 98 — taux normal de 20 % (loi
+            n° 43-06)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
     values:
       2004-01-01:
         value: 0.2
@@ -39,10 +44,14 @@ reduit_10:
       reference:
         - title: Loi de finances n° 55-23 pour 2024, article 99-B — taux réduit de 10 %
           href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Code Général des Impôts, article 99-2° — taux réduit de 10 % (loi n° 43-06)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Loi n° 30-85, taux réduit de 10 % (rédaction applicable au 1er janvier 2004)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
+        - title: >-
+            Code Général des Impôts, article 99-2° — taux réduit de 10 % (loi
+            n° 43-06)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+        - title: >-
+            Loi de finances n° 26-04 pour 2005, article 15-2°, BO n° 5278 bis —
+            taux réduit de 10 %
+          href: https://www.sgg.gov.ma/BO/bo_fr/2004/bo_5278-bis_fr.pdf
     values:
       2004-01-01:
         value: 0.1
@@ -53,10 +62,18 @@ reduit_14:
     unit: /1
     metadata:
       reference:
-        - title: Code Général des Impôts, article 99-3° — taux réduit de 14 % (loi n° 43-06)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Loi n° 30-85, article 15-3° — taux réduit de 14 % (loi de finances 2004)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
+        - title: >-
+            Code Général des Impôts, article 99-3° — taux réduit de 14 % (loi
+            n° 43-06)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+        - title: >-
+            Loi de finances n° 48-03 pour 2004, article 12, BO n° 5174 — taux
+            réduits de 7 % (art. 15-1°) et 14 % (art. 15-3°)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf
+        - title: >-
+            Loi de finances n° 26-04 pour 2005, article 15, BO n° 5278 bis —
+            taux réduits de 7 %, 10 % et 14 %
+          href: https://www.sgg.gov.ma/BO/bo_fr/2004/bo_5278-bis_fr.pdf
     values:
       2004-01-01:
         value: 0.14
@@ -79,10 +96,18 @@ reduit_7:
     unit: /1
     metadata:
       reference:
-        - title: Code Général des Impôts, article 99-1° — taux réduit de 7 % (loi n° 43-06)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
-        - title: Loi n° 30-85, article 15-1° — taux réduit de 7 % (loi de finances 2004)
-          href: https://www.sgg.gov.ma/BO/AR/3111/2023/BO_7253_Ar.pdf
+        - title: >-
+            Code Général des Impôts, article 99-1° — taux réduit de 7 % (loi
+            n° 43-06)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
+        - title: >-
+            Loi de finances n° 48-03 pour 2004, article 12, BO n° 5174 — taux
+            réduits de 7 % (art. 15-1°) et 14 % (art. 15-3°)
+          href: https://www.sgg.gov.ma/BO/bo_fr/2004/BO_5174_fr.pdf
+        - title: >-
+            Loi de finances n° 26-04 pour 2005, article 15, BO n° 5278 bis —
+            taux réduits de 7 %, 10 % et 14 %
+          href: https://www.sgg.gov.ma/BO/bo_fr/2004/bo_5278-bis_fr.pdf
     values:
       2004-01-01:
         value: 0.07
