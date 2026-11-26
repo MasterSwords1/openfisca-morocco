@@ -16,7 +16,12 @@ Salary and exempt remuneration inputs are monthly amounts. Annual totals can
 still be supplied and are divided between months by OpenFisca. The taxable
 income pipeline, contribution deduction and family-dependent count remain
 annual: the CGI scale is applied once to the year's income, not month by month.
-Monthly withholding is not modelled.
+
+The monthly withholding pipeline (`salaire_net_imposable_mensuel` onwards)
+applies the same articles for **monthly** periods from 2016, when the AMO
+parameters start. It is a payroll estimate and does not replace the annual
+assessment: only constant pay makes the twelve withholdings add up to the
+annual tax, and no annual regularisation is modelled.
 """
 
 from numpy import float64, maximum as max_, minimum as min_, sum as sum_, where
@@ -436,6 +441,135 @@ class impot_sur_le_revenu(Variable):
             person("retenue_fonciere", period),
         )
         return max_(apres_deduction - retenue, 0)
+
+
+class salaire_brut_imposable_mensuel(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Rémunération brute imposable du mois (brut global moins éléments exonérés)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 56 à 58
+
+    def formula(person, period, parameters):
+        return person("salaire_brut_global", period) - person(
+            "elements_exoneres", period
+        )
+
+
+class frais_professionnels_mensuel(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Déduction forfaitaire mensuelle pour frais professionnels (article 59)"
+    reference = "https://www.tax.gov.ma"  # CGI, article 59
+
+    def formula(person, period, parameters):
+        if period.start.year < 2010:
+            raise ValueError("The IR pipeline is only modelled from 2010.")
+        params = parameters(period).impot_revenu.frais_professionnels
+        base = person("salaire_brut_imposable_mensuel", period)
+        if period.start.year < 2023:
+            taux = params.taux_2010_2022
+        else:
+            # Art. 59: the annual 78 000 DH switch is prorated to the month.
+            taux = where(
+                base <= params.seuil_taux_basse_remuneration / 12,
+                params.taux_basse_remuneration,
+                params.taux_haute_remuneration,
+            )
+        # The annual ceiling is prorated to the month.
+        return min_(base * taux, params.plafond / 12)
+
+
+class salaire_net_imposable_mensuel(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Salaire net imposable du mois (assiette du barème mensuel)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 58 et 59
+
+    def formula(person, period, parameters):
+        if period.start.year < 2016:
+            raise ValueError(
+                "Monthly IR withholding is only modelled from 2016; the AMO "
+                "parameters are not encoded before that date."
+            )
+        assiette = (
+            person("salaire_brut_imposable_mensuel", period)
+            - person("cotisations_sociales_salarie", period)
+            - person("frais_professionnels_mensuel", period)
+        )
+        return max_(assiette, 0)
+
+
+class ir_brut_mensuel(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Retenue à la source brute du mois selon le barème mensuel (article 73-I)"
+    reference = "https://www.tax.gov.ma"  # CGI, article 73-I
+
+    def formula(person, period, parameters):
+        bareme = parameters(period).impot_revenu.bareme_mensuel
+        return bareme.calc(person("salaire_net_imposable_mensuel", period))
+
+
+class deduction_charges_famille_mensuelle(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Déduction mensuelle pour charges de famille (article 74)"
+    reference = "https://www.tax.gov.ma"  # CGI, article 74
+
+    def formula(person, period, parameters):
+        params = parameters(period).impot_revenu.deduction_charges_famille
+        personnes = min_(
+            person("nombre_personnes_a_charge", period.this_year),
+            params.nombre_maximum_personnes,
+        )
+        # Art. 74 sets an annual amount; payroll applies one twelfth per month.
+        return personnes * params.montant_par_personne / 12
+
+
+class ir_prelevement_source_mensuel(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Retenue à la source mensuelle sur le salaire (impôt brut moins charges de famille, plancher à zéro)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 73-I et 74
+
+    def formula(person, period, parameters):
+        return max_(
+            person("ir_brut_mensuel", period)
+            - person("deduction_charges_famille_mensuelle", period),
+            0,
+        )
+
+
+class salaire_net_a_payer(Variable):
+    value_type = float
+    entity = Person
+    definition_period = MONTH
+    unit = "currency-MAD"
+    label = "Salaire net à payer du mois (brut moins cotisations salariales et retenue à la source)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 56 à 74
+
+    def formula(person, period, parameters):
+        # Evaluate the withholding first so that a pre-2016 period raises the
+        # pipeline's ValueError rather than a missing AMO parameter.
+        withholding = person("ir_prelevement_source_mensuel", period)
+        return max_(
+            person("salaire_brut", period)
+            - person("cotisations_sociales_salarie", period)
+            - withholding,
+            0,
+        )
 
 
 class impot_sur_le_revenu_menage(Variable):

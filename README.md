@@ -19,7 +19,7 @@ person, a household or a company — for the periods the package covers.
 
 | Area | Scope | From |
 |---|---|---|
-| **IR — salaries** | Progressive scale, professional expenses, family deduction | 2010 |
+| **IR — salaries** | Progressive scale, professional expenses, family deduction, monthly withholding from 2016 | 2010 |
 | **IR — professional (net réel)** | Supplied net-réel professional income | 2010 |
 | **IR — other regimes and income** | Simplified/CPU/auto-entrepreneur, rental, capital, property and foreign income | 2026 |
 | **CNSS / AMO** | Employee and employer contributions, ceilings, employer cost | 2016 |
@@ -29,9 +29,9 @@ person, a household or a company — for the periods the package covers.
 | **Registration duties** | Property acquisitions, company capital, conservation fees | 2026 |
 | **IS / cotisation minimale** | Corporate income tax and minimum contribution | 2026 |
 
-Entities: `Person`, `Household`, `Company`. Periods: `YEAR` for IR, IS/CM
-and registration duties; `MONTH` for TVA, contributions, family allowances
-and ASD.
+Entities: `Person`, `Household`, `Company`. Periods: `YEAR` for IR
+assessment, IS/CM and registration duties; `MONTH` for IR withholding, TVA,
+contributions, family allowances and ASD.
 
 The detailed scope, legal references and known limits are in
 [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).
