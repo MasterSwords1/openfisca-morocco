@@ -1,7 +1,7 @@
 # OpenFisca Maroc
 
 [![CI](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml/badge.svg)](https://github.com/MasterSwords1/openfisca-morocco/actions/workflows/ci.yaml)
-[![Python 3.9+](https://img.shields.io/badge/python-3.9%2B-blue.svg)](https://www.python.org/)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/)
 [![Licence : AGPL-3.0-or-later](https://img.shields.io/badge/licence-AGPL--3.0--or--later-blue.svg)](https://github.com/MasterSwords1/openfisca-morocco/blob/main/LICENSE)
 
 [English](https://github.com/MasterSwords1/openfisca-morocco/blob/main/README.md) · **Français**
@@ -40,7 +40,7 @@ dans [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blo
 
 ## Installation
 
-Le paquet n'est pas encore sur PyPI. Il faut Python 3.9+ et
+Le paquet n'est pas encore sur PyPI. Il faut Python 3.11+ et
 [uv](https://docs.astral.sh/uv/). Depuis un dépôt cloné (le projet est issu
 du [modèle de pays OpenFisca](https://github.com/openfisca/country-template)) :
 

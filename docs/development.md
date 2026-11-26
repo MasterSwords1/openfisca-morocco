@@ -6,7 +6,7 @@ for the short overview and [coverage](coverage.md) for the modelled scope.
 
 ## Install
 
-Requires Python 3.9 or later (CI runs 3.13) and
+Requires Python 3.11 or later (CI runs 3.13) and
 [uv](https://docs.astral.sh/uv/).
 
 The package is not on PyPI yet, so install it from source:

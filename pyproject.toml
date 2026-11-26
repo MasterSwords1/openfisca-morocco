@@ -10,22 +10,21 @@ readme = "README.md"
 keywords = [ "benefit", "microsimulation", "rac", "rules-as-code", "tax" ]
 maintainers = [  ]
 authors = [  ]
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 classifiers = [
     "Development Status :: 1 - Planning",
     "Operating System :: POSIX",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.9",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
     "Topic :: Scientific/Engineering :: Information Analysis",
 ]
 license="AGPL-3.0-or-later"
 
 dependencies = [
-    "openfisca-core[web-api]>=44.1.0",
+    "openfisca-core[web-api]>=46.1.0",
 ]
 
 [project.optional-dependencies]
@@ -52,7 +51,7 @@ Issues = "https://github.com/MasterSwords1/openfisca-morocco/issues"
 Repository = "https://github.com/MasterSwords1/openfisca-morocco"
 
 [tool.ruff]
-target-version = "py39"
+target-version = "py311"
 format.docstring-code-line-length = 72
 format.docstring-code-format = true
 lint.pydocstyle.convention = "google"
@@ -65,7 +64,7 @@ force-single-line = false
 [tool.pyproject-fmt]
 column_width = 79
 indent = 4
-max_supported_python = "3.11"
+max_supported_python = "3.14"
 
 [tool.pytest.ini_options]
 addopts = "--exitfirst --showlocals --doctest-modules --disable-warnings --import-mode importlib"
