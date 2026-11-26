@@ -39,8 +39,9 @@
     payment-traceability flag, the certificate request and both capital-apport
     inputs, so an auxiliary input alone raises instead of returning zero.
   - Fix the company-formation threshold: the 1,000 DH fixed duty applies when
-    total subscribed capital (cash + non-exempt) is ≤ 500,000 DH; above that,
-    0.5 % applies to the non-exempt apport with a 1,000 DH minimum.
+    total subscribed capital (cash + non-exempt) is ≤ 500,000 DH and a
+    non-exempt apport is present; above that, 0.5 % applies to the non-exempt
+    apport with a 1,000 DH minimum. A cash-only formation remains exempt.
   - Backdate the 6,40 % employer family-allowance contribution to 2009-01-01
     (Décret 2-01-2723 art. 1, as amended by Décret 2-08-359); the 2019-07 date
     belongs to the benefit amounts, not the rate. The employer CNSS/AMO chain

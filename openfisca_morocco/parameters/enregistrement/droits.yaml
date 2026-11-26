@@ -11,9 +11,9 @@
 # Taux 2026 : 4 % pour les locaux construits (133-I-F-1°), 5 % pour les
 # terrains nus (133-I-G-1°), 6 % pour les fonds de commerce (133-I-A-1°),
 # 0,5 % pour les apports non exonérés (133-I-H). Les apports en numéraire purs
-# et simples sont exonérés par l'article 129-IV-23° ; les apports non exonérés
-# dont le capital n'excède pas 500 000 DH paient un droit fixe de 1 000 DH
-# (article 135-I-1°).
+# et simples sont exonérés par l'article 129-IV-23° ; les constitutions dont le
+# capital souscrit total n'excède pas 500 000 DH et qui comportent un apport non
+# exonéré paient un droit fixe de 1 000 DH (article 135-I-1°).
 
 description: Droits d'enregistrement et de conservation foncière
 
@@ -79,8 +79,8 @@ enregistrement:
   droit_fixe_constitution:
     description: >-
       Droit fixe applicable lorsque le capital souscrit total (apports en
-      numéraire et apports non exonérés) n'excède pas 500 000 DH
-      (article 135-I-1°)
+      numéraire et apports non exonérés) n'excède pas 500 000 DH et qu'un
+      apport non exonéré est présent (article 135-I-1°)
     unit: currency-MAD
     metadata:
       reference:
