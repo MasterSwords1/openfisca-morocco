@@ -518,6 +518,10 @@ Stated plainly, because they determine what you may conclude from a simulation:
   `docs/evidence/bo-5382-bis-2006-tva-rates.ocr.txt`). Article 100 was repealed
   in 2020 and later treatment is not inferred from its former rates. Non-zero
   quantities outside the verified interval are flagged.
+- **Registration duties model the 2 % surcharge through a single flag.** The
+  deed's stated payment modalities, the bank-credit / article 193-deposit
+  carve-outs and the share premium are not modelled; see
+  [`docs/enregistrement.md`](docs/enregistrement.md).
 - **TVA before 2004 is not modelled.** The rate dataset starts on 1 January
   2004; before that date the parameters return the 2004 regime.
 - **No import or export VAT.** Domestic VAT is modelled; import/export
@@ -553,12 +557,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 496 passed (plus 308 pytest tests; 491/303 without the corpus)
+# 499 passed (plus 311 pytest tests; 494/306 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-491 OpenFisca / 303 pytest tests.
+494 OpenFisca / 306 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 

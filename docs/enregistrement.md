@@ -57,6 +57,12 @@ Company: the same inputs and amounts with the `_societe` suffix, plus
 ## What is not modelled
 
 - notary fees, mortgage registration and other professional costs;
+- the first 2 % trigger (a deed that does not state the payment modalities or
+  references) and the bank-credit / article 193-deposit carve-outs: the model
+  only reads `paiement_par_moyen_tracable`;
+- the share premium (*prime d'émission*), which is excluded from the 500,000 DH
+  threshold but included in the 0.5 % base under circular 721; no input is
+  provided;
 - the exemptions of CGI art. 129 other than the cash-capital exemption, and the
   exemptions listed in article 1 of Décret 2-16-375;
 - the 5× built-area limit for land attached to built premises;

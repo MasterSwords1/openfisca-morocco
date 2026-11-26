@@ -348,3 +348,20 @@ def test_liberatory_rental_leaf_before_2026_raises():
 
     simulation = simulate("2025")
     assert simulation.calculate("impot_foncier_liberatoire", "2025")[0] == 0
+
+
+def test_cpu_and_auto_entrepreneur_leaves_before_2026_raise():
+    for regime, variable in (
+        ("cpu", "impot_contribution_professionnelle_unique"),
+        ("auto_entrepreneur", "impot_auto_entrepreneur"),
+    ):
+        simulation = simulate("2025", regime_professionnel=regime)
+        with pytest.raises(ValueError, match="Professional regimes"):
+            simulation.calculate(variable, "2025")
+
+    simulation = simulate("2025")
+    assert (
+        simulation.calculate("impot_contribution_professionnelle_unique", "2025")[0]
+        == 0
+    )
+    assert simulation.calculate("impot_auto_entrepreneur", "2025")[0] == 0

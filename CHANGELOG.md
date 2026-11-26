@@ -46,6 +46,11 @@
     total subscribed capital (cash + non-exempt) is ≤ 500,000 DH and a
     non-exempt apport is present; above that, 0.5 % applies to the non-exempt
     apport with a 1,000 DH minimum. A cash-only formation remains exempt.
+  - The CPU and auto-entrepreneur liberatory leaves now raise before 2026 when
+    a non-net-réel regime is selected, even with zero turnover, instead of
+    returning a silent zero.
+  - Disclose the registration 2 % first trigger, the bank-credit / article 193
+    carve-outs and the unmodelled share premium.
   - Backdate the 6,40 % employer family-allowance contribution to 2009-01-01
     (Décret 2-01-2723 art. 1, as amended by Décret 2-08-359); the 2019-07 date
     belongs to the benefit amounts, not the rate. The employer CNSS/AMO chain
