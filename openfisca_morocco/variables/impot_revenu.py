@@ -42,6 +42,14 @@ class salaire_brut_global(Variable):
     label = "Rémunération brute globale mensuelle (traitements, indemnités, salaires, avantages en argent ou en nature)"
     reference = "https://www.tax.gov.ma"  # CGI, article 56
 
+    def formula(person, period, parameters):
+        # La prime d'ancienneté légale est un élément du salaire brut. Si
+        # l'appelant fournit directement `salaire_brut_global`, son entrée
+        # remplace cette formule : il doit alors y inclure la prime.
+        return person("salaire_de_base", period) + person(
+            "prime_anciennete_legale", period
+        )
+
 
 class elements_exoneres(Variable):
     value_type = float

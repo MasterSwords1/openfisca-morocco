@@ -1,0 +1,107 @@
+# Code du travail — prime d'ancienneté et indemnité de licenciement.
+# Article 350 (paliers de 5/10/15/20/25 %), articles 52 et 53 (96/144/192/240
+# heures par année ou fraction d'année), article 356 (SMIG).
+
+- name: 1 an d'ancienneté — pas encore de prime, indemnité de 96 heures
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 1
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 0
+    salaire_brut_global: 6000
+    indemnite_licenciement_legale: 3015.71
+    salaire_conforme_smig: true
+
+- name: 3 ans d'ancienneté — prime de 5 %, 288 heures d'indemnité
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 3
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 300
+    salaire_brut_global: 6300
+    indemnite_licenciement_legale: 9499.48
+    salaire_conforme_smig: true
+
+- name: 6 ans d'ancienneté — prime de 10 %, 624 heures d'indemnité
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 6
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 600
+    salaire_brut_global: 6600
+    indemnite_licenciement_legale: 21562.30
+    salaire_conforme_smig: true
+
+- name: 13 ans d'ancienneté — prime de 15 %, 1 776 heures d'indemnité
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 13
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 900
+    salaire_brut_global: 6900
+    indemnite_licenciement_legale: 64159.16
+    salaire_conforme_smig: true
+
+- name: 21 ans d'ancienneté — prime de 20 %, 3 600 heures d'indemnité
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 21
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 1200
+    salaire_brut_global: 7200
+    indemnite_licenciement_legale: 135706.81
+    salaire_conforme_smig: true
+
+- name: 26 ans d'ancienneté — prime de 25 %, 4 800 heures d'indemnité
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 26
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 1500
+    salaire_brut_global: 7500
+    indemnite_licenciement_legale: 188481.69
+    salaire_conforme_smig: true
+
+- name: 2026 — salaire sous le SMIG, l'indemnité est calculée sur le SMIG
+  period: 2026-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 2000
+    anciennete_annees: 3
+    licenciement_sans_faute: true
+  output:
+    prime_anciennete_legale: 100
+    salaire_brut_global: 2100
+    indemnite_licenciement_legale: 5160.96
+    salaire_conforme_smig: false
+
+- name: Licenciement pour faute — aucune indemnité légale
+  period: 2025-01
+  absolute_error_margin: 0.05
+  input:
+    salaire_de_base: 6000
+    anciennete_annees: 6
+    licenciement_sans_faute: false
+  output:
+    prime_anciennete_legale: 600
+    salaire_brut_global: 6600
+    indemnite_licenciement_legale: 0
+    salaire_conforme_smig: true

@@ -28,10 +28,11 @@ person, a household or a company — for the periods the package covers.
 | **TVA** | Monthly company declaration, dated rates and transitional schedules | 2004 |
 | **Registration duties** | Property acquisitions, company capital, conservation fees | 2026 |
 | **IS / cotisation minimale** | Corporate income tax and minimum contribution | 2026 |
+| **Code du travail** | Seniority bonus, severance pay, SMIG floor | 2004-07 |
 
 Entities: `Person`, `Household`, `Company`. Periods: `YEAR` for IR
 assessment, IS/CM and registration duties; `MONTH` for IR withholding, TVA,
-contributions, family allowances and ASD.
+contributions, family allowances, ASD and the Code du travail.
 
 The detailed scope, legal references and known limits are in
 [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).
@@ -111,6 +112,7 @@ The five TVA corpus tests also run when `../morocco-holy-graph` exists or
 | [`docs/enregistrement.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/enregistrement.md) | Registration duties and conservation fees |
 | [`docs/aide-sociale-directe.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/aide-sociale-directe.md) | Direct social assistance |
 | [`docs/tva-source-review.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-source-review.md) | TVA source review and historical checks |
+| [`docs/code-travail.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/code-travail.md) | Seniority bonus, severance and SMIG |
 
 ## Status and limits
 
@@ -125,6 +127,9 @@ The five TVA corpus tests also run when `../morocco-holy-graph` exists or
   `cotisations_sociales_obligatoires` explicitly.
 - **Some rules are caller assertions.** IS three-year/exclusion flags, the CM
   start-up exemption and registration act dates are inputs, not inferred.
+- **Labour-code benefits use caller inputs.** `salaire_de_base` is the article
+  353 base, `anciennete_annees` is supplied, and severance uses the month's
+  gross rather than the 52-week average.
 
 ## Contributing
 

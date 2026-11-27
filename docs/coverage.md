@@ -25,7 +25,9 @@ school-return allowance and the placement and exceptional allowances. **TVA**
 is declared by an enterprise for **monthly** periods, with dated rates running
 **2004–2026**. **Registration duties and land-conservation fees** on real-estate
 acquisitions and company capital, and the **impôt sur les sociétés (IS)** and
-**cotisation minimale (CM)** on the `Company` entity, start in 2026.
+**cotisation minimale (CM)** on the `Company` entity, start in 2026. The
+**Code du travail** benefits — seniority bonus, severance and the SMIG floor —
+are modelled for **monthly** periods from **July 2004**.
 
 ASD eligibility inputs and registry limitations are documented in
 [`aide-sociale-directe.md`](aide-sociale-directe.md).
@@ -35,8 +37,8 @@ ASD eligibility inputs and registry limitations are documented in
 | Country | Morocco |
 | Currency | dirham (MAD), `currency-MAD` |
 | Entities | `Person`, `Household`, `Company` |
-| Periods | `YEAR` (IR assessment, IS/CM, registration duties), `MONTH` (IR withholding, TVA, social contributions, family allowances, direct social assistance) |
-| First modelled period | 2004-01-01 (TVA), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer, monthly IR withholding), 2019-07-01 (family-allowance amounts), 2023-12-01 (direct social assistance), 2026-01-01 (IS/CM, registration duties) |
+| Periods | `YEAR` (IR assessment, IS/CM, registration duties), `MONTH` (IR withholding, TVA, social contributions, family allowances, direct social assistance, Code du travail) |
+| First modelled period | 2004-01-01 (TVA), 2004-07-01 (Code du travail), 2010-01-01 (IR with supplied contributions), 2016-01-01 (CNSS/AMO employee and employer, monthly IR withholding), 2019-07-01 (family-allowance amounts), 2023-12-01 (direct social assistance), 2026-01-01 (IS/CM, registration duties) |
 | Licence | AGPL-3.0-or-later |
 
 ## What is modelled
@@ -99,7 +101,7 @@ linearly; with variable pay they do not.
 
 | CGI article | Provision | Variables | Parameters | From |
 |---|---|---|---|---|
-| 56 | Salaries, wages, benefits in cash or in kind | `salaire_brut_global` (input) | — | 2010-01-01 |
+| 56 | Salaries, wages, benefits in cash or in kind | `salaire_brut_global` (input, or `salaire_de_base` + seniority bonus) | `code_travail.prime_anciennete` | 2010-01-01 |
 | 57 | Exempt elements of pay | `elements_exoneres` (input) | — | 2010-01-01 |
 | 58 | Compulsory social contributions borne by the employee | `cotisations_sociales_obligatoires` (input) | — | 2010-01-01 |
 | 56–58 | Gross taxable pay | `salaire_brut_imposable` | — | 2010-01-01 |
@@ -135,6 +137,33 @@ The figures, for reference:
 `birth` and `age` are also available: they are factual demographics, not
 legislation, and carry no legal reference. Moroccan age-based provisions will
 build on them.
+
+## What is modelled — Code du travail
+
+The statutory payroll benefits on the `Person` entity, for **monthly** periods
+from July 2004:
+
+```
+salaire_de_base × taux d'ancienneté                   (arts. 350, 353)
+    = prime_anciennete_legale
+salaire_brut_global = salaire_de_base + prime_anciennete_legale
+heures (art. 53) × max(salaire_brut_global, SMIG) / 191
+    = indemnite_licenciement_legale
+salaire_brut_global >= smig_mensuel
+    = salaire_conforme_smig                            (art. 356)
+```
+
+| Labour Code article | Provision | Variables | Parameters | From |
+|---|---|---|---|---|
+| 350, 353 | Seniority bonus and its base | `prime_anciennete_legale`, `salaire_de_base` (input) | `code_travail.prime_anciennete` | 2004-07-01 |
+| 52–53 | Severance after six months, 96/144/192/240 hours per year | `indemnite_licenciement_legale`, `anciennete_annees` and `licenciement_sans_faute` (inputs) | `code_travail.indemnite_licenciement` | 2004-07-01 |
+| 356 | SMIG floor and compliance check | `salaire_conforme_smig` | `code_travail.smig` | 2004-07-01 |
+
+The bonus is included in `salaire_brut_global` unless the caller supplies that
+variable directly. The severance reference is the month's gross salary, floored
+at the SMIG; the 52-week average of article 55 is approximated by that month.
+See [`code-travail.md`](code-travail.md) for the rates, the hour schedule and
+the limits.
 
 ## What is modelled — TVA
 
@@ -484,6 +513,7 @@ names the article it comes from.
 | Allocations familiales (CNSS) | Dahir portant loi n° 1-72-184 (articles 40 et 41), Décret n° 2-72-541 art. 6 (âges), Décret n° 2-08-358 modifié par les décrets n° 2-19-750 et n° 2-23-715 (montants) |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 5487 bis codification) with rates from Lois 38-07 (BO n° 5591 bis), 22-12 (BO n° 6048), 73-16 (BO n° 6577 bis), 115-12 (BO n° 6113 bis), 65-20 (BO n° 6944 bis) and 50-25 (BO n° 7465 bis); Décret n° 2-16-375 (BO n° 6484) for conservation; 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
 | Monthly IR withholding | CGI art. 73-I (annual barème divided by twelve) and art. 74, with the LF 2010 and LF 2025 scales; monthly professional expenses and family deduction are the annual amounts divided by twelve |
+| Code du travail benefits | Loi n° 65-99, arts. 52–53 and 350–356 (BO n° 5167 (8 décembre 2003)); SMIG décrets 2.04.421, 2.08.292, 2.11.247, 2.14.343, 2.19.424, 2.22.606, 2.23.799, 2.24.1122 (2025) and 2.25.983 (2026, BO n° 7469) |
 | IR categories | CGI 2026 arts. 12, 25, 28, 30–44, 61–65, 66–69, 73 and 160 bis, read in the 2026 consolidated edition; category parameters start in 2026, professional net-réel income whenever the barème exists (2010 onward) |
 | IS and cotisation minimale | CGI 2026 arts. 19 and 144; 20 % / 35 % at 100,000,000 DH / 40 % financial, CM 0.25 % / 0.15 % with a 3,000 DH floor; see [`impot-societes.md`](impot-societes.md) |
 | Aide sociale directe (ASD) | Loi n° 58-23 (BO n° 7253), Décrets n° 2-23-1067 / 2-23-1068, 2-24-706 (BO n° 7321), 2-25-1064 (BO n° 7468), Loi n° 41-26 (BO n° 7523) and Décret n° 2-26-434 (BO n° 7530), with the ANSS published schedules; parameter references carry the BO number and date |
@@ -510,6 +540,13 @@ Stated plainly, because they determine what you may conclude from a simulation:
   reconcile with the annual assessment: `impot_sur_le_revenu` remains the
   annual tax, and no regularisation or credit for the twelve withholdings is
   modelled. Before 2016, the AMO parameters are not encoded.
+- **Code du travail approximations.** `salaire_de_base` is the caller's
+  article 353 base; the severance reference is the current month's
+  `salaire_brut_global`, not the 52-week average; notice pay, abusive-dismissal
+  damages, the 100 % staff-representative increase, the retirement exclusion
+  and the loss-of-employment allowance are not modelled. SMAG and part-time
+  SMIG prorating are not modelled either. See
+  [`code-travail.md`](code-travail.md).
 - **Historical IR covers salarial income, plus any professional net-réel
   income you supply.** The 2010–2024 scale, professional-expense deduction and
   family-charge deduction are encoded. The historical professional-regime
