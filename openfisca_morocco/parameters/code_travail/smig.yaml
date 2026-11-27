@@ -1,0 +1,110 @@
+# Salaire minimum interprofessionnel garanti (SMIG) — article 356 du Code du
+# travail. Le SMIG non agricole est fixé par décret après avis des partenaires
+# sociaux. Depuis le passage aux 44 heures hebdomadaires, le montant mensuel de
+# référence est calculé sur 191 heures.
+#
+# Série non agricole retenue de 2004 à 2026. Les montants mensuels sont ceux
+# publiés (heure × 191), arrondis au centime.
+description: SMIG non agricole - article 356 du Code du travail
+heures_mensuelles:
+  description: Heures mensuelles de référence pour le SMIG
+  unit: hour
+  metadata:
+    reference:
+      - title: Code du travail, article 356 (Loi n° 65-99) et passage aux 44 heures hebdomadaires
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 191
+smig_horaire:
+  description: SMIG horaire dans les activités non agricoles
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code du travail, article 356 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+      - title: >-
+          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
+          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
+        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+      - title: >-
+          Décret n° 2.24.1122 (SMIG à 17,10 DH/heure à compter du 1er janvier
+          2025, BO n° 7367)
+        href: https://www.emploi.gov.ma/fr/augmentation-smig-smag-2025/
+      - title: >-
+          Décret n° 2.25.983 (SMIG à 17,92 DH/heure à compter du 1er janvier
+          2026, BO n° 7469)
+        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
+  values:
+    2004-07-01:
+      value: 9.66
+    2008-07-01:
+      value: 10.14
+    2009-07-01:
+      value: 10.64
+    2011-07-01:
+      value: 11.70
+    2012-07-01:
+      value: 12.24
+    2014-07-01:
+      value: 12.85
+    2015-07-01:
+      value: 13.46
+    2019-07-01:
+      value: 14.13
+    2020-07-01:
+      value: 14.81
+    2022-09-01:
+      value: 15.55
+    2023-09-01:
+      value: 16.29
+    2025-01-01:
+      value: 17.10
+    2026-01-01:
+      value: 17.92
+smig_mensuel:
+  description: SMIG mensuel dans les activités non agricoles (191 heures)
+  unit: currency-MAD
+  metadata:
+    reference:
+      - title: Code du travail, article 356 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+      - title: >-
+          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
+          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
+        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+      - title: >-
+          Décret n° 2.24.1122 (SMIG mensuel à 3 266,10 DH à compter du
+          1er janvier 2025, BO n° 7367)
+        href: https://www.emploi.gov.ma/fr/augmentation-smig-smag-2025/
+      - title: >-
+          Décret n° 2.25.983 (SMIG mensuel à 3 422,72 DH à compter du
+          1er janvier 2026, BO n° 7469)
+        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
+  values:
+    2004-07-01:
+      value: 1845.06
+    2008-07-01:
+      value: 1936.74
+    2009-07-01:
+      value: 2032.24
+    2011-07-01:
+      value: 2234.70
+    2012-07-01:
+      value: 2337.84
+    2014-07-01:
+      value: 2454.35
+    2015-07-01:
+      value: 2570.86
+    2019-07-01:
+      value: 2698.83
+    2020-07-01:
+      value: 2828.71
+    2022-09-01:
+      value: 2970.05
+    2023-09-01:
+      value: 3111.39
+    2025-01-01:
+      value: 3266.10
+    2026-01-01:
+      value: 3422.72

@@ -1,0 +1,114 @@
+# Prime d'ancienneté — article 350 du Code du travail (Loi n° 65-99).
+#
+# Tout salarié bénéficie d'une prime d'ancienneté calculée sur le salaire versé,
+# sauf si le salaire est déjà basé sur l'ancienneté par le contrat, le règlement
+# intérieur ou la convention collective. Les taux sont des paliers, pas des
+# taux marginaux : 5 % après 2 ans, 10 % après 5 ans, 15 % après 12 ans, 20 %
+# après 20 ans et 25 % après 25 ans.
+#
+# L'article 353 définit l'assiette : salaire proprement dit, accessoires et
+# majorations pour heures supplémentaires, à l'exclusion notamment des
+# prestations familiales, pourboires, gratifications, participations aux
+# bénéfices, remboursements de frais et primes de sujétion. Le modèle prend
+# `salaire_de_base` comme assiette : l'appelant y agrège les éléments retenus.
+description: Prime d'ancienneté - article 350 du Code du travail
+seuil_2_ans:
+  description: Ancienneté minimale pour le taux de 5 %
+  unit: year
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 2.0
+taux_2_ans:
+  description: Taux de la prime après deux ans de service
+  unit: /1
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 0.05
+seuil_5_ans:
+  description: Ancienneté minimale pour le taux de 10 %
+  unit: year
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 5.0
+taux_5_ans:
+  description: Taux de la prime après cinq ans de service
+  unit: /1
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 0.10
+seuil_12_ans:
+  description: Ancienneté minimale pour le taux de 15 %
+  unit: year
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 12.0
+taux_12_ans:
+  description: Taux de la prime après douze ans de service
+  unit: /1
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 0.15
+seuil_20_ans:
+  description: Ancienneté minimale pour le taux de 20 %
+  unit: year
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 20.0
+taux_20_ans:
+  description: Taux de la prime après vingt ans de service
+  unit: /1
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 0.20
+seuil_25_ans:
+  description: Ancienneté minimale pour le taux de 25 %
+  unit: year
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 25.0
+taux_25_ans:
+  description: Taux de la prime après vingt-cinq ans de service
+  unit: /1
+  metadata:
+    reference:
+      - title: Code du travail, article 350 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 0.25

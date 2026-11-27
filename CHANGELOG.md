@@ -1,3 +1,22 @@
+## 0.16.0 - [#45](https://github.com/MasterSwords1/openfisca-morocco/issues/45)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2004-07-01 onwards.
+* Impacted areas: `variables.code_travail`, `parameters.code_travail`, `variables.impot_revenu` (`salaire_brut_global`).
+* Details:
+  - Add `salaire_de_base`, `anciennete_annees`, `prime_anciennete_legale`,
+    `licenciement_sans_faute`, `indemnite_licenciement_legale` and
+    `salaire_conforme_smig`.
+  - Encode the article 350 seniority bonus at 5/10/15/20/25 % after
+    2/5/12/20/25 years, applied to the caller's article 353 base.
+    `salaire_brut_global` now includes the bonus unless supplied directly.
+  - Encode the article 53 severance after six months: 96, 144, 192 and
+    240 hours of salary per year or fraction, with the reference salary
+    floored at the SMIG.
+  - Add the non-agricultural SMIG hourly and monthly series from July 2004
+    to 2026 (191 hours per month), including 17.10/3 266.10 DH in 2025 and
+    17.92/3 422.72 DH in 2026.
+
 ## 0.15.0 - [#44](https://github.com/MasterSwords1/openfisca-morocco/issues/44)
 
 * Tax and benefit system evolution.

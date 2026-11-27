@@ -1,0 +1,59 @@
+# Indemnité de licenciement — articles 52 et 53 du Code du travail (Loi 65-99).
+#
+# Le salarié lié par un CDI a droit à une indemnité en cas de licenciement
+# après six mois de travail dans la même entreprise (art. 52). Pour chaque
+# année ou fraction d'année de travail effectif, l'indemnité est égale à
+# 96 heures de salaire pour les cinq premières années, 144 heures pour les
+# années 6 à 10, 192 heures pour les années 11 à 15 et 240 heures au-delà
+# (art. 53). Une fraction d'année compte comme une année entière.
+description: Indemnité légale de licenciement - articles 52 et 53 du Code du travail
+anciennete_minimale_mois:
+  description: Ancienneté minimale ouvrant droit à l'indemnité
+  unit: month
+  metadata:
+    reference:
+      - title: Code du travail, article 52 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 6
+heures_par_annee_1_5:
+  description: Heures de salaire par année d'ancienneté pour les cinq premières années
+  unit: hour
+  metadata:
+    reference:
+      - title: Code du travail, article 53 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 96
+heures_par_annee_6_10:
+  description: Heures de salaire par année d'ancienneté pour les années 6 à 10
+  unit: hour
+  metadata:
+    reference:
+      - title: Code du travail, article 53 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 144
+heures_par_annee_11_15:
+  description: Heures de salaire par année d'ancienneté pour les années 11 à 15
+  unit: hour
+  metadata:
+    reference:
+      - title: Code du travail, article 53 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 192
+heures_par_annee_16_plus:
+  description: Heures de salaire par année d'ancienneté au-delà de quinze ans
+  unit: hour
+  metadata:
+    reference:
+      - title: Code du travail, article 53 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
+  values:
+    2004-07-01:
+      value: 240

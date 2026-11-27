@@ -22,12 +22,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 546 passed (of which 340 pytest; 541/335 without the corpus)
+# 590 passed (of which 376 pytest; 585/371 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-541 OpenFisca / 335 pytest tests.
+585 OpenFisca / 371 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 
@@ -82,13 +82,15 @@ The periods of every variable family are:
 |---|---|---|
 | `birth` | `ETERNITY` | A fixed birth date. |
 | `age` | `MONTH` | Age at the start of the month, in completed years. |
-| `salaire_brut_global`, `elements_exoneres` | `MONTH` | Gross remuneration and exempt elements for that month, used for IR. |
+| `salaire_brut_global`, `elements_exoneres` | `MONTH` | Gross remuneration (computed as `salaire_de_base + prime_anciennete_legale` unless supplied directly) and exempt elements, used for IR. |
 | `salaire_brut` | `MONTH` | The salary base subject to CNSS/AMO contributions for that month. |
 | All other variables in `variables/cotisations_sociales.py` | `MONTH` | Monthly employee/employer contributions and employer cost; CNSS ceilings apply separately each month. |
 | `cotisations_sociales_obligatoires` | `YEAR` | Sum of monthly employee contributions, or an explicit annual deduction override (including other mandatory contributions). |
 | `nombre_personnes_a_charge` | `YEAR` | Count of spouse and dependent children used for the annual IR deduction; never divided by twelve. |
 | `salaire_brut_imposable`, `frais_professionnels`, `salaire_net_imposable`, `ir_brut`, `deduction_charges_famille`, `impot_sur_le_revenu` | `YEAR` | Annual IR bases, deductions and tax. |
 | `salaire_brut_imposable_mensuel`, `frais_professionnels_mensuel`, `salaire_net_imposable_mensuel`, `ir_brut_mensuel`, `deduction_charges_famille_mensuelle`, `ir_prelevement_source_mensuel`, `salaire_net_a_payer` | `MONTH` | Payroll withholding from 2016: the annual barème, expense ceiling and family amount are prorated to the month. |
+| `salaire_de_base`, `anciennete_annees`, `licenciement_sans_faute` | `MONTH` | Labour-code inputs: article 353 base, seniority in years and non-fault dismissal flag. |
+| `prime_anciennete_legale`, `indemnite_licenciement_legale`, `salaire_conforme_smig` | `MONTH` | Labour-code outputs from July 2004: seniority bonus, statutory severance and SMIG compliance. |
 | `nombre_enfants`, `allocations_familiales` | `MONTH` | Eligible child count and monthly allowance. |
 | `enfant_scolarise_cnss`, `enfant_apprenti_cnss`, `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss`, `enfant_handicape_sans_revenu_cnss` | `MONTH` | CNSS eligibility flags; declare them for every month they apply, because a one-month value does not carry over. |
 | All variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
@@ -101,12 +103,17 @@ no contribution base to start from.
 
 The two gross salary inputs are **distinct bases**. `salaire_brut_global`
 feeds IR; `salaire_brut` feeds CNSS/AMO. Supply both when both apply, as in the
-example above. Supplying only `salaire_brut_global` does not infer contribution
+example above. `salaire_brut_global` is also computed as `salaire_de_base`
+plus the legal seniority bonus when those inputs are used; supplying
+`salaire_brut_global` directly overrides that formula, so include the bonus
+yourself in that case. The bonus is added to `salaire_brut_global` only; add it
+to `salaire_brut` as well when it is subject to CNSS/AMO. Supplying only `salaire_brut_global` does not infer contribution
 liability. Without an annual override, `cotisations_sociales_obligatoires`
 sums the contributions calculated from `salaire_brut`.
 
 **Compatibility with annual inputs:** `salaire_brut_global`,
-`elements_exoneres` and `salaire_brut` use `set_input_divide_by_period`.
+`salaire_de_base`, `elements_exoneres` and `salaire_brut` use
+`set_input_divide_by_period`.
 For example, `"salaire_brut_global": {"2025": 120_000}` means an **annual
 total** distributed over twelve months (10,000 each), not 120,000 per month.
 Quarter or multi-month totals are likewise distributed over their months.

@@ -30,10 +30,12 @@ couvertes.
 | **TVA** | Déclaration mensuelle d'entreprise, taux datés et taux transitoires | 2004 |
 | **Droits d'enregistrement** | Acquisitions immobilières, capital social, conservation foncière | 2026 |
 | **IS / cotisation minimale** | Impôt sur les sociétés et cotisation minimale | 2026 |
+| **Code du travail** | Prime d'ancienneté, indemnité de licenciement, plancher SMIG | 2004-07 |
 
 Entités : `Person`, `Household`, `Company`. Périodes : `YEAR` pour l'IR
 annuel, l'IS/CM et les droits d'enregistrement ; `MONTH` pour la retenue à la
-source de l'IR, la TVA, les cotisations, les allocations familiales et l'ASD.
+source de l'IR, la TVA, les cotisations, les allocations familiales, l'ASD et
+le Code du travail.
 
 Le périmètre détaillé, les références légales et les limites connues sont
 dans [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).
@@ -115,6 +117,7 @@ ignorés.
 | [`docs/enregistrement.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/enregistrement.md) | Droits d'enregistrement et conservation foncière |
 | [`docs/aide-sociale-directe.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/aide-sociale-directe.md) | Aide sociale directe |
 | [`docs/tva-source-review.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-source-review.md) | Revue des sources TVA et vérifications historiques |
+| [`docs/code-travail.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/code-travail.md) | Prime d'ancienneté, indemnité de licenciement et SMIG |
 
 ## Statut et limites
 
@@ -131,6 +134,10 @@ ignorés.
   exercices et les exclusions de l'IS, l'exonération de CM de démarrage et la
   date de l'acte d'enregistrement sont des entrées, et non des valeurs
   déduites d'office.
+- **Les prestations du Code du travail reposent sur des entrées.** L'assiette
+  `salaire_de_base` est celle de l'article 353, `anciennete_annees` est
+  fournie, et l'indemnité utilise le salaire du mois plutôt que la moyenne des
+  52 semaines.
 
 ## Contribuer
 
