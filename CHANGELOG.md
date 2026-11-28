@@ -1,3 +1,11 @@
+## 0.17.1 - [#48](https://github.com/MasterSwords1/openfisca-morocco/issues/48)
+
+* Minor change.
+* Technical note: normalize parameter and variable references for the public
+  Legislation Explorer, including the official-host allowlist, annual-law
+  before consolidated-CGI ordering, printed-page citations where known, and
+  removal of private corpus links from variable references.
+
 ## 0.17.0 - [#47](https://github.com/MasterSwords1/openfisca-morocco/issues/47)
 
 * Tax and benefit system evolution.
