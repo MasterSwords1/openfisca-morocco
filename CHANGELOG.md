@@ -1,3 +1,13 @@
+## 0.18.0 - [#48](https://github.com/MasterSwords1/openfisca-morocco/issues/48)
+
+* Technical deployment and documentation improvement.
+* Details:
+  - Add a self-hosted Docker Compose deployment for the Morocco Legislation
+    Explorer and Web API.
+  - Patch parameter pages to show legal references and a historical timeline
+    for scalar and scale parameters.
+  - Document the split-horizon API URLs and public hosting setup.
+
 ## 0.17.1 - [#48](https://github.com/MasterSwords1/openfisca-morocco/issues/48)
 
 * Minor change.

@@ -109,6 +109,20 @@ Les cinq tests du corpus TVA s'exécutent aussi lorsque `../morocco-holy-graph`
 existe ou que `MOROCCO_HOLY_GRAPH` pointe vers le corpus ; sinon ils sont
 ignorés.
 
+## Explorateur de la législation / Site des paramètres
+
+Démarrez l'API locale et l'explorateur de la législation avec une seule
+commande :
+
+```sh
+docker compose -f explorer/docker-compose.yml up --build -d
+```
+
+Le site est disponible sur <http://localhost:2020> et la spécification de
+l'API sur <http://localhost:5000/spec>. Consultez
+[`explorer/README.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/explorer/README.md)
+pour le déploiement, l'hébergement public et les liens juridiques.
+
 ## Documentation
 
 | Page | Contenu |
@@ -122,6 +136,7 @@ ignorés.
 | [`docs/aide-sociale-directe.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/aide-sociale-directe.md) | Aide sociale directe |
 | [`docs/tva-source-review.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-source-review.md) | Revue des sources TVA et vérifications historiques |
 | [`docs/code-travail.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/code-travail.md) | Prime d'ancienneté, indemnité de licenciement et SMIG |
+| [`explorer/README.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/explorer/README.md) | Explorateur de la législation et déploiement public |
 
 ## Statut et limites
 
