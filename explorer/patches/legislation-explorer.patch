@@ -1,5 +1,5 @@
 diff --git a/src/assets/lang/en.json b/src/assets/lang/en.json
-index 909ec65..4dd1a67 100644
+index 909ec65..a34d902 100644
 --- a/src/assets/lang/en.json
 +++ b/src/assets/lang/en.json
 @@ -6,23 +6,18 @@
@@ -35,7 +35,7 @@ index 909ec65..4dd1a67 100644
    "aYear": "of a year",
    "aMonth": "of a month",
    "forEternity": "which is the eternity. Its value is constant over time",
-@@ -71,9 +66,11 @@
+@@ -71,9 +66,21 @@
    "improveThisApp": "Improve this application",
    "find": "Find",
    "keyword": "Keyword",
@@ -47,10 +47,20 @@ index 909ec65..4dd1a67 100644
 -  "api-error": "Unable to reach the OpenFisca Web API."
 +  "api-error": "Unable to reach the OpenFisca Web API.",
 +  "timelineText": "Historical timeline",
-+  "topMarginalRateText": "Top marginal rate"
++  "topMarginalRateText": "Top marginal rate",
++  "category_impot_revenu": "Income tax",
++  "category_impot_societes": "Corporate tax",
++  "category_tva": "VAT",
++  "category_code_travail": "Labour code",
++  "category_prestations_sociales": "Social benefits",
++  "category_enregistrement": "Registration duties",
++  "category_variables": "Variables",
++  "category_entities": "Entities",
++  "category_autres": "Other",
++  "categoriesText": "Categories"
  }
 diff --git a/src/assets/lang/fr.json b/src/assets/lang/fr.json
-index aebb380..77bd965 100644
+index aebb380..117ea31 100644
 --- a/src/assets/lang/fr.json
 +++ b/src/assets/lang/fr.json
 @@ -6,24 +6,19 @@
@@ -88,7 +98,7 @@ index aebb380..77bd965 100644
    "aYear": "d'un an",
    "aMonth": "d'un mois",
    "forEternity": "qui est l'éternité. Sa valeur est constante dans le temps",
-@@ -71,9 +66,11 @@
+@@ -71,9 +66,21 @@
    "improveThisApp": "Améliorer cette application",
    "find": "Trouver",
    "keyword": "Identifiant",
@@ -100,13 +110,23 @@ index aebb380..77bd965 100644
 -  "api-error": "Impossible de communiquer avec l'API Web OpenFisca."
 +  "api-error": "Impossible de communiquer avec l'API Web OpenFisca.",
 +  "timelineText": "Évolution historique",
-+  "topMarginalRateText": "Taux marginal supérieur"
++  "topMarginalRateText": "Taux marginal supérieur",
++  "category_impot_revenu": "Impôt sur le revenu",
++  "category_impot_societes": "Impôt sur les sociétés",
++  "category_tva": "TVA",
++  "category_code_travail": "Code du travail",
++  "category_prestations_sociales": "Prestations sociales",
++  "category_enregistrement": "Droits d'enregistrement",
++  "category_variables": "Variables",
++  "category_entities": "Entités",
++  "category_autres": "Autres",
++  "categoriesText": "Catégories"
  }
 diff --git a/src/assets/style.css b/src/assets/style.css
-index 3158ff4..2562976 100644
+index 3158ff4..e34dd07 100644
 --- a/src/assets/style.css
 +++ b/src/assets/style.css
-@@ -125,3 +125,38 @@ nav.btn-group {
+@@ -125,3 +125,73 @@ nav.btn-group {
    margin-top: 2em;
    display: block;
  }
@@ -145,6 +165,41 @@ index 3158ff4..2562976 100644
 +.parameter-references ul {
 +  margin-bottom: 1.5em;
 +}
++
++.category-index {
++  margin: 1.5em 0 2em;
++}
++.category-index a {
++  display: inline-block;
++  margin: 0 1.2em 0.6em 0;
++  white-space: nowrap;
++}
++.category-index .badge {
++  margin-left: 0.4em;
++  background-color: #767676;
++}
++.category-section {
++  margin-bottom: 2.5em;
++}
++.category-section h2 {
++  font-size: 1.6em;
++  border-bottom: 1px solid #ddd;
++  padding-bottom: 0.3em;
++}
++.category-section h2 small {
++  color: #767676;
++  font-size: 0.55em;
++  margin-left: 0.6em;
++}
++.category-list li {
++  margin: 0.45em 0;
++}
++.category-list code {
++  overflow-wrap: anywhere;
++}
++.category-description {
++  color: #666;
++}
 diff --git a/src/components/pages/country-model-item.jsx b/src/components/pages/country-model-item.jsx
 index 3be4568..341e5b1 100644
 --- a/src/components/pages/country-model-item.jsx
@@ -157,7 +212,7 @@ index 3be4568..341e5b1 100644
 +    initialParameterError: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
 +    initialParameterName: PropTypes.string,
    };
- 
+
 -  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
 +  state = {
 +    variable: null,
@@ -167,17 +222,17 @@ index 3be4568..341e5b1 100644
 +    error: this.props.initialParameterName === this.props.params.name ? this.props.initialParameterError : null,
 +    waitingForResponse: this.props.initialParameterName !== this.props.params.name,
 +  };
- 
+
    fetchPageContent = (name) => {
      if (this.props.entities[name]) {
 @@ -63,7 +73,7 @@ class CountryModelItemPage extends React.Component {
    }
- 
+
    componentDidMount() {
 -    this.fetchPageContent(this.props.params.name)
 +    if (this.state.waitingForResponse) this.fetchPageContent(this.props.params.name)
    }
- 
+
    handleNotFound = () => {
 @@ -94,7 +104,7 @@ class CountryModelItemPage extends React.Component {
              <span className="glyphicon glyphicon-alert"></span>
@@ -188,6 +243,112 @@ index 3be4568..341e5b1 100644
          </div>
        )
      }
+diff --git a/src/components/pages/home.jsx b/src/components/pages/home.jsx
+index b9f3b67..03a4370 100644
+--- a/src/components/pages/home.jsx
++++ b/src/components/pages/home.jsx
+@@ -83,7 +83,9 @@ class HomePage extends React.Component {
+                     }}
+                   />
+                 </h4>
+-                : <SearchResults items={searchResults} searchQuery={searchQuery} />
++                : searchQuery
++                  ? <SearchResults items={searchResults} searchQuery={searchQuery} />
++                  : <CategoryListingIntl items={searchResults} />
+             }
+           </section>
+         </div>
+@@ -124,6 +126,90 @@ class SearchResults extends React.Component {
+   }
+ }
+
++// The parameter tree is the natural grouping: `impot_revenu.bareme` belongs to
++// the `impot_revenu` directory. Variables and entities have no directory in the
++// OpenFisca API, so they get their own sections.
++const CATEGORY_ORDER = [
++  'impot_revenu',
++  'impot_societes',
++  'tva',
++  'code_travail',
++  'prestations_sociales',
++  'enregistrement',
++  'autres',
++  'variables',
++  'entities',
++]
++
++function humanize(category) {
++  const words = category.replace(/_/g, ' ')
++  return words.charAt(0).toUpperCase() + words.slice(1)
++}
++
++function categoryOf(item) {
++  if (item.itemType === 'variable') return 'variables'
++  if (item.itemType === 'entity') return 'entities'
++  const separator = item.name.indexOf('.')
++  const category = separator === -1 ? '' : item.name.slice(0, separator)
++  return category || 'autres'
++}
++
++function groupByCategory(items) {
++  const groups = new Map()
++  items.forEach(item => {
++    const category = categoryOf(item)
++    if (!groups.has(category)) groups.set(category, [])
++    groups.get(category).push(item)
++  })
++  const known = CATEGORY_ORDER.filter(category => groups.has(category))
++  const unknown = Array.from(groups.keys())
++    .filter(category => CATEGORY_ORDER.indexOf(category) === -1)
++    .sort()
++  return [...known, ...unknown].map(category => ({category, items: groups.get(category)}))
++}
++
++class CategoryListing extends React.Component {
++  static propTypes = {
++    intl: intlShape.isRequired,
++    items: PropTypes.array.isRequired,
++  };
++
++  render() {
++    const groups = groupByCategory(this.props.items)
++    const categoriesLabel = this.props.intl.formatMessage({id: 'categoriesText', defaultMessage: 'Categories'})
++    return (
++      <div>
++        <nav className="category-index" aria-label={categoriesLabel}>
++          {groups.map(({category, items}) =>
++            <a key={category} href={`#category-${category}`}>
++              <FormattedMessage id={`category_${category}`} defaultMessage={humanize(category)}/>
++              <span className="badge">{items.length}</span>
++            </a>
++          )}
++        </nav>
++        {groups.map(({category, items}) =>
++          <section key={category} id={`category-${category}`} className="category-section">
++            <h2>
++              <FormattedMessage id={`category_${category}`} defaultMessage={humanize(category)}/>
++              <small> {items.length}</small>
++            </h2>
++            <ul className="list-unstyled category-list">
++              {items.map(item =>
++                <li key={`${item.itemType}-${item.name}`}>
++                  <Link to={`/${item.name}`}><code>{item.name}</code></Link>
++                  {item.description && <span className="category-description"> — {item.description}</span>}
++                </li>
++              )}
++            </ul>
++          </section>
++        )}
++      </div>
++    )
++  }
++}
++
++const CategoryListingIntl = injectIntl(CategoryListing)
++
+ const NotFoundBlock = ({inputValue}) => (
+   <div className="alert alert-info" id="not-found">
+     <h4>
 diff --git a/src/components/parameter-timeline.jsx b/src/components/parameter-timeline.jsx
 new file mode 100644
 index 0000000..045d88e
@@ -303,7 +464,7 @@ index 97e5307..e4ddd62 100644
  import Scale from './scale'
 +import ParameterTimeline from './parameter-timeline'
  import getDayBefore from '../periods'
- 
+
  class Parameter extends React.Component {
 @@ -21,6 +22,9 @@ class Parameter extends React.Component {
      const isScale = (! parameter.values)
@@ -312,7 +473,7 @@ index 97e5307..e4ddd62 100644
 +    const references = parameter.metadata && parameter.metadata.reference
 +      ? [].concat(parameter.metadata.reference).filter(reference => reference && reference.title && reference.href)
 +      : []
- 
+
      return (
        <DocumentTitle title={parameter.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
 @@ -36,8 +40,19 @@ class Parameter extends React.Component {
@@ -341,11 +502,11 @@ index ad5e5d8..1d1df0c 100644
 +++ b/src/config.js
 @@ -1,6 +1,6 @@
  let config = new Object(null)
- 
+
 -config.apiBaseUrl = process.env.API_URL || 'http://0.0.0.0:5000'
 +config.apiBaseUrl = process.env.SERVER_API_URL || process.env.API_URL || 'http://0.0.0.0:5000'
  config.changelogUrl = process.env.CHANGELOG_URL
- 
+
  config.pathname = process.env.PATHNAME || '/'
 diff --git a/src/openfisca-proptypes.js b/src/openfisca-proptypes.js
 index 6aca54e..901b564 100644
@@ -362,7 +523,7 @@ index 6aca54e..901b564 100644
 +    ]),
 +  }),
  })
- 
+
  export const variableShape = PropTypes.shape({
 diff --git a/src/server/render.jsx b/src/server/render.jsx
 index 5c6b51b..9257792 100644
@@ -384,8 +545,8 @@ index 5c6b51b..9257792 100644
 +  console.error(error)
 +  res.status(500).send('Internal server error')
 +}
- 
- 
+
+
  export default function handleRender(basename, state) {
 -  return function (req, res) {
 -    state.locale = getLocale(req.headers['accept-language'], state.messages)

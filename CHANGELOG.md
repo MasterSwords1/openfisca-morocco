@@ -6,6 +6,9 @@
     Explorer and Web API.
   - Patch parameter pages to show legal references and a historical timeline
     for scalar and scale parameters.
+  - Group the Explorer home page by parameter directory (income tax, corporate
+    tax, VAT, labour code, social benefits, registration duties) instead of one
+    flat list.
   - Document the split-horizon API URLs and public hosting setup.
 
 ## 0.17.1 - [#48](https://github.com/MasterSwords1/openfisca-morocco/issues/48)
