@@ -120,6 +120,8 @@ for deployment, public hosting and legal-link guidance.
 
 | Page | Contents |
 |---|---|
+| [`ROADMAP.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/ROADMAP.md) | Phases, milestones and what is out of scope |
+| [`docs/releasing.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/releasing.md) | PyPI trusted publishing, dispatch and verification |
 | [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md) | What is modelled, sources and limitations |
 | [`docs/explorer-links.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/explorer-links.md) | Public reference link policy for the Legislation Explorer |
 | [`docs/tva-prorata.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-prorata.md) | Annual TVA deduction prorata under CGI Article 104-I |
