@@ -22,12 +22,12 @@ Check that it works:
 ```sh
 make test
 # openfisca test --country-package openfisca_morocco openfisca_morocco/tests
-# 590 passed (of which 376 pytest; 585/371 without the corpus)
+# 607 passed (of which 387 pytest; 602/382 without the corpus)
 ```
 
 The five TVA corpus tests run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; a bare clone skips them and reports
-585 OpenFisca / 371 pytest tests.
+602 OpenFisca / 382 pytest tests.
 
 Once published, installation will be `uv add openfisca-morocco`.
 
@@ -93,7 +93,8 @@ The periods of every variable family are:
 | `prime_anciennete_legale`, `indemnite_licenciement_legale`, `salaire_conforme_smig` | `MONTH` | Labour-code outputs from July 2004: seniority bonus, statutory severance and SMIG compliance. |
 | `nombre_enfants`, `allocations_familiales` | `MONTH` | Eligible child count and monthly allowance. |
 | `enfant_scolarise_cnss`, `enfant_apprenti_cnss`, `enfant_etudes_superieures_cnss`, `enfant_handicape_cnss`, `enfant_handicape_sans_revenu_cnss` | `MONTH` | CNSS eligibility flags; declare them for every month they apply, because a one-month value does not carry over. |
-| All variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
+| Monthly variables in `variables/tva.py` | `MONTH` | Company declaration amounts, physical quantities, category choices and calculated TVA for that month. |
+| Annual TVA turnover inputs, `chiffre_affaires_taxable_annuel`, `chiffre_affaires_total_declare`, `prorata_deduction_calcule` | `YEAR` | Calendar-year turnover detail and Article 104-I prorata; the prior year's prorata applies to monthly deductions. |
 
 The monthly withholding subtracts `cotisations_sociales_salarie`, which is
 computed from `salaire_brut`. Supply both gross bases for a complete payroll

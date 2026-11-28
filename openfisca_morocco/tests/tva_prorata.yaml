@@ -1,0 +1,53 @@
+# Prorata annuel calculé conformément au CGI, article 104-I.
+- name: Activité taxable — prorata de 2024 appliqué en janvier 2025
+  period: 2024
+  input:
+    chiffre_affaires_taxable_autres: 1200000
+  output:
+    chiffre_affaires_taxable_annuel: 1200000
+    chiffre_affaires_total_declare: 1200000
+    prorata_deduction_calcule: 1.0
+
+- name: Exportations exonérées avec droit à déduction
+  period: 2024
+  input:
+    chiffre_affaires_taxable_autres: 600000
+    chiffre_affaires_exonere_avec_deduction: 300000
+    chiffre_affaires_exonere_sans_deduction: 100000
+  output:
+    chiffre_affaires_taxable_annuel: 600000
+    chiffre_affaires_total_declare: 1000000
+    prorata_deduction_calcule: 0.9
+
+- name: Activité exonérée sans droit à déduction
+  period: 2024
+  input:
+    chiffre_affaires_exonere_sans_deduction: 500000
+  output:
+    chiffre_affaires_total_declare: 500000
+    prorata_deduction_calcule: 0.0
+
+- name: Les opérations sous suspension sont au numérateur
+  period: 2024
+  input:
+    chiffre_affaires_taxable_autres: 500000
+    chiffre_affaires_suspension: 250000
+    chiffre_affaires_exonere_sans_deduction: 250000
+  output:
+    chiffre_affaires_total_declare: 1000000
+    prorata_deduction_calcule: 0.75
+
+- name: Le chiffre d'affaires hors champ est au dénominateur
+  period: 2024
+  input:
+    chiffre_affaires_taxable_autres: 500000
+    chiffre_affaires_hors_champ: 500000
+  output:
+    chiffre_affaires_total_declare: 1000000
+    prorata_deduction_calcule: 0.5
+
+- name: Aucun détail annuel — valeur neutre du prorata calculé
+  period: 2024
+  output:
+    chiffre_affaires_total_declare: 0
+    prorata_deduction_calcule: 1.0

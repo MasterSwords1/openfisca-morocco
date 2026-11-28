@@ -25,7 +25,7 @@ person, a household or a company — for the periods the package covers.
 | **CNSS / AMO** | Employee and employer contributions, ceilings, employer cost | 2016 |
 | **Family allowances** | CNSS benefit, 300 DH tiers (100 DH for ranks 4–6 from 2023), six-child cap | 2019-07 |
 | **Aide sociale directe** | Monthly, school-return, placement and exceptional allowances | 2023-12 |
-| **TVA** | Monthly company declaration, dated rates and transitional schedules | 2004 |
+| **TVA** | Monthly company declaration, dated rates and transitional schedules; annual Article 104 deduction prorata | 2004 |
 | **Registration duties** | Property acquisitions, company capital, conservation fees | 2026 |
 | **IS / cotisation minimale** | Corporate income tax and minimum contribution | 2026 |
 | **Code du travail** | Seniority bonus, severance pay, SMIG floor | 2004-07 |
@@ -33,6 +33,8 @@ person, a household or a company — for the periods the package covers.
 Entities: `Person`, `Household`, `Company`. Periods: `YEAR` for IR
 assessment, IS/CM and registration duties; `MONTH` for IR withholding, TVA,
 contributions, family allowances, ASD and the Code du travail.
+TVA turnover detail and the calculated deduction prorata use `YEAR` periods;
+the resulting prorata applies to monthly deductions in the following year.
 
 The detailed scope, legal references and known limits are in
 [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).
@@ -106,6 +108,7 @@ The five TVA corpus tests also run when `../morocco-holy-graph` exists or
 | Page | Contents |
 |---|---|
 | [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md) | What is modelled, sources and limitations |
+| [`docs/tva-prorata.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-prorata.md) | Annual TVA deduction prorata under CGI Article 104-I |
 | [`docs/development.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/development.md) | Install, usage, examples, layout, releases |
 | [`docs/impot-revenu-categories.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/impot-revenu-categories.md) | Professional, rental, capital and foreign income |
 | [`docs/impot-societes.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/impot-societes.md) | IS and cotisation minimale |
