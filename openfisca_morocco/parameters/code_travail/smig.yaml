@@ -21,20 +21,20 @@ smig_horaire:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Code du travail, article 356 (Loi n° 65-99)
-        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
       - title: >-
-          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
-          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
-        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+          Décret n° 2.25.983 (SMIG à 17,92 DH/heure à compter du 1er janvier
+          2026, BO n° 7469)
+        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
       - title: >-
           Décret n° 2.24.1122 (SMIG à 17,10 DH/heure à compter du 1er janvier
           2025, BO n° 7367)
         href: https://www.emploi.gov.ma/fr/augmentation-smig-smag-2025/
       - title: >-
-          Décret n° 2.25.983 (SMIG à 17,92 DH/heure à compter du 1er janvier
-          2026, BO n° 7469)
-        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
+          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
+          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
+        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+      - title: Code du travail, article 356 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
   values:
     2004-07-01:
       value: 9.66
@@ -67,20 +67,20 @@ smig_mensuel:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Code du travail, article 356 (Loi n° 65-99)
-        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
       - title: >-
-          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
-          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
-        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+          Décret n° 2.25.983 (SMIG mensuel à 3 422,72 DH à compter du
+          1er janvier 2026, BO n° 7469)
+        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
       - title: >-
           Décret n° 2.24.1122 (SMIG mensuel à 3 266,10 DH à compter du
           1er janvier 2025, BO n° 7367)
         href: https://www.emploi.gov.ma/fr/augmentation-smig-smag-2025/
       - title: >-
-          Décret n° 2.25.983 (SMIG mensuel à 3 422,72 DH à compter du
-          1er janvier 2026, BO n° 7469)
-        href: https://www.sgg.gov.ma/BO/AR/3111/2025/BO_7469_Ar.pdf
+          Décrets fixant le SMIG : 2.04.421, 2.08.292, 2.11.247, 2.14.343,
+          2.19.424, 2.22.606, 2.23.799, 2.24.1122 et 2.25.983
+        href: https://www.sgg.gov.ma/BulletinOfficiel.aspx
+      - title: Code du travail, article 356 (Loi n° 65-99)
+        href: https://www.sgg.gov.ma/BO/bo_ar/2003/BO_5167_ar.pdf
   values:
     2004-07-01:
       value: 1845.06

@@ -31,7 +31,7 @@ class salaire_brut(Variable):
     set_input = set_input_divide_by_period
     unit = "currency-MAD"
     label = "Rémunération brute mensuelle soumise à cotisations sociales"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184, art. 19
+    reference = "https://www.cnss.ma/"  # Dahir 1-72-184, art. 19
 
 
 class cotisation_cnss_salarie(Variable):
@@ -42,7 +42,9 @@ class cotisation_cnss_salarie(Variable):
     label = (
         "Cotisation CNSS salariale mensuelle plafonnée (court terme, long terme, IPE)"
     )
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184, art. 19 ; Décret 2-02-175 ; Loi 03-14
+    reference = (
+        "https://www.cnss.ma/"  # Dahir 1-72-184, art. 19 ; Décret 2-02-175 ; Loi 03-14
+    )
 
     def formula(person, period, parameters):
         base = person("salaire_brut", period)
@@ -68,7 +70,9 @@ class cotisation_amo_salarie(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Cotisation AMO salariale mensuelle sans plafond"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Loi 65-00, art. 114 ; Décret 2-05-734 mod. 2-14-707
+    reference = (
+        "https://www.cnss.ma/"  # Loi 65-00, art. 114 ; Décret 2-05-734 mod. 2-14-707
+    )
 
     def formula(person, period, parameters):
         base = person("salaire_brut", period)
@@ -82,7 +86,7 @@ class cotisations_sociales_salarie(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Total des cotisations sociales salariales mensuelles (CNSS + AMO)"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"
+    reference = "https://www.cnss.ma/"
 
     def formula(person, period, parameters):
         return person("cotisation_cnss_salarie", period) + person(
@@ -96,7 +100,7 @@ class cotisation_cnss_employeur(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Cotisation CNSS patronale mensuelle (prestations familiales, court et long terme, TFP, IPE)"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Dahir 1-72-184 ; Décret 2-02-175 ; Décret 2-01-2723 (6,40 %) ; Loi 30-97 ; Loi 03-14
+    reference = "https://www.cnss.ma/"  # Dahir 1-72-184 ; Décret 2-02-175 ; Décret 2-01-2723 (6,40 %) ; Loi 30-97 ; Loi 03-14
 
     def formula(person, period, parameters):
         base = person("salaire_brut", period)
@@ -132,7 +136,7 @@ class cotisation_amo_employeur(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Cotisation AMO patronale mensuelle sans plafond (base + solidarité)"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"  # Loi 65-00 ; Décret 2-05-734 mod. 2-14-707
+    reference = "https://www.cnss.ma/"  # Loi 65-00 ; Décret 2-05-734 mod. 2-14-707
 
     def formula(person, period, parameters):
         base = person("salaire_brut", period)
@@ -151,7 +155,7 @@ class cotisations_sociales_employeur(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Total des cotisations et contributions sociales patronales mensuelles"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"
+    reference = "https://www.cnss.ma/"
 
     def formula(person, period, parameters):
         return person("cotisation_cnss_employeur", period) + person(
@@ -165,7 +169,7 @@ class cout_employeur(Variable):
     definition_period = MONTH
     unit = "currency-MAD"
     label = "Coût global employeur mensuel (salaire brut + cotisations patronales)"
-    reference = "https://github.com/MasterSwords1/morocco-holy-graph/blob/master/laws/ma_social_protection/data/social_security_rates.json"
+    reference = "https://www.cnss.ma/"
 
     def formula(person, period, parameters):
         return person("salaire_brut", period) + person(

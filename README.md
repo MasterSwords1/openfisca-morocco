@@ -108,6 +108,7 @@ The five TVA corpus tests also run when `../morocco-holy-graph` exists or
 | Page | Contents |
 |---|---|
 | [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md) | What is modelled, sources and limitations |
+| [`docs/explorer-links.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/explorer-links.md) | Public reference link policy for the Legislation Explorer |
 | [`docs/tva-prorata.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-prorata.md) | Annual TVA deduction prorata under CGI Article 104-I |
 | [`docs/development.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/development.md) | Install, usage, examples, layout, releases |
 | [`docs/impot-revenu-categories.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/impot-revenu-categories.md) | Professional, rental, capital and foreign income |

@@ -15,20 +15,20 @@ montant_par_personne:
   unit: currency-MAD
   metadata:
     reference:
-      - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       - title: >-
-          Loi de finances n° 40-08 pour l'année budgétaire 2009, BO n° 5695 bis
-          (360 DH, plafond de 2 160 DH)
-        href: https://www.sgg.gov.ma/BO/bo_fr/2008/bo_5695-bis_fr.pdf
+          Loi de finances n° 50-25 pour l'année budgétaire 2026, BO n° 7465 bis
+          (600 DH, plafond de 3 600 DH)
+        href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
       - title: >-
           Loi de finances n° 60-24 pour l'année budgétaire 2025, BO n° 7362 bis
           (500 DH)
         href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
       - title: >-
-          Loi de finances n° 50-25 pour l'année budgétaire 2026, BO n° 7465 bis
-          (600 DH, plafond de 3 600 DH)
-        href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
+          Loi de finances n° 40-08 pour l'année budgétaire 2009, BO n° 5695 bis
+          (360 DH, plafond de 2 160 DH)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2008/bo_5695-bis_fr.pdf
+      - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2010-01-01:
       value: 360.0
@@ -41,20 +41,20 @@ nombre_maximum_personnes:
   unit: /1
   metadata:
     reference:
-      - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
-        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
       - title: >-
-          Loi de finances n° 40-08 pour l'année budgétaire 2009, BO n° 5695 bis
-          (plafond de 2 160 DH, soit 6 personnes à 360 DH)
-        href: https://www.sgg.gov.ma/BO/bo_fr/2008/bo_5695-bis_fr.pdf
+          Loi de finances n° 50-25 pour l'année budgétaire 2026, BO n° 7465 bis
+          (plafond de 3 600 DH, soit 6 personnes à 600 DH)
+        href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
       - title: >-
           Loi de finances n° 60-24 pour l'année budgétaire 2025, BO n° 7362 bis
           (plafond de 3 000 DH, soit 6 personnes à 500 DH)
         href: https://www.sgg.gov.ma/BO/FR/2873/2024/BO_7362_fr.pdf
       - title: >-
-          Loi de finances n° 50-25 pour l'année budgétaire 2026, BO n° 7465 bis
-          (plafond de 3 600 DH, soit 6 personnes à 600 DH)
-        href: https://www.sgg.gov.ma/BO/FR/2873/2025/BO_7465-bis_fr.pdf
+          Loi de finances n° 40-08 pour l'année budgétaire 2009, BO n° 5695 bis
+          (plafond de 2 160 DH, soit 6 personnes à 360 DH)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2008/bo_5695-bis_fr.pdf
+      - title: Code Général des Impôts, article 74 (Direction Générale des Impôts)
+        href: https://www.sgg.gov.ma/BO/bo_fr/2007/bo_5487-bis_fr.pdf
   values:
     2010-01-01:
       value: 6
