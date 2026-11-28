@@ -30,7 +30,8 @@ from datetime import date
 
 import numpy
 from openfisca_core.indexed_enums import Enum
-from openfisca_core.periods import MONTH
+from openfisca_core.model_api import ADD
+from openfisca_core.periods import MONTH, YEAR
 from openfisca_core.variables import Variable
 
 from openfisca_morocco.entities import Company
@@ -235,6 +236,118 @@ class prorata_deduction(Variable):
     reference = "https://www.tax.gov.ma"  # CGI, article 104
 
 
+class chiffre_affaires_exonere_avec_deduction(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel exonéré avec droit à déduction (CGI art. 92)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 92 et 104
+
+
+class chiffre_affaires_exonere_sans_deduction(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel exonéré sans droit à déduction (CGI art. 91)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 91 et 104
+
+
+class chiffre_affaires_suspension(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel réalisé sous suspension de TVA (CGI art. 94)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 94 et 104
+
+
+class chiffre_affaires_hors_champ(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel situé hors du champ de la TVA (CGI art. 104)"
+    reference = "https://www.tax.gov.ma"  # CGI, article 104
+
+
+class chiffre_affaires_taxable_autres(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Autre chiffre d'affaires annuel taxable, non déclaré par taux (CGI arts. 100, 104)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 100 et 104
+
+
+class chiffre_affaires_taxable_annuel(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel taxable, taux déclarés et autres (CGI art. 104)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 99, 100, 104 et 247-XXXXI
+
+    def formula(entreprise, period, parameters):
+        mensuel = sum(
+            entreprise(nom, period, options=[ADD])
+            for nom in (
+                "chiffre_affaires_taux_normal",
+                "chiffre_affaires_taux_reduit_10",
+                "chiffre_affaires_taux_reduit_14",
+                "chiffre_affaires_taux_reduit_7",
+                "chiffre_affaires_taux_transitoire",
+            )
+        )
+        return mensuel + entreprise("chiffre_affaires_taxable_autres", period)
+
+
+class chiffre_affaires_total_declare(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "currency-MAD"
+    label = "Chiffre d'affaires annuel total déclaré pour le prorata (CGI art. 104)"
+    reference = "https://www.tax.gov.ma"  # CGI, articles 91, 92, 94 et 104
+
+    def formula(entreprise, period, parameters):
+        return (
+            entreprise("chiffre_affaires_taxable_annuel", period)
+            + entreprise("chiffre_affaires_exonere_avec_deduction", period)
+            + entreprise("chiffre_affaires_suspension", period)
+            + entreprise("chiffre_affaires_exonere_sans_deduction", period)
+            + entreprise("chiffre_affaires_hors_champ", period)
+        )
+
+
+class prorata_deduction_calcule(Variable):
+    value_type = float
+    entity = Company
+    definition_period = YEAR
+    unit = "/1"
+    label = (
+        "Prorata annuel de déduction calculé sur le chiffre d'affaires (CGI art. 104-I)"
+    )
+    reference = "https://www.tax.gov.ma"  # CGI, article 104-I
+
+    def formula(entreprise, period, parameters):
+        taxable = entreprise("chiffre_affaires_taxable_annuel", period)
+        numerator = (
+            taxable
+            + entreprise("chiffre_affaires_exonere_avec_deduction", period)
+            + entreprise("chiffre_affaires_suspension", period)
+        )
+        denominator = entreprise("chiffre_affaires_total_declare", period)
+        ratio = numpy.divide(
+            numerator,
+            denominator,
+            out=numpy.ones_like(numpy.asarray(numerator), dtype=float),
+            where=numpy.asarray(denominator) > 0,
+        )
+        return numpy.clip(ratio, 0, 1)
+
+
 class credit_tva_anterieur(Variable):
     value_type = float
     entity = Company
@@ -417,7 +530,14 @@ class tva_deductible_autorisee(Variable):
         brute = entreprise("tva_deductible_charges", period) + entreprise(
             "tva_deductible_immobilisations", period
         )
-        return brute * entreprise("prorata_deduction", period)
+        previous_year = period.start.year - 1
+        previous_total = entreprise(
+            "chiffre_affaires_total_declare", str(previous_year)
+        )
+        calculated = entreprise("prorata_deduction_calcule", str(previous_year))
+        manual = entreprise("prorata_deduction", period)
+        prorata = numpy.where(previous_total > 0, calculated, manual)
+        return brute * prorata
 
 
 class tva_nette_a_payer(Variable):

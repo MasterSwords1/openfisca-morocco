@@ -175,10 +175,12 @@ chiffre_affaires × taux par taux déclaré        (art. 98, 99, 247-XXXXI)
     + tva_collectee_article100
     = tva_collectee_totale
 (tva_deductible_charges + tva_deductible_immobilisations)
-    × prorata_deduction                          (art. 101, 104)
-    + credit_tva_anterieur
+    × prorata_deduction_calcule de l'année précédente
+      (ou prorata_deduction manuel si aucun chiffre d'affaires détaillé)
+                                                (art. 101, 104)
     = tva_deductible_autorisee
-tva_collectee_totale − tva_deductible_autorisee
+tva_collectee_totale
+    − (tva_deductible_autorisee + credit_tva_anterieur)
     = tva_nette_a_payer / credit_tva_a_reporter  (floored at 0)
 ```
 
@@ -261,9 +263,18 @@ input. Items that cite a separate Article 247 transitional schedule are
 rejected so their turnover can be entered through `tva_operation_transitoire`.
 
 Article 91 entries preserve exemptions without a right to deduct, while
-Article 92 entries preserve exemptions with a right to deduct. They are
-provided for explicit caller review and do not automatically calculate
-`prorata_deduction`.
+Article 92 entries preserve exemptions with a right to deduct. The annual
+`prorata_deduction_calcule` uses turnover categories entered explicitly by the
+caller: taxable turnover plus Article 92 and Article 94 turnover in the
+numerator; those amounts plus Article 91 and out-of-scope turnover in the
+denominator. The year N result applies to monthly deductions in year N+1. If
+the previous year has no positive declared turnover total, the existing
+monthly `prorata_deduction` input is used. See [`tva-prorata.md`](tva-prorata.md)
+for the input list and limitations.
+
+The prorata inputs describe turnover categories; they do not infer a category
+from Article 91/92 catalog entries or transaction descriptions. The model does
+not implement the capital-goods regularization required by Article 104-II.
 
 The CGI Article 99 catalog has **no 2004 edition**. Article 91 and 92 remain
 snapshot-only: their rows carry no effective dates, so an edition year must
@@ -509,6 +520,7 @@ names the article it comes from.
 | Historical Loi 30-85 Article 15 | `historical_article15_2004_2005` in the same corpus dataset; the separate package artifact preserves the 2004/2005 snapshot items, quotes, conditions, available amendment citations and reviewed source-chain evidence. The available-source review found no additional non-finance amendment, but the 2002 DGI baseline PDF is not pinned and the incomplete Gazette run prevents an exhaustive negative. |
 | 2006 LAR Article 101 snapshot | `historical_2006_article101` in the same corpus dataset; the separate package artifact retains all 38 quotes, conditions, deduction flags, PDF and text hashes, source URLs, checked pages, and LAR Articles 212/213 citations. It remains a separate 2006 source and does not extend the Article 99 catalog. |
 | TVA declaration arithmetic | CGI arts. 98, 99, 101, 104 and 247-XXXXI as encoded in the validated Catala model `laws/ma_tax_law/catala/cgi_tva.catala_fr` and its test `test_tva_multi_rate_and_deductions` (257 000 / 150 000 / 107 000). Article 100 is separately checked against its historical consolidated text and amendment citations. |
+| Annual TVA prorata | CGI art. 104-I (2021 consolidated edition): taxable, Article 92 and Article 94 turnover enter the numerator; Article 91 and out-of-scope turnover are added to the denominator; the calendar-year result applies in the following year. Inputs are declared by the caller and are not classified from the catalogs. |
 | Social contributions (CNSS & AMO) | `morocco-holy-graph`, module `ma_social_protection` (CSOC), dataset `laws/ma_social_protection/data/social_security_rates.json` citing Dahir 1-72-184, Décret 2-02-175, Loi 03-14, Loi 30-97, Loi 65-00 et Décrets 2-05-734 / 2-14-707 |
 | Allocations familiales (CNSS) | Dahir portant loi n° 1-72-184 (articles 40 et 41), Décret n° 2-72-541 art. 6 (âges), Décret n° 2-08-358 modifié par les décrets n° 2-19-750 et n° 2-23-715 (montants) |
 | Registration duties and conservation fees | CGI 2026 arts. 127–155 (BO n° 5487 bis codification) with rates from Lois 38-07 (BO n° 5591 bis), 22-12 (BO n° 6048), 73-16 (BO n° 6577 bis), 115-12 (BO n° 6113 bis), 65-20 (BO n° 6944 bis) and 50-25 (BO n° 7465 bis); Décret n° 2-16-375 (BO n° 6484) for conservation; 4 % built, 5 % vacant land, 6 % fonds de commerce, 0.5 %/1,000 DH capital, 1.5 % + 100 DH conservation (500 DH minimum) |
@@ -630,4 +642,3 @@ Stated plainly, because they determine what you may conclude from a simulation:
   survey or administrative dataset.
 - **Not published on PyPI yet.** Install from source (see [development](development.md)) until issue
   [#12](https://github.com/MasterSwords1/openfisca-morocco/issues/12) is closed.
-

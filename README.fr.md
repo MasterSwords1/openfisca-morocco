@@ -27,7 +27,7 @@ couvertes.
 | **CNSS / AMO** | Cotisations salariales et patronales, plafonds, coût employeur | 2016 |
 | **Allocations familiales** | Prestation CNSS, paliers de 300 DH (100 DH pour les rangs 4 à 6 depuis 2023), plafond de six enfants | 2019-07 |
 | **Aide sociale directe** | Allocations mensuelles, de rentrée, de placement et exceptionnelle | 2023-12 |
-| **TVA** | Déclaration mensuelle d'entreprise, taux datés et taux transitoires | 2004 |
+| **TVA** | Déclaration mensuelle d'entreprise, taux datés et taux transitoires ; prorata annuel de déduction selon l'article 104 | 2004 |
 | **Droits d'enregistrement** | Acquisitions immobilières, capital social, conservation foncière | 2026 |
 | **IS / cotisation minimale** | Impôt sur les sociétés et cotisation minimale | 2026 |
 | **Code du travail** | Prime d'ancienneté, indemnité de licenciement, plancher SMIG | 2004-07 |
@@ -36,6 +36,9 @@ Entités : `Person`, `Household`, `Company`. Périodes : `YEAR` pour l'IR
 annuel, l'IS/CM et les droits d'enregistrement ; `MONTH` pour la retenue à la
 source de l'IR, la TVA, les cotisations, les allocations familiales, l'ASD et
 le Code du travail.
+Le détail annuel du chiffre d'affaires TVA et le prorata calculé utilisent la
+période `YEAR` ; le prorata s'applique aux déductions mensuelles de l'année
+suivante.
 
 Le périmètre détaillé, les références légales et les limites connues sont
 dans [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md).
@@ -111,6 +114,7 @@ ignorés.
 | Page | Contenu |
 |---|---|
 | [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md) | Périmètre, sources et limites |
+| [`docs/tva-prorata.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-prorata.md) | Prorata annuel de déduction TVA selon l'article 104-I du CGI |
 | [`docs/development.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/development.md) | Installation, usage, exemples, arborescence, publication |
 | [`docs/impot-revenu-categories.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/impot-revenu-categories.md) | Revenus professionnels, fonciers, capitaux et étrangers |
 | [`docs/impot-societes.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/impot-societes.md) | IS et cotisation minimale |

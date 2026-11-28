@@ -1,3 +1,22 @@
+## 0.17.0 - [#47](https://github.com/MasterSwords1/openfisca-morocco/issues/47)
+
+* Tax and benefit system evolution.
+* Impacted periods: 2004-01-01 onwards; the year-N prorata applies to year N+1.
+* Impacted areas: `variables.tva`.
+* Details:
+  - Calculate the annual VAT deduction prorata from declared taxable,
+    Article 92, Article 94, Article 91 and out-of-scope turnover under CGI
+    Article 104-I.
+  - Add annual Company turnover inputs (`chiffre_affaires_exonere_avec_deduction`,
+    `chiffre_affaires_exonere_sans_deduction`, `chiffre_affaires_suspension`,
+    `chiffre_affaires_hors_champ`, `chiffre_affaires_taxable_autres`) and the
+    annual totals `chiffre_affaires_taxable_annuel`,
+    `chiffre_affaires_total_declare` and `prorata_deduction_calcule`.
+  - Apply the previous year's calculated prorata to monthly deductions, with
+    the manual monthly `prorata_deduction` as fallback when the previous year
+    has no positive declared turnover total.
+  - Document the formula, inputs, timing and limits in `docs/tva-prorata.md`.
+
 ## 0.16.0 - [#45](https://github.com/MasterSwords1/openfisca-morocco/issues/45)
 
 * Tax and benefit system evolution.
