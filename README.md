@@ -103,6 +103,19 @@ make test
 The five TVA corpus tests also run when `../morocco-holy-graph` exists or
 `MOROCCO_HOLY_GRAPH` points to it; otherwise they are skipped.
 
+## Legislation Explorer / Parameters Website
+
+Start the local API and legislation browser with one command:
+
+```sh
+docker compose -f explorer/docker-compose.yml up --build -d
+```
+
+The website is at <http://localhost:2020> and the API specification is at
+<http://localhost:5000/spec>. See
+[`explorer/README.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/explorer/README.md)
+for deployment, public hosting and legal-link guidance.
+
 ## Documentation
 
 | Page | Contents |
@@ -117,6 +130,7 @@ The five TVA corpus tests also run when `../morocco-holy-graph` exists or
 | [`docs/aide-sociale-directe.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/aide-sociale-directe.md) | Direct social assistance |
 | [`docs/tva-source-review.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-source-review.md) | TVA source review and historical checks |
 | [`docs/code-travail.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/code-travail.md) | Seniority bonus, severance and SMIG |
+| [`explorer/README.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/explorer/README.md) | Self-hosted Legislation Explorer and public deployment |
 
 ## Status and limits
 

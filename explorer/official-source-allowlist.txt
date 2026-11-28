@@ -1,0 +1,8 @@
+# Official public sources allowed for parameter and variable links.
+www.sgg.gov.ma
+www.anss.gov.ma
+www.cnss.ma
+www.emploi.gov.ma
+www.tax.gov.ma
+maloi.ma
+www.acaps.ma

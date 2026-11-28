@@ -1,0 +1,7 @@
+explorer.example.com {
+  reverse_proxy 127.0.0.1:2020
+}
+
+api.example.com {
+  reverse_proxy 127.0.0.1:5000
+}

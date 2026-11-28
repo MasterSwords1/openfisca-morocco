@@ -1,0 +1,446 @@
+diff --git a/src/assets/lang/en.json b/src/assets/lang/en.json
+index 909ec65..4dd1a67 100644
+--- a/src/assets/lang/en.json
++++ b/src/assets/lang/en.json
+@@ -6,23 +6,18 @@
+   "cta_api": "{cta_api_link} to calculate them in any app.",
+   "cta_api_text": "Use the API",
+   "cta_openfisca": "This model is created with {cta_openfisca_link}, a free and open-source computation engine that makes law computable in a collaborative and transparent way.",
+-
+   "search_placeholder": "income, threshold",
+-
+   "appName": "Legislation explorer",
+   "elementNotFound": "Element does not exist",
+   "noResultsFor": "No element in the current model matches “{input}”.",
+-
+   "parameterNotInLegislation": "The legislation defining this parameter is not in effect",
+   "fromDate": "From {startDate}",
+   "fromToDate": "From {startDate} to {stopDate}",
+-
+   "date": "Date",
+   "bracket": "Bracket",
+   "marginalRate": "Marginal rate",
+   "betweenValues": "Between {startValue} and {stopValue}",
+   "overValue": "Over {startValue}",
+-
+   "entityParagraph": "This {variableLink} applies to the {entityLink}",
+   "entitySingleIntroduction": "This is a {entityLink} of the tax and benefit system.",
+   "entitySingleType": "person entity",
+@@ -43,7 +38,7 @@
+   "allowedValues": "The allowed values are:",
+   "defaultValueParagraph": "Its {defaultValueLink} is",
+   "defaultValueText": "default value",
+-  "referencesText": "References:",
++  "referencesText": "Legislative references:",
+   "aYear": "of a year",
+   "aMonth": "of a month",
+   "forEternity": "which is the eternity. Its value is constant over time",
+@@ -71,9 +66,11 @@
+   "improveThisApp": "Improve this application",
+   "find": "Find",
+   "keyword": "Keyword",
+-  "definition":"Definition",
++  "definition": "Definition",
+   "documentation": "Documentation",
+   "rawJSONData": "Raw data in JSON format",
+   "loading": "Loading…",
+-  "api-error": "Unable to reach the OpenFisca Web API."
++  "api-error": "Unable to reach the OpenFisca Web API.",
++  "timelineText": "Historical timeline",
++  "topMarginalRateText": "Top marginal rate"
+ }
+diff --git a/src/assets/lang/fr.json b/src/assets/lang/fr.json
+index aebb380..77bd965 100644
+--- a/src/assets/lang/fr.json
++++ b/src/assets/lang/fr.json
+@@ -6,24 +6,19 @@
+   "cta_api": "{cta_api_link} pour les calculer dans n’importe quelle application.",
+   "cta_api_text": "Utiliser l’API",
+   "cta_openfisca": "Ce modèle a été créé avec {cta_openfisca_link}, un moteur de calcul libre et ouvert qui rend la loi calculable de manière transparente et collaborative.",
+-
+   "search_placeholder": "salaire, impot",
+-
+   "appName": "Explorateur de la législation",
+   "elementNotFound": "Élément inexistant",
+   "noResultsFor": "Aucun élément du modèle actuel ne correspond à « {input} ».",
+-
+   "parameterNotInLegislation": "La législation définissant ce paramètre n’est plus effective",
+   "fromDate": "À partir du {startDate}",
+   "fromToDate": "Du {startDate} au {stopDate}",
+-
+   "date": "Date",
+   "bracket": "Tranche",
+   "marginalRate": "Taux marginal",
+   "betweenValues": "Entre {startValue} et {stopValue}",
+   "overValue": "Plus de {startValue}",
+-
+-  "entityParagraph" : "Cette {variableLink} s'applique à l'{entityLink}",
++  "entityParagraph": "Cette {variableLink} s'applique à l'{entityLink}",
+   "entitySingleIntroduction": "C'est une {entityLink} du système socio-fiscal.",
+   "entitySingleType": "entité individuelle",
+   "entityGroupType": "entité de groupe",
+@@ -43,7 +38,7 @@
+   "allowedValues": "Les valeurs autorisées sont :",
+   "defaultValueParagraph": "Sa {defaultValueLink} est",
+   "defaultValueText": "valeur par défaut",
+-  "referencesText": "Références :",
++  "referencesText": "Références législatives :",
+   "aYear": "d'un an",
+   "aMonth": "d'un mois",
+   "forEternity": "qui est l'éternité. Sa valeur est constante dans le temps",
+@@ -71,9 +66,11 @@
+   "improveThisApp": "Améliorer cette application",
+   "find": "Trouver",
+   "keyword": "Identifiant",
+-  "definition":"Définition",
++  "definition": "Définition",
+   "documentation": "Documentation",
+   "rawJSONData": "Donnée brute au format JSON",
+   "loading": "Chargement…",
+-  "api-error": "Impossible de communiquer avec l'API Web OpenFisca."
++  "api-error": "Impossible de communiquer avec l'API Web OpenFisca.",
++  "timelineText": "Évolution historique",
++  "topMarginalRateText": "Taux marginal supérieur"
+ }
+diff --git a/src/assets/style.css b/src/assets/style.css
+index 3158ff4..2562976 100644
+--- a/src/assets/style.css
++++ b/src/assets/style.css
+@@ -125,3 +125,38 @@ nav.btn-group {
+   margin-top: 2em;
+   display: block;
+ }
++
++.parameter-timeline svg {
++  display: block;
++  width: 100%;
++  height: auto;
++  overflow: visible;
++}
++
++.parameter-timeline .timeline-axis {
++  stroke: #777;
++  stroke-width: 1;
++}
++
++.parameter-timeline .timeline-line {
++  fill: none;
++  stroke: #337ab7;
++  stroke-width: 3;
++  stroke-linejoin: round;
++}
++
++.parameter-timeline .timeline-point {
++  fill: #fff;
++  stroke: #337ab7;
++  stroke-width: 2;
++}
++
++.parameter-timeline .timeline-tick,
++.parameter-timeline .timeline-label {
++  fill: #555;
++  font-size: 12px;
++}
++
++.parameter-references ul {
++  margin-bottom: 1.5em;
++}
+diff --git a/src/components/pages/country-model-item.jsx b/src/components/pages/country-model-item.jsx
+index 3be4568..341e5b1 100644
+--- a/src/components/pages/country-model-item.jsx
++++ b/src/components/pages/country-model-item.jsx
+@@ -26,9 +26,19 @@ class CountryModelItemPage extends React.Component {
+     entities: PropTypes.objectOf(entityShape).isRequired,
+     parameters: PropTypes.objectOf(parameterShape).isRequired,
+     variables: PropTypes.objectOf(variableShape).isRequired,
++    initialParameter: parameterShape,
++    initialParameterError: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
++    initialParameterName: PropTypes.string,
+   };
+ 
+-  state = {variable: null, parameter: null, entityId: null, entity: null, waitingForResponse: true};
++  state = {
++    variable: null,
++    parameter: this.props.initialParameterName === this.props.params.name ? this.props.initialParameter : null,
++    entityId: null,
++    entity: null,
++    error: this.props.initialParameterName === this.props.params.name ? this.props.initialParameterError : null,
++    waitingForResponse: this.props.initialParameterName !== this.props.params.name,
++  };
+ 
+   fetchPageContent = (name) => {
+     if (this.props.entities[name]) {
+@@ -63,7 +73,7 @@ class CountryModelItemPage extends React.Component {
+   }
+ 
+   componentDidMount() {
+-    this.fetchPageContent(this.props.params.name)
++    if (this.state.waitingForResponse) this.fetchPageContent(this.props.params.name)
+   }
+ 
+   handleNotFound = () => {
+@@ -94,7 +104,7 @@ class CountryModelItemPage extends React.Component {
+             <span className="glyphicon glyphicon-alert"></span>
+             <FormattedMessage id="api-error"/>
+           </h1>
+-          <samp>{this.state.error.message}</samp>
++          <samp>{typeof this.state.error === 'string' ? this.state.error : this.state.error.message}</samp>
+         </div>
+       )
+     }
+diff --git a/src/components/parameter-timeline.jsx b/src/components/parameter-timeline.jsx
+new file mode 100644
+index 0000000..045d88e
+--- /dev/null
++++ b/src/components/parameter-timeline.jsx
+@@ -0,0 +1,99 @@
++import React from 'react'
++import { FormattedMessage, injectIntl, intlShape } from 'react-intl'
++
++import { parameterShape } from '../openfisca-proptypes'
++
++const width = 700
++const height = 260
++const margin = { top: 20, right: 24, bottom: 42, left: 64 }
++
++class ParameterTimeline extends React.Component {
++  static propTypes = {
++    parameter: parameterShape.isRequired,
++    intl: intlShape.isRequired,
++  };
++
++  render() {
++    const {parameter, intl} = this.props
++    const isScale = !parameter.values
++    const data = (isScale
++      ? Object.keys(parameter.brackets || {}).map(date => {
++        const bracket = parameter.brackets[date] || {}
++        const thresholds = Object.keys(bracket).sort((a, b) => Number(a) - Number(b))
++        return { date, value: thresholds.length ? Number(bracket[thresholds[thresholds.length - 1]]) : null }
++      })
++      : Object.keys(parameter.values || {}).map(date => {
++        const raw = parameter.values[date]
++        const numeric = raw === null || raw === undefined || raw === '' ? null : Number(raw)
++        return { date, value: numeric }
++      }))
++      .filter(point => point.value !== null && !Number.isNaN(point.value))
++      .sort((a, b) => a.date.localeCompare(b.date))
++
++    if (!data.length) return null
++
++    const plotWidth = width - margin.left - margin.right
++    const plotHeight = height - margin.top - margin.bottom
++    const minimum = Math.min(0, ...data.map(point => point.value))
++    const maximum = Math.max(...data.map(point => point.value))
++    const range = maximum - minimum || 1
++    const labelEvery = Math.ceil(data.length / 7)
++    // Thin the date labels and never place two of them side by side.
++    const labelIndices = []
++    for (let index = 0; index < data.length; index += labelEvery) labelIndices.push(index)
++    const lastIndex = data.length - 1
++    if (labelIndices[labelIndices.length - 1] !== lastIndex) {
++      if (lastIndex - labelIndices[labelIndices.length - 1] > 1) labelIndices.push(lastIndex)
++      else labelIndices[labelIndices.length - 1] = lastIndex
++    }
++    const formatValue = value => intl.formatNumber(value, {
++      style: isScale ? 'percent' : 'decimal',
++      maximumFractionDigits: 3,
++    })
++    const formatDate = date => intl.formatDate(new Date(`${date}T00:00:00Z`), {
++      year: 'numeric', month: 'short', day: 'numeric', timeZone: 'UTC',
++    })
++    const tooltip = point => `${formatDate(point.date)}: ${formatValue(point.value)}`
++    const x = index => margin.left + (data.length === 1 ? plotWidth / 2 : index * plotWidth / (data.length - 1))
++    const y = value => margin.top + plotHeight - ((value - minimum) / range) * plotHeight
++    const baseline = height - margin.bottom
++    let path = `M ${x(0)} ${y(data[0].value)}`
++    data.slice(1).forEach((point, index) => {
++      path += ` H ${x(index + 1)} V ${y(point.value)}`
++    })
++
++    return (
++      <section className="parameter-timeline">
++        <h4><FormattedMessage id="timelineText"/></h4>
++        {isScale && <p className="timeline-label"><FormattedMessage id="topMarginalRateText"/></p>}
++        <svg viewBox={`0 0 ${width} ${height}`} role="img" aria-label={isScale
++            ? `${intl.formatMessage({ id: 'timelineText' })}: ${intl.formatMessage({ id: 'topMarginalRateText' })}`
++            : intl.formatMessage({ id: 'timelineText' })}>
++          <line x1={margin.left} y1={margin.top} x2={margin.left} y2={baseline} className="timeline-axis" />
++          <line x1={margin.left} y1={baseline} x2={width - margin.right} y2={baseline} className="timeline-axis" />
++          <text x={margin.left - 8} y={margin.top + 4} textAnchor="end" className="timeline-tick">
++            {formatValue(maximum)}
++          </text>
++          <text x={margin.left - 8} y={baseline} textAnchor="end" className="timeline-tick">
++            {formatValue(minimum)}
++          </text>
++          <path d={path} className="timeline-line">
++            <title>{data.map(tooltip).join(' → ')}</title>
++          </path>
++          {data.map((point, index) => (
++            <g key={point.date}>
++              <circle cx={x(index)} cy={y(point.value)} r="4" className="timeline-point">
++                <title>{tooltip(point)}</title>
++              </circle>
++              {labelIndices.includes(index) &&
++                <text x={x(index)} y={baseline + 20} textAnchor="middle" className="timeline-tick">{formatDate(point.date)}</text>
++              }
++            </g>
++          ))}
++        </svg>
++      </section>
++    )
++  }
++}
++
++export default injectIntl(ParameterTimeline)
+diff --git a/src/components/parameter.jsx b/src/components/parameter.jsx
+index 97e5307..e4ddd62 100644
+--- a/src/components/parameter.jsx
++++ b/src/components/parameter.jsx
+@@ -6,6 +6,7 @@ import PropTypes from 'prop-types'
+ import config from '../config'
+ import { parameterShape } from '../openfisca-proptypes'
+ import Scale from './scale'
++import ParameterTimeline from './parameter-timeline'
+ import getDayBefore from '../periods'
+ 
+ class Parameter extends React.Component {
+@@ -21,6 +22,9 @@ class Parameter extends React.Component {
+     const isScale = (! parameter.values)
+     //Add word break opportunities before dots for long parameter id
+     const multilineId = parameter.id.replace(/\./g, '<wbr>.')
++    const references = parameter.metadata && parameter.metadata.reference
++      ? [].concat(parameter.metadata.reference).filter(reference => reference && reference.title && reference.href)
++      : []
+ 
+     return (
+       <DocumentTitle title={parameter.id + ' — ' + this.props.intl.formatMessage({ id: 'appName' })}>
+@@ -36,8 +40,19 @@ class Parameter extends React.Component {
+               <p className="documentation">{ parameter.documentation }</p>
+             </div>)
+           }
++          { references.length > 0 &&
++            <div className="parameter-references">
++              <h4><FormattedMessage id="referencesText"/></h4>
++              <ul>{references.map((reference, index) =>
++                <li key={`${reference.href}-${index}`}>
++                  <a href={reference.href} target="_blank" rel="noopener noreferrer">{reference.title}</a>
++                </li>
++              )}</ul>
++            </div>
++          }
+           <div className="row">
+             <div className="col-lg-8">
++              <ParameterTimeline parameter={parameter} />
+               {
+                 isScale
+                   ? <Scale parameter={parameter} />
+diff --git a/src/config.js b/src/config.js
+index ad5e5d8..1d1df0c 100644
+--- a/src/config.js
++++ b/src/config.js
+@@ -1,6 +1,6 @@
+ let config = new Object(null)
+ 
+-config.apiBaseUrl = process.env.API_URL || 'http://0.0.0.0:5000'
++config.apiBaseUrl = process.env.SERVER_API_URL || process.env.API_URL || 'http://0.0.0.0:5000'
+ config.changelogUrl = process.env.CHANGELOG_URL
+ 
+ config.pathname = process.env.PATHNAME || '/'
+diff --git a/src/openfisca-proptypes.js b/src/openfisca-proptypes.js
+index 6aca54e..901b564 100644
+--- a/src/openfisca-proptypes.js
++++ b/src/openfisca-proptypes.js
+@@ -30,6 +30,12 @@ export const parameterShape = PropTypes.shape({
+   normalizedDescription: PropTypes.string,
+   values: valuesShape,
+   brackets: PropTypes.objectOf(valuesShape),
++  metadata: PropTypes.shape({
++    reference: PropTypes.oneOfType([
++      PropTypes.shape({ title: PropTypes.string, href: PropTypes.string }),
++      PropTypes.arrayOf(PropTypes.shape({ title: PropTypes.string, href: PropTypes.string })),
++    ]),
++  }),
+ })
+ 
+ export const variableShape = PropTypes.shape({
+diff --git a/src/server/render.jsx b/src/server/render.jsx
+index 5c6b51b..9257792 100644
+--- a/src/server/render.jsx
++++ b/src/server/render.jsx
+@@ -9,22 +9,62 @@ import {IntlProvider} from 'react-intl'
+ import {getLocale, getLocaleMessages} from './lang'
+ import routes from '../routes'
+ import HtmlDocument from './html-document'
++import { fetchParameter } from '../webservices'
++
++
++function sendError(res, error) {
++  if (res.headersSent) return
++  if (error instanceof URIError) {
++    res.status(400).send('Bad request')
++    return
++  }
++  console.error(error)
++  res.status(500).send('Internal server error')
++}
+ 
+ 
+ export default function handleRender(basename, state) {
+-  return function (req, res) {
+-    state.locale = getLocale(req.headers['accept-language'], state.messages)
+-
+-    match({routes, basename, location: req.url}, (error, redirectLocation, renderProps) => {
+-      if (error) {
+-        res.status(500).send(error.message)
+-      } else if (redirectLocation) {
+-        res.redirect(302, redirectLocation.pathname + redirectLocation.search)
+-      } else if (renderProps) {
+-        res.send(renderHtmlDocument(renderProps, state))
+-      } else {
+-        res.status(404).send('Not found')
++  return async function (req, res) {
++    let renderState = state
++    let parameterId
++    try {
++      parameterId = decodeURIComponent(req.path.slice(1))
++    } catch (error) {
++      return sendError(res, error)
++    }
++    if (state.parameters[parameterId]) {
++      try {
++        const parameterResponse = await fetchParameter(parameterId)
++        renderState = Object.assign({}, state, {
++          initialParameter: parameterResponse.data,
++          initialParameterName: parameterId,
++        })
++      } catch (error) {
++        renderState = Object.assign({}, state, {
++          initialParameterError: error.message,
++          initialParameterName: parameterId,
++        })
+       }
+-    })
++    }
++    renderState.locale = getLocale(req.headers['accept-language'], renderState.messages)
++
++    // `match` decodes the query string synchronously, and the rendered document
++    // can throw as well. This handler is async, so an unguarded synchronous throw
++    // would become an unhandled rejection and leave the request hanging.
++    try {
++      match({routes, basename, location: req.url}, (error, redirectLocation, renderProps) => {
++        if (error) {
++          res.status(500).send(error.message)
++        } else if (redirectLocation) {
++          res.redirect(302, redirectLocation.pathname + redirectLocation.search)
++        } else if (renderProps) {
++          res.send(renderHtmlDocument(renderProps, renderState))
++        } else {
++          res.status(404).send('Not found')
++        }
++      })
++    } catch (error) {
++      sendError(res, error)
++    }
+   }
+ }
