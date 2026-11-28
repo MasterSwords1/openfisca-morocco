@@ -127,6 +127,8 @@ pour le déploiement, l'hébergement public et les liens juridiques.
 
 | Page | Contenu |
 |---|---|
+| [`ROADMAP.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/ROADMAP.md) | Phases, jalons et périmètre exclu |
+| [`docs/releasing.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/releasing.md) | Publication PyPI, déclenchement et vérification |
 | [`docs/coverage.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/coverage.md) | Périmètre, sources et limites |
 | [`docs/tva-prorata.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/tva-prorata.md) | Prorata annuel de déduction TVA selon l'article 104-I du CGI |
 | [`docs/development.md`](https://github.com/MasterSwords1/openfisca-morocco/blob/main/docs/development.md) | Installation, usage, exemples, arborescence, publication |
